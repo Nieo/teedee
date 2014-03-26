@@ -1,0 +1,31 @@
+Meeting Agenda
+
+  Date: 2014 03 26 
+
+  Facilitator: Erik Pihl	
+
+  Participants: Jacob Genander, David Michaëlsson, Daniel Jansson 
+
+1. Objectives  
+  Read up about tween-engine and lib gdx. 
+
+2. Reports 
+	-
+
+3. Discussion items (35 min) 
+How to make something runnable for next friday. 
+Highest priority UC's 
+Make an enemy move across the map 
+Build towers
+
+Finnish the UML-model so that we can start writing code
+
+We should use circles and squares to represent things in the first 
+version of the game.
+
+4. Outcomes and assignments (5 min) 
+
+Everyone should participate in making the UML-model
+
+5. Wrap up 
+Tuesday 410401 15:00
