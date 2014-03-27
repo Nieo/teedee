@@ -9,13 +9,13 @@ public class Player {
 	public Player() {
 		name = "Player";
 		money = new Money(1000);
-		//life = new Life(100);
+		life = new Lives(100);
 	}
 	
 	public Player(String name) {
 		this.name = name;
 		money = new Money(1000);
-		//life = new Life(100);
+		life = new Lives(100);
 	}
 	
 	public void addMoney(int gainedMoney) {
@@ -42,12 +42,13 @@ public class Player {
 		return name;
 	}
 	
-	public void takeDamage() {
-		
+	public void takeDamage(int dmg) {
+		life.lowerLives(dmg);
 	}
 	
-	public void getReward() {
-		
+	// Vet inte vad skillnaden mellan denna och addMoney är
+	public void getReward(int reward) {
+		money.addMoney(reward);
 	}
 
 }
