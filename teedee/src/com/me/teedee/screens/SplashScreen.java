@@ -11,6 +11,7 @@ public class SplashScreen implements Screen {
 	
 	private Sprite splashSprite;
 	private SpriteBatch batch;
+	private Texture splashTexture;
 
 
 	@Override
@@ -20,10 +21,7 @@ public class SplashScreen implements Screen {
 		
 		batch.begin();
 		splashSprite.draw(batch);
-		batch.end();
-		
-		// TODO Auto-generated method stub
-		
+		batch.end();		
 	}
 
 	@Override
@@ -34,7 +32,7 @@ public class SplashScreen implements Screen {
 	@Override
 	public void show() {
 		batch = new SpriteBatch();
-		Texture splashTexture = new Texture("data/teedee_games.png");
+		splashTexture = new Texture("data/TeeDee.png");
 		splashSprite = new Sprite(splashTexture);
 		splashSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
@@ -56,7 +54,8 @@ public class SplashScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+		batch.dispose();
+		splashTexture.dispose();
 	}
 	
 }
