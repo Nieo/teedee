@@ -1,4 +1,4 @@
-package com.me.teedee;
+package com.me.TeeDee;
 
 import android.os.Bundle;
 
@@ -13,6 +13,6 @@ public class MainActivity extends AndroidApplication {
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
         cfg.useGL20 = false;
         
-        initialize(new TeeDeeGame(), cfg);
+        initialize(new TeeDee(), cfg);
     }
 }
