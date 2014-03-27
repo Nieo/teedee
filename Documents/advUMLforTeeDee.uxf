@@ -4,27 +4,30 @@
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>40</x>
-      <y>170</y>
+      <x>940</x>
+      <y>380</y>
       <w>210</w>
-      <h>270</h>
+      <h>320</h>
     </coordinates>
     <panel_attributes>Tower
 --
 -price:Price
 -attackSpeed:int
+-attackDamage:int
+-range:int
 -status:Status
 -enemyKills:int
+-towerCord: pos
 --
--shootEnemy
++getTowerCord
 +getPrice
-+setPrice
-+setAttackSpeed
+-setPrice
++upgrade
+-setAttackSpeed
 +getAttackSpeed
 +getStatus
-+setStatus
+-setStatus
 +toString
-+getName
 +getEnemyKills
 
 
@@ -34,25 +37,24 @@
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>40</x>
-      <y>450</y>
+      <x>460</x>
+      <y>520</y>
       <w>210</w>
       <h>280</h>
     </coordinates>
     <panel_attributes>Enemy
 --
 -lives:Lives
--speed:Speed
+-speed:double
 -reward:Reward
 -path:Path
+-status:Status
 --
 +takeDamage
 +move
 +die
-+remove
-+isEndOfPath
+~hasNextEnd
 +getReward
-+setReward
 +toString
 +setStatusEffect
 +getStatusEffect</panel_attributes>
@@ -61,84 +63,66 @@
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>270</x>
-      <y>70</y>
+      <x>700</x>
+      <y>170</y>
       <w>210</w>
-      <h>220</h>
+      <h>240</h>
     </coordinates>
     <panel_attributes>Map
 --
--enemies:Enemy
--towers:Tower
+-currentEnemies:&lt;List&gt; Enemy
+-waves:&lt;List&gt; Wave
+-towers:&lt;List&gt;Tower
 -path:Path
 -player:Player
 --
-+getEnemmies
-+addEnemy
++getEnemies
 +getTowers
-+addTower
++buildTower
 +getPath
 +getPlayer
-+setPlayer</panel_attributes>
++setPlayer
++nextWave</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>270</x>
-      <y>300</y>
-      <w>210</w>
-      <h>170</h>
-    </coordinates>
-    <panel_attributes>Player
---
--money:Money
--name:String
---
-+addMoney
-+getMoney
-+setMoney
-+setName
-+getName
-+toString</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Class</type>
-    <coordinates>
-      <x>270</x>
-      <y>480</y>
+      <x>460</x>
+      <y>430</y>
       <w>210</w>
       <h>70</h>
     </coordinates>
     <panel_attributes>Path
 --
--arrayOfDirections:List
+-ArrayOfPos:List
 --
-+getDirection</panel_attributes>
++getPos</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>270</x>
-      <y>560</y>
+      <x>700</x>
+      <y>430</y>
       <w>210</w>
       <h>80</h>
     </coordinates>
     <panel_attributes>Lives
 --
-lives:int
+currentHealth:int
+maxinumHealth:int
 --
-+setLives
-+getLives</panel_attributes>
++lowerHealth
++getCurrentHealth
++getMaxinumHealth</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>270</x>
-      <y>650</y>
+      <x>700</x>
+      <y>520</y>
       <w>210</w>
       <h>80</h>
     </coordinates>
@@ -153,14 +137,14 @@ money:int
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>270</x>
-      <y>740</y>
+      <x>700</x>
+      <y>620</y>
       <w>210</w>
       <h>90</h>
     </coordinates>
     <panel_attributes>Reward
 --
--reward:int
+-reward:Money
 --
 +setReward
 +getReward</panel_attributes>
@@ -169,14 +153,14 @@ money:int
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>40</x>
-      <y>740</y>
+      <x>700</x>
+      <y>730</y>
       <w>210</w>
       <h>90</h>
     </coordinates>
     <panel_attributes>Price
 --
--price:int
+-price:Money
 --
 +getPrice
 +setPrice</panel_attributes>
@@ -185,8 +169,8 @@ money:int
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>40</x>
-      <y>70</y>
+      <x>940</x>
+      <y>280</y>
       <w>210</w>
       <h>90</h>
     </coordinates>
@@ -196,6 +180,50 @@ money:int
 --
 +getStatus
 +setStatus</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>460</x>
+      <y>170</y>
+      <w>210</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>Player
+--
+-money:Money
+-name:String
+-life: Lives
+--
++addMoney
++getMoney
++setMoney
++setName
++getName
++toString
++takeDamage
++getReward</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>940</x>
+      <y>170</y>
+      <w>210</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>Wave
+--
+enemies:&lt;List&gt; Enemy
+nbrOfEnemies: int
+--
++createEnemies
++getNbrOfEnemies
+
+
+</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
