@@ -1,5 +1,53 @@
 package com.me.teedee;
 
 public class Player {
+	
+	private String name;
+	private Money money;
+	private Lives life;
+	
+	public Player() {
+		name = "Player";
+		money = new Money(1000);
+		//life = new Life(100);
+	}
+	
+	public Player(String name) {
+		this.name = name;
+		money = new Money(1000);
+		//life = new Life(100);
+	}
+	
+	public void addMoney(int gainedMoney) {
+		money.addMoney(gainedMoney);		
+	}
+	
+	public Money getMoney() {
+		return money;
+	}
+	
+	public int getMoneyInt() {
+		return money.getMoney();
+	}
+	
+	public void setMoney(int newMoney) {
+		money.setMoney(newMoney);
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String toString() {
+		return name;
+	}
+	
+	public void takeDamage() {
+		
+	}
+	
+	public void getReward() {
+		
+	}
 
 }
