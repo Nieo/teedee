@@ -1,4 +1,7 @@
 package com.me.teedee;
+
+import java.util.NoSuchElementException;
+
 /**
  * A most simple enemy unit which implement the interface IEnenmy. Is abstract.
  * @author Fridgeridge
@@ -38,6 +41,11 @@ public abstract class AbstractEnemy implements IEnemy {
 	private Position position;
 	
 	/**
+	 * 
+	 */
+	private boolean isEnemyAlive = true;
+	
+	/**
 	 * Constructs a new enemy unit. 
 	 * @param p The path the enemy unit will go. Is needed.
 	 */
@@ -72,21 +80,26 @@ public abstract class AbstractEnemy implements IEnemy {
 	
 	@Override
 	public void takeDamage(int damage) {
-		//TODO Add more logic!
-		this.lives.lowerLives(damage);
+		takeDamage(damage,this.getStatusEffect());
 	}
 
 	@Override
 	public void takeDamage(int damage, Status s) {
 		// TODO Add even more logic!
 		this.setStatusEffect(s);
-		this.lives.lowerLives(damage);
+		isEnemyAlive=this.lives.lowerLives(damage);
 	}
 
 	@Override
 	public void move() {
-		// TODO Auto-generated method stub
-
+		
+		
+		//TODO Not sure if this is a correct way of handling things, as of now it just fetch the new position
+		try{
+		this.setPosition((this.path.next()));
+		}catch(NoSuchElementException e){
+		
+		}
 	}
 
 	@Override
@@ -98,7 +111,7 @@ public abstract class AbstractEnemy implements IEnemy {
 	@Override
 	public boolean hasNextEnd() {
 		// TODO Auto-generated method stub
-		return false;
+		return !path.hasNext();
 	}
 
 	@Override
