@@ -7,6 +7,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+/**
+ * SplashScreen class
+ * Intended to be the first thing that shows when you start the game
+ * @author Dannemannet
+ */
 public class SplashScreen implements Screen {
 	
 	private Sprite splashSprite;
