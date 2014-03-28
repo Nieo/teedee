@@ -6,12 +6,16 @@ public class Lives {
 	private int currentLives;
 	private int maxLives;
 	
+	public Lives(){
+		maxLives = 10;
+		currentLives = 10;
+	}
 	public Lives(int lives){
 		maxLives = lives;
 		currentLives = lives;
 	}
-	/*
-	 * Returns true if currentLives is equalor less than 0 
+	/**
+	 * Returns true if currentLives is equal or less than 0 
 	 */
 	public boolean lowerLives(int damage){
 		currentLives = currentLives - damage;

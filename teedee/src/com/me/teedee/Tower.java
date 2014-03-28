@@ -2,8 +2,8 @@ package com.me.teedee;
 
 import java.util.*;
 
-/*
- * @Author Nieo
+/**
+ * @author Nieo
  */
 public abstract class Tower {
 	private Price price;
