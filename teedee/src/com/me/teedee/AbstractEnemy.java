@@ -31,13 +31,19 @@ public abstract class AbstractEnemy implements IEnemy {
 	 */
 	private Status status;
 	
+	
+	/**
+	 * The current position of the enemy unit
+	 */
+	private Position position;
+	
 	/**
 	 * Constructs a new enemy unit. 
 	 * @param p The path the enemy unit will go. Is needed.
 	 */
 	public AbstractEnemy(Path p){
 		
-		this(p,1.0, new Lives(),new Reward(), new Status());
+		this(p,1.0, new Lives(),new Reward(), new Status(), new Position());
 	}
 	/**
 	 * Constructs a new enemy unit
@@ -47,7 +53,7 @@ public abstract class AbstractEnemy implements IEnemy {
 	 * @param r The reward of the enemy unit.
 	 * @param s The status effect of the enemy unit.
 	 */
-	public AbstractEnemy(Path p, double sp, Lives l, Reward r, Status s){
+	public AbstractEnemy(Path p, double sp, Lives l, Reward r, Status s, Position pos){
 		this.path = p;
 		
 		sp=(sp<0?sp:1);//Checks if the speed is negative. If so sets the new speed to 1.
@@ -58,6 +64,8 @@ public abstract class AbstractEnemy implements IEnemy {
 		this.reward = r;
 		
 		this.setStatusEffect(s);
+		
+		this.setPosition(pos);
 	}
 	
 	
@@ -71,7 +79,7 @@ public abstract class AbstractEnemy implements IEnemy {
 	@Override
 	public void takeDamage(int damage, Status s) {
 		// TODO Add even more logic!
-		this.status=s;
+		this.setStatusEffect(s);
 		this.lives.lowerLives(damage);
 	}
 
@@ -95,7 +103,6 @@ public abstract class AbstractEnemy implements IEnemy {
 
 	@Override
 	public Reward getReward() {
-		
 		return reward;
 	}
 
@@ -108,5 +115,13 @@ public abstract class AbstractEnemy implements IEnemy {
 	public Status getStatusEffect() {
 		return this.status;
 	}
+	
+	public void setPosition(Position p){
+		this.position=p;
+	}
 
+	public Position getPosition(){
+		return this.position;
+	}
+	
 }

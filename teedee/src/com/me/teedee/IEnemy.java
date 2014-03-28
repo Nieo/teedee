@@ -61,6 +61,18 @@ public interface IEnemy {
 	public Status getStatusEffect();
 	
 	/**
+	 * Sets the position of the enemy unit
+	 * @param p Coordinates to set the enemy position
+	 */
+	public void setPosition(Position p);
+	
+	/**
+	 * Returns the position of the enemy unit
+	 * @return The position of the enemy unit
+	 */
+	public Position getPosition();
+	
+	/**
 	 * Method that returns information about the enemy unit
 	 * @return A string message containing information about the enemy unit
 	 */
