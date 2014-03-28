@@ -1,5 +1,10 @@
 package com.me.teedee;
 
+/**
+ * Player class
+ * @author Dannemannet
+ */
+
 public class Player {
 	
 	private String name;

@@ -1,10 +1,10 @@
 package com.me.teedee;
 /**
- * A most simple enemy unit which implement the interface IEnenmy.
+ * A most simple enemy unit which implement the interface IEnenmy. Is abstract.
  * @author Fridgeridge
  *
  */
-public class BasicEnemy implements IEnemy {
+public abstract class AbstractEnemy implements IEnemy {
 	
 	
 	/**
@@ -35,7 +35,7 @@ public class BasicEnemy implements IEnemy {
 	 * Constructs a new enemy unit. 
 	 * @param p The path the enemy unit will go. Is needed.
 	 */
-	public BasicEnemy(Path p){
+	public AbstractEnemy(Path p){
 		
 		this(p,1.0, new Lives(),new Reward(), new Status());
 	}
@@ -47,7 +47,7 @@ public class BasicEnemy implements IEnemy {
 	 * @param r The reward of the enemy unit.
 	 * @param s The status effect of the enemy unit.
 	 */
-	public BasicEnemy(Path p, double sp, Lives l, Reward r, Status s){
+	public AbstractEnemy(Path p, double sp, Lives l, Reward r, Status s){
 		this.path = p;
 		
 		sp=(sp<0?sp:1);//Checks if the speed is negative. If so sets the new speed to 1.
@@ -64,14 +64,15 @@ public class BasicEnemy implements IEnemy {
 	
 	@Override
 	public void takeDamage(int damage) {
-		// TODO Auto-generated method stub
-
+		//TODO Add more logic!
+		this.lives.lowerLives(damage);
 	}
 
 	@Override
 	public void takeDamage(int damage, Status s) {
-		// TODO Auto-generated method stub
-
+		// TODO Add even more logic!
+		this.status=s;
+		this.lives.lowerLives(damage);
 	}
 
 	@Override

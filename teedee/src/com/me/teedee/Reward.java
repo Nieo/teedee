@@ -1,5 +1,9 @@
 package com.me.teedee;
 
+/**
+ * Reward class
+ * @author Dannemannet
+ */
 public class Reward {
 	
 	private Money reward;

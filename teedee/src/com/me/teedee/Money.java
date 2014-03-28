@@ -1,5 +1,9 @@
 package com.me.teedee;
 
+/**
+ * Money class
+ * @author Dannemannet
+ */
 public class Money {
 	
 	private int money;
