@@ -1,7 +1,5 @@
 package com.me.teedee;
 
-//import java.awt.Point;
-
 
 /**
  * Describes the path that the enemy units will take when they travel through the map. 
@@ -14,24 +12,29 @@ public class Path {
 	/**
 	 * The coordinates that describes the path through the map from a top-down perspective
 	 */
-	private int[] xPos,yPos; 
-	
-	//private Point[] pos;
+	private Position[] pos;
 	
 	/**
-	 * Method that returns the x-coordinates
-	 * @return the array of x-coordinates
+	 * Constructs a path utilizing a list of positions
+	 * @param pos The list of positions to be used
 	 */
-	public int[] getXPos(){
-		return xPos;
+	public Path(Position[] pos){
+		this.setPos(pos);
 	}
 	
 	/**
-	 * Method that returns the y-coordinates
-	 * @return the array of y-coordinates
+	 * Returns the array of positions
+	 * @return The array of positions
 	 */
-	public int[] getYPos(){
-		return yPos;
+	public Position[] getPos() {
+		return pos;
+	}
+	/**
+	 * Sets the positions
+	 * @param pos Array of positions to be set
+	 */
+	public void setPos(Position[] pos) {
+		this.pos = pos;
 	}
 	
 }
