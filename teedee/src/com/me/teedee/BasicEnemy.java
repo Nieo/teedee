@@ -1,7 +1,7 @@
 package com.me.teedee;
 /**
  * A most simple enemy unit which implement the interface IEnenmy.
- * @author dmich_000
+ * @author Fridgeridge
  *
  */
 public class BasicEnemy implements IEnemy {
@@ -36,15 +36,8 @@ public class BasicEnemy implements IEnemy {
 	 * @param p The path the enemy unit will go. Is needed.
 	 */
 	public BasicEnemy(Path p){
-		this.path = p;
 		
-		this.speed = 1.0;
-		
-		this.lives = new Lives();
-		
-		this.reward = new Reward();
-		
-		this.status = new Status();
+		this(p,1.0, new Lives(),new Reward(), new Status());
 	}
 	/**
 	 * Constructs a new enemy unit
@@ -64,7 +57,7 @@ public class BasicEnemy implements IEnemy {
 		
 		this.reward = r;
 		
-		this.setStatusEffect(s);;
+		this.setStatusEffect(s);
 	}
 	
 	
