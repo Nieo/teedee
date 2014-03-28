@@ -7,7 +7,7 @@ package com.me.teedee;
  * changing its speed, and may also cause damage during a period of time.
  */
 
-public abstract class Status {
+public class Status {
 	private double speed;
 	private double damagePerSecond;
 	private double influenceTime;
