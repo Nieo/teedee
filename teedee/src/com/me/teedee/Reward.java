@@ -2,7 +2,7 @@ package com.me.teedee;
 
 /**
  * Reward class
- * @author Dannemannet
+ * @author Daniel
  */
 public class Reward {
 	

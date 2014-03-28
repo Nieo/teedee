@@ -2,7 +2,7 @@ package com.me.teedee;
 
 /**
  * Money class
- * @author Dannemannet
+ * @author Daniel
  */
 public class Money {
 	

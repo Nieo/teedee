@@ -1,13 +1,17 @@
 package com.me.teedee;
 
 import com.badlogic.gdx.Game;
+import com.me.teedee.screens.MainMenuScreen;
 import com.me.teedee.screens.SplashScreen;
 
 public class TeeDeeGame extends Game {
 	
+	public MainMenuScreen mainScreen;
+	
 	@Override
-	public void create() {		
-		setScreen(new SplashScreen());
+	public void create() {
+		mainScreen = new MainMenuScreen(this);
+		setScreen(new SplashScreen(this));
 	}
 
 	@Override

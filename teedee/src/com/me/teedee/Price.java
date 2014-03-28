@@ -2,7 +2,7 @@ package com.me.teedee;
 
 /**
  * Price class
- * @author Dannemannet
+ * @author Daniel
  */
 public class Price {
 	

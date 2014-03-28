@@ -1,23 +1,35 @@
 package com.me.teedee.screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.me.teedee.TeeDeeGame;
 
 /**
  * SplashScreen class
- * Intended to be the first thing that shows when you start the game
- * @author Dannemannet
+ * Intended to be the first thing that shows when you start the game.
+ * @author Daniel
  */
 public class SplashScreen implements Screen {
 	
 	private Sprite splashSprite;
 	private SpriteBatch batch;
 	private Texture splashTexture;
+	private TeeDeeGame game;
+	
+	private boolean tmpTimesUp = false;
 
+	public SplashScreen() {
+		super();
+	}
+	
+	public SplashScreen(TeeDeeGame game) {
+		this.game = game;
+	}
 
 	@Override
 	public void render(float delta) {
@@ -26,7 +38,12 @@ public class SplashScreen implements Screen {
 		
 		batch.begin();
 		splashSprite.draw(batch);
-		batch.end();		
+		batch.end();
+		
+		if(Gdx.input.justTouched()) { //after the splashScreen have faded in and out show mainScreens
+			System.out.println("INPUT!!!");
+			game.setScreen(game.mainScreen);
+		}
 	}
 
 	@Override

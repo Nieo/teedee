@@ -2,7 +2,7 @@ package com.me.teedee;
 
 /**
  * Player class
- * @author Dannemannet
+ * @author Daniel
  */
 
 public class Player {
@@ -55,5 +55,4 @@ public class Player {
 	public void getReward(int reward) {
 		money.addMoney(reward);
 	}
-
 }
