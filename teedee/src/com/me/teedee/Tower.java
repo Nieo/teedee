@@ -6,7 +6,7 @@ import java.util.*;
  * @author Nieo
  */
 public abstract class Tower {
-	private Price price;
+	private Price[] price;
 	private int currentLevel;
 	private int maxLevel;
 	private int[] attackSpeed;
@@ -14,13 +14,13 @@ public abstract class Tower {
 	private int[] range;
 	private Status status;
 	private int kills = 0;
-	private int xCoord;
-	private int yCoord;
+	private Position position;
 	
-	public int getPrice(){
+	public Price getPrice(){
 		//TODO
-		return 0;
+		return null;
 	}
+	
 	public int getCurrentLevel(){
 		return currentLevel;
 	}
@@ -30,11 +30,8 @@ public abstract class Tower {
 	public int getKills(){
 		return kills;
 	}
-	public int getXCoord(){
-		return xCoord;
-	}
-	public int getYCoord(){
-		return yCoord;
+	public Position getPosition(){
+		return position;
 	}
 	public Boolean upgrade(){
 		if(currentLevel < maxLevel){
@@ -43,10 +40,10 @@ public abstract class Tower {
 		}
 		return false;
 	}
-	public void shoot(List<IEnemy> enemies){
+	public void shoot(List<AbstractEnemy> enemies){
 		while(!enemies.isEmpty()){
 			List inRange = new ArrayList();
-			for(IEnemy e : enemies){
+			for(AbstractEnemy e : enemies){
 				//TODO
 				/* if inrange add to list
 				 * find longestDistanceTraveled
