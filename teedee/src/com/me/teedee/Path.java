@@ -6,7 +6,7 @@ package com.me.teedee;
 /**
  * Describes the path that the enemy units will take when they travel through the map. 
  * 
- * @author dmich_000
+ * @author Fridgeridge
  *
  */
 public class Path {
