@@ -8,12 +8,15 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.me.teedee.TeeDeeGame;
 
 /**
@@ -26,6 +29,11 @@ import com.me.teedee.TeeDeeGame;
 
 public class MainMenuScreen implements Screen {
 
+	
+	// remove a lot of this stuff into a .json file so
+	// we dont have to write this all the time in every class or 
+	// add textures and fonts etc. to every button
+	
 	private Stage stage;
 	private Table table;
 	private BitmapFont font;
@@ -62,6 +70,10 @@ public class MainMenuScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
+		//stage.setViewport(width, height, true); //FIXME doesnt work? hmm..
+		table.invalidateHierarchy();
+		table.setSize(width, height);
+		
 		// TODO Auto-generated method stub
 
 	}
@@ -78,8 +90,10 @@ public class MainMenuScreen implements Screen {
 		table = new Table(skin);
 		table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
-		font = new BitmapFont(Gdx.files.internal(""), false); // TODO put in bitmapfont
-
+		font = new BitmapFont(Gdx.files.internal(""), false); 
+		// TODO put in bitmapfont, or fix .json file and only use that as argument
+		
+		// Then we dont have to do this...
 		TextButtonStyle textButtonStyle = new TextButtonStyle();
 		textButtonStyle.up = skin.getDrawable("");		// up picture
 		textButtonStyle.down = skin.getDrawable("");	// down picture
@@ -89,15 +103,33 @@ public class MainMenuScreen implements Screen {
 		//		textButtonStyle.pressedOffsetY = -1;
 
 		//textButtonStyle.font = font;
+		
 		playButton = new TextButton("New Game", textButtonStyle);
 		playButton.pad(20);
+		
+		playButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				// game.setScreen(game.MapScreen); // TODO probably need to do something like this
+			}
+		});
 
 		exitButton = new TextButton("Exit", textButtonStyle);
 		exitButton.pad(20);
+		
+		
+		exitButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				Gdx.app.exit();
+			}
+		});
 
 		table.add(playButton);
+		table.getCell(playButton).spaceBottom(10);	// FIXME Space between buttons
+		table.row();
 		table.add(exitButton);
-		table.debug(); // TODO sdebug REMOVE LATER
+		table.debug(); // TODO debug REMOVE LATER
 
 		stage.addActor(table);
 
@@ -105,14 +137,11 @@ public class MainMenuScreen implements Screen {
 		mainTexture = new Texture("data/teedee_games.png");
 		mainSprite = new Sprite(mainTexture);
 		mainSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
-
+		dispose();	//to save up memory, dont know if this will cause a crash
 	}
 
 	@Override
@@ -129,7 +158,11 @@ public class MainMenuScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+		stage.dispose();
+		batch.dispose();
+		mainTexture.dispose();
+		
+		// TODO maybe more things should be disposed here
 
 	}
 

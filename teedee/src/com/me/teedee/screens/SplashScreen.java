@@ -41,7 +41,7 @@ public class SplashScreen implements Screen {
 		batch.end();
 		
 		if(Gdx.input.justTouched()) { //after the splashScreen have faded in and out show mainScreens
-			System.out.println("INPUT!!!");
+			System.out.println("INPUT!!!");	//debug
 			game.setScreen(game.mainScreen);
 		}
 	}
@@ -61,6 +61,7 @@ public class SplashScreen implements Screen {
 
 	@Override
 	public void hide() {
+		dispose();	// to save up memory
 		// TODO Auto-generated method stub
 	}
 
