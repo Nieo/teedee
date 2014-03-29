@@ -16,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.me.teedee.TeeDeeGame;
 
 /**
@@ -29,11 +28,11 @@ import com.me.teedee.TeeDeeGame;
 
 public class MainMenuScreen implements Screen {
 
-	
+
 	// remove a lot of this stuff into a .json file so
 	// we dont have to write this all the time in every class or 
 	// add textures and fonts etc. to every button
-	
+
 	private Stage stage;
 	private Table table;
 	private BitmapFont font;
@@ -60,22 +59,15 @@ public class MainMenuScreen implements Screen {
 		batch.begin();
 		mainSprite.draw(batch);
 		batch.end();
-		
-		Table.drawDebug(stage);		//debug
+
+		Table.drawDebug(stage);
 		stage.act(delta);
 		stage.draw();
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		//stage.setViewport(width, height, true); //FIXME doesnt work? hmm..
-		table.invalidateHierarchy();
-		table.setSize(width, height);
-		
-		// TODO Auto-generated method stub
-
+		stage.getViewport().update(width, height, true);
 	}
 
 	@Override
@@ -83,30 +75,25 @@ public class MainMenuScreen implements Screen {
 		stage = new Stage();
 
 		Gdx.input.setInputProcessor(stage);
-		
-		atlas = new TextureAtlas("");	// TODO put in picture (button pack) #6
+
+		atlas = new TextureAtlas("ui/button.pack");
 		skin = new Skin(atlas);
 
 		table = new Table(skin);
-		table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		
-		font = new BitmapFont(Gdx.files.internal(""), false); 
-		// TODO put in bitmapfont, or fix .json file and only use that as argument
-		
+		table.setFillParent(true);
+
+		font = new BitmapFont(Gdx.files.internal("font/font.fnt"), false); 
+		// TODO put in .json file
 		// Then we dont have to do this...
 		TextButtonStyle textButtonStyle = new TextButtonStyle();
-		textButtonStyle.up = skin.getDrawable("");		// up picture
-		textButtonStyle.down = skin.getDrawable("");	// down picture
-		// hover etc...
+		textButtonStyle.up = skin.getDrawable("button.up");
+		textButtonStyle.down = skin.getDrawable("button.down");
+		//textButtonStyle.over = skin.getDrawable("button.over");      // hover etc...
+		textButtonStyle.font = font;
 
-		//		textButtonStyle.pressedOffsetX = 1;				// Text on button changes position when clicked
-		//		textButtonStyle.pressedOffsetY = -1;
-
-		//textButtonStyle.font = font;
-		
 		playButton = new TextButton("New Game", textButtonStyle);
 		playButton.pad(20);
-		
+
 		playButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -116,8 +103,8 @@ public class MainMenuScreen implements Screen {
 
 		exitButton = new TextButton("Exit", textButtonStyle);
 		exitButton.pad(20);
-		
-		
+		exitButton.setSize(playButton.getWidth(), playButton.getHeight());
+
 		exitButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -125,34 +112,33 @@ public class MainMenuScreen implements Screen {
 			}
 		});
 
-		table.add(playButton);
-		table.getCell(playButton).spaceBottom(10);	// FIXME Space between buttons
-		table.row();
+		table.setWidth(playButton.getWidth());
+		table.add(playButton).spaceBottom(10).row();
 		table.add(exitButton);
 		table.debug(); // TODO debug REMOVE LATER
 
 		stage.addActor(table);
+		
+		
 
 		batch = new SpriteBatch();
-		mainTexture = new Texture("data/teedee_games.png");
+		mainTexture = new Texture("data/TeeDee.png");
 		mainSprite = new Sprite(mainTexture);
 		mainSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
 	@Override
 	public void hide() {
-		dispose();	//to save up memory, dont know if this will cause a crash
+		dispose();	//to save up memory
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -161,7 +147,7 @@ public class MainMenuScreen implements Screen {
 		stage.dispose();
 		batch.dispose();
 		mainTexture.dispose();
-		
+
 		// TODO maybe more things should be disposed here
 
 	}
