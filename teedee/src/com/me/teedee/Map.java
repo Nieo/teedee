@@ -32,7 +32,7 @@ public class Map {
 	 * Returns a list containing all the enemies in the current wave
 	 * @return a list containing all the enemies in the current wave
 	 */
-	public List<IEnemy> getEnemies(){
+	public List<AbstractEnemy> getEnemies(){
 		return currentWave.getEnemies();
 	}
 	
@@ -63,7 +63,7 @@ public class Map {
 	}
 	
 	/**
-	 * Returnss the game's player
+	 * Returns the game's player
 	 * @return the player currently playing the game
 	 */
 	public Player getPlayer(){

@@ -78,6 +78,7 @@ public abstract class AbstractEnemy implements IEnemy {
 	
 	
 	
+	
 	@Override
 	public void takeDamage(int damage) {
 		takeDamage(damage,this.getStatusEffect());

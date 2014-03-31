@@ -7,8 +7,6 @@ package com.me.teedee;
  *
  */
 public interface IEnemy {
-
-		
 	
 	/**
 	 * Enemy takes damage when invoked
