@@ -10,10 +10,17 @@ public class Wave {
 	
 	private int nbrEnemies;
 	private List<AbstractEnemy> enemies;
-	private ArrayList<AbstractEnemy> enemyTypes;
+	private ArrayList<AbstractEnemy> enemyTypes = new ArrayList<AbstractEnemy>();
 	
-	public Wave(int t1){
-		nbrEnemies = t1;
+	public Wave(Path p,int[] t){
+		enemyTypes.add(new BasicEnemy(p));
+		
+		nbrEnemies = t.length;
+		for(int i = 0;i < nbrEnemies; i++){
+			for(int j = 0; j < t[i];j++){
+				
+			}
+		}
 	}
 	
 	
