@@ -5,13 +5,21 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
-import com.me.teedee.BasicEnemy;
+
+//import com.me.teedee.BasicEnemy;
+
+/**
+ * A view that represents a enemy on the screen.
+ * @author Daniel
+ */
 
 public class EnemyView extends Sprite {
-
-	private float speed = 60 * 3f;		// FIXME delete this and replace this with enemy.getSpeed()
-										// or set speed = enemy.getSpeed() in constructor
-	private BasicEnemy enemy;
+	
+	// FIXME delete this and replace this with enemy.getSpeed()
+	// or set speed = enemy.getSpeed() in constructor
+	private float speed;
+	
+	//private BasicEnemy enemy;
 
 	private Vector2 vector;
 	private TiledMapTileLayer collisionLayer;
@@ -20,11 +28,13 @@ public class EnemyView extends Sprite {
 		super(sprite);
 		vector = new Vector2();
 		this.collisionLayer = collisionLayer;
+		speed = 60 * 3f;	// speed = enemy.getSpeed(); 		//TODO maybe do this or something similar
 		vector.x = speed;
 		vector.y = 0;
 		
+		// TODO här behöver vi veta vilken typ av enemy det är
+		// ifall vi tex istället vill skriva: enemy = new FastEnemy();
 		// enemy = new BasicEnemy();
-		// speed = enemy.getSpeed(); 		//TODO maybe do this
 	}
 
 	@Override
@@ -33,12 +43,15 @@ public class EnemyView extends Sprite {
 		super.draw(batch);
 	}
 	
-	// I'm not sure this is working as it should
-	public boolean changeDirection(float x, float y, String direction) {			// FIXME maybe this should be private
+	//FIXME I'm not sure this is working as it should
+	// FIXME maybe this should be private
+	public boolean changeDirection(float x, float y, String direction) {
 		return collisionLayer.getCell((int) (x / collisionLayer.getTileWidth()), (int) (y / collisionLayer.getTileHeight()))
 				.getTile().getProperties().containsKey(direction);
 	}
-
+	
+	
+	//FIXME probably should clean the method up a bit
 	private void update(float delta) {
 		boolean moveUp = false;
 		boolean moveDown = false;

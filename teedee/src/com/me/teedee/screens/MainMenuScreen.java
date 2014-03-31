@@ -11,13 +11,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.me.teedee.TeeDeeGame;
+
+//import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 /**
  * MainMenu Class
@@ -37,7 +37,7 @@ public class MainMenuScreen implements Screen {
 	private Stage stage;
 	private Table table;
 	private BitmapFont font;
-	private Label heading;
+	//private Label heading;
 	private TextureAtlas atlas;
 	private Skin skin;
 	private TextButton playButton;
@@ -65,6 +65,8 @@ public class MainMenuScreen implements Screen {
 		stage.getViewport().update(width, height, true);
 	}
 
+
+	// TODO Snygga upp show() genom att använda .json
 	@Override
 	public void show() {
 		stage = new Stage();
@@ -83,7 +85,7 @@ public class MainMenuScreen implements Screen {
 		TextButtonStyle textButtonStyle = new TextButtonStyle();
 		textButtonStyle.up = skin.getDrawable("button.up");
 		textButtonStyle.down = skin.getDrawable("button.down");
-		//textButtonStyle.over = skin.getDrawable("button.over");      // hover etc...
+		//textButtonStyle.over = skin.getDrawable("button.over");      // TODO hover etc...
 		textButtonStyle.font = font;
 
 		playButton = new TextButton("New Game", textButtonStyle);
@@ -92,7 +94,7 @@ public class MainMenuScreen implements Screen {
 		playButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				((Game) Gdx.app.getApplicationListener()).setScreen(new MapScreen()); // TODO probably need to do something like this
+				((Game) Gdx.app.getApplicationListener()).setScreen(new MapScreen()); // TODO snygg övergång
 			}
 		});
 
@@ -111,7 +113,7 @@ public class MainMenuScreen implements Screen {
 		table.debug(); // TODO debug
 
 		stage.addActor(table);
-		
+
 		batch = new SpriteBatch();
 		mainTexture = new Texture("data/TeeDee.png");
 		mainSprite = new Sprite(mainTexture);
@@ -120,7 +122,7 @@ public class MainMenuScreen implements Screen {
 
 	@Override
 	public void hide() {
-		dispose();	//to save up memory
+		dispose();	
 	}
 
 	@Override

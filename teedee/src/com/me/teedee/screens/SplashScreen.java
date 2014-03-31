@@ -1,6 +1,5 @@
 package com.me.teedee.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -21,10 +20,6 @@ public class SplashScreen implements Screen {
 	private Texture splashTexture;
 	private TeeDeeGame game;
 
-	public SplashScreen() {
-		super();
-	}
-	
 	public SplashScreen(TeeDeeGame game) {
 		this.game = game;
 	}
@@ -38,9 +33,9 @@ public class SplashScreen implements Screen {
 		splashSprite.draw(batch);
 		batch.end();
 		
-		if(Gdx.input.justTouched()) { //after the splashScreen have faded in and out show mainScreens
-			System.out.println("INPUT!!!");	//debug
-			((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
+		//TODO Istället för att behöva klicka borde den fadeas in och sedan ut igen
+		if(Gdx.input.justTouched()) {
+			game.setScreen(new MainMenuScreen());
 		}
 	}
 
@@ -59,7 +54,7 @@ public class SplashScreen implements Screen {
 
 	@Override
 	public void hide() {
-		dispose();	// to save up memory
+		dispose();
 	}
 
 	@Override
