@@ -13,7 +13,7 @@ public class Wave {
 	private ArrayList<AbstractEnemy> enemyTypes;
 	
 	public Wave(int t1){
-		
+		nbrEnemies = t1;
 	}
 	
 	

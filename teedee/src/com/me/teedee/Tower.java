@@ -11,7 +11,7 @@ public abstract class Tower {
 	private int maxLevel;
 	private int[] attackSpeed;
 	private int[] attackDamage;
-	private int[] range;
+	private int range;
 	private Status status;
 	private int kills = 0;
 	private Position position;
@@ -42,16 +42,24 @@ public abstract class Tower {
 	}
 	public void shoot(List<AbstractEnemy> enemies){
 		while(!enemies.isEmpty()){
-			List inRange = new ArrayList();
+			AbstractEnemy target = null;
 			for(AbstractEnemy e : enemies){
-				//TODO
+				if(inRange(e.getPosition())){
+					
+				}
 				/* if inrange add to list
 				 * find longestDistanceTraveled
 				 * e.takeDamage(attackDamage,Status);
 				 * sleep
 				 */
 			}
+			
 		}
+	}
+	private boolean inRange(Position pos){
+		int dx = position.getxCoordinate()- pos.getxCoordinate();
+		int dy = position.getyCoordinate()- pos.getyCoordinate();
+		return range*range > dx*dx+dy*dy;
 	}
 	
 }
