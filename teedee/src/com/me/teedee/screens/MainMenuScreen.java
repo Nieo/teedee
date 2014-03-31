@@ -1,5 +1,6 @@
 package com.me.teedee.screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -45,12 +46,6 @@ public class MainMenuScreen implements Screen {
 	private SpriteBatch batch;
 	private Texture mainTexture;
 
-	private TeeDeeGame game;
-
-	public MainMenuScreen(TeeDeeGame game) {
-		this.game = game;
-	}
-
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -60,7 +55,7 @@ public class MainMenuScreen implements Screen {
 		mainSprite.draw(batch);
 		batch.end();
 
-		Table.drawDebug(stage);
+		//Table.drawDebug(stage);	// TODO debug
 		stage.act(delta);
 		stage.draw();
 	}
@@ -97,13 +92,12 @@ public class MainMenuScreen implements Screen {
 		playButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				// game.setScreen(game.MapScreen); // TODO probably need to do something like this
+				((Game) Gdx.app.getApplicationListener()).setScreen(new MapScreen()); // TODO probably need to do something like this
 			}
 		});
 
 		exitButton = new TextButton("Exit", textButtonStyle);
 		exitButton.pad(20);
-		exitButton.setSize(playButton.getWidth(), playButton.getHeight());
 
 		exitButton.addListener(new ClickListener() {
 			@Override
@@ -112,15 +106,12 @@ public class MainMenuScreen implements Screen {
 			}
 		});
 
-		table.setWidth(playButton.getWidth());
-		table.add(playButton).spaceBottom(10).row();
-		table.add(exitButton);
-		table.debug(); // TODO debug REMOVE LATER
+		table.add(playButton).width(200).spaceBottom(20).row();
+		table.add(exitButton).width(200);
+		table.debug(); // TODO debug
 
 		stage.addActor(table);
 		
-		
-
 		batch = new SpriteBatch();
 		mainTexture = new Texture("data/TeeDee.png");
 		mainSprite = new Sprite(mainTexture);

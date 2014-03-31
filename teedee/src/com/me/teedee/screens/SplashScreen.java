@@ -20,8 +20,6 @@ public class SplashScreen implements Screen {
 	private SpriteBatch batch;
 	private Texture splashTexture;
 	private TeeDeeGame game;
-	
-	private boolean tmpTimesUp = false;
 
 	public SplashScreen() {
 		super();
@@ -42,13 +40,13 @@ public class SplashScreen implements Screen {
 		
 		if(Gdx.input.justTouched()) { //after the splashScreen have faded in and out show mainScreens
 			System.out.println("INPUT!!!");	//debug
-			game.setScreen(game.mainScreen);
+			((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
 		}
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
@@ -62,17 +60,16 @@ public class SplashScreen implements Screen {
 	@Override
 	public void hide() {
 		dispose();	// to save up memory
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
+
 	}
 
 	@Override
