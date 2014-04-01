@@ -3,27 +3,27 @@ package com.me.teedee;
 
 
 public class Position {
-	private int xCoordinate;
-	private int yCoordinate;
+	private float xCoordinate;
+	private float yCoordinate;
 	
 	public Position(){
 		xCoordinate = 0;
 		yCoordinate = 0;
 	}
-	public Position(int x, int y){
+	public Position(float x, float y){
 		xCoordinate = x;
 		yCoordinate = y;
 	}
-	public int getxCoordinate() {
+	public float getxCoordinate() {
 		return xCoordinate;
 	}
-	public void setxCoordinate(int xCoordinate) {
+	public void setxCoordinate(float xCoordinate) {
 		this.xCoordinate = xCoordinate;
 	}
-	public int getyCoordinate() {
+	public float getyCoordinate() {
 		return yCoordinate;
 	}
-	public void setyCoordinate(int yCoordinate) {
+	public void setyCoordinate(float yCoordinate) {
 		this.yCoordinate = yCoordinate;
 	}
 }

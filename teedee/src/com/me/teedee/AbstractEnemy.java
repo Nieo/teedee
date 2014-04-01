@@ -7,7 +7,7 @@ import java.util.NoSuchElementException;
  * @author Fridgeridge
  *
  */
-public abstract class AbstractEnemy implements IEnemy {
+public abstract class AbstractEnemy{
 	
 	
 	/**
@@ -86,19 +86,19 @@ public abstract class AbstractEnemy implements IEnemy {
 	
 	
 	
-	@Override
+	
 	public void takeDamage(int damage) {
 		takeDamage(damage,this.getStatusEffect());
 	}
 
-	@Override
+	
 	public void takeDamage(int damage, Status s) {
 		// TODO Add even more logic!
 		this.setStatusEffect(s);
 		isEnemyAlive=this.lives.lowerLives(damage);
 	}
 
-	@Override
+	
 	public void move() {
 		
 		
@@ -110,29 +110,29 @@ public abstract class AbstractEnemy implements IEnemy {
 		}
 	}
 
-	@Override
+	
 	public void die() {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
+	
 	public boolean hasNextEnd() {
 		// TODO Auto-generated method stub
 		return !path.hasNext();
 	}
 
-	@Override
+	
 	public Reward getReward() {
 		return reward;
 	}
 
-	@Override
+	
 	public void setStatusEffect(Status s) {
 		this.status= s;
 	}
 
-	@Override
+	
 	public Status getStatusEffect() {
 		return this.status;
 	}
