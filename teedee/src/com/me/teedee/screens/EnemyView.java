@@ -68,29 +68,20 @@ public class EnemyView extends Sprite {
 		setX(getX() + vector.x * delta);
 		setY(getY() + vector.y * delta);
 		
-		if(vector.x < 0) {
-			moveUp = changeDirection(getX(), getY(), "up");
-
-			if(!moveUp)
-				moveDown = changeDirection(getX(), getY(), "down");
-		} else if (vector.x > 0) {
+		if(vector.x != 0) {
 			moveUp = changeDirection(getX(), getY(), "up");
 
 			if(!moveUp)
 				moveDown = changeDirection(getX(), getY(), "down");
 		}
 
-		if(vector.y < 0) {
-			moveRight = changeDirection(getX(), getY(), "right");
-
-			if(!moveRight)
-				moveLeft = changeDirection(getX(), getY(), "left");
-		} else if(vector.y > 0) {			
+		if(vector.y != 0) {
 			moveRight = changeDirection(getX(), getY(), "right");
 
 			if(!moveRight)
 				moveLeft = changeDirection(getX(), getY(), "left");
 		}
+
 
 		if(moveUp) {
 			vector.x = 0;

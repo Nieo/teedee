@@ -3,11 +3,16 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class TestScreen implements Screen {
 	
 	private Actor actor = new Actor();
+	private SpriteBatch batch;
+	private Sprite sprite;
 	
 	public TestScreen(){
 		super();
@@ -32,7 +37,10 @@ public class TestScreen implements Screen {
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
+		batch = new SpriteBatch();
+		splashTexture = new Texture("data/TeeDee.png");
+		splashSprite = new Sprite(splashTexture);
+		splashSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
 	}
 
