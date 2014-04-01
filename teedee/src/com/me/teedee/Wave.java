@@ -8,18 +8,16 @@ import java.util.List;
  */
 public class Wave {
 	
-	private int nbrEnemies;
-	private List<AbstractEnemy> enemies;
+	private int nbrEnemies = 0;
+	private List<AbstractEnemy> enemies = new ArrayList<AbstractEnemy>();
 	private ArrayList<AbstractEnemy> enemyTypes = new ArrayList<AbstractEnemy>();
 	
 	public Wave(Path p,int[] t){
-		enemyTypes.add(new BasicEnemy(p));
 		
-		nbrEnemies = t.length;
-		for(int i = 0;i < nbrEnemies; i++){
-			for(int j = 0; j < t[i];j++){
-				
-			}
+		for(int amount: t)
+			nbrEnemies += amount;
+		for(int i = 1; i <= t.length;i++){
+			addEnemies(i, t[i], p);
 		}
 	}
 	
@@ -29,5 +27,17 @@ public class Wave {
 		
 	}
 	
+	private void addEnemies(int type, int amount,Path p){
+		switch(type){
+		case 1:
+			for(int i = 0;i < amount;i++){
+				enemies.add(new BasicEnemy(p));
+			}
+			break;
+		default:
+			System.out.println("Someone have tried to add enemytypes that do not exist");
+			break;
+		}
+	}
 	
 }
