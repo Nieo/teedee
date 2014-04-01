@@ -16,4 +16,8 @@ public class BasicEnemy extends AbstractEnemy {
 		//TODO
 	}
 	
+	public BasicEnemy(BasicEnemy b){
+		super(b);
+	}
+	
 }

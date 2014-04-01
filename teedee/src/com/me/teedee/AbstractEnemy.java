@@ -75,6 +75,13 @@ public abstract class AbstractEnemy implements IEnemy {
 		
 		this.setPosition(pos);
 	}
+	/**
+	 * Constructor utilising an enemy to construct a new enemy
+	 * @param a The enemy unit to be used for construction
+	 */
+	public AbstractEnemy(AbstractEnemy a){
+		this(a.path,a.speed,a.lives,a.reward,a.status, a.position);
+	}
 	
 	
 	
