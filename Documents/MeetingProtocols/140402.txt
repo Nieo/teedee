@@ -1,0 +1,35 @@
+Meeting Agenda
+
+  Date: 14 04 02
+
+  Facilitator: Erik Pihl
+
+  Participants: Daniel Jansson, David Michaëlsson, Jacob Genander
+
+1. Objectives (5 min) 
+	Change everything so that we use render to update
+	the game instead of each part controlling time by itself.
+	
+2. Reports (15 min) 
+	No coding have been done but we are allowed to use render
+	to control the game so that some classes needs to be changed. 
+	We have some images that we want to put in the game now for towers and enemies.
+	
+3. Discussion items (35 min)
+	Shall Map have a update method?
+	Yes it will move all monsters and let towers shoot.
+	Some of the code from EnemyView needs to be moved to AbstractEnemy to allow 
+	movement with the update method.
+	Replace with tiledMapLayer for Abstract enemy.
+	Fix wave. 
+	Tower.shoot needs to be reworked to work with update
+	
+4. Outcomes and assignments (5 min)
+	Erik fixes tower.shoot
+	Jacob fixes map
+	David fixes enemy
+	Daniel make some small fixes.
+	
+5. Wrap up
+	Next meeting 14 04 08
+	
