@@ -3,6 +3,8 @@ package com.me.teedee;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+
 /*
  * @Author Nieo
  */
@@ -12,7 +14,7 @@ public class Wave {
 	private List<AbstractEnemy> enemies = new ArrayList<AbstractEnemy>();
 	private ArrayList<AbstractEnemy> enemyTypes = new ArrayList<AbstractEnemy>();
 	
-	public Wave(Path p,int[] t){
+	public Wave(TiledMapTileLayer p,int[] t){
 		
 		for(int amount: t)
 			nbrEnemies += amount;
@@ -29,7 +31,7 @@ public class Wave {
 		
 	}
 	
-	private void addEnemies(int type, int amount,Path p){
+	private void addEnemies(int type, int amount,TiledMapTileLayer p){
 		switch(type){
 		case 1:
 			for(int i = 0;i < amount;i++){
