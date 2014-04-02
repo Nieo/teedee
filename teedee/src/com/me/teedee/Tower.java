@@ -53,7 +53,7 @@ public abstract class Tower {
 					if(target == null){
 						target = enemies.get(i);
 					}else{
-						if(enemies.get(i).stepsTraveled() < target.stepsTraveled())
+						if(enemies.get(i).getStepsTraveled() < target.getStepsTraveled())
 								target = enemies.get(i);
 					}
 				}
