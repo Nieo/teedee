@@ -82,6 +82,10 @@ public class Map {
 		return path;
 	}
 	
+	public TiledMap getTiledMap(){
+		return this.tiledMap;
+	}
+	
 	/**
 	 * Returns the game's player
 	 * @return the player currently playing the game
