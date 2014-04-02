@@ -115,7 +115,7 @@ public class MainMenuScreen implements Screen {
 		stage.addActor(table);
 
 		batch = new SpriteBatch();
-		mainTexture = new Texture("data/TeeDee.png");
+		mainTexture = new Texture("data/MainMenu.png");
 		mainSprite = new Sprite(mainTexture);
 		mainSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
