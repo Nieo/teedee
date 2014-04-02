@@ -1,17 +1,22 @@
 package com.me.teedee;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 /**
 @author Jacob Genander
 */
 public class Map {
 	private List<Tower> towers;
-	private List<Wave> waves;
-	private Path path;
+	private ArrayList<Wave> waves;
+	private Path path; 
 	private Player player;
-	private Wave currentWave;
+	private ArrayList<AbstractEnemy> currentEnemies;
+	private TiledMap tiledMap;
 	
 	/**
 	 * Constructs a map containing the given waves, path and player
@@ -19,12 +24,27 @@ public class Map {
 	 * @param path the path which enemies will travel on
 	 * @param player the object representing the player of the game
 	 */
-	public Map(List<Wave> waves, Path path, Player player){
+	public Map(ArrayList<Wave> waves, Path path, Player player){
 		this.waves = waves;
 		this.path = path;
 		this.player = player;
 		if(!this.waves.isEmpty()){
-			this.currentWave = this.waves.get(0);
+			//this.currentEnemies = this.waves.get(0).getEnemies(); TODO Wave's method getEnemies() must return ArrayList, not just a List
+		}
+	}
+	
+	/**
+	 * Constructs a map containing the given waves, a given TiledMap and player
+	 * @param waves a list containing wave objects which are going to be used during the game
+	 * @param mapPath the system path to the tmx map
+	 * @param player the object representing the player of the game
+	 */
+	public Map(ArrayList<Wave> waves, String mapPath,Player player){
+		this.waves = waves;
+		this.tiledMap = new TmxMapLoader().load(mapPath);
+		this.player = player;
+		if(!this.waves.isEmpty()){
+			//this.currentEnemies = this.waves.get(0).getEnemies(); TODO Wave's method getEnemies() must return ArrayList, not just a List
 		}
 	}
 	
@@ -33,7 +53,7 @@ public class Map {
 	 * @return a list containing all the enemies in the current wave
 	 */
 	public List<AbstractEnemy> getEnemies(){
-		return currentWave.getEnemies();
+		return currentEnemies;
 	}
 	
 	/**
@@ -79,13 +99,36 @@ public class Map {
 	}
 	
 	/**
-	 * Setting the current wave of enemies to the next wave in the list of waves
+	 * Setting the current enemies to the next wave's enemies
 	 */
 	public void nextWave(){
 		Iterator<Wave> waveIterator = waves.iterator();
 		if(waveIterator.hasNext()){
-			currentWave = waveIterator.next();
+			//currentEnemies = waveIterator.next().getEnemies(); TODO Wave's method getEnemies() must return ArrayList, not just a List
 		}
+	}
+	
+	/**
+	 * 
+	 */
+	public void updateEnemiesPositions(){
+		for(AbstractEnemy enemy : currentEnemies){
+			//enemy.move(); TODO Enemy must have an implemented method move()
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	public void towersShoot(){
+		for(Tower tower : towers){
+			//tower.shoot(); TODO uncomment this when the shoot method is implemented in class Tower
+		}
+	}
+	
+	public void update(){
+		this.updateEnemiesPositions();
+		this.towersShoot();
 	}
 
 }
