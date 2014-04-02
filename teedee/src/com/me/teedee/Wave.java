@@ -20,7 +20,9 @@ public class Wave {
 			addEnemies(i, t[i], p);
 		}
 	}
-	
+	public int getKills(){
+		return nbrEnemies;
+	}
 	
 	public List<AbstractEnemy> getEnemies(){
 		return enemies;

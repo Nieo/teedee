@@ -10,12 +10,14 @@ public abstract class Tower {
 	protected Price[] price = new Price[1];
 	protected int currentLevel;
 	protected int maxLevel;
-	protected int[] attackSpeed = new int[1];
+	protected int[] attackSpeed = new int[1]; 
 	protected int[] attackDamage = new int[1];
 	private double range;
 	protected Status status;
 	private int kills = 0;
 	private Position position;
+	protected ArrayList<AbstractEnemy> enemies;
+	protected final int UPDATE_SPEED = 60;
 	
 	public Price getPrice(){
 		return price[currentLevel];
@@ -42,24 +44,20 @@ public abstract class Tower {
 		}
 		return false;
 	}
-	public void shoot(List<AbstractEnemy> enemies){
+
+	public void shoot(){
 		AbstractEnemy target = null;
-		while(!enemies.isEmpty()){
-			
+		if(UPDATE_SPEED%attackSpeed[currentLevel] == 0){
 			for(int i = 1; i < enemies.size();i++){
 				if(distance(enemies.get(i).getPosition()) < range ){
 					if(target == null){
 						target = enemies.get(i);
 					}else{
-						//if(enemies.get(i).distanceTraveled() < target.distanceTraveled())
-						//		target = enemies.get(i);
+						if(enemies.get(i).stepsTraveled() < target.stepsTraveled())
+								target = enemies.get(i);
 					}
 				}
-				/* if inrange add to list
-				 * find longestDistanceTraveled
-				 * e.takeDamage(attackDamage,Status);
-				 * sleep
-				 */
+				
 			}
 			if(target != null){
 				target.takeDamage(attackDamage[currentLevel], status);
