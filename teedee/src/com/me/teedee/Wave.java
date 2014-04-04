@@ -3,27 +3,24 @@ package com.me.teedee;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-
 /*
  * @Author Nieo
  */
 public class Wave {
 	
-	private int nbrEnemies = 0;
+	private int waveSize = 0;
 	private List<AbstractEnemy> enemies = new ArrayList<AbstractEnemy>();
-	private ArrayList<AbstractEnemy> enemyTypes = new ArrayList<AbstractEnemy>();
 	
 	public Wave(Path p,int[] t){
 		
 		for(int amount: t)
-			nbrEnemies += amount;
+			waveSize += amount;
 		for(int i = 1; i <= t.length;i++){
 			addEnemies(i, t[i], p);
 		}
 	}
-	public int getKills(){
-		return nbrEnemies;
+	public int getWaveSize(){
+		return waveSize;
 	}
 	
 	public List<AbstractEnemy> getEnemies(){

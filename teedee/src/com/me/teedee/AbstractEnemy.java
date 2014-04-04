@@ -97,9 +97,6 @@ public abstract class AbstractEnemy{
 	}
 	
 	
-	
-	//////Methods/////////////////////////////////////////////////77
-	
 	public void takeDamage(int damage) {
 		takeDamage(damage,this.getStatusEffect());
 	}
@@ -118,8 +115,24 @@ public abstract class AbstractEnemy{
 		if(reachedCheckpoint(nextCheckPoint)){
 			if(path.hasNext()){
 				nextCheckPoint = path.next();
+				xSpeed = 0;
+				ySpeed = 0;
 				float dx = position.getxCoordinate()-nextCheckPoint.getxCoordinate();
 				float dy = position.getyCoordinate()-nextCheckPoint.getyCoordinate();
+				if(Math.abs(dx) > 0.1f){
+					if(dx > 0){
+						xSpeed = -speed;
+					}else{
+						xSpeed = speed;
+					}
+				}
+				if(Math.abs(dy) > 0.1f){
+					if(dy > 0){
+						ySpeed = -speed;
+					}else{
+						ySpeed = speed;
+					}
+				}
 			}else{
 				reachedEnd = true;
 			}
