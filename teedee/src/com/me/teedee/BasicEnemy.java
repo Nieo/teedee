@@ -1,5 +1,4 @@
 package com.me.teedee;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 /**
  * A most basic enemy, extends abstract enemy
@@ -8,13 +7,13 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
  */
 public class BasicEnemy extends AbstractEnemy {
 
-	public BasicEnemy(TiledMapTileLayer t) {
-		super(t);
+	public BasicEnemy(Path p) {
+		super(p);
 		// TODO Auto-generated constructor stub
 	}
 
-	public BasicEnemy(TiledMapTileLayer t, float sp, Lives l, Reward r, Status s, Position pos){
-		super(t,sp,l,r,s,pos);
+	public BasicEnemy(Path p, float sp, Lives l, Reward r, Status s, Position pos){
+		super(p,sp,l,r,s,pos);
 		//TODO
 	}
 	

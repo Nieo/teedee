@@ -14,7 +14,7 @@ public class Wave {
 	private List<AbstractEnemy> enemies = new ArrayList<AbstractEnemy>();
 	private ArrayList<AbstractEnemy> enemyTypes = new ArrayList<AbstractEnemy>();
 	
-	public Wave(TiledMapTileLayer p,int[] t){
+	public Wave(Path p,int[] t){
 		
 		for(int amount: t)
 			nbrEnemies += amount;
@@ -31,15 +31,15 @@ public class Wave {
 		
 	}
 	
-	private void addEnemies(int type, int amount,TiledMapTileLayer p){
+	private void addEnemies(int type, int amount,Path p){
 		switch(type){
 		case 1:
 			for(int i = 0;i < amount;i++){
-				enemies.add(new BasicEnemy(p));
+			//	enemies.add(new BasicEnemy(p));
 			}
 			break;
 		default:
-			System.out.println("Someone have tried to add enemytypes that do not exist");
+			System.out.println("Someone have tried to add enemytypes that do not exist.");
 			break;
 		}
 	}
