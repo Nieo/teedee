@@ -9,13 +9,13 @@ import java.util.List;
 public class Wave {
 	
 	private int waveSize = 0;
-	private List<AbstractEnemy> enemies = new ArrayList<AbstractEnemy>();
+	private ArrayList<AbstractEnemy> enemies = new ArrayList<AbstractEnemy>();
 	
 	public Wave(Path p,int[] t){
 		
 		for(int amount: t)
 			waveSize += amount;
-		for(int i = 1; i <= t.length;i++){
+		for(int i = 0; i < t.length;i++){
 			addEnemies(i, t[i], p);
 		}
 	}
@@ -23,16 +23,16 @@ public class Wave {
 		return waveSize;
 	}
 	
-	public List<AbstractEnemy> getEnemies(){
+	public ArrayList<AbstractEnemy> getEnemies(){
 		return enemies;
 		
 	}
 	
 	private void addEnemies(int type, int amount,Path p){
 		switch(type){
-		case 1:
+		case 0:
 			for(int i = 0;i < amount;i++){
-			//	enemies.add(new BasicEnemy(p));
+				enemies.add(new BasicEnemy(p));
 			}
 			break;
 		default:

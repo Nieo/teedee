@@ -11,8 +11,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 @author Jacob Genander
 */
 public class Map {
-	private List<Tower> towers;
-	private ArrayList<Wave> waves;
+	private List<Tower> towers = new ArrayList<Tower>();
+	private ArrayList<Wave> waves = new ArrayList<Wave>();
 	private Path path; 
 	private Player player;
 	private ArrayList<AbstractEnemy> currentEnemies;
@@ -29,7 +29,7 @@ public class Map {
 		this.path = path;
 		this.player = player;
 		if(!this.waves.isEmpty()){
-			//this.currentEnemies = this.waves.get(0).getEnemies(); TODO Wave's method getEnemies() must return ArrayList, not just a List
+			this.currentEnemies = this.waves.get(0).getEnemies(); //TODO Wave's method getEnemies() must return ArrayList, not just a List
 		}
 	}
 	
@@ -43,9 +43,10 @@ public class Map {
 		this.waves = waves;
 		this.tiledMap = new TmxMapLoader().load(mapPath);
 		this.player = player;
-		if(!this.waves.isEmpty()){
-			//this.currentEnemies = this.waves.get(0).getEnemies(); TODO Wave's method getEnemies() must return ArrayList, not just a List
-		}
+		//if(!this.waves.isEmpty()){
+			System.out.println("heeeeej");
+			this.currentEnemies = this.waves.get(0).getEnemies(); //TODO Wave's method getEnemies() must return ArrayList, not just a List
+		//}
 	}
 	
 	/**
@@ -116,8 +117,11 @@ public class Map {
 	 * 
 	 */
 	public void updateEnemiesPositions(){
-		for(AbstractEnemy enemy : currentEnemies){
-			//enemy.move(); TODO Enemy must have an implemented method move()
+		if(!currentEnemies.isEmpty()){
+			for(AbstractEnemy enemy : currentEnemies){
+				//enemy.move(); TODO Enemy must have an implemented method move()
+			}
+			System.out.println("not empty");
 		}
 	}
 	
@@ -125,14 +129,29 @@ public class Map {
 	 * 
 	 */
 	public void towersShoot(){
-		for(Tower tower : towers){
-			//tower.shoot(); TODO uncomment this when the shoot method is implemented in class Tower
-		}
+		//if(!towers.isEmpty()){
+			for(Tower tower : towers){
+				//tower.shoot(); TODO uncomment this when the shoot method is implemented in class Tower
+			}
+		//}
 	}
 	
 	public void update(){
 		this.updateEnemiesPositions();
 		this.towersShoot();
+	}
+	
+	public void startGame(){
+		while(true){
+			try {
+				update();
+				System.out.println("Map updated");
+				Thread.sleep(33);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 }
