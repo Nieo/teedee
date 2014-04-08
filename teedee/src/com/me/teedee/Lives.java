@@ -15,11 +15,11 @@ public class Lives {
 		currentLives = lives;
 	}
 	/**
-	 * Returns true if currentLives is equal or less than 0 
+	 * Returns true if currentLives is greater than 0 
 	 */
 	public boolean lowerLives(int damage){
 		currentLives = currentLives - damage;
-		return currentLives <=  0;
+		return currentLives >  0;
 	}
 	
 	public int getLivesHealth() {

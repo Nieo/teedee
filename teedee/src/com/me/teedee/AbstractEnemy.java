@@ -1,14 +1,13 @@
 package com.me.teedee;
 
 
+
 /**
  * A most simple enemy unit which implement the interface IEnenmy. Is abstract.
  * @author Fridgeridge
  *
  */
-public abstract class AbstractEnemy{
-	
-	
+public abstract class AbstractEnemy {
 	/**
 	 * The health of the enemy unit
 	 */
@@ -39,7 +38,7 @@ public abstract class AbstractEnemy{
 	/**
 	 * Boolean to check if the enemy is dead or alive
 	 */
-	private boolean isEnemyAlive = true;
+	private boolean isAlive = true;
 
 	/**
 	 * The path the enemy will take
@@ -114,10 +113,10 @@ public abstract class AbstractEnemy{
 	public void takeDamage(int damage, Status s) {
 		// TODO Add even more logic!
 		this.setStatusEffect(s);
-		isEnemyAlive=this.lives.lowerLives(damage);
+		isAlive=this.lives.lowerLives(damage);
 	}
 
-	public void move() {
+	public boolean move() {
 		boolean reachedEnd = false;
 		//xSpeed = 1;	//TODO debug
 		if(reachedCheckpoint(nextCheckPoint)) {
@@ -146,6 +145,7 @@ public abstract class AbstractEnemy{
 				}
 			} else {
 				reachedEnd = true;
+				return reachedEnd;
 			}
 		}
 		
@@ -153,16 +153,13 @@ public abstract class AbstractEnemy{
 			position.setxCoordinate(position.getX()+xSpeed);
 			position.setyCoordinate(position.getY()+ySpeed);
 		}
+		return reachedEnd;
 	}
 	
 	private boolean reachedCheckpoint(Position p) {
 		float dx = Math.abs(this.position.getX()-p.getX());
 		float dy = Math.abs(this.position.getY()-p.getY());
 		return 0.1f > dx && 0.1f > dy;
-	}
-
-	public void die() {
-		this.isEnemyAlive=false;
 	}
 
 	public Reward getReward() {
@@ -187,12 +184,13 @@ public abstract class AbstractEnemy{
 		return this.position;
 	}
 	
-	public boolean enemyIsAlive() {
-		return this.isEnemyAlive;
+	public boolean isAlive() {
+		return this.isAlive;
 	}
 	
 	public float getStepsTraveled() {
 		return this.stepsTraveled;
 	}
+	
 	
 }

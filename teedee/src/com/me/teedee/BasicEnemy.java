@@ -6,7 +6,10 @@ package com.me.teedee;
  *
  */
 public class BasicEnemy extends AbstractEnemy {
-
+	
+	
+	private final int id = 1;
+	
 	public BasicEnemy(Path p) {
 		super(p);
 		// TODO Auto-generated constructor stub
@@ -19,6 +22,10 @@ public class BasicEnemy extends AbstractEnemy {
 	
 	public BasicEnemy(BasicEnemy b) {
 		super(b);
+	}
+
+	public int getId() {
+		return id;
 	}
 	
 }

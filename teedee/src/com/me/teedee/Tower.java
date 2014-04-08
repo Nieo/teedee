@@ -18,6 +18,7 @@ public abstract class Tower {
 	private Position position;
 	protected ArrayList<AbstractEnemy> enemies;
 	protected final int UPDATE_SPEED = 60;
+	private boolean isShooting = false;
 	
 	public Price getPrice(){
 		return price[currentLevel];
@@ -44,12 +45,16 @@ public abstract class Tower {
 		}
 		return false;
 	}
+	public Boolean isShooting(){
+		return isShooting;
+	}
 
 	public void shoot(){
 		AbstractEnemy target = null;
 		if(UPDATE_SPEED%attackSpeed[currentLevel] == 0){
+			isShooting = true;
 			for(int i = 1; i < enemies.size();i++){
-				if(distance(enemies.get(i).getPosition()) < range ){
+				if(distance(enemies.get(i).getPosition()) < range && enemies.get(i).isAlive() ){
 					if(target == null){
 						target = enemies.get(i);
 					}else{
@@ -67,8 +72,11 @@ public abstract class Tower {
 					
 				}
 			}
+		}else{
+			isShooting = false;
 		}
 	}
+	
 	private double distance(Position pos){
 		float dx = position.getX()- pos.getX();
 		float dy = position.getY()- pos.getY();

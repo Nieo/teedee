@@ -122,8 +122,9 @@ public class Map {
 	 */
 	public void updateEnemiesPositions() {
 		if(!currentEnemies.isEmpty()) {
-			for(AbstractEnemy enemy : currentEnemies) {
-				enemy.move();
+			for(int i = 0;i < currentEnemies.size(); i++) {
+				if(currentEnemies.get(i).move())
+						currentEnemies.remove(i);
 			}
 		}
 	}
@@ -138,10 +139,19 @@ public class Map {
 			}
 		//}
 	}
+	public void removeDeadEnemies(){
+		if(!currentEnemies.isEmpty()){
+			for(int i = 0; i < currentEnemies.size();i++){
+				if(currentEnemies.get(i).isAlive())
+					currentEnemies.remove(i);
+			}
+		}
+	}
 	
 	public void update() {
 		this.updateEnemiesPositions();
 		this.towersShoot();
+		this.removeDeadEnemies();
 	}
 	
 	public void startGame() {
