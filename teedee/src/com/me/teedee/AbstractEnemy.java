@@ -56,14 +56,20 @@ public abstract class AbstractEnemy{
 	 */
 	private float stepsTraveled = 0f;
 	
+	
+	
+	// Path checkpoint index
+	int i = 0;
+	
 	/**
 	 * Constructs a new enemy unit. 
 	 * @param p The path the enemy unit will go. Is needed.
-	 */
-	public AbstractEnemy(Path p){
+	 */	
+	public AbstractEnemy(Path p) {
 		
 		this(p,1.0f, new Lives(),new Reward(), new Status(), new Position());
 	}
+	
 	/**
 	 * Constructs a new enemy unit
 	 * @param t The path the enemy unit will go. Is needed.
@@ -72,7 +78,7 @@ public abstract class AbstractEnemy{
 	 * @param r The reward of the enemy unit.
 	 * @param s The status effect of the enemy unit.
 	 */
-	public AbstractEnemy(Path p, float sp, Lives l, Reward r, Status s, Position pos){
+	public AbstractEnemy(Path p, float sp, Lives l, Reward r, Status s, Position pos) {
 		this.path = p;
 		
 		sp=(sp<0?sp:1);//Checks if the speed is negative. If so sets the new speed to 1.
@@ -84,15 +90,18 @@ public abstract class AbstractEnemy{
 		
 		this.setStatusEffect(s);
 		
-		this.setPosition(path.next());
+		xSpeed = speed;
 		
-		this.nextCheckPoint = path.next();
+		//this.setPosition(path.next());
+		this.setPosition(new Position(0, 50));
+		
+		this.nextCheckPoint = path.getPositions().get(0);
 	}
 	/**
 	 * Constructor utilising an enemy to construct a new enemy
 	 * @param a The enemy unit to be used for construction
 	 */
-	public AbstractEnemy(AbstractEnemy a){
+	public AbstractEnemy(AbstractEnemy a) {
 		this(a.path,a.speed,a.lives,a.reward,a.status, a.position);
 	}
 	
@@ -108,47 +117,50 @@ public abstract class AbstractEnemy{
 		isEnemyAlive=this.lives.lowerLives(damage);
 	}
 
-
-	
 	public void move() {
 		boolean reachedEnd = false;
-		if(reachedCheckpoint(nextCheckPoint)){
-			if(path.hasNext()){
-				nextCheckPoint = path.next();
+		//xSpeed = 1;	//TODO debug
+		if(reachedCheckpoint(nextCheckPoint)) {
+			if(i+1 < path.getPositions().size()) {
+				i++;
+				nextCheckPoint = path.getPositions().get(i);
 				xSpeed = 0;
 				ySpeed = 0;
-				float dx = position.getxCoordinate()-nextCheckPoint.getxCoordinate();
-				float dy = position.getyCoordinate()-nextCheckPoint.getyCoordinate();
-				if(Math.abs(dx) > 0.1f){
-					if(dx > 0){
+				
+				float dx = position.getX()-nextCheckPoint.getX();
+				float dy = position.getY()-nextCheckPoint.getY();
+				
+				if(Math.abs(dx) > 0.1f) {
+					if(dx > 0) {
 						xSpeed = -speed;
-					}else{
+					} else {
 						xSpeed = speed;
 					}
 				}
-				if(Math.abs(dy) > 0.1f){
-					if(dy > 0){
+				if(Math.abs(dy) > 0.1f) {
+					if(dy > 0) {
 						ySpeed = -speed;
-					}else{
+					} else {
 						ySpeed = speed;
 					}
 				}
-			}else{
+			} else {
 				reachedEnd = true;
 			}
 		}
-		if(!reachedEnd){
-			position.setxCoordinate(position.getxCoordinate()+xSpeed);
-			position.setyCoordinate(position.getyCoordinate()+ySpeed);
+		
+		if(!reachedEnd) {
+			position.setxCoordinate(position.getX()+xSpeed);
+			position.setyCoordinate(position.getY()+ySpeed);
 		}
 	}
-	private boolean reachedCheckpoint(Position p){
-		float dx = Math.abs(this.position.getxCoordinate()-p.getxCoordinate());
-		float dy = Math.abs(this.position.getyCoordinate()-p.getyCoordinate());
+	
+	private boolean reachedCheckpoint(Position p) {
+		float dx = Math.abs(this.position.getX()-p.getX());
+		float dy = Math.abs(this.position.getY()-p.getY());
 		return 0.1f > dx && 0.1f > dy;
 	}
 
-	
 	public void die() {
 		this.isEnemyAlive=false;
 	}
@@ -167,19 +179,19 @@ public abstract class AbstractEnemy{
 		return this.status;
 	}
 	
-	public void setPosition(Position p){
+	public void setPosition(Position p) {
 		this.position=p;
 	}
 
-	public Position getPosition(){
+	public Position getPosition() {
 		return this.position;
 	}
 	
-	public boolean enemyIsAlive(){
+	public boolean enemyIsAlive() {
 		return this.isEnemyAlive;
 	}
 	
-	public float getStepsTraveled(){
+	public float getStepsTraveled() {
 		return this.stepsTraveled;
 	}
 	

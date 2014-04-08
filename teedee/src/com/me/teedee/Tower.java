@@ -70,8 +70,8 @@ public abstract class Tower {
 		}
 	}
 	private double distance(Position pos){
-		float dx = position.getxCoordinate()- pos.getxCoordinate();
-		float dy = position.getyCoordinate()- pos.getyCoordinate();
+		float dx = position.getX()- pos.getX();
+		float dy = position.getY()- pos.getY();
 		return Math.sqrt((double)dx*dx+dy*dy);
 	}
 	

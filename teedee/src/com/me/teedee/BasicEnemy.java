@@ -12,12 +12,12 @@ public class BasicEnemy extends AbstractEnemy {
 		// TODO Auto-generated constructor stub
 	}
 
-	public BasicEnemy(Path p, float sp, Lives l, Reward r, Status s, Position pos){
+	public BasicEnemy(Path p, float sp, Lives l, Reward r, Status s, Position pos) {
 		super(p,sp,l,r,s,pos);
 		//TODO
 	}
 	
-	public BasicEnemy(BasicEnemy b){
+	public BasicEnemy(BasicEnemy b) {
 		super(b);
 	}
 	

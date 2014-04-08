@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 @author Jacob Genander
 */
 public class Map {
+	
 	private List<Tower> towers = new ArrayList<Tower>();
 	private ArrayList<Wave> waves = new ArrayList<Wave>();
 	private Path path; 
@@ -24,12 +25,16 @@ public class Map {
 	 * @param path the path which enemies will travel on
 	 * @param player the object representing the player of the game
 	 */
-	public Map(ArrayList<Wave> waves, Path path, Player player){
+	public Map(ArrayList<Wave> waves, Path path, Player player) {
 		this.waves = waves;
 		this.path = path;
 		this.player = player;
-		if(!this.waves.isEmpty()){
-			this.currentEnemies = this.waves.get(0).getEnemies(); //TODO Wave's method getEnemies() must return ArrayList, not just a List
+		if(!this.waves.isEmpty()) {
+			this.currentEnemies = this.waves.get(0).getEnemies();
+		}
+		
+		for(int i = 0; i < currentEnemies.size(); i++) {
+			currentEnemies.get(i).setPosition(new Position(currentEnemies.get(i).getPosition().getX()-50*i,currentEnemies.get(i).getPosition().getY()));
 		}
 	}
 	
@@ -39,13 +44,12 @@ public class Map {
 	 * @param mapPath the system path to the tmx map
 	 * @param player the object representing the player of the game
 	 */
-	public Map(ArrayList<Wave> waves, String mapPath,Player player){
+	public Map(ArrayList<Wave> waves, String mapPath,Player player) {
 		this.waves = waves;
 		this.tiledMap = new TmxMapLoader().load(mapPath);
 		this.player = player;
-		//if(!this.waves.isEmpty()){
-			System.out.println("heeeeej");
-			this.currentEnemies = this.waves.get(0).getEnemies(); //TODO Wave's method getEnemies() must return ArrayList, not just a List
+		//if(!this.waves.isEmpty()) {
+			this.currentEnemies = this.waves.get(0).getEnemies();
 		//}
 	}
 	
@@ -53,7 +57,7 @@ public class Map {
 	 * Returns a list containing all the enemies in the current wave
 	 * @return a list containing all the enemies in the current wave
 	 */
-	public List<AbstractEnemy> getEnemies(){
+	public List<AbstractEnemy> getEnemies() {
 		return currentEnemies;
 	}
 	
@@ -61,7 +65,7 @@ public class Map {
 	 * Returns a list of towers that are currently on the map
 	 * @return a list of towers that are currently on the map
 	 */
-	public List<Tower> getTowers(){
+	public List<Tower> getTowers() {
 		return towers;
 	}
 	
@@ -70,7 +74,7 @@ public class Map {
 	 * @param tower the tower to be built on the map
 	 * @param position the position on the map which the tower will be built on
 	 */
-	public void buildTower(Tower tower, Position position){
+	public void buildTower(Tower tower, Position position) {
 		tower.setPosition(position);
 		this.towers.add(tower);
 	}
@@ -79,11 +83,11 @@ public class Map {
 	 * Returns the map's path
 	 * @return the path of the map
 	 */
-	public Path getPath(){
+	public Path getPath() {
 		return path;
 	}
 	
-	public TiledMap getTiledMap(){
+	public TiledMap getTiledMap() {
 		return this.tiledMap;
 	}
 	
@@ -91,7 +95,7 @@ public class Map {
 	 * Returns the game's player
 	 * @return the player currently playing the game
 	 */
-	public Player getPlayer(){
+	public Player getPlayer() {
 		return player;
 	}
 	
@@ -99,16 +103,16 @@ public class Map {
 	 * Replaces the game's player
 	 * @param player the player who will be playing the game
 	 */
-	public void setPlayer(Player player){
+	public void setPlayer(Player player) {
 		this.player = player;
 	}
 	
 	/**
 	 * Setting the current enemies to the next wave's enemies
 	 */
-	public void nextWave(){
+	public void nextWave() {
 		Iterator<Wave> waveIterator = waves.iterator();
-		if(waveIterator.hasNext()){
+		if(waveIterator.hasNext()) {
 			//currentEnemies = waveIterator.next().getEnemies(); TODO Wave's method getEnemies() must return ArrayList, not just a List
 		}
 	}
@@ -116,39 +120,36 @@ public class Map {
 	/**
 	 * 
 	 */
-	public void updateEnemiesPositions(){
-		if(!currentEnemies.isEmpty()){
-			for(AbstractEnemy enemy : currentEnemies){
-				//enemy.move(); TODO Enemy must have an implemented method move()
+	public void updateEnemiesPositions() {
+		if(!currentEnemies.isEmpty()) {
+			for(AbstractEnemy enemy : currentEnemies) {
+				enemy.move();
 			}
-			System.out.println("not empty");
 		}
 	}
 	
 	/**
 	 * 
 	 */
-	public void towersShoot(){
+	public void towersShoot() {
 		//if(!towers.isEmpty()){
-			for(Tower tower : towers){
+			for(Tower tower : towers) {
 				//tower.shoot(); TODO uncomment this when the shoot method is implemented in class Tower
 			}
 		//}
 	}
 	
-	public void update(){
+	public void update() {
 		this.updateEnemiesPositions();
 		this.towersShoot();
 	}
 	
-	public void startGame(){
-		while(true){
+	public void startGame() {
+		while(true) {
 			try {
 				update();
-				System.out.println("Map updated");
 				Thread.sleep(33);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
