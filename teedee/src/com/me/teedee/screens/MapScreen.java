@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -17,6 +18,12 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.me.teedee.Bullet;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.me.teedee.Map;
 import com.me.teedee.Path;
 import com.me.teedee.Player;
@@ -35,6 +42,9 @@ public class MapScreen implements Screen {
 	private OrthogonalTiledMapRenderer renderer;
 	private OrthographicCamera camera;
 	private Map m;
+	private Stage hud;
+	private Group build;
+	
 	
 	//The bullet should NOT be created here! Only for test purposes 
 	Bullet bullet = new Bullet(0,0,200,100,2f,new Texture("img/RedBullet.png"));
@@ -43,6 +53,7 @@ public class MapScreen implements Screen {
 
 	private List<EnemyView> enemyList = new ArrayList<EnemyView>();
 	int i = 0;
+
 
 	public MapScreen() {
 		//Specifying the path positions
@@ -106,22 +117,22 @@ public class MapScreen implements Screen {
 			
 		}
 		
-
-		
 //		if(i%60 == 0) {
 //			if(k < enemyList.size()) {
 //				k++;
 //			}
 //		}
-
-		renderer.getSpriteBatch().end();		
-
+		renderer.getSpriteBatch().end();
+		
+		hud.act(delta);
+		hud.draw();
 		
 		i++;
 	}
 
 	@Override
 	public void resize(int width, int height) {
+		hud.getViewport().update(width, height, true);
 		camera.viewportHeight = height;
 		camera.viewportWidth = width;
 		camera.update();		
@@ -129,8 +140,7 @@ public class MapScreen implements Screen {
 
 	@Override
 	public void show() {
-
-		/*TODO i framtiden kanske vi vill få in olika maps här och
+		/* TODO i framtiden kanske vi vill få in olika maps här och
 		 * därför byta detta till något dynamiskt.
 		 */
 		map = new TmxMapLoader().load("map/mapTest.tmx");
@@ -146,6 +156,15 @@ public class MapScreen implements Screen {
 		// ev. kan camera.update() tas bort här om inte annat
 		camera.position.set(center);
 		camera.update();
+		
+		hud = new Stage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())); // OR
+		hud.setViewport(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+		Gdx.input.setInputProcessor(hud);
+		build = new Group();
+		Image img = new Image(new Texture("img/buildTest.png"));
+		img.setFillParent(true);
+		hud.addActor(build);
+		build.addActor(img);
 	}
 
 	@Override
@@ -166,7 +185,8 @@ public class MapScreen implements Screen {
 	@Override
 	public void dispose() {
 		map.dispose();
-		renderer.dispose();		
+		renderer.dispose();
+		hud.dispose();
 	}
 
 }
