@@ -1,0 +1,59 @@
+Meeting Agenda
+
+  Date: 14 04 08
+
+  Facilitator: Jacob Genander
+
+  Participants: Daniel Jansson, David Michaëlsson, Erik Pihl
+
+1. Objectives (5 min)
+	Make the model function without the view (ability to update itself, not only when
+	update is called from the view).
+	Divide work between the group members and find out what should be done until
+	the next group meeting and after the easter break.
+	Create a view that represents the Tower.
+	Implement views representing the tower building options and properties.
+	Possibly make a visual representation of shots.
+	
+
+2. Reports (15 min)
+	All the issues since last time have been resolved, but new have appeared.
+	The model is updated frequently via the update() method that is called from a
+	a main class, instead of from the render() method in the Game class from libGDX.
+	Make paths work properly.
+	Make enemies removable (when they die or reach the end of a path).
+	
+3. Discussion items (35 min)
+
+Q:	How do we represent a tower in a view?
+A:	Since the model is finished, we can now use whatever graphical items we want.
+	We will use the libGDX Sprite class. The tower views will be owned by the class
+	that represents the game screen, and will be created accordingly to the model
+	(if a new wave has 7 enemies, 7 enemy views will be created dynamically).
+
+Q:	How should the sidebar view with tower building options, lives and money look?
+A:	See image in ”kort”.
+
+Q:	How should the bottom view that displays tower properties look like?
+A:	See image in ”kort”.
+
+Q:	How are we going to implement the different parts of the screen? 
+	We have to do some research on how to place different views (of what class?)
+	on a screen, similar to JPanel in Swing.
+
+4. Outcomes and assignments (5 min)
+
+	Research on how to implement different parts of the screen and how to place
+	them on the screen. (All members of the group)
+
+	Implement some sort of visual representation of a tower shooting (the shot) (Jacob)
+
+	Implement view for tower properties (David)
+
+	Implement view for building options (Daniel)
+
+	Implement tower view (Erik)
+
+5. Wrap up
+
+	Next meeting 140410.
