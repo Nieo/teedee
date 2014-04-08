@@ -55,7 +55,7 @@ public class MainMenuScreen implements Screen {
 		mainSprite.draw(batch);
 		batch.end();
 
-		//Table.drawDebug(stage);	// TODO debug
+		Table.drawDebug(stage);	// TODO debug
 		stage.act(delta);
 		stage.draw();
 	}

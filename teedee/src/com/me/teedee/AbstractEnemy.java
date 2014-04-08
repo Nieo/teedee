@@ -116,7 +116,7 @@ public abstract class AbstractEnemy {
 		isAlive=this.lives.lowerLives(damage);
 	}
 
-	public boolean move() {
+	public void move() {
 		boolean reachedEnd = false;
 		//xSpeed = 1;	//TODO debug
 		if(reachedCheckpoint(nextCheckPoint)) {
@@ -145,7 +145,7 @@ public abstract class AbstractEnemy {
 				}
 			} else {
 				reachedEnd = true;
-				return reachedEnd;
+				//return reachedEnd;
 			}
 		}
 		
@@ -153,7 +153,7 @@ public abstract class AbstractEnemy {
 			position.setxCoordinate(position.getX()+xSpeed);
 			position.setyCoordinate(position.getY()+ySpeed);
 		}
-		return reachedEnd;
+		//return reachedEnd;
 	}
 	
 	private boolean reachedCheckpoint(Position p) {
