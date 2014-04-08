@@ -5,25 +5,17 @@ import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector3;
-import com.me.teedee.Bullet;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import com.me.teedee.Bullet;
 import com.me.teedee.Map;
 import com.me.teedee.Path;
 import com.me.teedee.Player;
@@ -38,14 +30,12 @@ import com.me.teedee.Wave;
  */
 public class MapScreen implements Screen {
 
-	private TiledMap map;
-	private OrthogonalTiledMapRenderer renderer;
-	private OrthographicCamera camera;
 	private Map m;
 	private Stage hud;
-	private Group build;
-	
-	
+	private Table table;
+	private Group mapGroup;
+	private Group hudGroup;
+
 	//The bullet should NOT be created here! Only for test purposes 
 	Bullet bullet = new Bullet(0,0,200,100,2f,new Texture("img/RedBullet.png"));
 
@@ -58,11 +48,12 @@ public class MapScreen implements Screen {
 	public MapScreen() {
 		//Specifying the path positions
 		List<Position> pathPositions = new ArrayList<Position>();
-		pathPositions.add(new Position(0,50));
-		pathPositions.add(new Position(100,50));
-		pathPositions.add(new Position(100,200));
-		pathPositions.add(new Position(300,200));
-		pathPositions.add(new Position(300,10));
+		pathPositions.add(new Position(0,530));
+		pathPositions.add(new Position(615,530));
+		pathPositions.add(new Position(615,370));
+		pathPositions.add(new Position(140,370));
+		pathPositions.add(new Position(140,200));
+		pathPositions.add(new Position(740,200));
 
 		//Creating the path
 		Path path = new Path(pathPositions);
@@ -80,11 +71,11 @@ public class MapScreen implements Screen {
 
 		//Creating the map
 		m = new Map(waveList, path, player);
-		
-		
+
+
 
 		for(int i = 0; i < m.getEnemies().size(); i++) {
-			enemyList.add(new EnemyView(new Sprite(new Texture("img/twitterEnemy.png")), m.getEnemies().get(i)));
+			enemyList.add(new EnemyView(new Sprite(new Texture("img/firstEnemy.png")), m.getEnemies().get(i)));
 		}
 
 	}
@@ -96,75 +87,81 @@ public class MapScreen implements Screen {
 
 		m.update();
 
-		renderer.setView(camera);
-
-		renderer.getSpriteBatch().begin();
-		renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0));		//FIXME denna raden kanske kan tas bort
-		renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(1));
-
-
-		
-		for(int i = 0; i < enemyList.size(); i++) {
-			enemyList.get(i).draw(renderer.getSpriteBatch());
-			
-//			ShapeRenderer shapeRenderer = new ShapeRenderer();
-//			shapeRenderer.setProjectionMatrix(camera.combined);
-//			shapeRenderer.begin(ShapeType.Filled);
-//			shapeRenderer.rectLine(0, 0,enemyList.get(i).getX(), enemyList.get(i).getY(),5);
-//			shapeRenderer.end();
-			
-			bullet.draw(renderer.getSpriteBatch());
-			
-		}
-		
-//		if(i%60 == 0) {
-//			if(k < enemyList.size()) {
-//				k++;
-//			}
-//		}
-		renderer.getSpriteBatch().end();
-		
 		hud.act(delta);
 		hud.draw();
+		Table.drawDebug(hud);
+		hud.getSpriteBatch().begin();
+
+		for(int i = 0; i < enemyList.size(); i++) {
+			enemyList.get(i).draw(hud.getSpriteBatch());
+
+			//			ShapeRenderer shapeRenderer = new ShapeRenderer();
+			//			shapeRenderer.setProjectionMatrix(camera.combined);
+			//			shapeRenderer.begin(ShapeType.Filled);
+			//			shapeRenderer.rectLine(0, 0,enemyList.get(i).getX(), enemyList.get(i).getY(),5);
+			//			shapeRenderer.end();
+
+			bullet.draw(hud.getSpriteBatch());
+
+		}
+
+		//		if(i%60 == 0) {
+		//			if(k < enemyList.size()) {
+		//				k++;
+		//			}
+		//		}
 		
+		hud.getSpriteBatch().end();
+
 		i++;
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		hud.getViewport().update(width, height, true);
-		camera.viewportHeight = height;
-		camera.viewportWidth = width;
-		camera.update();		
+
 	}
 
 	@Override
-	public void show() {
-		/* TODO i framtiden kanske vi vill få in olika maps här och
-		 * därför byta detta till något dynamiskt.
-		 */
-		map = new TmxMapLoader().load("map/mapTest.tmx");
-
-		renderer = new OrthogonalTiledMapRenderer(map);
-		camera = new OrthographicCamera();
-
-		// Centers the camera to the center of the map
-		TiledMapTileLayer tmp = (TiledMapTileLayer) map.getLayers().get(0);
-		Vector3 center = new Vector3(tmp.getWidth() * tmp.getTileWidth() / 2, tmp.getHeight() * tmp.getTileHeight() / 2, 0);
-
-		// FIXME Dessa två rader kanske kan flyttas till resize()
-		// ev. kan camera.update() tas bort här om inte annat
-		camera.position.set(center);
-		camera.update();
-		
+	public void show() {		
 		hud = new Stage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())); // OR
 		hud.setViewport(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 		Gdx.input.setInputProcessor(hud);
-		build = new Group();
-		Image img = new Image(new Texture("img/buildTest.png"));
-		img.setFillParent(true);
-		hud.addActor(build);
-		build.addActor(img);
+
+		hudGroup = new Group();
+		mapGroup = new Group();
+
+		Image mapImg = new Image(new Texture("map/awesome_map.png"));
+		mapGroup.addActor(mapImg);
+		
+		Image buildImg = new Image(new Texture("img/buildTest.png"));
+		//img.setFillParent(true);
+		
+		Table buildTable = new Table();
+		//buildTable.add(buildImg).height(Gdx.graphics.getHeight());
+		buildTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
+		buildTable.add(new Image(new Texture("img/twitterEnemy.png"))).top();
+		buildTable.add(new Image(new Texture("img/twitterEnemy.png")));
+		buildTable.add(new Image(new Texture("img/twitterEnemy.png")));
+		buildTable.add(new Image(new Texture("img/twitterEnemy.png"))).row();
+		buildTable.add(new Image(new Texture("img/twitterEnemy.png")));
+		buildTable.add(new Image(new Texture("img/twitterEnemy.png")));
+		buildTable.add(new Image(new Texture("img/twitterEnemy.png")));
+		buildTable.add(new Image(new Texture("img/twitterEnemy.png")));
+		buildTable.debug();
+		//table.setHeight(Gdx.graphics.getHeight());
+		table = new Table();
+		table.debug();
+		table.add(buildTable);
+		table.bottom().right();
+		table.setFillParent(true);
+		//hudGroup.addActor(table);
+
+
+		hud.addActor(mapGroup);
+		hud.addActor(table);
+
+
 	}
 
 	@Override
@@ -184,8 +181,6 @@ public class MapScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		map.dispose();
-		renderer.dispose();
 		hud.dispose();
 	}
 

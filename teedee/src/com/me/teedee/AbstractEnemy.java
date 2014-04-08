@@ -80,7 +80,7 @@ public abstract class AbstractEnemy {
 	public AbstractEnemy(Path p, float sp, Lives l, Reward r, Status s, Position pos) {
 		this.path = p;
 		
-		sp=(sp<0?sp:1);//Checks if the speed is negative. If so sets the new speed to 1.
+		sp = (sp < 0 ? 1 : sp);//Checks if the speed is negative. If so sets the new speed to 1.
 		this.speed = sp;
 		
 		this.lives = l;
@@ -92,7 +92,7 @@ public abstract class AbstractEnemy {
 		xSpeed = speed;
 		
 		//this.setPosition(path.next());
-		this.setPosition(new Position(0, 50));
+		this.setPosition(path.getPositions().get(0));
 		
 		this.nextCheckPoint = path.getPositions().get(0);
 	}
