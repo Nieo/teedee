@@ -9,11 +9,14 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
+import com.me.teedee.Bullet;
 import com.me.teedee.Map;
 import com.me.teedee.Path;
 import com.me.teedee.Player;
@@ -32,6 +35,9 @@ public class MapScreen implements Screen {
 	private OrthogonalTiledMapRenderer renderer;
 	private OrthographicCamera camera;
 	private Map m;
+	
+	//The bullet should NOT be created here! Only for test purposes 
+	Bullet bullet = new Bullet(0,0,200,100,2f,new Texture("img/RedBullet.png"));
 
 	int k = 0;
 
@@ -63,6 +69,8 @@ public class MapScreen implements Screen {
 
 		//Creating the map
 		m = new Map(waveList, path, player);
+		
+		
 
 		for(int i = 0; i < m.getEnemies().size(); i++) {
 			enemyList.add(new EnemyView(new Sprite(new Texture("img/twitterEnemy.png")), m.getEnemies().get(i)));
@@ -83,9 +91,22 @@ public class MapScreen implements Screen {
 		renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0));		//FIXME denna raden kanske kan tas bort
 		renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(1));
 
+
+		
 		for(int i = 0; i < enemyList.size(); i++) {
 			enemyList.get(i).draw(renderer.getSpriteBatch());
+			
+//			ShapeRenderer shapeRenderer = new ShapeRenderer();
+//			shapeRenderer.setProjectionMatrix(camera.combined);
+//			shapeRenderer.begin(ShapeType.Filled);
+//			shapeRenderer.rectLine(0, 0,enemyList.get(i).getX(), enemyList.get(i).getY(),5);
+//			shapeRenderer.end();
+			
+			bullet.draw(renderer.getSpriteBatch());
+			
 		}
+		
+
 		
 //		if(i%60 == 0) {
 //			if(k < enemyList.size()) {
@@ -95,6 +116,7 @@ public class MapScreen implements Screen {
 
 		renderer.getSpriteBatch().end();		
 
+		
 		i++;
 	}
 
