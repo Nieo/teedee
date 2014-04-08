@@ -24,7 +24,7 @@ public class Main {
 		Wave wave0 = new Wave(path, enemies);
 		
 		//Adding the wave to the list of waves
-		ArrayList waveList = new ArrayList();
+		ArrayList<Wave> waveList = new ArrayList<Wave>();
 		waveList.add(wave0);
 		
 		//Creating a player
