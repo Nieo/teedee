@@ -24,10 +24,15 @@ public class Bullet extends Sprite{
 		this.direction = new Vector2(targetPosition.getX() - startPosition.getX(),
 									 targetPosition.getY() - startPosition.getY()).nor();
 		this.speed = speed;
+		this.setPosition(startPosition.getX(), startPosition.getY());
 	}
 	
 	public void update(){
+		if(Math.abs(targetPosition.getX()-getX()) < 1 && Math.abs(targetPosition.getY()-getY()) < 1){
+			//TODO Remove the sprite. Is this done by disposing its texture?
+		}
 		this.setPosition(getX() + speed*direction.x, getY() + speed*direction.y);
+		
 	}
 	
 	@Override
@@ -35,5 +40,6 @@ public class Bullet extends Sprite{
 		update();
 		super.draw(batch);
 	}
+
 
 }

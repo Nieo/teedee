@@ -134,11 +134,9 @@ public class Map {
 	 * 
 	 */
 	public void towersShoot() {
-		//if(!towers.isEmpty()){
-			for(Tower tower : towers) {
-				//tower.shoot(); TODO uncomment this when the shoot method is implemented in class Tower
-			}
-		//}
+		for(Tower tower : towers) {
+			tower.shoot(); //TODO This should probably be done only once, since the towers shoot repeatedly
+		}
 	}
 	public void removeDeadEnemies(){
 		if(!currentEnemies.isEmpty()){

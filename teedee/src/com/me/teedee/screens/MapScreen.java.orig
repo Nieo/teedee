@@ -17,19 +17,20 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
+<<<<<<< HEAD
 import com.me.teedee.Bullet;
+=======
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.me.teedee.BasicTower;
+>>>>>>> 4b16a97651a749d128251c3dd1c6020492ca5540
 import com.me.teedee.Map;
 import com.me.teedee.Path;
 import com.me.teedee.Player;
 import com.me.teedee.Position;
-import com.me.teedee.Tower;
 import com.me.teedee.Wave;
 
 
@@ -39,18 +40,22 @@ import com.me.teedee.Wave;
  * @author Daniel
  */
 public class MapScreen implements Screen {
+	
 
 	private TiledMap map;
 	private OrthogonalTiledMapRenderer renderer;
 	private OrthographicCamera camera;
 	private Map m;
+<<<<<<< HEAD
+	
+	//The bullet should NOT be created here! Only for test purposes 
+	Bullet bullet = new Bullet(0,0,200,100,2f,new Texture("img/RedBullet.png"));
+
+=======
 	private Stage hud;
 	private Group build;
 	
-	
-	//The bullet should NOT be created here! Only for test purposes 
-	Bullet bullet = new Bullet(50,320,100,0,2f,new Texture("img/RedBullet.png"));
-
+>>>>>>> 4b16a97651a749d128251c3dd1c6020492ca5540
 	int k = 0;
 
 	private List<EnemyView> enemyList = new ArrayList<EnemyView>();
@@ -83,13 +88,11 @@ public class MapScreen implements Screen {
 		//Creating the map
 		m = new Map(waveList, path, player);
 		
-		//Building a BasicTower at (100;100)
-		m.buildTower(new BasicTower(new Position(10,10),wave0.getEnemies()), new Position(10f,10f));
+		
 
 		for(int i = 0; i < m.getEnemies().size(); i++) {
 			enemyList.add(new EnemyView(new Sprite(new Texture("img/twitterEnemy.png")), m.getEnemies().get(i)));
 		}
-		
 
 	}
 
@@ -121,15 +124,23 @@ public class MapScreen implements Screen {
 			
 		}
 		
+
+		
 //		if(i%60 == 0) {
 //			if(k < enemyList.size()) {
 //				k++;
 //			}
 //		}
+<<<<<<< HEAD
+
+		renderer.getSpriteBatch().end();		
+
+=======
 		renderer.getSpriteBatch().end();
 		
 		hud.act(delta);
 		hud.draw();
+>>>>>>> 4b16a97651a749d128251c3dd1c6020492ca5540
 		
 		i++;
 	}
