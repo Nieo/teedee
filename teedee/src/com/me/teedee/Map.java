@@ -135,7 +135,7 @@ public class Map {
 	 */
 	public void towersShoot() {
 		for(Tower tower : towers) {
-			tower.shoot(); //TODO This should probably be done only once, since the towers shoot repeatedly
+			tower.shoot();
 		}
 	}
 	public void removeDeadEnemies(){

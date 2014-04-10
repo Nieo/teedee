@@ -29,7 +29,7 @@ public class Bullet extends Sprite{
 	
 	public void update(){
 		if(Math.abs(targetPosition.getX()-getX()) < 1 && Math.abs(targetPosition.getY()-getY()) < 1){
-			//TODO Remove the sprite. Is this done by disposing its texture?
+			//this.getTexture().dispose();
 		}
 		this.setPosition(getX() + speed*direction.x, getY() + speed*direction.y);
 		

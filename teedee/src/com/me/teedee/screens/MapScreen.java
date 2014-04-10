@@ -38,9 +38,12 @@ public class MapScreen implements Screen {
 	private Table table;
 
 	//The bullet should NOT be created here! Only for test purposes 
-	Bullet bullet = new Bullet(50,320,100,0,2f,new Texture("img/RedBullet.png"));
+	//Bullet bullet = new Bullet(600,350,100,0,2f,new Texture("img/RedBullet.png"));
 
 	private List<EnemyView> enemyList = new ArrayList<EnemyView>();
+	int i = 0;
+	
+	private List<Bullet> bulletList = new ArrayList();
 	private List<TowerView> towerList = new ArrayList<TowerView>();
 	private int towerIndex = 1;			// TODO change this shit
 	
@@ -76,8 +79,8 @@ public class MapScreen implements Screen {
 		//Creating the map
 		m = new Map(waveList, path, player);
 		
-		//Building a BasicTower at (100;100)
-		m.buildTower(new BasicTower(new Position(10,10),wave0.getEnemies()), new Position(10f,10f));
+		//Building a BasicTower
+		m.buildTower(new BasicTower(new Position(180,575),wave0.getEnemies()), new Position(180f,575f));
 
 		for(int i = 0; i < m.getEnemies().size(); i++) {
 			enemyList.add(new EnemyView(new Sprite(new Texture("img/firstEnemy.png")), m.getEnemies().get(i)));
@@ -92,6 +95,12 @@ public class MapScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		m.update();
+		for (Tower tower : m.getTowers()){
+			if(tower.isShooting()){ //TODO Fix line under this, could be shorter
+				System.out.println("Target position: " + tower.getTargetPosition().getX() + ";" + tower.getTargetPosition().getY());
+				bulletList.add(new Bullet(tower.getPosition(),new Position(tower.getTargetPosition().getX(),tower.getTargetPosition().getY()),7f,new Texture("img/RedBullet.png")));
+			}
+		}
 
 		hud.act(delta);
 		hud.draw();
@@ -103,16 +112,10 @@ public class MapScreen implements Screen {
 
 		for(int i = 0; i < enemyList.size(); i++) {
 			enemyList.get(i).draw(hud.getSpriteBatch());
-
-
-			//			ShapeRenderer shapeRenderer = new ShapeRenderer();
-			//			shapeRenderer.setProjectionMatrix(camera.combined);
-			//			shapeRenderer.begin(ShapeType.Filled);
-			//			shapeRenderer.rectLine(0, 0,enemyList.get(i).getX(), enemyList.get(i).getY(),5);
-			//			shapeRenderer.end();
-
+		}
+		
+		for(Bullet bullet : bulletList){
 			bullet.draw(hud.getSpriteBatch());
-
 		}
 		
 		for(int i = 0; i< towerList.size(); i++) {

@@ -1,7 +1,6 @@
 package com.me.teedee;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Nieo
@@ -20,9 +19,22 @@ public abstract class Tower {
 	protected final int UPDATE_SPEED = 60; //Number of updates per second
 	private boolean isShooting = false;
 	private int updateCounter = 1;
+	private AbstractEnemy target;
 	
 	public Price getPrice(){
 		return price[currentLevel];
+	}
+	public Position getTargetPosition(){
+		if(hasTarget()){
+			System.out.println("Has target!");
+			return new Position(target.getPosition().getX(),target.getPosition().getY());
+		}else{
+			System.out.println("No Target");
+			return new Position(0,0); //TODO Should this throw an exception instead?
+		}
+	}
+	public boolean hasTarget(){
+		return !(target==null);
 	}
 	public void setPosition(Position pos){
 		position = pos;
@@ -53,23 +65,24 @@ public abstract class Tower {
 	//Should probably be named startShooting instead, since it's something that SHOULD be going on for a period of time,
 	//we don't want a new thread to be created every time this method is created, just once.
 	public void shoot(){
-		AbstractEnemy target = null;
-		if(attackSpeed[currentLevel]*updateCounter%UPDATE_SPEED == 0){
+		if(updateCounter%(UPDATE_SPEED/attackSpeed[currentLevel]) == 0){
 			isShooting = true;
-			for(int i = 1; i < enemies.size();i++){
+			for(int i = 0; i < enemies.size();i++){
+				System.out.println("Cheching if enemy is within range");
 				if(distance(enemies.get(i).getPosition()) < range && enemies.get(i).isAlive() ){
 					if(target == null){
-						target = enemies.get(i);
+						target = enemies.get(i); 
 					}else{
-						if(enemies.get(i).getStepsTraveled() < target.getStepsTraveled())
+						if(enemies.get(i).getStepsTraveled() > target.getStepsTraveled())
 								target = enemies.get(i);
 					}
+						System.out.println("Enemy is within range! Range is " + distance(enemies.get(i).getPosition()));
+						System.out.println("The target is " + target.toString());
 				}
 			}
 			if(target != null){
 				target.takeDamage(attackDamage[currentLevel], status);
-				System.out.println("SHOT");
-				System.out.println(target.toString());
+				System.out.println("SHOT " + target.toString());
 			}
 			updateCounter = 1;
 		}else{
