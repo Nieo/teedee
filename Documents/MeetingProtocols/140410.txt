@@ -1,0 +1,43 @@
+Meeting Agenda
+
+  Date:2014-04-10
+
+  Facilitator:David
+
+  Participants:Jacob, Daniel
+ 
+	(Erik is on vacation)
+
+1. Objectives (5 min) Resolve any issues preventing the team to
+  continue (this should be possible to verify at next meeting,
+  short clear description, use issues from project site).
+	
+	Work on the SDD shall begin. The shooting mechanics and graphics are to be refined. Fix the 
+	scaling/resolution issue with the graphics.
+	
+
+2. Reports (15 min) From previous meetings, (un)solved issues,
+  etc. , see also 4
+	Have done the foundation to the GUI. Work on the shooting mechanics, the basic graphics are done. 
+	There are some issues with the resolution, as of now there are no big issues with scaling of the 
+	window though there might some issues in the future. 
+
+3. Discussion items (35 min)
+ 
+	The issues  with getting the target reference(and through it get the target position), are to be 
+	solved by instead getting the target's position directly. Target has to be saved as instance variable.  
+	
+	
+	We are to implement some boundaries on the path to prevent placing of tower on the path. 
+	Preventing some upcoming errors that might appear during development.
+	Decide how to work during the Easter.
+	Start work on the project document.
+	Keep contact through various communication channels during the easter break.	
+	
+
+4. Outcomes and assignments (5 min)
+	Everyone will continue with their work and assignments from the last meeting protocol.
+
+
+5. Wrap up
+
