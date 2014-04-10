@@ -5,23 +5,24 @@ import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.me.teedee.AbstractEnemy;
 import com.me.teedee.BasicTower;
 import com.me.teedee.Bullet;
 import com.me.teedee.Map;
 import com.me.teedee.Path;
 import com.me.teedee.Player;
 import com.me.teedee.Position;
-import com.me.teedee.Tower;
 import com.me.teedee.Wave;
 
 
@@ -35,18 +36,20 @@ public class MapScreen implements Screen {
 	private Map m;
 	private Stage hud;
 	private Table table;
-	private Group mapGroup;
-	private Group hudGroup;
 
 	//The bullet should NOT be created here! Only for test purposes 
 	//Bullet bullet = new Bullet(600,350,100,0,2f,new Texture("img/RedBullet.png"));
-
-	int k = 0;
 
 	private List<EnemyView> enemyList = new ArrayList<EnemyView>();
 	int i = 0;
 	
 	private List<Bullet> bulletList = new ArrayList();
+	private List<TowerView> towerList = new ArrayList<TowerView>();
+	private int towerIndex = 1;			// TODO change this shit
+	
+	FPSLogger fps = new FPSLogger();		// TODO debug
+	
+	Image tmp;
 
 
 	public MapScreen() {
@@ -83,14 +86,14 @@ public class MapScreen implements Screen {
 			enemyList.add(new EnemyView(new Sprite(new Texture("img/firstEnemy.png")), m.getEnemies().get(i)));
 		}
 		
-
 	}
 
 	@Override
 	public void render(float delta) {
+		//fps.log();		// TODO debug
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+		
 		m.update();
 		for (Tower tower : m.getTowers()){
 			if(tower.isShooting()){ //TODO Fix line under this, could be shorter
@@ -103,6 +106,9 @@ public class MapScreen implements Screen {
 		hud.draw();
 		Table.drawDebug(hud);
 		hud.getSpriteBatch().begin();
+		if(tmp != null) {
+			tmp.setPosition(Gdx.input.getX()-45, Gdx.graphics.getHeight()-Gdx.input.getY()-40);
+		}
 
 		for(int i = 0; i < enemyList.size(); i++) {
 			enemyList.get(i).draw(hud.getSpriteBatch());
@@ -111,22 +117,17 @@ public class MapScreen implements Screen {
 		for(Bullet bullet : bulletList){
 			bullet.draw(hud.getSpriteBatch());
 		}
-
-		//		if(i%60 == 0) {
-		//			if(k < enemyList.size()) {
-		//				k++;
-		//			}
-		//		}
+		
+		for(int i = 0; i< towerList.size(); i++) {
+			towerList.get(i).draw(hud.getSpriteBatch());
+		}
 		
 		hud.getSpriteBatch().end();
-
-		i++;
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		hud.getViewport().update(width, height, true);
-
 	}
 
 	@Override
@@ -135,39 +136,63 @@ public class MapScreen implements Screen {
 		hud.setViewport(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 		Gdx.input.setInputProcessor(hud);
 
-		hudGroup = new Group();
-		mapGroup = new Group();
-
 		Image mapImg = new Image(new Texture("map/awesome_map.png"));
-		mapGroup.addActor(mapImg);
+		mapImg.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				System.out.println("" + Gdx.input.getX());
+				System.out.println("" + Gdx.input.getY());
+				System.out.println();
+			}
+		});
 		
-		Image buildImg = new Image(new Texture("img/buildTest.png"));
+		//Image buildImg = new Image(new Texture("img/buildTest.png"));
 		//img.setFillParent(true);
 		
 		Table guiTable = new Table();
 		Table towerInfoTable = new Table();
 		
+		Image tw = new Image(new Texture("img/firstDragon.png"));
+		tw.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				System.out.println("clicked");
+				tmp = new Image(new Texture("img/firstDragon.png"));
+				tmp.setPosition(Gdx.input.getX()-45, Gdx.graphics.getHeight()-Gdx.input.getY()-40);
+				tmp.addListener(new ClickListener() {
+					@Override
+					public void clicked(InputEvent event, float x, float y) {
+						tmp = null;		// TODO the image still exists under the tower
+						System.out.println(Gdx.input.getX()+" "+(Gdx.graphics.getHeight()-Gdx.input.getY()-15));
+						int tmpX = Gdx.input.getX()-45;
+						int tmpY = Gdx.graphics.getHeight()-Gdx.input.getY()-40;
+						m.buildTower(new BasicTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY));
+						towerList.add(new TowerView(new Sprite(new Texture("img/firstDragon.png")), m.getTowers().get(towerIndex)));
+						System.out.println(m.getTowers().size()+"");
+						towerIndex++;
+					}
+				});
+				hud.addActor(tmp);
+			}
+		});
+		
 		towerInfoTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
-		towerInfoTable.add(new Image(new Texture("img/twitterEnemy.png"))).top();
-		towerInfoTable.add(new Image(new Texture("img/twitterEnemy.png")));
-		towerInfoTable.add(new Image(new Texture("img/twitterEnemy.png")));
-		towerInfoTable.add(new Image(new Texture("img/twitterEnemy.png"))).row();
-		towerInfoTable.add(new Image(new Texture("img/twitterEnemy.png")));
-		towerInfoTable.add(new Image(new Texture("img/twitterEnemy.png")));
-		towerInfoTable.add(new Image(new Texture("img/twitterEnemy.png")));
-		towerInfoTable.add(new Image(new Texture("img/twitterEnemy.png")));
+		towerInfoTable.add(new Image(new Texture("img/firstDragon.png"))).top();
+		towerInfoTable.add(new Image(new Texture("img/firstDragon.png")));
+		towerInfoTable.add(new Image(new Texture("img/firstDragon.png"))).row();
+		towerInfoTable.add(new Image(new Texture("img/firstDragon.png")));
+		towerInfoTable.add(new Image(new Texture("img/firstDragon.png")));
+		towerInfoTable.add(new Image(new Texture("img/firstDragon.png")));
 		
 		Table buildTable = new Table();
 		//buildTable.add(buildImg).height(Gdx.graphics.getHeight());
 		buildTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
-		buildTable.add(new Image(new Texture("img/twitterEnemy.png"))).top();
-		buildTable.add(new Image(new Texture("img/twitterEnemy.png")));
-		buildTable.add(new Image(new Texture("img/twitterEnemy.png")));
-		buildTable.add(new Image(new Texture("img/twitterEnemy.png"))).row();
-		buildTable.add(new Image(new Texture("img/twitterEnemy.png")));
-		buildTable.add(new Image(new Texture("img/twitterEnemy.png")));
-		buildTable.add(new Image(new Texture("img/twitterEnemy.png")));
-		buildTable.add(new Image(new Texture("img/twitterEnemy.png")));
+		buildTable.add(tw).top();
+		buildTable.add(new Image(new Texture("img/firstDragon.png")));
+		buildTable.add(new Image(new Texture("img/firstDragon.png"))).row();
+		buildTable.add(new Image(new Texture("img/firstDragon.png")));
+		buildTable.add(new Image(new Texture("img/firstDragon.png")));
+		buildTable.add(new Image(new Texture("img/firstDragon.png")));
 		buildTable.debug();
 		//table.setHeight(Gdx.graphics.getHeight());
 		

@@ -10,11 +10,13 @@ public class TowerView extends Sprite {
 	public TowerView(Sprite sprite, Tower tower){
 		super(sprite);
 		this.tower = tower;
+		System.out.println(tower.getPosition().getX()+" "+tower.getPosition().getY());
 		setX(tower.getPosition().getX());
 		setY(tower.getPosition().getY());
 	}
 	
 	public void draw(Batch batch){
+		super.draw(batch);
 		if(tower.isShooting()){
 			//TODO
 		}
