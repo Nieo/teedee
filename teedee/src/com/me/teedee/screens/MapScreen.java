@@ -23,6 +23,7 @@ import com.me.teedee.Map;
 import com.me.teedee.Path;
 import com.me.teedee.Player;
 import com.me.teedee.Position;
+import com.me.teedee.Tower;
 import com.me.teedee.Wave;
 
 
@@ -42,13 +43,13 @@ public class MapScreen implements Screen {
 
 	private List<EnemyView> enemyList = new ArrayList<EnemyView>();
 	int i = 0;
-	
+
 	private List<Bullet> bulletList = new ArrayList();
 	private List<TowerView> towerList = new ArrayList<TowerView>();
 	private int towerIndex = 1;			// TODO change this shit
-	
+
 	FPSLogger fps = new FPSLogger();		// TODO debug
-	
+
 	Image tmp;
 
 
@@ -78,14 +79,14 @@ public class MapScreen implements Screen {
 
 		//Creating the map
 		m = new Map(waveList, path, player);
-		
+
 		//Building a BasicTower
 		m.buildTower(new BasicTower(new Position(180,575),wave0.getEnemies()), new Position(180f,575f));
 
 		for(int i = 0; i < m.getEnemies().size(); i++) {
 			enemyList.add(new EnemyView(new Sprite(new Texture("img/firstEnemy.png")), m.getEnemies().get(i)));
 		}
-		
+
 	}
 
 	@Override
@@ -93,7 +94,7 @@ public class MapScreen implements Screen {
 		//fps.log();		// TODO debug
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+
 		m.update();
 		for (Tower tower : m.getTowers()){
 			if(tower.isShooting()){ //TODO Fix line under this, could be shorter
@@ -113,15 +114,15 @@ public class MapScreen implements Screen {
 		for(int i = 0; i < enemyList.size(); i++) {
 			enemyList.get(i).draw(hud.getSpriteBatch());
 		}
-		
+
 		for(Bullet bullet : bulletList){
 			bullet.draw(hud.getSpriteBatch());
 		}
-		
+
 		for(int i = 0; i< towerList.size(); i++) {
 			towerList.get(i).draw(hud.getSpriteBatch());
 		}
-		
+
 		hud.getSpriteBatch().end();
 	}
 
@@ -140,16 +141,13 @@ public class MapScreen implements Screen {
 		mapImg.addListener(new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				
+
 			}
 		});
-		
-		//Image buildImg = new Image(new Texture("img/buildTest.png"));
-		//img.setFillParent(true);
-		
+
 		Table guiTable = new Table();
 		Table towerInfoTable = new Table();
-		
+
 		Image tw = new Image(new Texture("img/firstDragon.png"));
 		tw.addListener(new ClickListener() {
 			@Override
@@ -159,7 +157,7 @@ public class MapScreen implements Screen {
 				tmp.addListener(new ClickListener() {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
-						tmp = null;		// TODO the image still exists under the tower
+						tmp.setVisible(false);		// TODO the image still exists under the tower
 						int tmpX = Gdx.input.getX()-45;
 						int tmpY = Gdx.graphics.getHeight()-Gdx.input.getY()-40;
 						m.buildTower(new BasicTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY));
@@ -170,7 +168,7 @@ public class MapScreen implements Screen {
 				hud.addActor(tmp);
 			}
 		});
-		
+
 		towerInfoTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
 		towerInfoTable.add(new Image(new Texture("img/firstDragon.png"))).top();
 		towerInfoTable.add(new Image(new Texture("img/firstDragon.png")));
@@ -178,9 +176,8 @@ public class MapScreen implements Screen {
 		towerInfoTable.add(new Image(new Texture("img/firstDragon.png")));
 		towerInfoTable.add(new Image(new Texture("img/firstDragon.png")));
 		towerInfoTable.add(new Image(new Texture("img/firstDragon.png")));
-		
+
 		Table buildTable = new Table();
-		//buildTable.add(buildImg).height(Gdx.graphics.getHeight());
 		buildTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
 		buildTable.add(tw).top();
 		buildTable.add(new Image(new Texture("img/firstDragon.png")));
@@ -189,23 +186,18 @@ public class MapScreen implements Screen {
 		buildTable.add(new Image(new Texture("img/firstDragon.png")));
 		buildTable.add(new Image(new Texture("img/firstDragon.png")));
 		buildTable.debug();
-		//table.setHeight(Gdx.graphics.getHeight());
-		
+
 		guiTable.add(buildTable).row();
 		guiTable.add(towerInfoTable);
-		
+
 		table = new Table();
 		table.debug();
 		table.add(mapImg);
 		table.add(guiTable);
 		table.setFillParent(true);
 		table.bottom().left();
-		//hudGroup.addActor(table);
 
-
-		//hud.addActor(mapGroup);
 		hud.addActor(table);
-
 
 	}
 

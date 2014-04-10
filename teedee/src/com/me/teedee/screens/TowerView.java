@@ -8,25 +8,32 @@ import com.me.teedee.Tower;
 public class TowerView extends Sprite {
 	private Tower tower;
 	Vector2 vector;
+	private float posX;
+	private float posY;
 	
 	public TowerView(Sprite sprite, Tower tower) {
 		super(sprite);
-		vector = new Vector2(tower.getPosition().getX(), tower.getPosition().getY());
 		this.tower = tower;
-		System.out.println(tower.getPosition().getX()+" "+tower.getPosition().getY());
-		setX(tower.getPosition().getX());
-		setY(tower.getPosition().getY());
+		posX = this.tower.getPosition().getX();
+		posY = this.tower.getPosition().getY();
+		vector = new Vector2(posX, posY);
+		setX(posX);
+		setY(posY);
 	}
 	
 	public void draw(Batch batch) {
-		vector.sub(tower.getTargetPosition().getX(), tower.getTargetPosition().getY());
-		setRotation(vector.angle());
+		//TODO not sure if this is needed
+		vector.set(posX, posY);
 		
-		super.draw(batch);
+		vector.sub(tower.getTargetPosition().getX(), tower.getTargetPosition().getY());
+		vector.nor();
+		setRotation(vector.angle()+90);
+		
 		if(tower.isShooting()) {
 			//TODO
 		}
-			
+		
+		super.draw(batch);
 	}
 	
 	
