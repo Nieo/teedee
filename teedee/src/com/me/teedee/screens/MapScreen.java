@@ -141,9 +141,7 @@ public class MapScreen implements Screen {
 		mapImg.addListener(new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				System.out.println("" + Gdx.input.getX());
-				System.out.println("" + Gdx.input.getY());
-				System.out.println();
+				
 			}
 		});
 		
@@ -157,19 +155,16 @@ public class MapScreen implements Screen {
 		tw.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				System.out.println("clicked");
 				tmp = new Image(new Texture("img/firstDragon.png"));
 				tmp.setPosition(Gdx.input.getX()-45, Gdx.graphics.getHeight()-Gdx.input.getY()-40);
 				tmp.addListener(new ClickListener() {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
 						tmp = null;		// TODO the image still exists under the tower
-						System.out.println(Gdx.input.getX()+" "+(Gdx.graphics.getHeight()-Gdx.input.getY()-15));
 						int tmpX = Gdx.input.getX()-45;
 						int tmpY = Gdx.graphics.getHeight()-Gdx.input.getY()-40;
 						m.buildTower(new BasicTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY));
 						towerList.add(new TowerView(new Sprite(new Texture("img/firstDragon.png")), m.getTowers().get(towerIndex)));
-						System.out.println(m.getTowers().size()+"");
 						towerIndex++;
 					}
 				});
