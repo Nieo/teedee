@@ -17,9 +17,9 @@ public abstract class Tower {
 	private int kills = 0;
 	private Position position;
 	protected ArrayList<AbstractEnemy> enemies;
-	protected final int UPDATE_SPEED = 60;
+	protected final int UPDATE_SPEED = 60; //Number of updates per second
 	private boolean isShooting = false;
-	private Timer fireTimer = new Timer();
+	private int updateCounter = 1;
 	
 	public Price getPrice(){
 		return price[currentLevel];
@@ -49,41 +49,33 @@ public abstract class Tower {
 	public Boolean isShooting(){
 		return isShooting;
 	}
-	
-	//Is it OK to have this as an internal private class?
-	private class ShootTask extends TimerTask{
-		@Override
-		public void run(){
-			AbstractEnemy target = null;
-			if(UPDATE_SPEED%attackSpeed[currentLevel] == 0){ //TODO How is this supposed to work?
-				isShooting = true;
-				for(int i = 1; i < enemies.size();i++){
-					if(distance(enemies.get(i).getPosition()) < range && enemies.get(i).isAlive() ){
-						if(target == null){
-							target = enemies.get(i);
-						}else{
-							if(enemies.get(i).getStepsTraveled() < target.getStepsTraveled())
-									target = enemies.get(i);
-						}
-					}
-				}
-				if(target != null){
-					target.takeDamage(attackDamage[currentLevel], status);
-					System.out.println("SHOT");
-					System.out.println(target.toString());
-				}
-			}else{
-				isShooting = false;
-			}
-		}
-	}
 
 	//Should probably be named startShooting instead, since it's something that SHOULD be going on for a period of time,
 	//we don't want a new thread to be created every time this method is created, just once.
 	public void shoot(){
-		if(!isShooting){
-			fireTimer.scheduleAtFixedRate(new ShootTask(), 0, 1000/attackSpeed[currentLevel]);
+		AbstractEnemy target = null;
+		if(attackSpeed[currentLevel]*updateCounter%UPDATE_SPEED == 0){
+			isShooting = true;
+			for(int i = 1; i < enemies.size();i++){
+				if(distance(enemies.get(i).getPosition()) < range && enemies.get(i).isAlive() ){
+					if(target == null){
+						target = enemies.get(i);
+					}else{
+						if(enemies.get(i).getStepsTraveled() < target.getStepsTraveled())
+								target = enemies.get(i);
+					}
+				}
+			}
+			if(target != null){
+				target.takeDamage(attackDamage[currentLevel], status);
+				System.out.println("SHOT");
+				System.out.println(target.toString());
+			}
+			updateCounter = 1;
+		}else{
+			isShooting = false;
 		}
+		updateCounter++;
 	}
 	
 	private double distance(Position pos){
@@ -91,5 +83,6 @@ public abstract class Tower {
 		float dy = position.getY()- pos.getY();
 		return Math.sqrt((double)dx*dx+dy*dy);
 	}
+	
 	
 }
