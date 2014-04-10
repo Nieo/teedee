@@ -93,8 +93,10 @@ public class MapScreen implements Screen {
 
 		m.update();
 		for (Tower tower : m.getTowers()){
-			if(tower.isShooting()) //TODO Fix line under this, should be shorter
-				bulletList.add(new Bullet(tower.getPosition(),new Position(tower.getTargetPosition().getX(),tower.getTargetPosition().getY()),2f,new Texture("img/RedBullet.png")));
+			if(tower.isShooting()){ //TODO Fix line under this, could be shorter
+				System.out.println("Target position: " + tower.getTargetPosition().getX() + ";" + tower.getTargetPosition().getY());
+				bulletList.add(new Bullet(tower.getPosition(),new Position(tower.getTargetPosition().getX(),tower.getTargetPosition().getY()),7f,new Texture("img/RedBullet.png")));
+			}
 		}
 
 		hud.act(delta);
