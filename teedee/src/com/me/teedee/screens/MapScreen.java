@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.me.teedee.BasicTower;
 import com.me.teedee.Bullet;
 import com.me.teedee.Map;
 import com.me.teedee.Path;
@@ -38,23 +39,25 @@ public class MapScreen implements Screen {
 	private Group hudGroup;
 
 	//The bullet should NOT be created here! Only for test purposes 
-	Bullet bullet = new Bullet(50,320,100,0,2f,new Texture("img/RedBullet.png"));
+	//Bullet bullet = new Bullet(600,350,100,0,2f,new Texture("img/RedBullet.png"));
 
 	int k = 0;
 
 	private List<EnemyView> enemyList = new ArrayList<EnemyView>();
 	int i = 0;
+	
+	private List<Bullet> bulletList = new ArrayList();
 
 
 	public MapScreen() {
 		//Specifying the path positions
 		List<Position> pathPositions = new ArrayList<Position>();
-		pathPositions.add(new Position(0,530));
-		pathPositions.add(new Position(615,530));
-		pathPositions.add(new Position(615,370));
-		pathPositions.add(new Position(140,370));
-		pathPositions.add(new Position(140,200));
-		pathPositions.add(new Position(740,200));
+		pathPositions.add(new Position(0,490));
+		pathPositions.add(new Position(740,490));
+		pathPositions.add(new Position(740,300));
+		pathPositions.add(new Position(160,300));
+		pathPositions.add(new Position(160,90));
+		pathPositions.add(new Position(880,90));
 
 		//Creating the path
 		Path path = new Path(pathPositions);
@@ -73,10 +76,8 @@ public class MapScreen implements Screen {
 		//Creating the map
 		m = new Map(waveList, path, player);
 		
-		//Building a BasicTower at (100;100)
-		m.buildTower(new BasicTower(new Position(10,10),wave0.getEnemies()), new Position(10f,10f));
-
-
+		//Building a BasicTower
+		m.buildTower(new BasicTower(new Position(180,575),wave0.getEnemies()), new Position(180f,575f));
 
 		for(int i = 0; i < m.getEnemies().size(); i++) {
 			enemyList.add(new EnemyView(new Sprite(new Texture("img/firstEnemy.png")), m.getEnemies().get(i)));
@@ -91,6 +92,10 @@ public class MapScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		m.update();
+		for (Tower tower : m.getTowers()){
+			if(tower.isShooting()) //TODO Fix line under this, should be shorter
+				bulletList.add(new Bullet(tower.getPosition(),new Position(tower.getTargetPosition().getX(),tower.getTargetPosition().getY()),2f,new Texture("img/RedBullet.png")));
+		}
 
 		hud.act(delta);
 		hud.draw();
@@ -99,15 +104,10 @@ public class MapScreen implements Screen {
 
 		for(int i = 0; i < enemyList.size(); i++) {
 			enemyList.get(i).draw(hud.getSpriteBatch());
-
-			//			ShapeRenderer shapeRenderer = new ShapeRenderer();
-			//			shapeRenderer.setProjectionMatrix(camera.combined);
-			//			shapeRenderer.begin(ShapeType.Filled);
-			//			shapeRenderer.rectLine(0, 0,enemyList.get(i).getX(), enemyList.get(i).getY(),5);
-			//			shapeRenderer.end();
-
+		}
+		
+		for(Bullet bullet : bulletList){
 			bullet.draw(hud.getSpriteBatch());
-
 		}
 
 		//		if(i%60 == 0) {
@@ -142,6 +142,19 @@ public class MapScreen implements Screen {
 		Image buildImg = new Image(new Texture("img/buildTest.png"));
 		//img.setFillParent(true);
 		
+		Table guiTable = new Table();
+		Table towerInfoTable = new Table();
+		
+		towerInfoTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
+		towerInfoTable.add(new Image(new Texture("img/twitterEnemy.png"))).top();
+		towerInfoTable.add(new Image(new Texture("img/twitterEnemy.png")));
+		towerInfoTable.add(new Image(new Texture("img/twitterEnemy.png")));
+		towerInfoTable.add(new Image(new Texture("img/twitterEnemy.png"))).row();
+		towerInfoTable.add(new Image(new Texture("img/twitterEnemy.png")));
+		towerInfoTable.add(new Image(new Texture("img/twitterEnemy.png")));
+		towerInfoTable.add(new Image(new Texture("img/twitterEnemy.png")));
+		towerInfoTable.add(new Image(new Texture("img/twitterEnemy.png")));
+		
 		Table buildTable = new Table();
 		//buildTable.add(buildImg).height(Gdx.graphics.getHeight());
 		buildTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
@@ -155,15 +168,20 @@ public class MapScreen implements Screen {
 		buildTable.add(new Image(new Texture("img/twitterEnemy.png")));
 		buildTable.debug();
 		//table.setHeight(Gdx.graphics.getHeight());
+		
+		guiTable.add(buildTable).row();
+		guiTable.add(towerInfoTable);
+		
 		table = new Table();
 		table.debug();
-		table.add(buildTable);
-		table.bottom().right();
+		table.add(mapImg);
+		table.add(guiTable);
 		table.setFillParent(true);
+		table.bottom().left();
 		//hudGroup.addActor(table);
 
 
-		hud.addActor(mapGroup);
+		//hud.addActor(mapGroup);
 		hud.addActor(table);
 
 
