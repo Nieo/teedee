@@ -23,6 +23,7 @@ import com.me.teedee.Map;
 import com.me.teedee.Path;
 import com.me.teedee.Player;
 import com.me.teedee.Position;
+import com.me.teedee.Tower;
 import com.me.teedee.Wave;
 
 
@@ -98,7 +99,7 @@ public class MapScreen implements Screen {
 		for (Tower tower : m.getTowers()){
 			if(tower.isShooting()){ //TODO Fix line under this, could be shorter
 				System.out.println("Target position: " + tower.getTargetPosition().getX() + ";" + tower.getTargetPosition().getY());
-				bulletList.add(new Bullet(tower.getPosition(),new Position(tower.getTargetPosition().getX(),tower.getTargetPosition().getY()),7f,new Texture("img/RedBullet.png")));
+				bulletList.add(new Bullet(tower.getPosition().getX() + 45,tower.getPosition().getY() + 40,tower.getTargetPosition().getX(),tower.getTargetPosition().getY(),7f,new Texture("img/RedBullet.png")));
 			}
 		}
 

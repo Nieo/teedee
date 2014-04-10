@@ -66,7 +66,8 @@ public abstract class Tower {
 	//we don't want a new thread to be created every time this method is created, just once.
 	public void shoot(){
 		if(updateCounter%(UPDATE_SPEED/attackSpeed[currentLevel]) == 0){
-			isShooting = true;
+			target = null;
+			//isShooting = true;
 			for(int i = 0; i < enemies.size();i++){
 				System.out.println("Cheching if enemy is within range");
 				if(distance(enemies.get(i).getPosition()) < range && enemies.get(i).isAlive() ){
@@ -76,11 +77,13 @@ public abstract class Tower {
 						if(enemies.get(i).getStepsTraveled() > target.getStepsTraveled())
 								target = enemies.get(i);
 					}
-						System.out.println("Enemy is within range! Range is " + distance(enemies.get(i).getPosition()));
-						System.out.println("The target is " + target.toString());
+					System.out.println("Enemy is within range! Range is " + distance(enemies.get(i).getPosition()));
 				}
 			}
+			
 			if(target != null){
+				System.out.println("The target is " + target.toString());
+				isShooting = true;
 				target.takeDamage(attackDamage[currentLevel], status);
 				System.out.println("SHOT " + target.toString());
 			}

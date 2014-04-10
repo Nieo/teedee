@@ -13,6 +13,6 @@ public class BasicTower extends Tower {
 		status = new Status();
 		setPosition(pos);
 		this.enemies = enemies;
-		range = 100;
+		range = 200;
 	}
 }
