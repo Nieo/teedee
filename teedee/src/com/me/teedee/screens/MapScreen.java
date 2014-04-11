@@ -113,6 +113,9 @@ public class MapScreen implements Screen {
 
 		for(int i = 0; i < enemyList.size(); i++) {
 			enemyList.get(i).draw(hud.getSpriteBatch());
+			if(!enemyList.get(i).isAlive()){
+				enemyList.get(i).setAlpha(0);
+			}
 		}
 
 		for(Bullet bullet : bulletList){

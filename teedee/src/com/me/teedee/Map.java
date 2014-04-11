@@ -141,27 +141,27 @@ public class Map {
 	public void removeDeadEnemies(){
 		if(!currentEnemies.isEmpty()){
 			for(int i = 0; i < currentEnemies.size();i++){
-				if(currentEnemies.get(i).isAlive())
+				if(!currentEnemies.get(i).isAlive())
 					currentEnemies.remove(i);
 			}
 		}
 	}
 	
 	public void update() {
+		this.removeDeadEnemies(); //Must be done first, since the EnemyViews must have a reference to the enemy for deletion
 		this.updateEnemiesPositions();
 		this.towersShoot();
-		//this.removeDeadEnemies();		// TODO This didnt work
 	}
 	
-	public void startGame() {
-		while(true) {
-			try {
-				update();
-				Thread.sleep(33);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+//	public void startGame() {
+//		while(true) {
+//			try {
+//				update();
+//				Thread.sleep(33);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//	}
 
 }

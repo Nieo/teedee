@@ -24,7 +24,11 @@ public class EnemyView extends Sprite {
 	public void draw(Batch batch) {
 		update();
 		super.draw(batch);
-	}	
+	}
+	
+	public boolean isAlive(){
+		return enemy.isAlive();
+	}
 	
 	//FIXME probably should clean the method up a bit
 	private void update() {
