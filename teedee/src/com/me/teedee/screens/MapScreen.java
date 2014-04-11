@@ -38,6 +38,9 @@ public class MapScreen implements Screen {
 	private Stage hud;
 	private Table table;
 
+
+	private Sprite radius;
+
 	//The bullet should NOT be created here! Only for test purposes 
 	//Bullet bullet = new Bullet(600,350,100,0,2f,new Texture("img/RedBullet.png"));
 
@@ -46,7 +49,7 @@ public class MapScreen implements Screen {
 
 	private List<Bullet> bulletList = new ArrayList();
 	private List<TowerView> towerList = new ArrayList<TowerView>();
-	private int towerIndex = 1;			// TODO change this shit
+	private int towerIndex = 0;			// TODO change this shit
 
 	FPSLogger fps = new FPSLogger();		// TODO debug
 
@@ -81,7 +84,7 @@ public class MapScreen implements Screen {
 		m = new Map(waveList, path, player);
 
 		//Building a BasicTower
-		m.buildTower(new BasicTower(new Position(180,575),wave0.getEnemies()), new Position(180f,575f));
+		//m.buildTower(new BasicTower(new Position(180,575),wave0.getEnemies()), new Position(180f,575f));
 
 		for(int i = 0; i < m.getEnemies().size(); i++) {
 			enemyList.add(new EnemyView(new Sprite(new Texture("img/firstEnemy.png")), m.getEnemies().get(i)));
@@ -98,7 +101,6 @@ public class MapScreen implements Screen {
 		m.update();
 		for (Tower tower : m.getTowers()){
 			if(tower.isShooting()){ //TODO Fix line under this, could be shorter
-				System.out.println("Target position: " + tower.getTargetPosition().getX() + ";" + tower.getTargetPosition().getY());
 				bulletList.add(new Bullet(tower.getPosition().getX() + 45,tower.getPosition().getY() + 40,tower.getTargetPosition().getX(),tower.getTargetPosition().getY(),7f,new Texture("img/RedBullet.png")));
 			}
 		}
@@ -107,8 +109,18 @@ public class MapScreen implements Screen {
 		hud.draw();
 		Table.drawDebug(hud);
 		hud.getSpriteBatch().begin();
+		
+		if(radius != null) {
+			radius.draw(hud.getSpriteBatch());
+		}
+		
 		if(tmp != null) {
 			tmp.setPosition(Gdx.input.getX()-45, Gdx.graphics.getHeight()-Gdx.input.getY()-40);
+			if(radius == null) {
+				radius = new Sprite(new Texture("img/radius200.png"));
+			}
+			radius.setAlpha(1);
+			radius.setPosition(tmp.getX()-200+45, tmp.getY()-200+40);
 		}
 
 		for(int i = 0; i < enemyList.size(); i++) {
@@ -131,6 +143,18 @@ public class MapScreen implements Screen {
 		hud.getViewport().update(width, height, true);
 	}
 
+	public TowerView clickedOnTower(float x, float y) {
+		for(TowerView tv : towerList) {
+			System.out.println("tower: "+tv.getX() + " "+ tv.getY());
+			System.out.println("mouse: "+Gdx.input.getX()+" "+ Gdx.input.getY() );
+			System.out.println("rect: " +tv.rect.width + " "+ tv.rect.height);
+			if(tv.contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
+				return tv;
+			}
+		}
+		return null;	
+	}
+	
 	@Override
 	public void show() {		
 		hud = new Stage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())); // OR
@@ -141,7 +165,28 @@ public class MapScreen implements Screen {
 		mapImg.addListener(new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-
+				if(tmp != null) {
+					tmp.setVisible(false);		// TODO the image still exists under the tower
+					tmp = null;
+					int tmpX = Gdx.input.getX()-45;
+					int tmpY = Gdx.graphics.getHeight()-Gdx.input.getY()-40;
+					m.buildTower(new BasicTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY));
+					towerList.add(new TowerView(new Sprite(new Texture("img/firstDragon.png")), m.getTowers().get(towerIndex)));
+					towerIndex++;
+				} else {
+					TowerView tmpTower = clickedOnTower(Gdx.input.getX(), Gdx.input.getY());
+					if(tmpTower != null) {
+						radius = new Sprite(new Texture("img/radius200.png"));
+						radius.setX(tmpTower.getX()-200+45);
+						radius.setY(tmpTower.getY()-200+40);
+						radius.setAlpha(1);
+					} else {
+						if(radius != null) {
+							radius.setAlpha(0);
+						}
+					}
+					//TODO show info
+				}
 			}
 		});
 
@@ -154,24 +199,14 @@ public class MapScreen implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				tmp = new Image(new Texture("img/firstDragon.png"));
 				tmp.setPosition(Gdx.input.getX()-45, Gdx.graphics.getHeight()-Gdx.input.getY()-40);
-				tmp.addListener(new ClickListener() {
-					@Override
-					public void clicked(InputEvent event, float x, float y) {
-						tmp.setVisible(false);		// TODO the image still exists under the tower
-						int tmpX = Gdx.input.getX()-45;
-						int tmpY = Gdx.graphics.getHeight()-Gdx.input.getY()-40;
-						m.buildTower(new BasicTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY));
-						towerList.add(new TowerView(new Sprite(new Texture("img/firstDragon.png")), m.getTowers().get(towerIndex)));
-						towerIndex++;
-					}
-				});
+				tmp.setTouchable(null);
 				hud.addActor(tmp);
 			}
 		});
 
 		towerInfoTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
 		towerInfoTable.add(new Image(new Texture("img/firstDragon.png"))).top();
-		towerInfoTable.add(new Image(new Texture("img/firstDragon.png")));
+		//towerInfoTable.add(new Label("Tower Name"));
 		towerInfoTable.add(new Image(new Texture("img/firstDragon.png"))).row();
 		towerInfoTable.add(new Image(new Texture("img/firstDragon.png")));
 		towerInfoTable.add(new Image(new Texture("img/firstDragon.png")));
@@ -180,6 +215,7 @@ public class MapScreen implements Screen {
 		Table buildTable = new Table();
 		buildTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
 		buildTable.add(tw).top();
+		//buildTable.add(new Label());
 		buildTable.add(new Image(new Texture("img/firstDragon.png")));
 		buildTable.add(new Image(new Texture("img/firstDragon.png"))).row();
 		buildTable.add(new Image(new Texture("img/firstDragon.png")));

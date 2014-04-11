@@ -26,10 +26,8 @@ public abstract class Tower {
 	}
 	public Position getTargetPosition(){
 		if(hasTarget()){
-			System.out.println("Has target!");
 			return new Position(target.getPosition().getX(),target.getPosition().getY());
 		}else{
-			System.out.println("No Target");
 			return new Position(0,0); //TODO Should this throw an exception instead?
 		}
 	}
@@ -69,7 +67,6 @@ public abstract class Tower {
 			target = null;
 			//isShooting = true;
 			for(int i = 0; i < enemies.size();i++){
-				System.out.println("Cheching if enemy is within range");
 				if(distance(enemies.get(i).getPosition()) < range && enemies.get(i).isAlive() ){
 					if(target == null){
 						target = enemies.get(i); 
@@ -77,15 +74,12 @@ public abstract class Tower {
 						if(enemies.get(i).getStepsTraveled() > target.getStepsTraveled())
 								target = enemies.get(i);
 					}
-					System.out.println("Enemy is within range! Range is " + distance(enemies.get(i).getPosition()));
 				}
 			}
 			
 			if(target != null){
-				System.out.println("The target is " + target.toString());
 				isShooting = true;
 				target.takeDamage(attackDamage[currentLevel], status);
-				System.out.println("SHOT " + target.toString());
 			}
 			updateCounter = 1;
 		}else{
