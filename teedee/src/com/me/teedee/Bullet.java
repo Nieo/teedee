@@ -10,6 +10,9 @@ public class Bullet extends Sprite{
 	private Position startPosition;
 	private Vector2 direction;
 	private float speed;
+	private float travelledDistance = 0;
+	private double goalDistance;
+	private boolean hasHitTarget = false;
 	
 	
 	public Bullet(float startX, float startY, float targetX, float targetY, float speed, Texture texture){
@@ -24,15 +27,22 @@ public class Bullet extends Sprite{
 		this.direction = new Vector2(targetPosition.getX() - startPosition.getX(),
 									 targetPosition.getY() - startPosition.getY()).nor();
 		this.speed = speed;
+		this.goalDistance = Math.sqrt((targetPosition.getX()-getX()) + (targetPosition.getY()-getY()));
 		this.setPosition(startPosition.getX(), startPosition.getY());
 	}
 	
 	public void update(){
-		if(Math.abs(targetPosition.getX()-getX()) < 1 && Math.abs(targetPosition.getY()-getY()) < 1){
-			//this.getTexture().dispose();
-		}
+		travelledDistance += speed;
 		this.setPosition(getX() + speed*direction.x, getY() + speed*direction.y);
 		
+		if(travelledDistance >= goalDistance + 80){
+			this.setAlpha(0);
+			hasHitTarget = true;
+		}
+	}
+	
+	public boolean hasHitTarget(){
+		return hasHitTarget;
 	}
 	
 	@Override
