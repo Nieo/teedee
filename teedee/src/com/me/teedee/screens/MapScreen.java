@@ -9,10 +9,14 @@ import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -38,6 +42,8 @@ public class MapScreen implements Screen {
 	private Stage hud;
 	private Table table;
 
+	private Label towerName;
+	private Label towerKills;
 
 	private Sprite radius;
 
@@ -54,6 +60,8 @@ public class MapScreen implements Screen {
 	FPSLogger fps = new FPSLogger();		// TODO debug
 
 	Image tmp;
+
+	private TowerView chosedTower;
 
 
 	public MapScreen() {
@@ -123,9 +131,7 @@ public class MapScreen implements Screen {
 			radius.setAlpha(1);
 			radius.setPosition(tmp.getX()-200+45, tmp.getY()-200+40);
 		}
-		
-		
-		
+
 		Sprite[] tiledPath = new Sprite[m.getPath().getPositions().size()];//TODO Should not be instanced in the render method
 		for(int i=0; i<m.getPath().getPositions().size()-1; i++){//As of now renders the path somewhat, should probably not be an sprite. If possible use another more suitable class.  
 			float x1,x2,y1,y2,dx,dy;//TODO Leaves a square to be rendered
@@ -133,27 +139,18 @@ public class MapScreen implements Screen {
 			x2=m.getPath().getPositions().get(i+1).getX();
 			y1=m.getPath().getPositions().get(i).getY();
 			y2=m.getPath().getPositions().get(i+1).getY();
-			
+
 			tiledPath[i]=new Sprite(new Texture("img/pathTile.png"));
 			tiledPath[i].setRegion(x1,y1,x2,y2);
-			
+
 			dx=(Math.abs(x2-x1)>0?(x2-x1):50);
 			dy=(Math.abs(y2-y1)>0?(y2-y1):50);
 			tiledPath[i].setBounds(x1, y1, dx, dy);
-			
+
 			tiledPath[i].draw(hud.getSpriteBatch());
-		
+
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		for(int i = 0; i < enemyList.size(); i++) {
 			enemyList.get(i).draw(hud.getSpriteBatch());
 			if(!enemyList.get(i).isAlive()){
@@ -171,11 +168,7 @@ public class MapScreen implements Screen {
 		for(int i = 0; i< towerList.size(); i++) {
 			towerList.get(i).draw(hud.getSpriteBatch());
 		}
-		
-		
-		
-		
-		
+
 		hud.getSpriteBatch().end();
 	}
 
@@ -186,9 +179,6 @@ public class MapScreen implements Screen {
 
 	public TowerView clickedOnTower(float x, float y) {
 		for(TowerView tv : towerList) {
-			System.out.println("tower: "+tv.getX() + " "+ tv.getY());
-			System.out.println("mouse: "+Gdx.input.getX()+" "+ Gdx.input.getY() );
-			System.out.println("rect: " +tv.rect.width + " "+ tv.rect.height);
 			if(tv.contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
 				return tv;
 			}
@@ -197,7 +187,9 @@ public class MapScreen implements Screen {
 	}
 
 	@Override
-	public void show() {		
+	public void show() {
+		Skin uiSkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+
 		hud = new Stage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())); // OR
 		hud.setViewport(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 		Gdx.input.setInputProcessor(hud);
@@ -215,12 +207,14 @@ public class MapScreen implements Screen {
 					towerList.add(new TowerView(new Sprite(new Texture("img/firstDragon.png")), m.getTowers().get(towerIndex)));
 					towerIndex++;
 				} else {
-					TowerView tmpTower = clickedOnTower(Gdx.input.getX(), Gdx.input.getY());
-					if(tmpTower != null) {
+					chosedTower = clickedOnTower(Gdx.input.getX(), Gdx.input.getY());
+					if(chosedTower != null) {
 						radius = new Sprite(new Texture("img/radius200.png"));
-						radius.setX(tmpTower.getX()-200+45);
-						radius.setY(tmpTower.getY()-200+40);
+						radius.setX(chosedTower.getX()-200+45);
+						radius.setY(chosedTower.getY()-200+40);
 						radius.setAlpha(1);
+						towerName.setText(chosedTower.getName());
+						towerKills.setText("Enemies killed: " + chosedTower.getKills());
 					} else {
 						if(radius != null) {
 							radius.setAlpha(0);
@@ -244,25 +238,46 @@ public class MapScreen implements Screen {
 				hud.addActor(tmp);
 			}
 		});
+		
+		TextButton upgradeBtn = new TextButton("Upgrade", uiSkin);
+		TextButton sellBtn = new TextButton("Sell", uiSkin);
+		upgradeBtn.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				if(chosedTower != null) {
+					//chosedTower.upgrade();		//TODO this dont work
+				}
+			}
+		});
+
+		sellBtn.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				if(chosedTower != null) {
+					chosedTower.sell();
+				}
+				//TODO remove tower from towerList
+			}
+		});
 
 		towerInfoTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
-		towerInfoTable.add(new Image(new Texture("img/firstDragon.png"))).top();
-		//towerInfoTable.add(new Label("Tower Name"));
-		towerInfoTable.add(new Image(new Texture("img/firstDragon.png"))).row();
-		towerInfoTable.add(new Image(new Texture("img/firstDragon.png")));
-		towerInfoTable.add(new Image(new Texture("img/firstDragon.png")));
-		towerInfoTable.add(new Image(new Texture("img/firstDragon.png")));
+		towerInfoTable.add(towerName = new Label("Tower Name", uiSkin)).row();
+		towerInfoTable.add(towerKills = new Label("Tower Name", uiSkin)).row();
+		towerInfoTable.add(upgradeBtn).row();
+		towerInfoTable.add(sellBtn);
 
 		Table buildTable = new Table();
 		buildTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
-		buildTable.add(tw).top();
-		//buildTable.add(new Label());
+		buildTable.add(new Label("HP: " + m.getPlayer().getLives().getLivesHealth(), uiSkin)).padTop(10).row();
+		buildTable.add(new Label("$ " + m.getPlayer().getMoneyInt(), uiSkin)).padBottom(30).row();
+		buildTable.add(tw).top().padLeft(20);
 		buildTable.add(new Image(new Texture("img/firstDragon.png")));
-		buildTable.add(new Image(new Texture("img/firstDragon.png"))).row();
+		buildTable.add(new Image(new Texture("img/firstDragon.png"))).padRight(20).row();
+		buildTable.add(new Image(new Texture("img/firstDragon.png"))).padLeft(20);
 		buildTable.add(new Image(new Texture("img/firstDragon.png")));
-		buildTable.add(new Image(new Texture("img/firstDragon.png")));
-		buildTable.add(new Image(new Texture("img/firstDragon.png")));
+		buildTable.add(new Image(new Texture("img/firstDragon.png"))).padRight(20);
 		buildTable.debug();
+		buildTable.top();
 
 		guiTable.add(buildTable).row();
 		guiTable.add(towerInfoTable);

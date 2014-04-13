@@ -11,6 +11,7 @@ public class TowerView extends Sprite {
 	private Vector2 vector;
 	private float posX;
 	private float posY;
+	private String name;
 	public Rectangle rect;
 	
 	public TowerView(Sprite sprite, Tower tower) {
@@ -23,6 +24,8 @@ public class TowerView extends Sprite {
 		setX(posX);
 		setY(posY);
 		rect = new Rectangle(getX(), getY(), getWidth(), getHeight());
+		//this.name = tower.getType();		//TODO or getName(); or something similiar
+		this.name = "Basic Tower";	//TODO debug
 	}
 	
 	public boolean contains(float x, float y) {
@@ -44,6 +47,20 @@ public class TowerView extends Sprite {
 		super.draw(batch);
 	}
 	
-	
+	public int getKills() {
+		return tower.getKills();
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void upgrade() {
+		tower.upgrade();
+	}
+
+	public void sell() {
+		//tower.sell();		//TODO no sellmethod in tower class
+	}
 	
 }

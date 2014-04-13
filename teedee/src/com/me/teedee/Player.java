@@ -55,4 +55,8 @@ public class Player {
 	public void getReward(int reward) {
 		money.addMoney(reward);
 	}
+
+	public Lives getLives() {
+		return life;
+	}
 }
