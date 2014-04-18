@@ -19,6 +19,10 @@ public class Map {
 	private ArrayList<AbstractEnemy> currentEnemies;
 	private TiledMap tiledMap;
 
+	//TODO temporary, this can be done in a different way
+	private boolean waveIsRunning;
+	private int waveIndex = 0;
+
 	/**
 	 * Constructs a map containing the given waves, path and player
 	 * @param waves a list containing wave objects which are going to be used during the game
@@ -69,6 +73,10 @@ public class Map {
 		return towers;
 	}
 
+	public int getWaveIndex() {
+		return waveIndex;
+	}
+
 	/**
 	 * Builds a tower on a position
 	 * @param tower the tower to be built on the map
@@ -111,9 +119,18 @@ public class Map {
 	 * Setting the current enemies to the next wave's enemies
 	 */
 	public void nextWave() {
-		Iterator<Wave> waveIterator = waves.iterator();
-		if(waveIterator.hasNext()) {
-			//currentEnemies = waveIterator.next().getEnemies(); TODO Wave's method getEnemies() must return ArrayList, not just a List
+		if(currentEnemies.isEmpty()) {
+			currentEnemies = waves.get(waveIndex).getEnemies();
+			System.out.println(currentEnemies.size()+"");
+			for(int i = 0; i < currentEnemies.size(); i++) {
+				currentEnemies.get(i).setPosition(new Position(currentEnemies.get(i).getPosition().getX()-100*i,currentEnemies.get(i).getPosition().getY()));
+			}
+
+			for(int i = 0; i < towers.size(); i++) {
+				towers.get(i).setEnemies(currentEnemies);
+			}
+
+			waveIndex++;
 		}
 	}
 
@@ -142,7 +159,6 @@ public class Map {
 		if(!currentEnemies.isEmpty()) {
 			for(int i = 0; i < currentEnemies.size(); i++) {
 				if(!currentEnemies.get(i).isAlive()) {
-					System.out.println(currentEnemies.get(i).getReward().getReward()+"");
 					player.addMoney(currentEnemies.get(i).getReward().getReward());
 					currentEnemies.remove(i);
 				}

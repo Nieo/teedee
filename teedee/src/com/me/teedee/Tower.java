@@ -21,74 +21,87 @@ public abstract class Tower {
 	private int updateCounter = 1;
 	private AbstractEnemy target;
 	
-	public Price getPrice(){
+	public Price getPrice() {
 		return price[currentLevel];
 	}
-	public Position getTargetPosition(){
-		if(hasTarget()){
+	
+	public Position getTargetPosition() {
+		if(hasTarget()) {
 			return new Position(target.getPosition().getX(),target.getPosition().getY());
-		}else{
+		} else {
 			return new Position(0,0); //TODO Should this throw an exception instead?
 		}
 	}
-	public boolean hasTarget(){
-		return !(target==null);
+	
+	public void setEnemies(ArrayList<AbstractEnemy> enemies) {
+		this.enemies = enemies;
 	}
-	public void setPosition(Position pos){
+	
+	public boolean hasTarget() {
+		return !(target == null);
+	}
+	
+	public void setPosition(Position pos) {
 		position = pos;
 	}
-	public int getCurrentLevel(){
+	
+	public int getCurrentLevel() {
 		return currentLevel;
 	}
-	public int getMaxLevel(){
+	
+	public int getMaxLevel() {
 		return maxLevel;
 	}
-	public int getKills(){
+	
+	public int getKills() {
 		return kills;
 	}
-	public Position getPosition(){
+	
+	public Position getPosition() {
 		return position;
 	}
-	public Boolean upgrade(){
-		if(currentLevel < maxLevel){
+	
+	public Boolean upgrade() {
+		if(currentLevel < maxLevel) {
 			currentLevel++;
 			return true;
 		}
 		return false;
 	}
-	public Boolean isShooting(){
+	
+	public Boolean isShooting() {
 		return isShooting;
 	}
 
 	//Should probably be named startShooting instead, since it's something that SHOULD be going on for a period of time,
 	//we don't want a new thread to be created every time this method is created, just once.
-	public void shoot(){
-		if(updateCounter%(UPDATE_SPEED/attackSpeed[currentLevel]) == 0){
+	public void shoot() {
+		if(updateCounter%(UPDATE_SPEED/attackSpeed[currentLevel]) == 0) {
 			target = null;
 			//isShooting = true;
-			for(int i = 0; i < enemies.size();i++){
-				if(distance(enemies.get(i).getPosition()) < range && enemies.get(i).isAlive() ){
-					if(target == null){
+			for(int i = 0; i < enemies.size(); i++) {
+				if(distance(enemies.get(i).getPosition()) < range && enemies.get(i).isAlive()) {
+					if(target == null) {
 						target = enemies.get(i); 
-					}else{
+					} else {
 						if(enemies.get(i).getStepsTraveled() > target.getStepsTraveled())
 								target = enemies.get(i);
 					}
 				}
 			}
 			
-			if(target != null){
+			if(target != null) {
 				isShooting = true;
 				target.takeDamage(attackDamage[currentLevel], status);
 			}
 			updateCounter = 1;
-		}else{
+		} else {
 			isShooting = false;
 		}
 		updateCounter++;
 	}
 	
-	private double distance(Position pos){
+	private double distance(Position pos) {
 		float dx = position.getX()- pos.getX();
 		float dy = position.getY()- pos.getY();
 		return Math.sqrt((double)dx*dx+dy*dy);

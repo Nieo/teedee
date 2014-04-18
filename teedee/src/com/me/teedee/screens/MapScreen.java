@@ -52,6 +52,7 @@ public class MapScreen implements Screen {
 
 	private List<EnemyView> enemyList = new ArrayList<EnemyView>();
 	int i = 0;
+	private int waveIndex = 0;
 
 	private List<Bullet> bulletList = new ArrayList<Bullet>();
 	private List<TowerView> towerList = new ArrayList<TowerView>();
@@ -79,15 +80,15 @@ public class MapScreen implements Screen {
 		//Creating the path
 		Path path = new Path(pathPositions);
 
-		//Adding the wave to the list of waves
-		ArrayList<Wave> waveList = new ArrayList<Wave>();
-		waveList = WaveCreator.creatEasyWave(path);
+//		//Adding the wave to the list of waves
+//		ArrayList<Wave> waveList = new ArrayList<Wave>();
+//		waveList = WaveCreator.creatEasyWave(path);
 
 		//Creating a player
 		Player player = new Player();
 
 		//Creating the map
-		m = new Map(waveList, path, player);
+		m = new Map(WaveCreator.creatEasyWave(path), path, player);
 
 		//Building a BasicTower
 		//m.buildTower(new BasicTower(new Position(180,575),wave0.getEnemies()), new Position(180f,575f));
@@ -95,6 +96,8 @@ public class MapScreen implements Screen {
 		for(int i = 0; i < m.getEnemies().size(); i++) {
 			enemyList.add(new EnemyView(new Sprite(new Texture("img/firstEnemy.png")), m.getEnemies().get(i)));
 		}
+		
+		System.out.println(m.getEnemies().size()+"");
 
 	}
 
@@ -105,13 +108,21 @@ public class MapScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		m.update();
+		
 		for (Tower tower : m.getTowers()){
 			if(tower.isShooting()){ //TODO Fix line under this, could be shorter
 				bulletList.add(new Bullet(tower.getPosition().getX() + 45,tower.getPosition().getY() + 40,tower.getTargetPosition().getX(),tower.getTargetPosition().getY(),7f,new Texture("img/RedBullet.png")));
 				bulletList.add(new Bullet(tower.getPosition().getX() + 45,tower.getPosition().getY() + 40,tower.getTargetPosition().getX(),tower.getTargetPosition().getY(),14f,new Texture("img/RedBullet.png")));
 			}
 		}
-
+		
+		if(waveIndex != m.getWaveIndex()) {
+			for(int i = 0; i < m.getEnemies().size(); i++) {
+				enemyList.add(new EnemyView(new Sprite(new Texture("img/firstEnemy.png")), m.getEnemies().get(i)));
+			}
+			waveIndex = m.getWaveIndex();
+		}
+		
 		hpLabel.setText("HP: " + m.getPlayer().getLives().getLivesHealth());
 		moneyLabel.setText("$ " + m.getPlayer().getMoneyInt());
 
@@ -160,6 +171,7 @@ public class MapScreen implements Screen {
 			enemyList.get(i).draw(hud.getSpriteBatch());
 			if(!enemyList.get(i).isAlive()){
 				enemyList.get(i).setAlpha(0);
+				enemyList.remove(i);
 			}
 		}
 
