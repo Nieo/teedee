@@ -66,7 +66,7 @@ public abstract class AbstractEnemy {
 	 */	
 	public AbstractEnemy(Path p) {
 		
-		this(p,2.0f, new Lives(),new Reward(), new Status(), new Position());
+		this(p,2.0f, new Lives(),new Reward(100), new Status(), new Position());
 	}
 	
 	/**

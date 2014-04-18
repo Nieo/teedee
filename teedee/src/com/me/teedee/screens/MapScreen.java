@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -29,6 +28,7 @@ import com.me.teedee.Player;
 import com.me.teedee.Position;
 import com.me.teedee.Tower;
 import com.me.teedee.Wave;
+import com.me.teedee.WaveCreator;
 
 
 /**
@@ -53,7 +53,7 @@ public class MapScreen implements Screen {
 	private List<EnemyView> enemyList = new ArrayList<EnemyView>();
 	int i = 0;
 
-	private List<Bullet> bulletList = new ArrayList();
+	private List<Bullet> bulletList = new ArrayList<Bullet>();
 	private List<TowerView> towerList = new ArrayList<TowerView>();
 	private int towerIndex = 0;			// TODO change this shit
 
@@ -62,6 +62,8 @@ public class MapScreen implements Screen {
 	Image tmp;
 
 	private TowerView chosedTower;
+	private Label moneyLabel;
+	private Label hpLabel;
 
 
 	public MapScreen() {
@@ -77,13 +79,9 @@ public class MapScreen implements Screen {
 		//Creating the path
 		Path path = new Path(pathPositions);
 
-		//Creating the wave and adding enemies to it
-		int[] enemies = {5};
-		Wave wave0 = new Wave(path, enemies);
-
 		//Adding the wave to the list of waves
 		ArrayList<Wave> waveList = new ArrayList<Wave>();
-		waveList.add(wave0);
+		waveList = WaveCreator.creatEasyWave(path);
 
 		//Creating a player
 		Player player = new Player();
@@ -112,6 +110,13 @@ public class MapScreen implements Screen {
 				bulletList.add(new Bullet(tower.getPosition().getX() + 45,tower.getPosition().getY() + 40,tower.getTargetPosition().getX(),tower.getTargetPosition().getY(),7f,new Texture("img/RedBullet.png")));
 				bulletList.add(new Bullet(tower.getPosition().getX() + 45,tower.getPosition().getY() + 40,tower.getTargetPosition().getX(),tower.getTargetPosition().getY(),14f,new Texture("img/RedBullet.png")));
 			}
+		}
+
+		hpLabel.setText("HP: " + m.getPlayer().getLives().getLivesHealth());
+		moneyLabel.setText("$ " + m.getPlayer().getMoneyInt());
+
+		if(chosedTower != null) {
+			towerKills.setText("Enemies killed: " + chosedTower.getKills());
 		}
 
 		hud.act(delta);
@@ -199,7 +204,7 @@ public class MapScreen implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if(tmp != null) {
-					tmp.setVisible(false);		// TODO the image still exists under the tower
+					tmp.setVisible(false);		// TODO the image still exists under the tower, or does it?
 					tmp = null;
 					int tmpX = Gdx.input.getX()-45;
 					int tmpY = Gdx.graphics.getHeight()-Gdx.input.getY()-40;
@@ -220,7 +225,6 @@ public class MapScreen implements Screen {
 							radius.setAlpha(0);
 						}
 					}
-					//TODO show info
 				}
 			}
 		});
@@ -232,20 +236,26 @@ public class MapScreen implements Screen {
 		tw.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				if(tmp != null) {
+					tmp.setVisible(false);		// TODO the image still exists under the tower, or does it?
+					tmp = null;
+				}
+				
 				tmp = new Image(new Texture("img/firstDragon.png"));
 				tmp.setPosition(Gdx.input.getX()-45, Gdx.graphics.getHeight()-Gdx.input.getY()-40);
 				tmp.setTouchable(null);
 				hud.addActor(tmp);
 			}
 		});
-		
+
 		TextButton upgradeBtn = new TextButton("Upgrade", uiSkin);
 		TextButton sellBtn = new TextButton("Sell", uiSkin);
+		TextButton nextWaveBtn = new TextButton("Next Wave", uiSkin);
 		upgradeBtn.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if(chosedTower != null) {
-					//chosedTower.upgrade();		//TODO this dont work
+					//chosedTower.upgrade();		//TODO this doesn't work
 				}
 			}
 		});
@@ -260,16 +270,24 @@ public class MapScreen implements Screen {
 			}
 		});
 
+		nextWaveBtn.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				//TODO if wave is over
+				m.nextWave();
+			}
+		});
+
 		towerInfoTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
 		towerInfoTable.add(towerName = new Label("Tower Name", uiSkin)).row();
 		towerInfoTable.add(towerKills = new Label("Tower Name", uiSkin)).row();
-		towerInfoTable.add(upgradeBtn).row();
-		towerInfoTable.add(sellBtn);
+		towerInfoTable.add(upgradeBtn).width(100).height(70).padBottom(20).padTop(20).row();
+		towerInfoTable.add(sellBtn).width(100).height(70);
 
 		Table buildTable = new Table();
 		buildTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
-		buildTable.add(new Label("HP: " + m.getPlayer().getLives().getLivesHealth(), uiSkin)).padTop(10).row();
-		buildTable.add(new Label("$ " + m.getPlayer().getMoneyInt(), uiSkin)).padBottom(30).row();
+		buildTable.add(hpLabel = new Label("HP: " + m.getPlayer().getLives().getLivesHealth(), uiSkin)).padTop(10).row();
+		buildTable.add(moneyLabel = new Label("$ " + m.getPlayer().getMoneyInt(), uiSkin)).padBottom(30).row();
 		buildTable.add(tw).top().padLeft(20);
 		buildTable.add(new Image(new Texture("img/firstDragon.png")));
 		buildTable.add(new Image(new Texture("img/firstDragon.png"))).padRight(20).row();
@@ -280,7 +298,8 @@ public class MapScreen implements Screen {
 		buildTable.top();
 
 		guiTable.add(buildTable).row();
-		guiTable.add(towerInfoTable);
+		guiTable.add(towerInfoTable).width(315).row();
+		guiTable.add(nextWaveBtn).width(200).height(100).padTop(20).padBottom(20);
 
 		table = new Table();
 		table.debug();

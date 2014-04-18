@@ -9,7 +9,7 @@ public class Main {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "teedee";
 //		cfg.useGL20 = false;
-		cfg.width = 1240;
+		cfg.width = 1280;
 		cfg.height = 720;
 		
 		new LwjglApplication(new TeeDeeGame(), cfg);

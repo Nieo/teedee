@@ -9,16 +9,16 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 /**
 @author Jacob Genander
-*/
+ */
 public class Map {
-	
+
 	private List<Tower> towers = new ArrayList<Tower>();
 	private ArrayList<Wave> waves = new ArrayList<Wave>();
 	private Path path; 
 	private Player player;
 	private ArrayList<AbstractEnemy> currentEnemies;
 	private TiledMap tiledMap;
-	
+
 	/**
 	 * Constructs a map containing the given waves, path and player
 	 * @param waves a list containing wave objects which are going to be used during the game
@@ -32,12 +32,12 @@ public class Map {
 		if(!this.waves.isEmpty()) {
 			this.currentEnemies = this.waves.get(0).getEnemies();
 		}
-		
+
 		for(int i = 0; i < currentEnemies.size(); i++) {
 			currentEnemies.get(i).setPosition(new Position(currentEnemies.get(i).getPosition().getX()-100*i,currentEnemies.get(i).getPosition().getY()));
 		}
 	}
-	
+
 	/**
 	 * Constructs a map containing the given waves, a given TiledMap and player
 	 * @param waves a list containing wave objects which are going to be used during the game
@@ -49,10 +49,10 @@ public class Map {
 		this.tiledMap = new TmxMapLoader().load(mapPath);
 		this.player = player;
 		//if(!this.waves.isEmpty()) {
-			this.currentEnemies = this.waves.get(0).getEnemies();
+		this.currentEnemies = this.waves.get(0).getEnemies();
 		//}
 	}
-	
+
 	/**
 	 * Returns a list containing all the enemies in the current wave
 	 * @return a list containing all the enemies in the current wave
@@ -60,7 +60,7 @@ public class Map {
 	public List<AbstractEnemy> getEnemies() {
 		return currentEnemies;
 	}
-	
+
 	/**
 	 * Returns a list of towers that are currently on the map
 	 * @return a list of towers that are currently on the map
@@ -68,7 +68,7 @@ public class Map {
 	public List<Tower> getTowers() {
 		return towers;
 	}
-	
+
 	/**
 	 * Builds a tower on a position
 	 * @param tower the tower to be built on the map
@@ -78,27 +78,27 @@ public class Map {
 		tower.setPosition(position);
 		this.towers.add(tower);
 	}
-	
+
 	/**
 	 * Returns the map's path
-	 * @return the path of the map
+	 * @return Path
 	 */
 	public Path getPath() {
 		return path;
 	}
-	
+
 	public TiledMap getTiledMap() {
 		return this.tiledMap;
 	}
-	
+
 	/**
 	 * Returns the game's player
-	 * @return the player currently playing the game
+	 * @return Player
 	 */
 	public Player getPlayer() {
 		return player;
 	}
-	
+
 	/**
 	 * Replaces the game's player
 	 * @param player the player who will be playing the game
@@ -106,7 +106,7 @@ public class Map {
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
-	
+
 	/**
 	 * Setting the current enemies to the next wave's enemies
 	 */
@@ -116,20 +116,20 @@ public class Map {
 			//currentEnemies = waveIterator.next().getEnemies(); TODO Wave's method getEnemies() must return ArrayList, not just a List
 		}
 	}
-	
+
 	/**
 	 * 
 	 */
 	public void updateEnemiesPositions() {
 		//if(!currentEnemies.isEmpty()) {		// TODO This didnt work
-			for(int i = 0;i < currentEnemies.size(); i++) {
-				//if(currentEnemies.get(i).move())		// TODO niether did this
-				currentEnemies.get(i).move();
-						//currentEnemies.remove(i);		// TODO nope
-			}
+		for(int i = 0; i < currentEnemies.size(); i++) {
+			//if(currentEnemies.get(i).move())		// TODO niether did this
+			currentEnemies.get(i).move();
+			//currentEnemies.remove(i);		// TODO nope
+		}
 		//}
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -138,30 +138,33 @@ public class Map {
 			tower.shoot();
 		}
 	}
-	public void removeDeadEnemies(){
-		if(!currentEnemies.isEmpty()){
-			for(int i = 0; i < currentEnemies.size();i++){
-				if(!currentEnemies.get(i).isAlive())
+	public void removeDeadEnemies() {
+		if(!currentEnemies.isEmpty()) {
+			for(int i = 0; i < currentEnemies.size(); i++) {
+				if(!currentEnemies.get(i).isAlive()) {
+					System.out.println(currentEnemies.get(i).getReward().getReward()+"");
+					player.addMoney(currentEnemies.get(i).getReward().getReward());
 					currentEnemies.remove(i);
+				}
 			}
 		}
 	}
-	
+
 	public void update() {
 		this.removeDeadEnemies(); //Must be done first, since the EnemyViews must have a reference to the enemy for deletion
 		this.updateEnemiesPositions();
 		this.towersShoot();
 	}
-	
-//	public void startGame() {
-//		while(true) {
-//			try {
-//				update();
-//				Thread.sleep(33);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//	}
+
+	//	public void startGame() {
+	//		while(true) {
+	//			try {
+	//				update();
+	//				Thread.sleep(33);
+	//			} catch (InterruptedException e) {
+	//				e.printStackTrace();
+	//			}
+	//		}
+	//	}
 
 }
