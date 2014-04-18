@@ -27,7 +27,6 @@ public class WaveCreator {
 		for(int i = 0; i < 100; i++) {
 			waveList.add(new Wave(path,enemies));
 			enemies[0] = enemies[0] + 2;
-			System.out.println(enemies[0]);
 		}
 		return waveList;
 	}

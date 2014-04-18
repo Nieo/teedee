@@ -27,6 +27,10 @@ public class Player {
 		money.addMoney(gainedMoney);		
 	}
 	
+	public void removeMoney(int lostMoney) {
+		money.removeMoney(lostMoney);		
+	}
+	
 	public Money getMoney() {
 		return money;
 	}

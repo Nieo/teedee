@@ -1,7 +1,6 @@
 package com.me.teedee;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -19,8 +18,7 @@ public class Map {
 	private ArrayList<AbstractEnemy> currentEnemies;
 	private TiledMap tiledMap;
 
-	//TODO temporary, this can be done in a different way
-	private boolean waveIsRunning;
+	//TODO temporary, this can probably be done in a different way
 	private int waveIndex = 0;
 
 	/**
@@ -35,6 +33,7 @@ public class Map {
 		this.player = player;
 		if(!this.waves.isEmpty()) {
 			this.currentEnemies = this.waves.get(0).getEnemies();
+			waveIndex++;
 		}
 
 		for(int i = 0; i < currentEnemies.size(); i++) {
@@ -82,9 +81,15 @@ public class Map {
 	 * @param tower the tower to be built on the map
 	 * @param position the position on the map which the tower will be built on
 	 */
-	public void buildTower(Tower tower, Position position) {
-		tower.setPosition(position);
-		this.towers.add(tower);
+	public boolean buildTower(Tower tower, Position position) {
+		if(player.getMoneyInt() >= tower.getPrice().getPrice()) {
+			tower.setPosition(position);
+			this.towers.add(tower);
+			player.removeMoney(tower.getPrice().getPrice());
+			
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -134,27 +139,18 @@ public class Map {
 		}
 	}
 
-	/**
-	 * 
-	 */
 	public void updateEnemiesPositions() {
-		//if(!currentEnemies.isEmpty()) {		// TODO This didnt work
 		for(int i = 0; i < currentEnemies.size(); i++) {
-			//if(currentEnemies.get(i).move())		// TODO niether did this
 			currentEnemies.get(i).move();
-			//currentEnemies.remove(i);		// TODO nope
 		}
-		//}
 	}
 
-	/**
-	 * 
-	 */
 	public void towersShoot() {
 		for(Tower tower : towers) {
 			tower.shoot();
 		}
 	}
+	
 	public void removeDeadEnemies() {
 		if(!currentEnemies.isEmpty()) {
 			for(int i = 0; i < currentEnemies.size(); i++) {
@@ -171,16 +167,5 @@ public class Map {
 		this.updateEnemiesPositions();
 		this.towersShoot();
 	}
-
-	//	public void startGame() {
-	//		while(true) {
-	//			try {
-	//				update();
-	//				Thread.sleep(33);
-	//			} catch (InterruptedException e) {
-	//				e.printStackTrace();
-	//			}
-	//		}
-	//	}
 
 }

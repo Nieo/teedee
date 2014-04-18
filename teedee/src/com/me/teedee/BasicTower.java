@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class BasicTower extends Tower {
 
 	public BasicTower(Position pos, ArrayList<AbstractEnemy> enemies){
-		price[0] = new Price(1);
+		price[0] = new Price(500);
 		currentLevel = 0;
 		maxLevel = 1;
 		attackSpeed[0] = 5;
