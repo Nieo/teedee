@@ -127,6 +127,7 @@ public class MapScreen implements Screen {
 		moneyLabel.setText("$ " + m.getPlayer().getMoneyInt());
 
 		if(chosedTower != null) {
+			towerName.setText("Basic Tower Lv." + chosedTower.getCurrentLevel());
 			towerKills.setText("Enemies killed: " + chosedTower.getKills());
 		}
 
@@ -273,7 +274,9 @@ public class MapScreen implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if(chosedTower != null) {
-					//chosedTower.upgrade();		//TODO this doesn't work
+					if(chosedTower.getCurrentLevel()*100 < m.getPlayer().getMoneyInt()) {		//TODO we should probably have an upgrade price instead of this
+						chosedTower.upgrade();
+					}
 				}
 			}
 		});

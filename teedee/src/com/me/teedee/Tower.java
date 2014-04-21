@@ -9,8 +9,8 @@ public abstract class Tower {
 	protected Price[] price = new Price[1];
 	protected int currentLevel;
 	protected int maxLevel;
-	protected int[] attackSpeed = new int[1]; 
-	protected int[] attackDamage = new int[1];
+	protected int[] attackSpeed = new int[5]; 
+	protected int[] attackDamage = new int[5];
 	protected double range;
 	protected Status status;
 	private int kills = 0;
@@ -62,7 +62,7 @@ public abstract class Tower {
 	}
 	
 	public Boolean upgrade() {
-		if(currentLevel < maxLevel) {
+		if(currentLevel < maxLevel - 1) {
 			currentLevel++;
 			return true;
 		}

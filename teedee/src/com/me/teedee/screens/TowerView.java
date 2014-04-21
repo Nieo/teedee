@@ -62,5 +62,9 @@ public class TowerView extends Sprite {
 	public void sell() {
 		//tower.sell();		//TODO no sellmethod in tower class
 	}
+
+	public int getCurrentLevel() {
+		return tower.getCurrentLevel();
+	}
 	
 }

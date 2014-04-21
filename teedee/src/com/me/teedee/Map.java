@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.me.teedee.screens.EnemyView;
 
 /**
 @author Jacob Genander
@@ -161,7 +160,6 @@ public class Map {
 					}
 					currentEnemies.remove(i);
 				}
-
 			}
 		}
 	}
@@ -179,8 +177,6 @@ public class Map {
 				player.takeDamage(1); 				// TODO Maybe the player should loose different amount of lives
 			}
 		}
-		// TODO Auto-generated method stub
-
 	}
 
 }
