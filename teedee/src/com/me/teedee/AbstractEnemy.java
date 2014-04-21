@@ -58,7 +58,9 @@ public abstract class AbstractEnemy {
 	
 	
 	// Path checkpoint index
-	int i = 0;
+	private int i = 0;
+	
+	private boolean reachedEnd = false;
 	
 	/**
 	 * Constructs a new enemy unit. 
@@ -118,7 +120,7 @@ public abstract class AbstractEnemy {
 	}
 
 	public void move() {
-		boolean reachedEnd = false;
+		reachedEnd = false;
 		//xSpeed = 1;	//TODO debug
 		if(reachedCheckpoint(nextCheckPoint)) {
 			if(i+1 < path.getPositions().size()) {
@@ -191,6 +193,10 @@ public abstract class AbstractEnemy {
 	
 	public float getStepsTraveled() {
 		return this.stepsTraveled;
+	}
+
+	public boolean reachedEnd() {
+		return reachedEnd;
 	}
 	
 	

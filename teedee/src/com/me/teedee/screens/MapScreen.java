@@ -174,7 +174,7 @@ public class MapScreen implements Screen {
 
 		for(int i = 0; i < enemyList.size(); i++) {
 			enemyList.get(i).draw(hud.getSpriteBatch());
-			if(!enemyList.get(i).isAlive()){
+			if(!enemyList.get(i).isAlive() || enemyList.get(i).reachedEnd()){
 				enemyList.get(i).setAlpha(0);
 				enemyList.remove(i);
 			}

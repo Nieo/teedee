@@ -35,4 +35,8 @@ public class EnemyView extends Sprite {
 		setX(enemy.getPosition().getX());
 		setY(enemy.getPosition().getY());
 	}
+
+	public boolean reachedEnd() {
+		return enemy.reachedEnd();
+	}
 }

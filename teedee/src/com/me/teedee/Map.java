@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.me.teedee.screens.EnemyView;
 
 /**
 @author Jacob Genander
@@ -86,7 +87,7 @@ public class Map {
 			tower.setPosition(position);
 			this.towers.add(tower);
 			player.removeMoney(tower.getPrice().getPrice());
-			
+
 			return true;
 		}
 		return false;
@@ -150,22 +151,36 @@ public class Map {
 			tower.shoot();
 		}
 	}
-	
+
 	public void removeDeadEnemies() {
 		if(!currentEnemies.isEmpty()) {
 			for(int i = 0; i < currentEnemies.size(); i++) {
-				if(!currentEnemies.get(i).isAlive()) {
-					player.addMoney(currentEnemies.get(i).getReward().getReward());
+				if(!currentEnemies.get(i).isAlive() || currentEnemies.get(i).reachedEnd()) {
+					if(!currentEnemies.get(i).reachedEnd()) {
+						player.addMoney(currentEnemies.get(i).getReward().getReward());
+					}
 					currentEnemies.remove(i);
 				}
+
 			}
 		}
 	}
 
 	public void update() {
+		playerTakesLife();
 		this.removeDeadEnemies(); //Must be done first, since the EnemyViews must have a reference to the enemy for deletion
 		this.updateEnemiesPositions();
 		this.towersShoot();
+	}
+
+	private void playerTakesLife() {			//TODO please change name
+		for(int i = 0; i < currentEnemies.size(); i++) {
+			if(currentEnemies.get(i).reachedEnd()) {
+				player.takeDamage(1); 				// TODO Maybe the player should loose different amount of lives
+			}
+		}
+		// TODO Auto-generated method stub
+
 	}
 
 }
