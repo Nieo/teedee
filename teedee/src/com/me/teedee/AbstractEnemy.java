@@ -110,10 +110,11 @@ public abstract class AbstractEnemy {
 	}
 
 	
-	public void takeDamage(int damage, Status s) {
+	public boolean takeDamage(int damage, Status s) {
 		// TODO Add even more logic!
 		this.setStatusEffect(s);
-		isAlive=this.lives.lowerLives(damage);
+		isAlive = this.lives.lowerLives(damage);
+		return isAlive;
 	}
 
 	public void move() {

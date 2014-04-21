@@ -147,7 +147,7 @@ public class MapScreen implements Screen {
 			}
 			radius.setAlpha(1);
 			radius.setPosition(tmp.getX()-200+45, tmp.getY()-200+40);
-		} else {
+		} else if(tmp == null && chosedTower == null) {
 			if(radius != null) {
 				radius.setAlpha(0);
 			}

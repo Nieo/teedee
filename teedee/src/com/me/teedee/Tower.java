@@ -92,7 +92,10 @@ public abstract class Tower {
 			
 			if(target != null) {
 				isShooting = true;
-				target.takeDamage(attackDamage[currentLevel], status);
+				//TODO maybe do this in another way
+				if(!target.takeDamage(attackDamage[currentLevel], status)) {
+					kills++;
+				}
 			}
 			updateCounter = 1;
 		} else {
