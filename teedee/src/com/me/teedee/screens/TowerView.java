@@ -1,5 +1,6 @@
 package com.me.teedee.screens;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
@@ -56,6 +57,24 @@ public class TowerView extends Sprite {
 	}
 
 	public void upgrade() {
+		String picPath = "";
+		switch(tower.getCurrentLevel()) {
+		case 0:
+			picPath = "img/firstDragon1.png";
+			break;
+		case 1:
+			picPath = "img/firstDragon2.png";
+			break;
+		case 2:
+			picPath = "img/firstDragon3.png";
+			break;
+		case 3:
+			picPath = "img/firstDragon4.png";
+			break;
+		default:
+				picPath = "img/firstDragon.png";
+		}
+		super.setTexture(new Texture(picPath));
 		tower.upgrade();
 	}
 
