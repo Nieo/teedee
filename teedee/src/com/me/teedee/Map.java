@@ -119,6 +119,16 @@ public class Map {
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
+	public boolean upgradeTower(AbstractTower t){
+		if(t.getPrice().getPrice() < player.getMoneyInt()){
+			if(t.upgrade()){
+				player.removeMoney(t.getPrice().getPrice());
+				return true;
+			}
+		}
+		return false;
+	}
+	
 
 	/**
 	 * Setting the current enemies to the next wave's enemies

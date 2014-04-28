@@ -55,10 +55,13 @@ public class TowerView extends Sprite {
 	public String getName() {
 		return name;
 	}
+	public AbstractTower getTower(){
+		return tower;
+	}
+	
 
 	public void upgrade() {
 		String picPath = "";
-		tower.upgrade();
 		switch(tower.getCurrentLevel()) {
 		case 1:
 			picPath = "img/firstDragon1.png";

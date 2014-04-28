@@ -275,7 +275,8 @@ public class MapScreen implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				if(chosedTower != null) {
 					if(chosedTower.getCurrentLevel()*100 < m.getPlayer().getMoneyInt()) {		//TODO we should probably have an upgrade price instead of this
-						chosedTower.upgrade();
+						if(m.upgradeTower(chosedTower.getTower()))
+							chosedTower.upgrade();
 					}
 				}
 			}
