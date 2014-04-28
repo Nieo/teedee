@@ -5,17 +5,17 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.me.teedee.Tower;
+import com.me.teedee.AbstractTower;
 
 public class TowerView extends Sprite {
-	private Tower tower;
+	private AbstractTower tower;
 	private Vector2 vector;
 	private float posX;
 	private float posY;
 	private String name;
 	public Rectangle rect;
 	
-	public TowerView(Sprite sprite, Tower tower) {
+	public TowerView(Sprite sprite, AbstractTower tower) {
 		super(sprite);
 		this.tower = tower;
 		posX = this.tower.getPosition().getX();
@@ -58,24 +58,25 @@ public class TowerView extends Sprite {
 
 	public void upgrade() {
 		String picPath = "";
+		tower.upgrade();
 		switch(tower.getCurrentLevel()) {
-		case 0:
+		case 1:
 			picPath = "img/firstDragon1.png";
 			break;
-		case 1:
+		case 2:
 			picPath = "img/firstDragon2.png";
 			break;
-		case 2:
+		case 3:
 			picPath = "img/firstDragon3.png";
 			break;
-		case 3:
+		case 4:
 			picPath = "img/firstDragon4.png";
 			break;
 		default:
 				picPath = "img/firstDragon.png";
 		}
 		super.setTexture(new Texture(picPath));
-		tower.upgrade();
+		
 	}
 
 	public void sell() {

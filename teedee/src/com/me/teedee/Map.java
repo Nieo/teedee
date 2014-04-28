@@ -11,7 +11,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
  */
 public class Map {
 
-	private List<Tower> towers = new ArrayList<Tower>();
+	private List<AbstractTower> towers = new ArrayList<AbstractTower>();
 	private ArrayList<Wave> waves = new ArrayList<Wave>();
 	private Path path; 
 	private Player player;
@@ -68,7 +68,7 @@ public class Map {
 	 * Returns a list of towers that are currently on the map
 	 * @return a list of towers that are currently on the map
 	 */
-	public List<Tower> getTowers() {
+	public List<AbstractTower> getTowers() {
 		return towers;
 	}
 
@@ -81,7 +81,7 @@ public class Map {
 	 * @param tower the tower to be built on the map
 	 * @param position the position on the map which the tower will be built on
 	 */
-	public boolean buildTower(Tower tower, Position position) {
+	public boolean buildTower(AbstractTower tower, Position position) {
 		if(player.getMoneyInt() >= tower.getPrice().getPrice()) {
 			tower.setPosition(position);
 			this.towers.add(tower);
@@ -146,7 +146,7 @@ public class Map {
 	}
 
 	public void towersShoot() {
-		for(Tower tower : towers) {
+		for(AbstractTower tower : towers) {
 			tower.shoot();
 		}
 	}

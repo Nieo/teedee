@@ -5,8 +5,8 @@ import java.util.*;
 /**
  * @author Nieo
  */
-public abstract class Tower {
-	protected Price[] price = new Price[1];
+public abstract class AbstractTower {
+	protected Price[] price = new Price[5];
 	protected int currentLevel;
 	protected int maxLevel;
 	protected int[] attackSpeed = new int[5]; 
@@ -20,6 +20,7 @@ public abstract class Tower {
 	private boolean isShooting = false;
 	private int updateCounter = 1;
 	private AbstractEnemy target;
+	protected String name;
 	
 	public Price getPrice() {
 		return price[currentLevel];

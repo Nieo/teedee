@@ -2,10 +2,13 @@ package com.me.teedee;
 
 import java.util.ArrayList;
 
-public class BasicTower extends Tower {
+public class BasicTower extends AbstractTower {
 
 	public BasicTower(Position pos, ArrayList<AbstractEnemy> enemies) {
 		price[0] = new Price(500);
+		for(int i = 1; i < 5; i++){
+			price[i] = new Price(100);
+		}
 		currentLevel = 0;
 		maxLevel = 5;
 		for(int i = 0; i < 5; i++)
