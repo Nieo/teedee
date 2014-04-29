@@ -20,13 +20,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.me.teedee.AbstractEnemy;
+import com.me.teedee.AbstractTower;
 import com.me.teedee.BasicTower;
 import com.me.teedee.Bullet;
 import com.me.teedee.Map;
 import com.me.teedee.Path;
 import com.me.teedee.Player;
 import com.me.teedee.Position;
-import com.me.teedee.AbstractTower;
 import com.me.teedee.WaveCreator;
 
 
@@ -97,9 +97,6 @@ public class MapScreen implements Screen {
 		for(int i = 0; i < m.getEnemies().size(); i++) {
 			enemyList.add(new EnemyView(new Sprite(new Texture("img/firstEnemy.png")), m.getEnemies().get(i)));
 		}
-
-		System.out.println(m.getEnemies().size()+"");
-
 	}
 
 	@Override
@@ -169,8 +166,8 @@ public class MapScreen implements Screen {
 			dx=(Math.abs(x2-x1)>0?(x2-x1+30):50);
 			dy=(Math.abs(y2-y1)>0?(y2-y1):50);
 			tiledPath[i].setBounds(x1, y1-30, dx, dy);
-			*/
-			
+			 */
+
 			dx = x2-x1;
 			dy = y2-y1;
 			if(dx > 0)
@@ -194,14 +191,13 @@ public class MapScreen implements Screen {
 				enemyList.remove(i);
 			}
 		}
-		
+
 		//This loop does not work with for-each
 		for(int i = 0; i < bulletList.size(); i++) {
 			bulletList.get(i).draw(hud.getSpriteBatch());
 			if(bulletList.get(i).hasHitTarget()){
 				bulletList.get(i).setAlpha(0);
 				bulletList.remove(i);
-				System.out.println("A bullet was removed, with index " + i);
 			}
 		}
 
@@ -244,7 +240,7 @@ public class MapScreen implements Screen {
 					int tmpX = Gdx.input.getX()-45;
 					int tmpY = Gdx.graphics.getHeight()-Gdx.input.getY()-40;
 					if(m.buildTower(new BasicTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
-						towerList.add(new TowerView(new Sprite(new Texture("img/firstDragon.png")), m.getTowers().get(towerIndex)));
+						towerList.add(new TowerView(new Sprite(new Texture("img/firstDragon.png")), m.getTowers().get(towerIndex), towerIndex));
 						towerIndex++;
 					}
 				} else {
@@ -291,10 +287,8 @@ public class MapScreen implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if(chosedTower != null) {
-					if(chosedTower.getCurrentLevel()*100 < m.getPlayer().getMoneyInt()) {		//TODO we should probably have an upgrade price instead of this
-						if(m.upgradeTower(chosedTower.getTower()))
-							chosedTower.upgrade();
-					}
+					if(m.upgradeTower(chosedTower.getTower()))
+						chosedTower.upgrade();
 				}
 			}
 		});
@@ -303,9 +297,16 @@ public class MapScreen implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if(chosedTower != null) {
-					chosedTower.sell();
+					int tmpIndex = chosedTower.getIndex();
+					m.sellTower(tmpIndex);
+					chosedTower.setAlpha(0);
+					towerList.remove(tmpIndex);
+					for(int i = tmpIndex; i < towerList.size(); i++) {
+						int oldIndex = towerList.get(tmpIndex).getIndex();
+						towerList.get(i).setIndex(oldIndex - 1);
+					}
+					towerIndex--;
 				}
-				//TODO remove tower from towerList
 			}
 		});
 

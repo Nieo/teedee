@@ -91,6 +91,11 @@ public class Map {
 		}
 		return false;
 	}
+	
+	public void sellTower(int index) {
+		player.addMoney((int) (towers.get(index).getPrice().getPrice()*0.8));
+		towers.remove(index);
+	}
 
 	/**
 	 * Returns the map's path

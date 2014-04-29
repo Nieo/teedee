@@ -13,11 +13,13 @@ public class TowerView extends Sprite {
 	private float posX;
 	private float posY;
 	private String name;
+	private int index;
 	public Rectangle rect;
 	
-	public TowerView(Sprite sprite, AbstractTower tower) {
+	public TowerView(Sprite sprite, AbstractTower tower, int index) {
 		super(sprite);
 		this.tower = tower;
+		this.index = index;
 		posX = this.tower.getPosition().getX();
 		posY = this.tower.getPosition().getY();
 		vector = new Vector2(posX, posY);
@@ -88,6 +90,14 @@ public class TowerView extends Sprite {
 
 	public int getCurrentLevel() {
 		return tower.getCurrentLevel();
+	}
+	
+	public int getIndex() {
+		return index;
+	}
+	
+	public void setIndex(int index) {
+		this.index = index;
 	}
 	
 }
