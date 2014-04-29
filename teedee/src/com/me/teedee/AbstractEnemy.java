@@ -198,6 +198,10 @@ public abstract class AbstractEnemy {
 	public boolean reachedEnd() {
 		return reachedEnd;
 	}
+
+	public Lives getLives() {
+		return lives;
+	}
 	
 	
 }

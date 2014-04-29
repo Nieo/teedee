@@ -241,7 +241,7 @@ public class MapScreen implements Screen {
 		hud.setViewport(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 		Gdx.input.setInputProcessor(hud);
 
-		Image mapImg = new Image(new Texture("map/awesome_map.png"));
+		Image mapImg = new Image(new Texture("map/map.png"));
 		mapImg.addListener(new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
