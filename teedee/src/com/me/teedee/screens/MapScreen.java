@@ -112,12 +112,13 @@ public class MapScreen implements Screen {
 					tiledPath[i].setBounds(x1-30, y1-30, dx+60, 60);			
 				else if(dx < 0)
 					tiledPath[i].setBounds(x1+30, y1-30, dx-60, 60);
-				else if(dy > 0)
-					tiledPath[i].setBounds(x1+30, y1-30, 60, dy+60);
-				else if(dy < 0)
+				else if(dy > 0){
+					tiledPath[i].setBounds(x1-30, y1-30, 60, dy+60);
+				}else if(dy < 0)
 					tiledPath[i].setBounds(x1-30, y1+30, 60, dy-60);
 				else
 					tiledPath[i].setBounds(x1, y1-30, dx, dy);
+				
 		 }
 		 
 		 
