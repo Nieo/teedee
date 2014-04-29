@@ -56,7 +56,7 @@ public class MapScreen implements Screen {
 	private List<Bullet> bulletList = new ArrayList<Bullet>();
 	private List<TowerView> towerList = new ArrayList<TowerView>();
 	private int towerIndex = 0;			// TODO change this shit
-
+	
 	FPSLogger fps = new FPSLogger();		// TODO debug
 
 	Image tmp;
@@ -66,7 +66,9 @@ public class MapScreen implements Screen {
 	private Label hpLabel;
 	protected boolean buildAble;
 
-
+	private Sprite[] tiledPath;
+	
+	
 	public MapScreen() {
 		//Specifying the path positions
 		List<Position> pathPositions = new ArrayList<Position>();
@@ -93,7 +95,32 @@ public class MapScreen implements Screen {
 
 		//Building a BasicTower
 		//m.buildTower(new BasicTower(new Position(180,575),wave0.getEnemies()), new Position(180f,575f));
+		
+		 tiledPath = new Sprite[m.getPath().getPositions().size()];//TODO Should not be instanced in the render method
+		
+		 for(int i=0; i<m.getPath().getPositions().size()-1; i++){
+			 float x1,x2,y1,y2,dx,dy;//TODO Leaves a square to be rendered
+				x1=m.getPath().getPositions().get(i).getX();
+				x2=m.getPath().getPositions().get(i+1).getX();
+				y1=m.getPath().getPositions().get(i).getY();
+				y2=m.getPath().getPositions().get(i+1).getY();
 
+				tiledPath[i]=new Sprite(new Texture("img/pathTile.png"));
+				dx = x2-x1;
+				dy = y2-y1;
+				if(dx > 0)
+					tiledPath[i].setBounds(x1-30, y1-30, dx+60, 60);			
+				else if(dx < 0)
+					tiledPath[i].setBounds(x1+30, y1-30, dx-60, 60);
+				else if(dy > 0)
+					tiledPath[i].setBounds(x1+30, y1-30, 60, dy+60);
+				else if(dy < 0)
+					tiledPath[i].setBounds(x1-30, y1+30, 60, dy-60);
+				else
+					tiledPath[i].setBounds(x1, y1-30, dx, dy);
+		 }
+		 
+		 
 		for(int i = 0; i < m.getEnemies().size(); i++) {
 			enemyList.add(new EnemyView(new Sprite(new Texture("img/firstEnemy.png")), m.getEnemies().get(i)));
 		}
@@ -152,36 +179,9 @@ public class MapScreen implements Screen {
 			}
 		}
 
-		Sprite[] tiledPath = new Sprite[m.getPath().getPositions().size()];//TODO Should not be instanced in the render method
+		
 		for(int i=0; i<m.getPath().getPositions().size()-1; i++){//As of now renders the path somewhat, should probably not be an sprite. If possible use another more suitable class.  
-			float x1,x2,y1,y2,dx,dy;//TODO Leaves a square to be rendered
-			x1=m.getPath().getPositions().get(i).getX();
-			x2=m.getPath().getPositions().get(i+1).getX();
-			y1=m.getPath().getPositions().get(i).getY();
-			y2=m.getPath().getPositions().get(i+1).getY();
-
-			tiledPath[i]=new Sprite(new Texture("img/pathTile.png"));
-			tiledPath[i].setRegion(x1,y1,x2,y2);
-			/*
-			dx=(Math.abs(x2-x1)>0?(x2-x1+30):50);
-			dy=(Math.abs(y2-y1)>0?(y2-y1):50);
-			tiledPath[i].setBounds(x1, y1-30, dx, dy);
-			 */
-
-			dx = x2-x1;
-			dy = y2-y1;
-			if(dx > 0)
-				tiledPath[i].setBounds(x1-30, y1-30, dx+60, 60);			
-			else if(dx < 0)
-				tiledPath[i].setBounds(x1+30, y1-30, dx-60, 60);
-			else if(dy > 0)
-				tiledPath[i].setBounds(x1+30, y1-30, 60, dy+60);
-			else if(dy < 0)
-				tiledPath[i].setBounds(x1-30, y1+30, 60, dy-60);
-			else
-				tiledPath[i].setBounds(x1, y1-30, dx, dy);
 			tiledPath[i].draw(hud.getSpriteBatch());
-
 		}
 
 		for(int i = 0; i < enemyList.size(); i++) {
