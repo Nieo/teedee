@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.me.teedee.AbstractEnemy;
@@ -156,14 +157,13 @@ public class MapScreen implements Screen {
 		moneyLabel.setText("$ " + m.getPlayer().getMoneyInt());
 
 		if(chosedTower != null) {
-			
 			towerName.setText(chosedTower.getName() + " Lv." + chosedTower.getCurrentLevel());
 			towerKills.setText("Enemies killed: " + chosedTower.getKills());
-			chosedTowerImage = new Image(chosedTower.getTexture());
+			chosedTowerImage.setDrawable(new SpriteDrawable(new Sprite(chosedTower.getTexture())));
 		} else {
 			towerName.setText("Tower Name");
 			towerKills.setText("Enemies killed");
-			chosedTowerImage = new Image(new Texture("img/unknown.png"));
+			chosedTowerImage.setDrawable(new SpriteDrawable(new Sprite(new Texture("img/unknown.png"))));
 		}
 
 		hud.act(delta);
@@ -174,7 +174,8 @@ public class MapScreen implements Screen {
 		if(radius != null) {
 			radius.draw(hud.getSpriteBatch());
 		}
-
+		
+		
 		//TODO Fix the color changer
 		if(tmp != null) {
 			tmp.setPosition(Gdx.input.getX()-45, Gdx.graphics.getHeight()-Gdx.input.getY()-40);
@@ -188,7 +189,6 @@ public class MapScreen implements Screen {
 				radius.setAlpha(0);
 			}
 		}
-
 		
 		for(int i=0; i<m.getPath().getPositions().size()-1; i++){//As of now renders the path somewhat, should probably not be an sprite. If possible use another more suitable class.  
 			tiledPath[i].draw(hud.getSpriteBatch());
@@ -316,6 +316,7 @@ public class MapScreen implements Screen {
 						towerList.get(i).setIndex(oldIndex - 1);
 					}
 					towerIndex--;
+					chosedTower = null;
 				}
 			}
 		});
