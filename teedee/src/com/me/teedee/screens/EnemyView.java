@@ -14,9 +14,12 @@ import com.me.teedee.AbstractEnemy;
 public class EnemyView extends Sprite {
 	
 	private AbstractEnemy enemy;
-
+	private float width;
+	private float height;
 	public EnemyView(Sprite sprite, AbstractEnemy abstractEnemy) {
 		super(sprite);
+		height = sprite.getHeight();
+		width = sprite.getWidth();
 		this.enemy = abstractEnemy;
 	}
 
@@ -32,8 +35,8 @@ public class EnemyView extends Sprite {
 	
 	//FIXME probably should clean the method up a bit
 	private void update() {
-		setX(enemy.getPosition().getX());
-		setY(enemy.getPosition().getY());
+		setX(enemy.getPosition().getX()-width/2);
+		setY(enemy.getPosition().getY()-height/2);
 	}
 
 	public boolean reachedEnd() {
