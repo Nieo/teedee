@@ -69,6 +69,10 @@ public abstract class AbstractTower {
 		return id;
 	}
 	
+	public double getRange() {
+		return range;
+	}
+	
 	public Position getPosition() {
 		return position;
 	}

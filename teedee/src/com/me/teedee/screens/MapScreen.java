@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.me.teedee.AbstractEnemy;
@@ -45,8 +44,8 @@ public class MapScreen implements Screen {
 	private Label towerName;
 	private Label towerKills;
 
-	private Sprite radius;
-	
+	private RadiusImage radius;
+
 	private Image chosedTowerImage;
 
 	//The bullet should NOT be created here! Only for test purposes 
@@ -58,8 +57,8 @@ public class MapScreen implements Screen {
 
 	private List<Bullet> bulletList = new ArrayList<Bullet>();
 	private List<TowerView> towerList = new ArrayList<TowerView>();
-	private int towerIndex = 0;			// TODO change this shit
-	
+	private int towerIndex = 0;			// TODO change this shit, maybe not, i dont know
+
 	FPSLogger fps = new FPSLogger();		// TODO debug
 
 	Image tmp;
@@ -70,8 +69,8 @@ public class MapScreen implements Screen {
 	protected boolean buildAble;
 
 	private Sprite[] tiledPath;
-	
-	
+
+
 	public MapScreen() {
 		//Specifying the path positions
 		List<Position> pathPositions = new ArrayList<Position>();
@@ -86,50 +85,42 @@ public class MapScreen implements Screen {
 		//Creating the path
 		Path path = new Path(pathPositions);
 
-		//		//Adding the wave to the list of waves
-		//		ArrayList<Wave> waveList = new ArrayList<Wave>();
-		//		waveList = WaveCreator.creatEasyWave(path);
-
 		//Creating a player
 		Player player = new Player();
 
 		//Creating the map
 		m = new Map(WaveCreator.creatEasyWave(path), path, player);
 
-		//Building a BasicTower
-		//m.buildTower(new BasicTower(new Position(180,575),wave0.getEnemies()), new Position(180f,575f));
+		tiledPath = new Sprite[m.getPath().getPositions().size()];
 		
-		 tiledPath = new Sprite[m.getPath().getPositions().size()];//TODO Should not be instanced in the render method
-		
-		 for(int i=0; i<m.getPath().getPositions().size()-1; i++){
-			 float x1,x2,y1,y2,dx,dy;//TODO Leaves a square to be rendered
-				x1=m.getPath().getPositions().get(i).getX();
-				x2=m.getPath().getPositions().get(i+1).getX();
-				y1=m.getPath().getPositions().get(i).getY();
-				y2=m.getPath().getPositions().get(i+1).getY();
+		for(int i=0; i<m.getPath().getPositions().size()-1; i++){
+			float x1,x2,y1,y2,dx,dy;//TODO Leaves a square to be rendered
+			x1=m.getPath().getPositions().get(i).getX();
+			x2=m.getPath().getPositions().get(i+1).getX();
+			y1=m.getPath().getPositions().get(i).getY();
+			y2=m.getPath().getPositions().get(i+1).getY();
 
-				tiledPath[i]=new Sprite(new Texture("img/pathTile.png"));
-				dx = x2-x1;
-				dy = y2-y1;
-				if(dx > 0)
-					tiledPath[i].setBounds(x1-30, y1-30, dx+60, 60);			
-				else if(dx < 0)
-					tiledPath[i].setBounds(x1+30, y1-30, dx-60, 60);
-				else if(dy > 0){
-					tiledPath[i].setBounds(x1-30, y1-30, 60, dy+60);
-				}else if(dy < 0)
-					tiledPath[i].setBounds(x1-30, y1+30, 60, dy-60);
-				else
-					tiledPath[i].setBounds(x1, y1-30, dx, dy);
-				
-		 }
-		 
-		 
+			tiledPath[i]=new Sprite(new Texture("img/pathTile.png"));
+			dx = x2-x1;
+			dy = y2-y1;
+			if(dx > 0)
+				tiledPath[i].setBounds(x1-30, y1-30, dx+60, 60);			
+			else if(dx < 0)
+				tiledPath[i].setBounds(x1+30, y1-30, dx-60, 60);
+			else if(dy > 0){
+				tiledPath[i].setBounds(x1-30, y1-30, 60, dy+60);
+			}else if(dy < 0)
+				tiledPath[i].setBounds(x1-30, y1+30, 60, dy-60);
+			else
+				tiledPath[i].setBounds(x1, y1-30, dx, dy);
+		}
+
 		for(int i = 0; i < m.getEnemies().size(); i++) {
 			enemyList.add(new EnemyView(new Sprite(new Texture("img/firstEnemy.png")), m.getEnemies().get(i)));
 		}
-		
+
 		chosedTowerImage = new Image(new Texture("img/unknown.png"));
+		radius = new RadiusImage(new Texture("img/radius200.png"));
 	}
 
 	@Override
@@ -171,26 +162,16 @@ public class MapScreen implements Screen {
 		hud.draw();
 		Table.drawDebug(hud);
 		hud.getSpriteBatch().begin();
-		
-		if(radius != null) {
-			radius.draw(hud.getSpriteBatch());
-		}
-		
-		
+
 		//TODO Fix the color changer
 		if(tmp != null) {
 			tmp.setPosition(Gdx.input.getX()-45, Gdx.graphics.getHeight()-Gdx.input.getY()-40);
-			if(radius == null) {
-				radius = new Sprite(new Texture("img/radius200.png"));
-			}
-			radius.setAlpha(1);
-			radius.setPosition(tmp.getX()-200+45, tmp.getY()-200+40);
+			radius.showRadius();
+			radius.setPosition(tmp.getX(), tmp.getY());
 		} else if(tmp == null && chosedTower == null) {
-			if(radius != null) {
-				radius.setAlpha(0);
-			}
+			radius.hideRadius();
 		}
-		
+
 		for(int i=0; i<m.getPath().getPositions().size()-1; i++){//As of now renders the path somewhat, should probably not be an sprite. If possible use another more suitable class.  
 			tiledPath[i].draw(hud.getSpriteBatch());
 		}
@@ -212,10 +193,15 @@ public class MapScreen implements Screen {
 			}
 		}
 
+		radius.draw(hud.getSpriteBatch());
+		
+		if(tmp != null) {
+			tmp.draw(hud.getSpriteBatch(), 1);
+		}
 		for(int i = 0; i< towerList.size(); i++) {
 			towerList.get(i).draw(hud.getSpriteBatch());
 		}
-
+		
 		hud.getSpriteBatch().end();
 	}
 
@@ -247,7 +233,7 @@ public class MapScreen implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				if(tmp != null) {
 					tmp.setVisible(false);		// TODO the image still exists under the tower, or does it?
-					tmp = null;
+					tmp = null;					//TODO dont thinks this is needed
 					int tmpX = Gdx.input.getX()-45;
 					int tmpY = Gdx.graphics.getHeight()-Gdx.input.getY()-40;
 					if(m.buildTower(new BasicTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
@@ -257,16 +243,13 @@ public class MapScreen implements Screen {
 				} else {
 					chosedTower = clickedOnTower(Gdx.input.getX(), Gdx.input.getY());
 					if(chosedTower != null) {
-						radius = new Sprite(new Texture("img/radius200.png"));
-						radius.setX(chosedTower.getX()-200+45);
-						radius.setY(chosedTower.getY()-200+40);
-						radius.setAlpha(1);
+						radius.setRadius((float) chosedTower.getTower().getRange());
+						radius.setPosition(chosedTower.getX(), chosedTower.getY());
+						radius.showRadius();
 						towerName.setText(chosedTower.getName());
 						towerKills.setText("Enemies killed: " + chosedTower.getKills());
 					} else {
-						if(radius != null) {
-							radius.setAlpha(0);
-						}
+						radius.hideRadius();
 					}
 				}
 			}
@@ -280,14 +263,14 @@ public class MapScreen implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if(tmp != null) {
-					tmp.setVisible(false);		// TODO the image still exists under the tower, or does it?
-					tmp = null;
+					tmp.setVisible(false);
+					tmp = null;				//TODO i dont think this is needed
 				}
 
 				tmp = new Image(new Texture("img/firstDragon.png"));
 				tmp.setPosition(Gdx.input.getX()-45, Gdx.graphics.getHeight()-Gdx.input.getY()-40);
 				tmp.setTouchable(null);
-				hud.addActor(tmp);
+				radius.setRadius(200);
 			}
 		});
 
@@ -330,9 +313,9 @@ public class MapScreen implements Screen {
 		});
 
 		towerInfoTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
-		towerInfoTable.add(chosedTowerImage).row();
-		towerInfoTable.add(towerName = new Label("Tower Name", uiSkin)).row();
-		towerInfoTable.add(towerKills = new Label("Tower Name", uiSkin)).row();
+		towerInfoTable.add(chosedTowerImage).left().row();
+		towerInfoTable.add(towerName = new Label("Tower Name", uiSkin)).left().row();
+		towerInfoTable.add(towerKills = new Label("Tower Name", uiSkin)).left().row();
 		towerInfoTable.add(upgradeBtn).width(100).height(70).padBottom(20).padTop(20).padRight(20);
 		towerInfoTable.add(sellBtn).width(100).height(70);
 
@@ -346,7 +329,7 @@ public class MapScreen implements Screen {
 		buildTable.add(new Image(new Texture("img/firstDragon.png"))).padLeft(20);
 		buildTable.add(new Image(new Texture("img/firstDragon.png")));
 		buildTable.add(new Image(new Texture("img/firstDragon.png"))).padRight(20);
-		buildTable.debug();
+		//buildTable.debug();		//TODO debug
 		buildTable.top();
 
 		guiTable.add(buildTable).row();
@@ -354,7 +337,7 @@ public class MapScreen implements Screen {
 		guiTable.add(nextWaveBtn).width(200).height(100).padTop(20).padBottom(20);
 
 		table = new Table();
-		table.debug();
+		//table.debug();			//TODO debug
 		table.add(mapImg);
 		table.add(guiTable);
 		table.setFillParent(true);
