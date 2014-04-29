@@ -88,7 +88,7 @@ public abstract class AbstractTower {
 			target = null;
 			//isShooting = true;
 			for(int i = 0; i < enemies.size(); i++) {
-				if(distance(enemies.get(i).getPosition()) < range && enemies.get(i).isAlive()) {
+				if(distance(position, enemies.get(i).getPosition()) < range && enemies.get(i).isAlive()) {
 					if(target == null) {
 						target = enemies.get(i); 
 					} else {
@@ -112,9 +112,9 @@ public abstract class AbstractTower {
 		updateCounter++;
 	}
 	
-	private double distance(Position pos) {
-		float dx = position.getX()- pos.getX();
-		float dy = position.getY()- pos.getY();
+	public static double distance(Position p1, Position p2) {
+		float dx = p1.getX()- p2.getX();
+		float dy = p1.getY()- p2.getY();
 		return Math.sqrt((double)dx*dx+dy*dy);
 	}
 	
