@@ -45,6 +45,8 @@ public class MapScreen implements Screen {
 	private Label towerKills;
 
 	private Sprite radius;
+	
+	private Image chosedTowerImage;
 
 	//The bullet should NOT be created here! Only for test purposes 
 	//Bullet bullet = new Bullet(600,350,100,0,2f,new Texture("img/RedBullet.png"));
@@ -97,6 +99,8 @@ public class MapScreen implements Screen {
 		for(int i = 0; i < m.getEnemies().size(); i++) {
 			enemyList.add(new EnemyView(new Sprite(new Texture("img/firstEnemy.png")), m.getEnemies().get(i)));
 		}
+		
+		chosedTowerImage = new Image(new Texture("img/unknown.png"));
 	}
 
 	@Override
@@ -125,15 +129,21 @@ public class MapScreen implements Screen {
 		moneyLabel.setText("$ " + m.getPlayer().getMoneyInt());
 
 		if(chosedTower != null) {
-			towerName.setText("Basic Tower Lv." + chosedTower.getCurrentLevel());
+			
+			towerName.setText(chosedTower.getName() + " Lv." + chosedTower.getCurrentLevel());
 			towerKills.setText("Enemies killed: " + chosedTower.getKills());
+			chosedTowerImage = new Image(chosedTower.getTexture());
+		} else {
+			towerName.setText("Tower Name");
+			towerKills.setText("Enemies killed");
+			chosedTowerImage = new Image(new Texture("img/unknown.png"));
 		}
 
 		hud.act(delta);
 		hud.draw();
 		Table.drawDebug(hud);
 		hud.getSpriteBatch().begin();
-
+		
 		if(radius != null) {
 			radius.draw(hud.getSpriteBatch());
 		}
@@ -318,9 +328,10 @@ public class MapScreen implements Screen {
 		});
 
 		towerInfoTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
+		towerInfoTable.add(chosedTowerImage).row();
 		towerInfoTable.add(towerName = new Label("Tower Name", uiSkin)).row();
 		towerInfoTable.add(towerKills = new Label("Tower Name", uiSkin)).row();
-		towerInfoTable.add(upgradeBtn).width(100).height(70).padBottom(20).padTop(20).row();
+		towerInfoTable.add(upgradeBtn).width(100).height(70).padBottom(20).padTop(20).padRight(20);
 		towerInfoTable.add(sellBtn).width(100).height(70);
 
 		Table buildTable = new Table();

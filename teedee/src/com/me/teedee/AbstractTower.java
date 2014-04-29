@@ -7,6 +7,7 @@ import java.util.*;
  */
 public abstract class AbstractTower {
 	protected Price[] price = new Price[5];
+	protected int value;
 	protected int currentLevel;
 	protected int maxLevel;
 	protected int[] attackSpeed = new int[5]; 
@@ -21,6 +22,7 @@ public abstract class AbstractTower {
 	private int updateCounter = 1;
 	private AbstractEnemy target;
 	protected String name;
+	protected int id;
 	
 	public Price getPrice() {
 		return price[currentLevel];
@@ -58,6 +60,10 @@ public abstract class AbstractTower {
 		return kills;
 	}
 	
+	public int getId() {
+		return id;
+	}
+	
 	public Position getPosition() {
 		return position;
 	}
@@ -65,6 +71,7 @@ public abstract class AbstractTower {
 	public Boolean upgrade() {
 		if(currentLevel < maxLevel - 1) {
 			currentLevel++;
+			value += price[currentLevel].getPrice();
 			return true;
 		}
 		return false;

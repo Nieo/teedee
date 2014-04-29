@@ -28,7 +28,16 @@ public class TowerView extends Sprite {
 		setY(posY);
 		rect = new Rectangle(getX(), getY(), getWidth(), getHeight());
 		//this.name = tower.getType();		//TODO or getName(); or something similiar
-		this.name = "Basic Tower";	//TODO debug
+		
+		switch(tower.getId())  {
+		case 1:
+			this.name = "Basic Tower";
+			break;
+		case 2:
+			this.name = "Another Tower";		//TODO
+			break;
+			// osv
+		}
 	}
 	
 	public boolean contains(float x, float y) {
@@ -98,6 +107,10 @@ public class TowerView extends Sprite {
 	
 	public void setIndex(int index) {
 		this.index = index;
+	}
+	
+	public int getId() {
+		return tower.getId();
 	}
 	
 }
