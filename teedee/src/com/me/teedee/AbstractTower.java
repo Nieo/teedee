@@ -7,6 +7,7 @@ import java.util.*;
  */
 public abstract class AbstractTower {
 	protected Price[] price = new Price[5];
+	protected int value;
 	protected int currentLevel;
 	protected int maxLevel;
 	protected int[] attackSpeed = new int[5]; 
@@ -21,9 +22,15 @@ public abstract class AbstractTower {
 	private int updateCounter = 1;
 	private AbstractEnemy target;
 	protected String name;
+	protected int id;
 	
-	public Price getPrice() {
+	public Price getBuildPrice() {
 		return price[currentLevel];
+	}
+	public Price getUpgradePrice() {
+		if(currentLevel < maxLevel-1)
+			return price[currentLevel+1];
+		return new Price(Integer.MAX_VALUE);
 	}
 	
 	public Position getTargetPosition() {
@@ -58,6 +65,10 @@ public abstract class AbstractTower {
 		return kills;
 	}
 	
+	public int getId() {
+		return id;
+	}
+	
 	public Position getPosition() {
 		return position;
 	}
@@ -65,6 +76,7 @@ public abstract class AbstractTower {
 	public Boolean upgrade() {
 		if(currentLevel < maxLevel - 1) {
 			currentLevel++;
+			value += price[currentLevel].getPrice();
 			return true;
 		}
 		return false;
@@ -81,7 +93,7 @@ public abstract class AbstractTower {
 			target = null;
 			//isShooting = true;
 			for(int i = 0; i < enemies.size(); i++) {
-				if(distance(enemies.get(i).getPosition()) < range && enemies.get(i).isAlive()) {
+				if(distance(position, enemies.get(i).getPosition()) < range && enemies.get(i).isAlive()) {
 					if(target == null) {
 						target = enemies.get(i); 
 					} else {
@@ -105,9 +117,9 @@ public abstract class AbstractTower {
 		updateCounter++;
 	}
 	
-	private double distance(Position pos) {
-		float dx = position.getX()- pos.getX();
-		float dy = position.getY()- pos.getY();
+	public static double distance(Position p1, Position p2) {
+		float dx = p1.getX()- p2.getX();
+		float dy = p1.getY()- p2.getY();
 		return Math.sqrt((double)dx*dx+dy*dy);
 	}
 	
