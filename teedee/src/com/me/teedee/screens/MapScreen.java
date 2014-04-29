@@ -75,7 +75,8 @@ public class MapScreen implements Screen {
 		pathPositions.add(new Position(740,300));
 		pathPositions.add(new Position(160,300));
 		pathPositions.add(new Position(160,90));
-		pathPositions.add(new Position(880,90));
+		pathPositions.add(new Position(850,90));
+		pathPositions.add(new Position(850,720));
 
 		//Creating the path
 		Path path = new Path(pathPositions);
@@ -164,11 +165,24 @@ public class MapScreen implements Screen {
 
 			tiledPath[i]=new Sprite(new Texture("img/pathTile.png"));
 			tiledPath[i].setRegion(x1,y1,x2,y2);
-
-			dx=(Math.abs(x2-x1)>0?(x2-x1):50);
+			/*
+			dx=(Math.abs(x2-x1)>0?(x2-x1+30):50);
 			dy=(Math.abs(y2-y1)>0?(y2-y1):50);
-			tiledPath[i].setBounds(x1, y1, dx, dy);
-
+			tiledPath[i].setBounds(x1, y1-30, dx, dy);
+			*/
+			
+			dx = x2-x1;
+			dy = y2-y1;
+			if(dx > 0)
+				tiledPath[i].setBounds(x1-30, y1-30, dx+60, 60);			
+			else if(dx < 0)
+				tiledPath[i].setBounds(x1+30, y1-30, dx-60, 60);
+			else if(dy > 0)
+				tiledPath[i].setBounds(x1+30, y1-30, 60, dy+60);
+			else if(dy < 0)
+				tiledPath[i].setBounds(x1-30, y1+30, 60, dy-60);
+			else
+				tiledPath[i].setBounds(x1, y1-30, dx, dy);
 			tiledPath[i].draw(hud.getSpriteBatch());
 
 		}
