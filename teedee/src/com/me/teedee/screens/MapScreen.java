@@ -180,11 +180,14 @@ public class MapScreen implements Screen {
 				enemyList.remove(i);
 			}
 		}
-
-		for(Bullet bullet : bulletList){
-			bullet.draw(hud.getSpriteBatch());
-			if(bullet.hasHitTarget()){
-				//bulletList.remove(bullet);
+		
+		//This loop does not work with for-each
+		for(int i = 0; i < bulletList.size(); i++) {
+			bulletList.get(i).draw(hud.getSpriteBatch());
+			if(bulletList.get(i).hasHitTarget()){
+				bulletList.get(i).setAlpha(0);
+				bulletList.remove(i);
+				System.out.println("A bullet was removed, with index " + i);
 			}
 		}
 
