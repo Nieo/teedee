@@ -82,10 +82,10 @@ public class Map {
 	 * @param position the position on the map which the tower will be built on
 	 */
 	public boolean buildTower(AbstractTower tower, Position position) {
-		if(player.getMoneyInt() >= tower.getPrice().getPrice() && canBuildHere(position)) {
+		if(player.getMoneyInt() >= tower.getBuildPrice().getPrice() && canBuildHere(position)) {
 			tower.setPosition(position);
 			this.towers.add(tower);
-			player.removeMoney(tower.getPrice().getPrice());
+			player.removeMoney(tower.getBuildPrice().getPrice());
 
 			return true;
 		}
@@ -103,7 +103,7 @@ public class Map {
 	}
 	
 	public void sellTower(int index) {
-		player.addMoney((int) (towers.get(index).getPrice().getPrice()*0.8));
+		player.addMoney((int) (towers.get(index).getBuildPrice().getPrice()*0.8));
 		towers.remove(index);
 	}
 
@@ -135,8 +135,9 @@ public class Map {
 		this.player = player;
 	}
 	public boolean upgradeTower(AbstractTower t){
-		if(t.getPrice().getPrice() < player.getMoneyInt()){
+		if(t.getUpgradePrice().getPrice() <= player.getMoneyInt()){
 			if(t.upgrade()){
+				player.removeMoney(t.getBuildPrice().getPrice());
 				return true;
 			}
 		}

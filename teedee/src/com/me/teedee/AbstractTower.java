@@ -24,8 +24,13 @@ public abstract class AbstractTower {
 	protected String name;
 	protected int id;
 	
-	public Price getPrice() {
+	public Price getBuildPrice() {
 		return price[currentLevel];
+	}
+	public Price getUpgradePrice() {
+		if(currentLevel < maxLevel-1)
+			return price[currentLevel+1];
+		return new Price(Integer.MAX_VALUE);
 	}
 	
 	public Position getTargetPosition() {
