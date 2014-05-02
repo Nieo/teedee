@@ -18,7 +18,9 @@ public class BasicTower extends AbstractTower {
 		for(int i = 0; i < 5; i++) {
 			attackDamage[i] = 1 + i;
 		}
-		status = new Status();
+		status = new Status(0.5,1,1);
+		System.out.println("A tower with 2s status was created!");
+		System.out.println("The status actually had the influence time: " + this.status.getInfluenceTime());
 		setPosition(pos);
 		this.enemies = enemies;
 		range = 200;

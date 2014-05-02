@@ -1,6 +1,7 @@
 package com.me.teedee;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -194,6 +195,21 @@ public class Map {
 		this.removeDeadEnemies(); //Must be done first, since the EnemyViews must have a reference to the enemy for deletion
 		this.updateEnemiesPositions();
 		this.towersShoot();
+		this.updateEnemiesStatuses();
+	}
+	
+	public void updateEnemiesStatuses(){
+		for(int i = 0; i < currentEnemies.size();i++){
+			Iterator<Status> statusMapIterator = currentEnemies.get(i).getStatusMap().values().iterator();
+			while(statusMapIterator.hasNext()){
+				Status tempStatus = statusMapIterator.next();
+				tempStatus.reduceTimeLeft(1.0/60.0); //TODO UPDATE_SPEED should not lie here, so how to solve?
+				//Remove the status if it has influenced the enemy enough time
+				if(tempStatus.getTimeLeft() <= 0){
+					statusMapIterator.remove();
+				}
+			}
+		}
 	}
 
 	private void playerTakesLife() {			//TODO please change name

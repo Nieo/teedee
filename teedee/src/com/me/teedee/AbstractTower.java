@@ -109,6 +109,10 @@ public abstract class AbstractTower {
 			
 			if(target != null) {
 				isShooting = true;
+				if(!target.getStatusMap().containsKey(this)){
+					target.addTowerStatus(this, new Status(status));
+				}
+
 				//TODO maybe do this in another way
 				if(!target.takeDamage(attackDamage[currentLevel], status)) {
 					kills++;

@@ -1,5 +1,9 @@
 package com.me.teedee;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+
 
 
 /**
@@ -16,6 +20,7 @@ public abstract class AbstractEnemy {
 	/**
 	 * The speed of the enemy unit
 	 */
+	private float defaultSpeed;
 	private float speed;
 	private float xSpeed;
 	private float ySpeed;
@@ -26,9 +31,16 @@ public abstract class AbstractEnemy {
 	private Reward reward;
 	
 	/**
-	 * The status effect given to an enemy
+	 * The overall status effect of the statuses in the enemys status list.
 	 */
-	private Status status;
+	private Status status; //TODO Will probably not be needed, since all statuses are stored in a list and the overall status is calculated
+	
+//	/**
+//	 * A list containing all the enemy's applied status effects
+//	 */
+//	private ArrayList<Status> statusList;
+	
+	private HashMap<AbstractTower,Status> statusMap = new HashMap<AbstractTower, Status>();
 		
 	/**
 	 * The current position of the enemy unit
@@ -68,7 +80,7 @@ public abstract class AbstractEnemy {
 	 */	
 	public AbstractEnemy(Path p) {
 		
-		this(p,2.0f, new Lives(),new Reward(100), new Status(), new Position());
+		this(p,2.0f, new Lives(),new Reward(100), new Position());
 	}
 	
 	/**
@@ -79,18 +91,19 @@ public abstract class AbstractEnemy {
 	 * @param r The reward of the enemy unit.
 	 * @param s The status effect of the enemy unit.
 	 */
-	public AbstractEnemy(Path p, float sp, Lives l, Reward r, Status s, Position pos) {
+	public AbstractEnemy(Path p, float sp, Lives l, Reward r, Position pos) {
 		this.path = p;
 		
 		sp = (sp < 0 ? 1 : sp);//Checks if the speed is negative. If so sets the new speed to 1.
 		this.speed = sp;
+		this.defaultSpeed = sp;
 		
 		this.lives = l;
 		
 		this.reward = r;
 		
-		this.setStatusEffect(s);
-		
+		this.statusMap = new HashMap<AbstractTower,Status>();
+
 		xSpeed = speed;
 		
 		//this.setPosition(path.next());
@@ -103,20 +116,30 @@ public abstract class AbstractEnemy {
 	 * @param a The enemy unit to be used for construction
 	 */
 	public AbstractEnemy(AbstractEnemy a) {
-		this(a.path,a.speed,a.lives,a.reward,a.status, a.position);
+		this(a.path,a.speed,a.lives,a.reward, a.position);
 	}
-	
-	
-	public void takeDamage(int damage) {
-		takeDamage(damage,this.getStatusEffect());
-	}
-
 	
 	public boolean takeDamage(int damage, Status s) {
 		// TODO Add even more logic!
-		this.setStatusEffect(s);
 		isAlive = this.lives.lowerLives(damage);
 		return isAlive;
+	}
+	
+	public void addTowerStatus(AbstractTower tower,Status status){
+		this.statusMap.put(tower, status);
+	}
+	
+	private Status getOverallStatus(){
+		double overallSpeedRatio = 1;
+		double overallDamagePerSecond = 0;
+
+		Iterator<Status> statusMapIterator = statusMap.values().iterator();
+		while(statusMapIterator.hasNext()){
+			Status tempStatus = statusMapIterator.next();
+			overallSpeedRatio = overallSpeedRatio*tempStatus.getSpeedRatio();
+			overallDamagePerSecond += tempStatus.getDamagePerSecond();
+		}
+		return new Status(overallSpeedRatio,overallDamagePerSecond,10);
 	}
 
 	public void move() {
@@ -132,14 +155,14 @@ public abstract class AbstractEnemy {
 				float dx = position.getX()-nextCheckPoint.getX();
 				float dy = position.getY()-nextCheckPoint.getY();
 				
-				if(Math.abs(dx) > 0.1f) {
+				if(Math.abs(dx) > 3f) {
 					if(dx > 0) {
 						xSpeed = -speed;
 					} else {
 						xSpeed = speed;
 					}
 				}
-				if(Math.abs(dy) > 0.1f) {
+				if(Math.abs(dy) > 3f) {
 					if(dy > 0) {
 						ySpeed = -speed;
 					} else {
@@ -153,8 +176,8 @@ public abstract class AbstractEnemy {
 		}
 		
 		if(!reachedEnd) {
-			position.setxCoordinate(position.getX()+xSpeed);
-			position.setyCoordinate(position.getY()+ySpeed);
+			position.setxCoordinate(position.getX()+xSpeed*(float)getOverallStatus().getSpeedRatio());
+			position.setyCoordinate(position.getY()+ySpeed*(float)getOverallStatus().getSpeedRatio());
 		}
 		//return reachedEnd;
 	}
@@ -162,7 +185,7 @@ public abstract class AbstractEnemy {
 	private boolean reachedCheckpoint(Position p) {
 		float dx = Math.abs(this.position.getX()-p.getX());
 		float dy = Math.abs(this.position.getY()-p.getY());
-		return 0.1f > dx && 0.1f > dy;
+		return 3f > dx && 3f > dy;
 	}
 
 	public Reward getReward() {
@@ -170,14 +193,17 @@ public abstract class AbstractEnemy {
 	}
 
 	
-	public void setStatusEffect(Status s) {
+	public void setStatus(Status s) {
 		this.status= s;
 	}
 
-	
-	public Status getStatusEffect() {
-		return this.status;
+	public HashMap<AbstractTower,Status> getStatusMap() {
+		return this.statusMap;
 	}
+	
+//	public Status getStatusEffect() {
+//		return this.status;
+//	}
 	
 	public void setPosition(Position p) {
 		this.position=p;
