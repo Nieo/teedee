@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.me.teedee.AbstractEnemy;
 import com.me.teedee.AbstractTower;
 import com.me.teedee.BasicTower;
+import com.me.teedee.IceTower;
 import com.me.teedee.Bullet;
 import com.me.teedee.Map;
 import com.me.teedee.Path;
@@ -61,7 +62,8 @@ public class MapScreen implements Screen {
 
 	FPSLogger fps = new FPSLogger();		// TODO debug
 
-	Image tmp;
+	Image tmp;						// TODO tmp varaible, should probably create new class to handle this
+	private int buildIndex = 0;		//	^this
 
 	private TowerView chosedTower;
 	private Label moneyLabel;
@@ -92,7 +94,7 @@ public class MapScreen implements Screen {
 		m = new Map(WaveCreator.creatEasyWave(path), path, player);
 
 		tiledPath = new Sprite[m.getPath().getPositions().size()];
-		
+
 		for(int i=0; i<m.getPath().getPositions().size()-1; i++){
 			float x1,x2,y1,y2,dx,dy;//TODO Leaves a square to be rendered
 			x1=m.getPath().getPositions().get(i).getX();
@@ -194,14 +196,14 @@ public class MapScreen implements Screen {
 		}
 
 		radius.draw(hud.getSpriteBatch());
-		
+
 		if(tmp != null) {
 			tmp.draw(hud.getSpriteBatch(), 1);
 		}
 		for(int i = 0; i< towerList.size(); i++) {
 			towerList.get(i).draw(hud.getSpriteBatch());
 		}
-		
+
 		hud.getSpriteBatch().end();
 	}
 
@@ -236,10 +238,26 @@ public class MapScreen implements Screen {
 					tmp = null;					//TODO dont thinks this is needed
 					int tmpX = Gdx.input.getX()-45;
 					int tmpY = Gdx.graphics.getHeight()-Gdx.input.getY()-40;
-					if(m.buildTower(new BasicTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
-						towerList.add(new TowerView(new Sprite(new Texture("img/firstDragon.png")), m.getTowers().get(towerIndex), towerIndex));
-						towerIndex++;
+					switch(buildIndex) {		//TODO probably should do something else than this
+					case 1:
+						if(m.buildTower(new BasicTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
+							towerList.add(new TowerView(new Sprite(new Texture("img/firstDragon.png")), m.getTowers().get(towerIndex), towerIndex));
+							towerIndex++;
+							buildIndex = 0;
+						}
+						break;
+					case 2:
+						if(m.buildTower(new IceTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
+							towerList.add(new TowerView(new Sprite(new Texture("img/iceDragon.png")), m.getTowers().get(towerIndex), towerIndex));
+							towerIndex++;
+							buildIndex = 0;
+						}
+						break;
+					default:
+						System.out.println("No such tower exists"); 	//TODO debug
+						break;
 					}
+
 				} else {
 					chosedTower = clickedOnTower(Gdx.input.getX(), Gdx.input.getY());
 					if(chosedTower != null) {
@@ -258,8 +276,8 @@ public class MapScreen implements Screen {
 		Table guiTable = new Table();
 		Table towerInfoTable = new Table();
 
-		Image tw = new Image(new Texture("img/firstDragon.png"));
-		tw.addListener(new ClickListener() {
+		Image bt = new Image(new Texture("img/firstDragon.png"));
+		bt.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if(tmp != null) {
@@ -271,6 +289,24 @@ public class MapScreen implements Screen {
 				tmp.setPosition(Gdx.input.getX()-45, Gdx.graphics.getHeight()-Gdx.input.getY()-40);
 				tmp.setTouchable(null);
 				radius.setRadius(200);
+				buildIndex = 1;
+			}
+		});
+
+		Image it = new Image(new Texture("img/iceDragon.png"));
+		it.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				if(tmp != null) {
+					tmp.setVisible(false);
+					tmp = null;				//TODO i dont think this is needed
+				}
+
+				tmp = new Image(new Texture("img/iceDragon.png"));
+				tmp.setPosition(Gdx.input.getX()-45, Gdx.graphics.getHeight()-Gdx.input.getY()-40);
+				tmp.setTouchable(null);
+				radius.setRadius(150);
+				buildIndex = 2;
 			}
 		});
 
@@ -323,8 +359,8 @@ public class MapScreen implements Screen {
 		buildTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
 		buildTable.add(hpLabel = new Label("HP: " + m.getPlayer().getLives().getLivesHealth(), uiSkin)).padTop(10).row();
 		buildTable.add(moneyLabel = new Label("$ " + m.getPlayer().getMoneyInt(), uiSkin)).padBottom(30).row();
-		buildTable.add(tw).top().padLeft(20);
-		buildTable.add(new Image(new Texture("img/firstDragon.png")));
+		buildTable.add(bt).top().padLeft(20);
+		buildTable.add(it);
 		buildTable.add(new Image(new Texture("img/firstDragon.png"))).padRight(20).row();
 		buildTable.add(new Image(new Texture("img/firstDragon.png"))).padLeft(20);
 		buildTable.add(new Image(new Texture("img/firstDragon.png")));

@@ -15,7 +15,7 @@ public class TowerView extends Sprite {
 	private String name;
 	private int index;
 	public Rectangle rect;
-	
+
 	public TowerView(Sprite sprite, AbstractTower tower, int index) {
 		super(sprite);
 		this.tower = tower;
@@ -28,7 +28,7 @@ public class TowerView extends Sprite {
 		setY(posY);
 		rect = new Rectangle(getX(), getY(), getWidth(), getHeight());
 		//this.name = tower.getType();		//TODO or getName(); or something similiar
-		
+
 		switch(tower.getId())  {
 		case 1:
 			this.name = "Basic Tower";
@@ -40,26 +40,26 @@ public class TowerView extends Sprite {
 		}
 
 	}
-	
+
 	public boolean contains(float x, float y) {
 		return rect.contains(x, y);
 	}
-	
+
 	public void draw(Batch batch) {
 		//TODO not sure if this is needed
 		vector.set(posX, posY);
-		
+
 		vector.sub(tower.getTargetPosition().getX(), tower.getTargetPosition().getY());
 		vector.nor();
 		setRotation(vector.angle()+90);
-		
+
 		if(tower.isShooting()) {
 			//TODO
 		}
-		
+
 		super.draw(batch);
 	}
-	
+
 	public int getKills() {
 		return tower.getKills();
 	}
@@ -70,9 +70,44 @@ public class TowerView extends Sprite {
 	public AbstractTower getTower(){
 		return tower;
 	}
-	
+
 
 	public void upgrade() {
+		switch(tower.getId()) {
+		case 1:
+			upgradeBasicTower();
+			break;
+		case 2:
+			//upgradeIceTower();
+			break;
+		default:
+			System.out.println("nope");		//TODO debug
+		}
+
+	}
+
+	private void upgradeIceTower() {
+		String picPath = "";
+		switch(tower.getCurrentLevel()) {
+		case 1:
+			picPath = "img/iceDragon1.png";
+			break;
+		case 2:
+			picPath = "img/iceDragon2.png";
+			break;
+		case 3:
+			picPath = "img/iceDragon3.png";
+			break;
+		case 4:
+			picPath = "img/iceDragon4.png";
+			break;
+		default:
+			picPath = "img/iceDragon.png";
+		}
+		super.setTexture(new Texture(picPath));		
+	}
+
+	private void upgradeBasicTower() {
 		String picPath = "";
 		switch(tower.getCurrentLevel()) {
 		case 1:
@@ -88,10 +123,9 @@ public class TowerView extends Sprite {
 			picPath = "img/firstDragon4.png";
 			break;
 		default:
-				picPath = "img/firstDragon.png";
+			picPath = "img/firstDragon.png";
 		}
 		super.setTexture(new Texture(picPath));
-		
 	}
 
 	public void sell() {
@@ -101,17 +135,17 @@ public class TowerView extends Sprite {
 	public int getCurrentLevel() {
 		return tower.getCurrentLevel();
 	}
-	
+
 	public int getIndex() {
 		return index;
 	}
-	
+
 	public void setIndex(int index) {
 		this.index = index;
 	}
-	
+
 	public int getId() {
 		return tower.getId();
 	}
-	
+
 }
