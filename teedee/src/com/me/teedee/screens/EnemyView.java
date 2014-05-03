@@ -43,8 +43,8 @@ public class EnemyView extends Sprite {
 	
 	//FIXME probably should clean the method up a bit
 	private void update() {
-		setX(enemy.getPosition().getX()-width/2);
-		setY(enemy.getPosition().getY()-height/2);
+		setX(enemy.getPosition().getX()+width/2);
+		setY(enemy.getPosition().getY()+height/2);
 		green.setX(getX());
 		green.setY(getY()+getHeight());
 		float tmpHP = enemy.getLives().getLivesHealth();

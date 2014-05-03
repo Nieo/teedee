@@ -97,7 +97,31 @@ public class Map {
 			if(AbstractTower.distance(p, t.getPosition()) < 40 )
 				return false;
 		}
-		
+		List<Position> positions = path.getPositions();
+		for(int i = 0; i < positions.size() - 1; i++){
+			float x1 = positions.get(i).getX();
+			float y1 = positions.get(i).getY();
+			float x2 = positions.get(i+1).getX();
+			float y2 = positions.get(i+1).getY();
+			if(y1 == y2){
+				if(x1 > x2){
+					float tmp = x1;
+					x1 = x2;
+					x2 = tmp;
+				}
+				if(p.getX() > x1-60 && p.getX() < x2+60 && Math.abs(p.getY()-y1)< 30)
+					return false;
+			}
+			if(x1 == x2){
+				if(y1 > y2){
+					float tmp = y1;
+					y1 = y2;
+					y2 = tmp;
+				}
+				if(p.getY() > y1-60 && p.getY() < y2+60 && Math.abs(p.getX()-x1) < 30)
+					return false;
+			}
+		}
 		
 		
 		return true;
