@@ -18,7 +18,7 @@ import com.me.teedee.towers.AbstractTower;
  * @author Fridgeridge
  *
  */
-public abstract class AbstractEnemy {
+public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 	/**
 	 * The health of the enemy unit
 	 */
@@ -89,7 +89,7 @@ public abstract class AbstractEnemy {
 	/**
 	 * Describes the distance traveled of the enemy unit
 	 */
-	private float stepsTraveled = 0f;
+	private float distanceTraveled = 0f;
 	
 	
 	
@@ -242,7 +242,7 @@ public abstract class AbstractEnemy {
 	}
 	
 	public float getStepsTraveled() {
-		return this.stepsTraveled;
+		return this.distanceTraveled;
 	}
 
 	public boolean reachedEnd() {
@@ -251,6 +251,16 @@ public abstract class AbstractEnemy {
 
 	public Lives getLives() {
 		return lives;
+	}
+	
+	public int compareTo(AbstractEnemy ae){
+		if(this.distanceTraveled < ae.distanceTraveled){
+			return -1;
+		}else if(this.distanceTraveled == ae.distanceTraveled){
+			return 0;
+		}else{
+			return 1;
+		}
 	}
 	
 	

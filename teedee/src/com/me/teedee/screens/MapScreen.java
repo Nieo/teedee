@@ -92,7 +92,7 @@ public class MapScreen implements Screen {
 		Player player = new Player();
 
 		//Creating the map
-		m = new Map(WaveCreator.creatEasyWave(path), path, player);
+		m = new Map(WaveCreator.creatHardWave(path), path, player);
 
 		tiledPath = new Sprite[m.getPath().getPositions().size()];
 
