@@ -29,6 +29,19 @@ public abstract class AbstractEnemy {
 	 */
 	private float defaultSpeed;
 	private float speed;
+	
+	public float getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(float speed) {
+		this.speed = speed;
+	}
+
+	public void setLives(Lives lives) {
+		this.lives = lives;
+	}
+
 	private float xSpeed;
 	private float ySpeed;
 	
@@ -37,6 +50,10 @@ public abstract class AbstractEnemy {
 	 */
 	private Reward reward;
 	
+	public void setReward(Reward reward) {
+		this.reward = reward;
+	}
+
 	/**
 	 * The overall status effect of the statuses in the enemys status list.
 	 */
@@ -195,7 +212,7 @@ public abstract class AbstractEnemy {
 		return 3f > dx && 3f > dy;
 	}
 
-	public Reward getReward() {
+	public Reward getEnemyReward() {
 		return reward;
 	}
 
