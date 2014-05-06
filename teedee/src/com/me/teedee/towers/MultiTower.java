@@ -28,7 +28,7 @@ public class MultiTower extends AbstractTower {
 		status = new Status(0.5,1,0);
 		setPosition(pos);
 		this.enemies = enemies;
-		range = 200;
+		range = 400;
 		id = 3;
 	}
 	public void shoot(){
@@ -40,7 +40,7 @@ public class MultiTower extends AbstractTower {
 			}
 			Collections.sort(targets);
 			int bullets = currentLevel+2;
-			if(targets.size() < 3){
+			if(targets.size() < bullets){
 				bullets = targets.size();
 			}
 			for(int i = 0; i < bullets; i++){
