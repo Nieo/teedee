@@ -15,6 +15,7 @@ public class TowerView extends Sprite {
 	private String name;
 	private int index;
 	public Rectangle rect;
+	private float angle;
 
 	public TowerView(Sprite sprite, AbstractTower tower, int index) {
 		super(sprite);
@@ -49,9 +50,13 @@ public class TowerView extends Sprite {
 		//TODO not sure if this is needed
 		vector.set(posX, posY);
 
-		vector.sub(tower.getTargetPosition().getX(), tower.getTargetPosition().getY());
-		vector.nor();
-		setRotation(vector.angle()+90);
+		if(tower.getTargetPosition().getX() != 0 && tower.getTargetPosition().getY() != 0) {
+			vector.sub(tower.getTargetPosition().getX(), tower.getTargetPosition().getY());
+			vector.nor();
+			angle = vector.angle() + 90;
+		}
+		setRotation(angle);
+
 
 		if(tower.isShooting()) {
 			//TODO
