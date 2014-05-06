@@ -39,7 +39,7 @@ public class MultiTower extends AbstractTower {
 					targets.add(a);
 			}
 			Collections.sort(targets);
-			int bullets = currentLevel+1;
+			int bullets = currentLevel+2;
 			if(targets.size() < 3){
 				bullets = targets.size();
 			}
