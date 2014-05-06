@@ -130,6 +130,9 @@ public abstract class AbstractTower {
 		float dy = p1.getY()- p2.getY();
 		return Math.sqrt((double)dx*dx+dy*dy);
 	}
+	public double getValue() {
+		return value;
+	}
 	
 	
 }

@@ -128,7 +128,7 @@ public class Map {
 	}
 	
 	public void sellTower(int index) {
-		player.addMoney((int) (towers.get(index).getBuildPrice().getPrice()*0.8));
+		player.addMoney((int) (towers.get(index).getValue()*0.8));
 		towers.remove(index);
 	}
 
