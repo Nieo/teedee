@@ -256,7 +256,7 @@ public class MapScreen implements Screen {
 						break;
 					case 3:
 						if(m.buildTower(new MultiTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
-							towerList.add(new TowerView(new Sprite(new Texture("img/firstDragon.png")), m.getTowers().get(towerIndex), towerIndex));
+							towerList.add(new TowerView(new Sprite(new Texture("img/hydra.png")), m.getTowers().get(towerIndex), towerIndex));
 							towerIndex++;
 							buildIndex = 0;
 						}
@@ -319,7 +319,7 @@ public class MapScreen implements Screen {
 				buildIndex = 2;
 			}
 		});
-		Image mt = new Image(new Texture("img/iceDragon.png"));
+		Image mt = new Image(new Texture("img/hydra.png"));
 		mt.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -328,7 +328,7 @@ public class MapScreen implements Screen {
 					tmp = null;				//TODO i dont think this is needed
 				}
 
-				tmp = new Image(new Texture("img/iceDragon.png"));
+				tmp = new Image(new Texture("img/hydra.png"));
 				tmp.setPosition(Gdx.input.getX()-45, Gdx.graphics.getHeight()-Gdx.input.getY()-40);
 				tmp.setTouchable(null);
 				radius.setRadius(150);

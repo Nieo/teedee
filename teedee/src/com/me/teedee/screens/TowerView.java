@@ -85,6 +85,9 @@ public class TowerView extends Sprite {
 		case 2:
 			//upgradeIceTower();
 			break;
+		case 3:
+			upgradeMultiTower();
+			break;
 		default:
 			System.out.println("nope");		//TODO debug
 		}
@@ -129,6 +132,27 @@ public class TowerView extends Sprite {
 			break;
 		default:
 			picPath = "img/firstDragon.png";
+		}
+		super.setTexture(new Texture(picPath));
+	}
+	
+	private void upgradeMultiTower() {
+		String picPath = "";
+		switch(tower.getCurrentLevel()) {
+		case 1:
+			picPath = "img/hydra.png";
+			break;
+		case 2:
+			picPath = "img/hydra3.png";
+			break;
+		case 3:
+			picPath = "img/hydra3.png";
+			break;
+		case 4:
+			picPath = "img/hydra5.png";
+			break;
+		default:
+			picPath = "img/hydra.png";
 		}
 		super.setTexture(new Texture(picPath));
 	}
