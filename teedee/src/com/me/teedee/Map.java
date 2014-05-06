@@ -208,7 +208,7 @@ public class Map {
 			for(int i = 0; i < currentEnemies.size(); i++) {
 				if(!currentEnemies.get(i).isAlive() || currentEnemies.get(i).reachedEnd()) {
 					if(!currentEnemies.get(i).reachedEnd()) {
-						player.addMoney(currentEnemies.get(i).getReward().getReward());
+						player.addMoney(currentEnemies.get(i).getEnemyReward().getReward());
 					}
 					currentEnemies.remove(i);
 				}
