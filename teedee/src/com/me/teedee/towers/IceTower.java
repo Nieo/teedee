@@ -1,6 +1,11 @@
-package com.me.teedee;
+package com.me.teedee.towers;
 
 import java.util.ArrayList;
+
+import com.me.teedee.Position;
+import com.me.teedee.Price;
+import com.me.teedee.Status;
+import com.me.teedee.enemies.AbstractEnemy;
 
 public class IceTower extends AbstractTower {
 	

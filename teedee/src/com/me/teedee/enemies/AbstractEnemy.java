@@ -1,8 +1,15 @@
-package com.me.teedee;
+package com.me.teedee.enemies;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+
+import com.me.teedee.Lives;
+import com.me.teedee.Path;
+import com.me.teedee.Position;
+import com.me.teedee.Reward;
+import com.me.teedee.Status;
+import com.me.teedee.towers.AbstractTower;
 
 
 

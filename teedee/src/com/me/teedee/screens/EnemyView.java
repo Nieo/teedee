@@ -3,7 +3,7 @@ package com.me.teedee.screens;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.me.teedee.AbstractEnemy;
+import com.me.teedee.enemies.AbstractEnemy;
 
 //import com.me.teedee.BasicEnemy;
 

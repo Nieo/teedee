@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.me.teedee.AbstractTower;
+import com.me.teedee.towers.AbstractTower;
 
 public class TowerView extends Sprite {
 	private AbstractTower tower;

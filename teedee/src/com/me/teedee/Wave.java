@@ -2,6 +2,9 @@ package com.me.teedee;
 
 import java.util.ArrayList;
 
+import com.me.teedee.enemies.AbstractEnemy;
+import com.me.teedee.enemies.BasicEnemy;
+
 /*
  * @Author Nieo
  */

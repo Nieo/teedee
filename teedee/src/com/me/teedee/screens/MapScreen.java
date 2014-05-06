@@ -19,16 +19,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.me.teedee.AbstractEnemy;
-import com.me.teedee.AbstractTower;
-import com.me.teedee.BasicTower;
-import com.me.teedee.IceTower;
 import com.me.teedee.Bullet;
 import com.me.teedee.Map;
 import com.me.teedee.Path;
 import com.me.teedee.Player;
 import com.me.teedee.Position;
 import com.me.teedee.WaveCreator;
+import com.me.teedee.enemies.AbstractEnemy;
+import com.me.teedee.towers.AbstractTower;
+import com.me.teedee.towers.BasicTower;
+import com.me.teedee.towers.IceTower;
 
 
 /**
@@ -253,6 +253,15 @@ public class MapScreen implements Screen {
 							buildIndex = 0;
 						}
 						break;
+					case 3:
+						if(m.buildTower(new MultiTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
+							towerList.add(new TowerView(new Sprite(new Texture("img/firstDragon.png")), m.getTowers().get(towerIndex), towerIndex));
+							towerIndex++;
+							buildIndex = 0;
+						}
+						break;
+
+						
 					default:
 						System.out.println("No such tower exists"); 	//TODO debug
 						break;
@@ -309,7 +318,22 @@ public class MapScreen implements Screen {
 				buildIndex = 2;
 			}
 		});
+		Image mt = new Image(new Texture("img/iceDragon.png"));
+		mt.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				if(tmp != null) {
+					tmp.setVisible(false);
+					tmp = null;				//TODO i dont think this is needed
+				}
 
+				tmp = new Image(new Texture("img/iceDragon.png"));
+				tmp.setPosition(Gdx.input.getX()-45, Gdx.graphics.getHeight()-Gdx.input.getY()-40);
+				tmp.setTouchable(null);
+				radius.setRadius(150);
+				buildIndex = 3;
+			}
+		});
 		TextButton upgradeBtn = new TextButton("Upgrade", uiSkin);
 		TextButton sellBtn = new TextButton("Sell", uiSkin);
 		TextButton nextWaveBtn = new TextButton("Next Wave", uiSkin);
@@ -361,10 +385,11 @@ public class MapScreen implements Screen {
 		buildTable.add(moneyLabel = new Label("$ " + m.getPlayer().getMoneyInt(), uiSkin)).padBottom(30).row();
 		buildTable.add(bt).top().padLeft(20);
 		buildTable.add(it);
-		buildTable.add(new Image(new Texture("img/firstDragon.png"))).padRight(20).row();
+		buildTable.add(mt).padRight(20).row();
 		buildTable.add(new Image(new Texture("img/firstDragon.png"))).padLeft(20);
 		buildTable.add(new Image(new Texture("img/firstDragon.png")));
 		buildTable.add(new Image(new Texture("img/firstDragon.png"))).padRight(20);
+		
 		//buildTable.debug();		//TODO debug
 		buildTable.top();
 
