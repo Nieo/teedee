@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.me.teedee.enemies.AbstractEnemy;
 import com.me.teedee.enemies.BasicEnemy;
 import com.me.teedee.enemies.FastEnemy;
+import com.me.teedee.enemies.SlowEnemy;
 
 /*
  * @Author Nieo
@@ -43,6 +44,13 @@ public class Wave {
 			for(int i = 0; i < amount; i++){
 				enemies.add(new FastEnemy(p));
 			}
+			break;
+		
+		case 2:
+			for(int i = 0; i < amount; i++){
+				enemies.add(new SlowEnemy(p));
+			}
+			break;
 			
 		default:
 			System.out.println("Someone have tried to add enemytypes that do not exist.");
