@@ -15,16 +15,15 @@ public abstract class AbstractTower {
 	protected int value;
 	protected int currentLevel;
 	protected int maxLevel;
-	protected int[] attackSpeed = new int[5]; 
+	protected float[] attackSpeed = new float[5]; 
 	protected int[] attackDamage = new int[5];
 	protected double range;
 	protected Status status;
 	private int kills = 0;
 	private Position position;
 	protected ArrayList<AbstractEnemy> enemies;
-	protected final int UPDATE_SPEED = 60; //Number of updates per second
 	private boolean isShooting = false;
-	private int updateCounter = 1;
+	private float cooldown = 1;
 	private AbstractEnemy target;
 	protected String name;
 	protected int id;
@@ -97,8 +96,10 @@ public abstract class AbstractTower {
 
 	//Should probably be named startShooting instead, since it's something that SHOULD be going on for a period of time,
 	//we don't want a new thread to be created every time this method is created, just once.
-	public void shoot() {
-		if(updateCounter%(UPDATE_SPEED/attackSpeed[currentLevel]) == 0) {
+	public void shoot(float delta) {
+		cooldown =- delta;
+		if(cooldown <= 0) {
+			cooldown = attackSpeed[currentLevel] + cooldown;
 			target = null;
 			//isShooting = true;
 			for(int i = 0; i < enemies.size(); i++) {
@@ -123,11 +124,11 @@ public abstract class AbstractTower {
 					kills++;
 				}
 			}
-			updateCounter = 1;
+			cooldown = 1;
 		} else {
 			isShooting = false;
 		}
-		updateCounter++;
+		cooldown++;
 	}
 	
 	public static double distance(Position p1, Position p2) {
