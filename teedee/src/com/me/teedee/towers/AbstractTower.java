@@ -19,11 +19,11 @@ public abstract class AbstractTower {
 	protected int[] attackDamage = new int[5];
 	protected double range;
 	protected Status status;
-	private int kills = 0;
+	protected int kills = 0;
 	private Position position;
 	protected ArrayList<AbstractEnemy> enemies;
 	private boolean isShooting = false;
-	private float cooldown = 1;
+	protected float cooldown = 1;
 	private AbstractEnemy target;
 	protected String name;
 	protected int id;
@@ -97,7 +97,7 @@ public abstract class AbstractTower {
 	//Should probably be named startShooting instead, since it's something that SHOULD be going on for a period of time,
 	//we don't want a new thread to be created every time this method is created, just once.
 	public void shoot(float delta) {
-		cooldown =- delta;
+		cooldown = cooldown - delta;
 		if(cooldown <= 0) {
 			cooldown = attackSpeed[currentLevel] + cooldown;
 			target = null;
@@ -124,11 +124,10 @@ public abstract class AbstractTower {
 					kills++;
 				}
 			}
-			cooldown = 1;
+			
 		} else {
 			isShooting = false;
 		}
-		cooldown++;
 	}
 	
 	public static double distance(Position p1, Position p2) {
