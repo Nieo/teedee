@@ -206,13 +206,13 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 	
 	private boolean reachedCheckpoint(Position p, float delta) {
 		if(xSpeed < 0){
-			return position.getX()+xSpeed*(float)getOverallStatus().getSpeedRatio()*delta < p.getX();
+			return position.getX()+xSpeed*(float)getOverallStatus().getSpeedRatio()*delta <= p.getX();
 		}else if(xSpeed > 0){
-			return position.getX()+xSpeed*(float)getOverallStatus().getSpeedRatio()*delta > p.getX();
+			return position.getX()+xSpeed*(float)getOverallStatus().getSpeedRatio()*delta >= p.getX();
 		}else if(ySpeed < 0){
-			return position.getY()+ySpeed*(float)getOverallStatus().getSpeedRatio()*delta < p.getY();
+			return position.getY()+ySpeed*(float)getOverallStatus().getSpeedRatio()*delta <= p.getY();
 		}else if(ySpeed > 0){
-			return position.getY()+ySpeed*(float)getOverallStatus().getSpeedRatio()*delta > p.getY();
+			return position.getY()+ySpeed*(float)getOverallStatus().getSpeedRatio()*delta >= p.getY();
 		}
 		return false;
 	}
