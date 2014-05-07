@@ -24,7 +24,7 @@ public class Status {
 	 * Constructs a status with the given speed, damage per second and time of imfluence
 	 * @param speed the new speed of the enemy
 	 * @param damagePerSecond the damage the enemy will take per second during the status time of influence
-	 * @param influenceTime the time in milliseconds that the status will have influence on the enemy
+	 * @param influenceTime the time in seconds that the status will have influence on the enemy
 	 */
 	public Status(double speedRatio, double damagePerSecond, double influenceTime){
 		this.speedRatio = speedRatio;
