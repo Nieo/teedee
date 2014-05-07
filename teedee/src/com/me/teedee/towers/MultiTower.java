@@ -33,7 +33,7 @@ public class MultiTower extends AbstractTower {
 		id = 3;
 	}
 	public void shoot(float delta){
-		cooldown =- delta;
+		cooldown = cooldown - delta;
 		if(cooldown <= 0) {
 			cooldown = attackSpeed[currentLevel] + cooldown;
 			ArrayList<AbstractEnemy> targets = new ArrayList<AbstractEnemy>();
