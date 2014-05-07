@@ -10,7 +10,7 @@ import com.me.teedee.enemies.AbstractEnemy;
 
 public class MultiTower extends AbstractTower {
 
-	private int updateCounter;
+	private float cooldown;
 	public MultiTower(Position pos, ArrayList<AbstractEnemy> enemies){
 		price[0] = new Price(500);
 		for(int i = 1; i < 5; i++)
@@ -31,8 +31,10 @@ public class MultiTower extends AbstractTower {
 		range = 400;
 		id = 3;
 	}
-	public void shoot(){
-		if(updateCounter%(UPDATE_SPEED/attackSpeed[currentLevel]) == 0){
+	public void shoot(float delta){
+		cooldown =- delta;
+		if(cooldown <= 0) {
+			cooldown = attackSpeed[currentLevel] + cooldown;
 			ArrayList<AbstractEnemy> targets = new ArrayList<AbstractEnemy>();
 			for(AbstractEnemy a: enemies){
 				if(AbstractTower.distance(this.getPosition(), a.getPosition()) < this.getRange())
@@ -47,7 +49,6 @@ public class MultiTower extends AbstractTower {
 				targets.get(i).takeDamage(attackDamage[currentLevel], status);
 			}	
 		}
-		updateCounter++;
 		
 
 	}
