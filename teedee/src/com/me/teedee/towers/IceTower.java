@@ -19,6 +19,7 @@ public class IceTower extends AbstractTower {
 		maxLevel = 5;
 		for(int i = 0; i < 5; i++)
 			attackSpeed[i] = 1;
+		cooldown = attackSpeed[0];
 		
 		for(int i = 0; i < 5; i++)
 			attackDamage[i] = 1 + i/2;
