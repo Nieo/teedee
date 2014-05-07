@@ -247,19 +247,20 @@ public class MapScreen implements Screen {
 					int tmpX = (int) (Gdx.input.getX()-tmp.getWidth()/2);
 					int tmpY = (int) (Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2);
 					tmp = null;
+					boolean tmp = false;
 					switch(buildIndex) {		//TODO probably should do something else than this
 					case 1:
-						if(m.buildTower(new BasicTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
+						if(tmp = m.buildTower(new BasicTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
 							towerList.add(new TowerView(new Sprite(new Texture("img/firstDragon.png")), m.getTowers().get(towerIndex), towerIndex));
 						}
 						break;
 					case 2:
-						if(m.buildTower(new IceTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
+						if(tmp = m.buildTower(new IceTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
 							towerList.add(new TowerView(new Sprite(new Texture("img/iceDragon.png")), m.getTowers().get(towerIndex), towerIndex));
 						}
 						break;
 					case 3:
-						if(m.buildTower(new MultiTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
+						if(tmp = m.buildTower(new MultiTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
 							towerList.add(new TowerView(new Sprite(new Texture("img/hydra.png")), m.getTowers().get(towerIndex), towerIndex));
 						}
 						break;
@@ -267,7 +268,7 @@ public class MapScreen implements Screen {
 						System.out.println("No such tower exists"); 	//TODO debug
 						break;
 					}
-					if(m.getTowers().get(towerIndex) != null) {
+					if(tmp) {
 						chosedTower = towerList.get(towerIndex);
 						towerIndex++;
 						buildIndex = 0;
