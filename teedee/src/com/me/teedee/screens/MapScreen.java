@@ -73,6 +73,8 @@ public class MapScreen implements Screen {
 	protected boolean buildAble;		//TODO remove?
 
 	private Sprite[] tiledPath;
+	
+	private InfoImage info;
 
 	public MapScreen() {
 		//Specifying the path positions
@@ -124,6 +126,7 @@ public class MapScreen implements Screen {
 
 		chosedTowerImage = new Image(new Texture("img/unknown.png"));
 		radius = new RadiusImage(new Texture("img/radius200.png"));
+		info = new InfoImage();
 	}
 
 	@Override
@@ -177,6 +180,8 @@ public class MapScreen implements Screen {
 		for(int i = 0; i< towerList.size(); i++) {
 			towerList.get(i).draw(hud.getSpriteBatch());
 		}
+		info.setPosition(800, Gdx.graphics.getHeight()-Gdx.input.getY()-100);
+		info.draw(hud.getSpriteBatch());
 	}
 
 	private void updateObjects() {
@@ -247,20 +252,20 @@ public class MapScreen implements Screen {
 					int tmpX = (int) (Gdx.input.getX()-tmp.getWidth()/2);
 					int tmpY = (int) (Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2);
 					tmp = null;
-					boolean tmp = false;
+					boolean towerBuilt = false;
 					switch(buildIndex) {		//TODO probably should do something else than this
 					case 1:
-						if(tmp = m.buildTower(new BasicTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
+						if(towerBuilt = m.buildTower(new BasicTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
 							towerList.add(new TowerView(new Sprite(new Texture("img/firstDragon.png")), m.getTowers().get(towerIndex), towerIndex));
 						}
 						break;
 					case 2:
-						if(tmp = m.buildTower(new IceTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
+						if(towerBuilt = m.buildTower(new IceTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
 							towerList.add(new TowerView(new Sprite(new Texture("img/iceDragon.png")), m.getTowers().get(towerIndex), towerIndex));
 						}
 						break;
 					case 3:
-						if(tmp = m.buildTower(new MultiTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
+						if(towerBuilt = m.buildTower(new MultiTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
 							towerList.add(new TowerView(new Sprite(new Texture("img/hydra.png")), m.getTowers().get(towerIndex), towerIndex));
 						}
 						break;
@@ -268,10 +273,12 @@ public class MapScreen implements Screen {
 						System.out.println("No such tower exists"); 	//TODO debug
 						break;
 					}
-					if(tmp) {
+					if(towerBuilt) {
 						chosedTower = towerList.get(towerIndex);
 						towerIndex++;
 						buildIndex = 0;
+					} else {
+						radius.hideRadius();
 					}
 				} else {
 					chosedTower = clickedOnTower(Gdx.input.getX(), Gdx.input.getY());
@@ -296,9 +303,17 @@ public class MapScreen implements Screen {
 			@Override
 			public void enter(InputEvent event, float x, float y, int pointer,
 					Actor fromActor) {
-				radius.setPosition(x, y);
-				radius.showRadius();
+				info.choseTower(1);
+				info.show();
+				//radius.showRadius();
 			}
+			
+			@Override
+			public void exit(InputEvent event, float x, float y, int pointer,
+					Actor toActor) {
+				info.hide();
+			}
+			
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if(tmp != null) {
@@ -317,6 +332,20 @@ public class MapScreen implements Screen {
 		Image it = new Image(new Texture("img/iceDragon.png"));
 		it.addListener(new ClickListener() {
 			@Override
+			public void enter(InputEvent event, float x, float y, int pointer,
+					Actor fromActor) {
+				info.choseTower(2);
+				info.show();
+				//radius.showRadius();
+			}
+			
+			@Override
+			public void exit(InputEvent event, float x, float y, int pointer,
+					Actor toActor) {
+				info.hide();
+			}
+			
+			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if(tmp != null) {
 					tmp.setVisible(false);
@@ -333,6 +362,20 @@ public class MapScreen implements Screen {
 
 		Image mt = new Image(new Texture("img/hydra.png"));
 		mt.addListener(new ClickListener() {
+			@Override
+			public void enter(InputEvent event, float x, float y, int pointer,
+					Actor fromActor) {
+				info.choseTower(3);
+				info.show();
+				//radius.showRadius();
+			}
+			
+			@Override
+			public void exit(InputEvent event, float x, float y, int pointer,
+					Actor toActor) {
+				info.hide();
+			}
+			
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if(tmp != null) {
