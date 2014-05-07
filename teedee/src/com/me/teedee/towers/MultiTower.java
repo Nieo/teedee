@@ -25,7 +25,7 @@ public class MultiTower extends AbstractTower {
 		for(int i = 0; i < 5; i++)
 			attackDamage[i] = 1 ;
 
-		status = new Status(0.5,1,0);
+		status = new Status(0.5f,1,0);
 		setPosition(pos);
 		this.enemies = enemies;
 		range = 400;

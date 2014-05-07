@@ -148,9 +148,9 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 		this.statusMap.put(tower, status);
 	}
 	
-	private Status getOverallStatus(){
-		double overallSpeedRatio = 1;
-		double overallDamagePerSecond = 0;
+	public Status getOverallStatus(){
+		float overallSpeedRatio = 1;
+		float overallDamagePerSecond = 0;
 
 		Iterator<Status> statusMapIterator = statusMap.values().iterator();
 		while(statusMapIterator.hasNext()){
@@ -158,7 +158,7 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 			overallSpeedRatio = overallSpeedRatio*tempStatus.getSpeedRatio();
 			overallDamagePerSecond += tempStatus.getDamagePerSecond();
 		}
-		return new Status(overallSpeedRatio,overallDamagePerSecond,10);
+		return new Status(overallSpeedRatio,overallDamagePerSecond,10f);
 	}
 
 	public void move(float delta) {

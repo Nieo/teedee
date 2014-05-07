@@ -3,29 +3,29 @@ package com.me.teedee;
  * @Author Nieo
  */
 public class Lives {
-	private int currentLives;
-	private int maxLives;
+	private float currentLives;
+	private float maxLives;
 	
 	public Lives(){
 		maxLives = 10;
 		currentLives = 10;
 	}
-	public Lives(int lives){
+	public Lives(float lives){
 		maxLives = lives;
 		currentLives = lives;
 	}
 	/**
 	 * Returns true if currentLives is greater than 0 
 	 */
-	public boolean lowerLives(int damage){
+	public boolean lowerLives(float damage){
 		currentLives = currentLives - damage;
 		return currentLives >  0;
 	}
 	
-	public int getLivesHealth() {
+	public float getLivesHealth() {
 		return currentLives;
 	}
-	public int getMaxLives() {
+	public float getMaxLives() {
 		return maxLives;
 	}
 	
