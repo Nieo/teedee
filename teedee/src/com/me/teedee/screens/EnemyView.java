@@ -15,13 +15,32 @@ import com.me.teedee.enemies.AbstractEnemy;
 public class EnemyView extends Sprite {
 	
 	private AbstractEnemy enemy;
+	private Sprite sprite;
 	private float width;
 	private float height;
 	private Sprite green;
 	private Sprite red;
+	private Texture t = new Texture("img/firstEnemy.png");
 	
-	public EnemyView(Sprite sprite, AbstractEnemy abstractEnemy) {
-		super(sprite);
+	public EnemyView(AbstractEnemy abstractEnemy) {
+		
+		int swID = abstractEnemy.getId();
+		switch(swID){
+		case 1: 
+			t = new Texture("img/firstEnemy.png");
+			break;
+		case 2:
+			t = new Texture("img/firstEnemy.png");
+			break;
+		case 3:
+			t = new Texture("img/firstEnemy.png");
+			break;
+		default:
+			break;
+		}
+		sprite=new Sprite(t); 
+		this.set(sprite);
+		
 		height = sprite.getHeight();
 		width = sprite.getWidth();
 		this.enemy = abstractEnemy;
@@ -43,8 +62,8 @@ public class EnemyView extends Sprite {
 	
 	//FIXME probably should clean the method up a bit
 	private void update() {
-		setX(enemy.getPosition().getX()+width/2);
-		setY(enemy.getPosition().getY()+height/2);
+		setX(enemy.getPosition().getX());
+		setY(enemy.getPosition().getY());
 		green.setX(getX());
 		green.setY(getY()+getHeight());
 		float tmpHP = enemy.getLives().getLivesHealth();

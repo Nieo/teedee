@@ -118,7 +118,7 @@ public class MapScreen implements Screen {
 		}
 
 		for(int i = 0; i < m.getEnemies().size(); i++) {
-			enemyList.add(new EnemyView(new Sprite(new Texture("img/firstEnemy.png")), m.getEnemies().get(i)));
+			enemyList.add(new EnemyView( m.getEnemies().get(i)));
 		}
 
 		chosedTowerImage = new Image(new Texture("img/unknown.png"));
@@ -188,7 +188,7 @@ public class MapScreen implements Screen {
 
 		if(waveIndex != m.getWaveIndex()) {
 			for(int i = 0; i < m.getEnemies().size(); i++) {
-				enemyList.add(new EnemyView(new Sprite(new Texture("img/firstEnemy.png")), m.getEnemies().get(i)));
+				enemyList.add(new EnemyView( m.getEnemies().get(i)));
 			}
 			waveIndex = m.getWaveIndex();
 		}

@@ -19,6 +19,9 @@ import com.me.teedee.towers.AbstractTower;
  *
  */
 public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
+	
+	private final int id = 0;
+	
 	/**
 	 * The health of the enemy unit
 	 */
@@ -257,6 +260,8 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 			return 1;
 		}
 	}
-	
+	public int getId() {
+		return id;
+	}
 	
 }
