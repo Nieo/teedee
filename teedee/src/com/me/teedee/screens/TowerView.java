@@ -35,7 +35,7 @@ public class TowerView extends Sprite {
 			this.name = "Basic Tower";
 			break;
 		case 2:
-			this.name = "Ice Tower";		//TODO
+			this.name = "Ice Tower";
 			break;
 		case 3:
 			this.name = "Multi Tower";

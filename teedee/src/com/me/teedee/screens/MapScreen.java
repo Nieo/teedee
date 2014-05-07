@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -56,7 +57,7 @@ public class MapScreen implements Screen {
 	//Bullet bullet = new Bullet(600,350,100,0,2f,new Texture("img/RedBullet.png"));
 
 	private int waveIndex = 0;
-	
+
 	private List<EnemyView> enemyList = new ArrayList<EnemyView>();
 	private List<Bullet> bulletList = new ArrayList<Bullet>();
 	private List<TowerView> towerList = new ArrayList<TowerView>();
@@ -68,7 +69,7 @@ public class MapScreen implements Screen {
 	private int buildIndex = 0;		//	^this
 
 	private TowerView chosedTower;
-	
+
 	protected boolean buildAble;		//TODO remove?
 
 	private Sprite[] tiledPath;
@@ -181,8 +182,7 @@ public class MapScreen implements Screen {
 	private void updateObjects() {
 		for (AbstractTower tower : m.getTowers()){
 			if(tower.isShooting()){ //TODO Fix line under this, could be shorter
-				bulletList.add(new Bullet(tower.getPosition().getX() + 45,tower.getPosition().getY() + 40,tower.getTargetPosition().getX(),tower.getTargetPosition().getY(),7f,new Texture("img/RedBullet.png")));
-				//bulletList.add(new Bullet(tower.getPosition().getX() + 45,tower.getPosition().getY() + 40,tower.getTargetPosition().getX(),tower.getTargetPosition().getY(),14f,new Texture("img/RedBullet.png")));
+				bulletList.add(new Bullet(tower.getPosition().getX() + 45,tower.getPosition().getY() + 40,tower.getTargetPosition().getX()+27,tower.getTargetPosition().getY()+30,14f,new Texture("img/RedBullet.png")));
 			}
 		}
 
@@ -208,7 +208,7 @@ public class MapScreen implements Screen {
 
 		//TODO Fix the color changer and maybe move this
 		if(tmp != null) {
-			tmp.setPosition(Gdx.input.getX()-45, Gdx.graphics.getHeight()-Gdx.input.getY()-40);
+			tmp.setPosition(Gdx.input.getX()-tmp.getWidth()/2, Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2);
 			radius.showRadius();
 			radius.setPosition(tmp.getX(), tmp.getY());
 		} else if(tmp == null && chosedTower == null) {
@@ -244,9 +244,9 @@ public class MapScreen implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				if(tmp != null) {
 					tmp.setVisible(false);		// TODO the image still exists under the tower, or does it?
-					tmp = null;					//TODO dont thinks this is needed
-					int tmpX = Gdx.input.getX()-45;
-					int tmpY = Gdx.graphics.getHeight()-Gdx.input.getY()-40;
+					int tmpX = (int) (Gdx.input.getX()-tmp.getWidth()/2);
+					int tmpY = (int) (Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2);
+					tmp = null;
 					switch(buildIndex) {		//TODO probably should do something else than this
 					case 1:
 						if(m.buildTower(new BasicTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
@@ -267,9 +267,11 @@ public class MapScreen implements Screen {
 						System.out.println("No such tower exists"); 	//TODO debug
 						break;
 					}
-					chosedTower = towerList.get(towerIndex);
-					towerIndex++;
-					buildIndex = 0;
+					if(m.getTowers().get(towerIndex) != null) {
+						chosedTower = towerList.get(towerIndex);
+						towerIndex++;
+						buildIndex = 0;
+					}
 				} else {
 					chosedTower = clickedOnTower(Gdx.input.getX(), Gdx.input.getY());
 					if(chosedTower != null) {
@@ -291,6 +293,12 @@ public class MapScreen implements Screen {
 		Image bt = new Image(new Texture("img/firstDragon.png"));
 		bt.addListener(new ClickListener() {
 			@Override
+			public void enter(InputEvent event, float x, float y, int pointer,
+					Actor fromActor) {
+				radius.setPosition(x, y);
+				radius.showRadius();
+			}
+			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if(tmp != null) {
 					tmp.setVisible(false);
@@ -298,7 +306,7 @@ public class MapScreen implements Screen {
 				}
 
 				tmp = new Image(new Texture("img/firstDragon.png"));
-				tmp.setPosition(Gdx.input.getX()-45, Gdx.graphics.getHeight()-Gdx.input.getY()-40);
+				tmp.setPosition(Gdx.input.getX()-tmp.getWidth()/2, Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2);
 				tmp.setTouchable(null);
 				radius.setRadius(200);
 				buildIndex = 1;
@@ -315,13 +323,13 @@ public class MapScreen implements Screen {
 				}
 
 				tmp = new Image(new Texture("img/iceDragon.png"));
-				tmp.setPosition(Gdx.input.getX()-45, Gdx.graphics.getHeight()-Gdx.input.getY()-40);
+				tmp.setPosition(Gdx.input.getX()-tmp.getWidth()/2, Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2);
 				tmp.setTouchable(null);
 				radius.setRadius(150);
 				buildIndex = 2;
 			}
 		});
-		
+
 		Image mt = new Image(new Texture("img/hydra.png"));
 		mt.addListener(new ClickListener() {
 			@Override
@@ -332,13 +340,13 @@ public class MapScreen implements Screen {
 				}
 
 				tmp = new Image(new Texture("img/hydra.png"));
-				tmp.setPosition(Gdx.input.getX()-45, Gdx.graphics.getHeight()-Gdx.input.getY()-40);
+				tmp.setPosition(Gdx.input.getX()-tmp.getWidth()/2, Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2);
 				tmp.setTouchable(null);
 				radius.setRadius(400);
 				buildIndex = 3;
 			}
 		});
-		
+
 		TextButton upgradeBtn = new TextButton("Upgrade", uiSkin);
 		TextButton sellBtn = new TextButton("Sell", uiSkin);
 		TextButton nextWaveBtn = new TextButton("Next Wave", uiSkin);
