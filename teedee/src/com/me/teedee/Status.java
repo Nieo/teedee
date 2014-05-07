@@ -8,10 +8,10 @@ package com.me.teedee;
  */
 
 public class Status {
-	private double speedRatio;
-	private double damagePerSecond;
-	private double influenceTime;
-	private double timeLeft;
+	private float speedRatio;
+	private float damagePerSecond;
+	private float influenceTime;
+	private float timeLeft;
 	
 	/**
 	 * Constructs a default status
@@ -26,7 +26,7 @@ public class Status {
 	 * @param damagePerSecond the damage the enemy will take per second during the status time of influence
 	 * @param influenceTime the time in seconds that the status will have influence on the enemy
 	 */
-	public Status(double speedRatio, double damagePerSecond, double influenceTime){
+	public Status(float speedRatio, float damagePerSecond, float influenceTime){
 		this.speedRatio = speedRatio;
 		this.damagePerSecond = damagePerSecond;
 		this.influenceTime = influenceTime;
@@ -48,7 +48,7 @@ public class Status {
 	 * 
 	 * @return the status' applied speed
 	 */
-	public double getSpeedRatio(){
+	public float getSpeedRatio(){
 		return speedRatio;
 	}
 	
@@ -56,7 +56,7 @@ public class Status {
 	 * 
 	 * @return the status' applied damage per second
 	 */
-	public double getDamagePerSecond(){
+	public float getDamagePerSecond(){
 		return damagePerSecond;
 	}
 	
@@ -64,7 +64,7 @@ public class Status {
 	 * 
 	 * @return the status' applied time of influence
 	 */
-	public double getInfluenceTime(){
+	public float getInfluenceTime(){
 		return influenceTime;
 	}
 	
@@ -72,7 +72,7 @@ public class Status {
 	 * 
 	 * @return how many seconds the status will affect the enemy before it disappears
 	 */
-	public double getTimeLeft(){
+	public float getTimeLeft(){
 		return timeLeft;
 	}
 	
@@ -81,7 +81,7 @@ public class Status {
 	 * Reducing the time that's left for the status to affect the enemy
 	 * @param time the time, in seconds, to reduce the status' time left
 	 */
-	public void reduceTimeLeft(double time){
+	public void reduceTimeLeft(float time){
 		this.timeLeft -= time;
 	}
 }

@@ -23,7 +23,7 @@ public class IceTower extends AbstractTower {
 		for(int i = 0; i < 5; i++)
 			attackDamage[i] = 1 + i/2;
 		
-		status = new Status(0.5, 0, 1);
+		status = new Status(0.5f, 0, 1);
 		setPosition(pos);
 		this.enemies = enemies;
 		range = 150;
