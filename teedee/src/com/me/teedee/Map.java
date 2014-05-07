@@ -191,15 +191,15 @@ public class Map {
 		}
 	}
 
-	public void updateEnemiesPositions() {
+	public void updateEnemiesPositions(float delta) {
 		for(int i = 0; i < currentEnemies.size(); i++) {
-			currentEnemies.get(i).move();
+			currentEnemies.get(i).move(delta);
 		}
 	}
 
-	public void towersShoot() {
+	public void towersShoot(float delta) {
 		for(AbstractTower tower : towers) {
-			tower.shoot();
+			tower.shoot(delta);
 		}
 	}
 
@@ -216,20 +216,20 @@ public class Map {
 		}
 	}
 
-	public void update() {
+	public void update(float delta) {
 		playerTakesLife();
 		this.removeDeadEnemies(); //Must be done first, since the EnemyViews must have a reference to the enemy for deletion
-		this.updateEnemiesPositions();
-		this.towersShoot();
-		this.updateEnemiesStatuses();
+		this.updateEnemiesPositions(delta);
+		this.towersShoot(delta);
+		this.updateEnemiesStatuses(delta);
 	}
 	
-	public void updateEnemiesStatuses(){
+	public void updateEnemiesStatuses(float delta){
 		for(int i = 0; i < currentEnemies.size();i++){
 			Iterator<Status> statusMapIterator = currentEnemies.get(i).getStatusMap().values().iterator();
 			while(statusMapIterator.hasNext()){
 				Status tempStatus = statusMapIterator.next();
-				tempStatus.reduceTimeLeft(1.0/60.0); //TODO UPDATE_SPEED should not lie here, so how to solve?
+				tempStatus.reduceTimeLeft(delta); //TODO UPDATE_SPEED should not lie here, so how to solve?
 				//Remove the status if it has influenced the enemy enough time
 				if(tempStatus.getTimeLeft() <= 0){
 					statusMapIterator.remove();

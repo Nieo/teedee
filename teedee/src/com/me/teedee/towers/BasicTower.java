@@ -18,7 +18,7 @@ public class BasicTower extends AbstractTower {
 		currentLevel = 0;
 		maxLevel = 5;
 		for(int i = 0; i < 5; i++)
-			attackSpeed[i] = 5 + i;
+			attackSpeed[i] = 1;
 		
 		for(int i = 0; i < 5; i++)
 			attackDamage[i] = 1 + i;
