@@ -165,11 +165,15 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 	}
 
 	public void move(float delta) {
-		reachedEnd = false;
+		System.out.println("Moving");
+		for(Position p: path.getPositions())
+			System.out.println(p.toString());
+		//reachedEnd = false;
 		boolean checkpointFound = false;
 		//xSpeed = 1;	//TODO debug
 		if(reachedCheckpoint(nextCheckPoint, delta)) {
-			setPosition(nextCheckPoint);
+			setPosition(new Position(nextCheckPoint));
+			System.out.println("Next " + nextCheckPoint.toString());
 			checkpointFound = true;
 			if(i+1 < path.getPositions().size()) {
 				i++;
@@ -180,14 +184,18 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 				float dx = position.getX()-nextCheckPoint.getX();
 				float dy = position.getY()-nextCheckPoint.getY();
 				
-				if(Math.abs(dx) > 3f) {
+				System.out.println("My   " + position.toString());
+				System.out.println("Next " + nextCheckPoint.toString());
+				
+				System.out.println("dx " + dx + "  dy " + dy);
+				if(Math.abs(dx) > Math.abs(dy)) {
 					if(dx > 0) {
 						xSpeed = -speed;
 					} else {
 						xSpeed = speed;
 					}
 				}
-				if(Math.abs(dy) > 3f) {
+				else {
 					if(dy > 0) {
 						ySpeed = -speed;
 					} else {
@@ -200,7 +208,7 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 			}
 		}
 		
-		if(!reachedEnd || !checkpointFound) {
+		if(!reachedEnd && !checkpointFound) {
 			position.setxCoordinate(position.getX()+xSpeed*(float)getOverallStatus().getSpeedRatio()*delta);
 			position.setyCoordinate(position.getY()+ySpeed*(float)getOverallStatus().getSpeedRatio()*delta);
 		}
