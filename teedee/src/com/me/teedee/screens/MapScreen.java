@@ -32,13 +32,14 @@ import com.me.teedee.towers.BasicTower;
 import com.me.teedee.towers.IceTower;
 import com.me.teedee.towers.MultiTower;
 
-
 /**
  * A screen that represents a the map with its
  * enemies and towers on the screen.
  * @author Daniel
  */
 public class MapScreen implements Screen {
+
+	// TODO Make all possible variables more local!!!
 
 	private Map m;
 	private Stage hud;
@@ -49,32 +50,24 @@ public class MapScreen implements Screen {
 	private Label moneyLabel;
 	private Label hpLabel;
 
+	private InfoImage info;
 	private RadiusImage radius;
-
 	private Image chosedTowerImage;
+	private TowerView chosedTower;
 
-	//The bullet should NOT be created here! Only for test purposes 
-	//Bullet bullet = new Bullet(600,350,100,0,2f,new Texture("img/RedBullet.png"));
-
+	private int towerIndex = 0;		// TODO change this shit, maybe not, i dont know
 	private int waveIndex = 0;
-
 	private List<EnemyView> enemyList = new ArrayList<EnemyView>();
 	private List<Bullet> bulletList = new ArrayList<Bullet>();
 	private List<TowerView> towerList = new ArrayList<TowerView>();
-	private int towerIndex = 0;			// TODO change this shit, maybe not, i dont know
-
-	FPSLogger fps = new FPSLogger();		// TODO debug
-
-	Image tmp;						// TODO tmp varaible, should probably create new class to handle this
-	private int buildIndex = 0;		//	^this
-
-	private TowerView chosedTower;
-
-	protected boolean buildAble;		//TODO remove?
 
 	private Sprite[] tiledPath;
 
-	private InfoImage info;
+	Image tmp;						// TODO tmp varaible, should probably create new class to handle this
+
+	private int buildIndex = 0;		//	^this
+	protected boolean buildAble;		//TODO remove?
+	FPSLogger fps = new FPSLogger();		// TODO debug
 
 	public MapScreen() {
 		//Specifying the path positions

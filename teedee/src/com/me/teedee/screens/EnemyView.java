@@ -16,8 +16,6 @@ public class EnemyView extends Sprite {
 	
 	private AbstractEnemy enemy;
 	private Sprite sprite;
-	private float width;
-	private float height;
 	private Sprite green;
 	private Sprite red;
 	private Texture t = new Texture("img/firstEnemy.png");
@@ -40,9 +38,7 @@ public class EnemyView extends Sprite {
 		}
 		sprite=new Sprite(t); 
 		this.set(sprite);
-		
-		height = sprite.getHeight();
-		width = sprite.getWidth();
+
 		this.enemy = abstractEnemy;
 		green = new Sprite(new Texture("img/green.png"));
 		red = new Sprite(new Texture("img/red.png"));

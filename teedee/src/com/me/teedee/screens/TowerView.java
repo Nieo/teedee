@@ -63,7 +63,6 @@ public class TowerView extends Sprite {
 		}
 		setRotation(angle);
 
-
 		if(tower.isShooting()) {
 			//TODO
 		}
@@ -89,7 +88,7 @@ public class TowerView extends Sprite {
 			upgradeBasicTower();
 			break;
 		case 2:
-			//upgradeIceTower();
+			upgradeIceTower();
 			break;
 		case 3:
 			upgradeMultiTower();
@@ -104,16 +103,16 @@ public class TowerView extends Sprite {
 		String picPath = "";
 		switch(tower.getCurrentLevel()) {
 		case 1:
-			picPath = "img/iceDragon1.png";
+			picPath = "img/iceDragon.png";
 			break;
 		case 2:
-			picPath = "img/iceDragon2.png";
+			picPath = "img/iceDragon.png";
 			break;
 		case 3:
-			picPath = "img/iceDragon3.png";
+			picPath = "img/iceDragon.png";
 			break;
 		case 4:
-			picPath = "img/iceDragon4.png";
+			picPath = "img/iceDragon.png";
 			break;
 		default:
 			picPath = "img/iceDragon.png";
