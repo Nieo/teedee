@@ -25,10 +25,10 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 	private Lives lives;
 	
 	/**
-	 * The speed of the enemy unit
+	 * The speed of the enemy unit in points per second
 	 */
-	private float defaultSpeed;
 	private float speed;
+	private float defaultSpeed;
 	
 	public float getSpeed() {
 		return speed;
@@ -104,7 +104,7 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 	 */	
 	public AbstractEnemy(Path p) {
 		
-		this(p,2.0f, new Lives(),new Reward(100), new Position());
+		this(p,120f, new Lives(),new Reward(100), new Position());
 	}
 	
 	/**
@@ -125,14 +125,9 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 		this.lives = l;
 		
 		this.reward = r;
-		
-		this.statusMap = new HashMap<AbstractTower,Status>();
-
 		xSpeed = speed;
-		
-		//this.setPosition(path.next());
+		this.statusMap = new HashMap<AbstractTower,Status>();
 		this.setPosition(path.getPositions().get(0));
-		
 		this.nextCheckPoint = path.getPositions().get(0);
 	}
 	/**
@@ -166,7 +161,7 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 		return new Status(overallSpeedRatio,overallDamagePerSecond,10);
 	}
 
-	public void move() {
+	public void move(float delta) {
 		reachedEnd = false;
 		//xSpeed = 1;	//TODO debug
 		if(reachedCheckpoint(nextCheckPoint)) {
@@ -200,8 +195,8 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 		}
 		
 		if(!reachedEnd) {
-			position.setxCoordinate(position.getX()+xSpeed*(float)getOverallStatus().getSpeedRatio());
-			position.setyCoordinate(position.getY()+ySpeed*(float)getOverallStatus().getSpeedRatio());
+			position.setxCoordinate(position.getX()+xSpeed*(float)getOverallStatus().getSpeedRatio()*delta);
+			position.setyCoordinate(position.getY()+ySpeed*(float)getOverallStatus().getSpeedRatio()*delta);
 		}
 		//return reachedEnd;
 	}

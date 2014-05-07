@@ -20,8 +20,8 @@ public class BasicEnemy extends AbstractEnemy {
 		// TODO Auto-generated constructor stub
 	}
 
-	public BasicEnemy(Path p, float sp, Lives l, Reward r, Position pos) {
-		super(p,sp,l,r,pos);
+	public BasicEnemy(Path p, Position pos) {
+		super(p,120f,new Lives(100),new Reward(50),pos);
 		//TODO
 	}
 	

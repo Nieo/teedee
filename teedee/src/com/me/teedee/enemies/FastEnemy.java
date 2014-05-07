@@ -15,8 +15,8 @@ public class FastEnemy extends AbstractEnemy {
 		updateFastEnemy();
 	}
 	
-	public FastEnemy(Path p, float sp, Lives l, Reward r, Position pos) {
-		super(p, sp,l,r,pos);
+	public FastEnemy(Path p, Position pos) {
+		super(p, 120f,new Lives(100),new Reward(50),pos);
 		updateFastEnemy();
 	}
 	

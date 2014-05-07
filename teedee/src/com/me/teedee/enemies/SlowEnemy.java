@@ -14,8 +14,8 @@ public class SlowEnemy extends AbstractEnemy {
 		updateSlowEnemy();
 	}
 
-	public SlowEnemy(Path p, float sp, Lives l, Reward r, Position pos) {
-		super(p, sp, l, r, pos);
+	public SlowEnemy(Path p, Position pos) {
+		super(p, 120f, new Lives(100), new Reward(50), pos);
 		updateSlowEnemy();
 	}
 
