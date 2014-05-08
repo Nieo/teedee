@@ -134,7 +134,7 @@ public class DiffSelScreen implements Screen {
 		}else{
 			DiffSelScreen.this.diff=1;
 		}
-		((Game) Gdx.app.getApplicationListener()).setScreen(new MapScreen());
+		((Game) Gdx.app.getApplicationListener()).setScreen(new MapScreen(diff,1));
 	}
 	}
 	

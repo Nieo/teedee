@@ -23,9 +23,10 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.me.teedee.Bullet;
 import com.me.teedee.Map;
 import com.me.teedee.Path;
+import com.me.teedee.PathFactory;
 import com.me.teedee.Player;
 import com.me.teedee.Position;
-import com.me.teedee.WaveCreator;
+import com.me.teedee.WaveFactory;
 import com.me.teedee.enemies.AbstractEnemy;
 import com.me.teedee.towers.AbstractTower;
 import com.me.teedee.towers.BasicTower;
@@ -69,25 +70,16 @@ public class MapScreen implements Screen {
 	protected boolean buildAble;		//TODO remove?
 	FPSLogger fps = new FPSLogger();		// TODO debug
 
-	public MapScreen() {
-		//Specifying the path positions
-		List<Position> pathPositions = new ArrayList<Position>();
-		pathPositions.add(new Position(0,490));
-		pathPositions.add(new Position(740,490));
-		pathPositions.add(new Position(740,300));
-		pathPositions.add(new Position(160,300));
-		pathPositions.add(new Position(160,90));
-		pathPositions.add(new Position(850,90));
-		pathPositions.add(new Position(850,720));
+	public MapScreen(int difficulty, int pathChoice) {
 
 		//Creating the path
-		Path path = new Path(pathPositions);
+		Path path = PathFactory.createPath(pathChoice);
 
 		//Creating a player
 		Player player = new Player();
 
 		//Creating the map
-		m = new Map(WaveCreator.creatHardWave(path), path, player);
+		m = new Map(WaveFactory.createWave(difficulty,path), path, player);
 
 		tiledPath = new Sprite[m.getPath().getPositions().size()];
 
