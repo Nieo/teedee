@@ -85,7 +85,7 @@ public class GameOverScreen implements Screen{
 		stage.addActor(table);
 		
 		batch = new SpriteBatch();	
-		background = new Texture("data/MainMenu.png");
+		background = new Texture("data/GAME_OVER_Screen.png");
 		backgroundSprite = new Sprite(background);
 		backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
