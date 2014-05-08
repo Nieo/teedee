@@ -3,12 +3,15 @@ package com.me.teedee.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -31,16 +34,19 @@ public class DiffSelScreen implements Screen {
 	private TextButton easyButton;
 	private TextButton normalButton;
 	private TextButton hardButton;
+	private TextButton startGame;
+	
+	private ButtonGroup bg;
 	
 	
 	
-	private int diff;
+	private int diff=2;
 	
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+		
 		batch.begin();
 		bSprite.draw(batch);
 		batch.end();
@@ -66,24 +72,45 @@ public class DiffSelScreen implements Screen {
 		table = new Table(skin);
 		table.setFillParent(true);
 		
+		
+		
 		DiffListener dl = new DiffListener();
 		
 		easyButton = new TextButton("Easy", skin);
 		easyButton.setName("Easy");
 		easyButton.addListener(dl);
-		
+		easyButton.setColor(Color.GRAY);
 		
 		normalButton = new TextButton("Normal", skin);
 		normalButton.setName("Normal");
 		normalButton.addListener(dl);
+		normalButton.setColor(Color.RED);
 		
 		hardButton = new TextButton("Hard", skin);
 		hardButton.setName("Hard");
 		hardButton.addListener(dl);
+		hardButton.setColor(Color.GRAY);
+		
+		startGame = new TextButton("Start", skin);
+		startGame.setName("Start");
+		startGame.addListener(dl);
+		
+		normalButton.setChecked(true);
+		
+		
+		bg = new ButtonGroup(easyButton, normalButton, hardButton);
+		bg.setMaxCheckCount(1);
+		bg.setMinCheckCount(0);
+		bg.setUncheckLast(true);
+		
 		
 		table.add(easyButton).width(200).spaceBottom(20).row();
 		table.add(normalButton).width(200).spaceBottom(20).row();
-		table.add(hardButton).width(200);
+		table.add(hardButton).width(200).spaceBottom(20).row();
+		
+		table.add(startGame).width(200).height(50);
+		
+		
 		
 		stage.addActor(table);
 		
@@ -131,11 +158,24 @@ public class DiffSelScreen implements Screen {
 			DiffSelScreen.this.diff=2;
 		}else if(s.equals("Hard")){
 			DiffSelScreen.this.diff=3;
-		}else{
-			DiffSelScreen.this.diff=1;
 		}
+		
+		for(Button tb: bg.getButtons()){
+			if(tb.isChecked()){
+				tb.setDisabled(true);
+				tb.setColor(Color.RED);
+			}else{
+				tb.setDisabled(false);
+				tb.setColor(Color.GRAY);
+			}
+		}
+		
+		
+		if(event.getListenerActor().getName().equals("Start")){
+			System.out.println("Difficulty is "+diff);
 		((Game) Gdx.app.getApplicationListener()).setScreen(new MapScreen(diff,1));
-	}
+		}
+		}
 	}
 	
 	
