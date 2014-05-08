@@ -23,6 +23,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.me.teedee.Bullet;
 import com.me.teedee.Map;
 import com.me.teedee.Path;
+import com.me.teedee.PathFactory;
 import com.me.teedee.Player;
 import com.me.teedee.Position;
 import com.me.teedee.WaveCreator;
@@ -70,18 +71,9 @@ public class MapScreen implements Screen {
 	FPSLogger fps = new FPSLogger();		// TODO debug
 
 	public MapScreen() {
-		//Specifying the path positions
-		List<Position> pathPositions = new ArrayList<Position>();
-		pathPositions.add(new Position(0,490));
-		pathPositions.add(new Position(740,490));
-		pathPositions.add(new Position(740,300));
-		pathPositions.add(new Position(160,300));
-		pathPositions.add(new Position(160,90));
-		pathPositions.add(new Position(850,90));
-		pathPositions.add(new Position(850,720));
 
 		//Creating the path
-		Path path = new Path(pathPositions);
+		Path path = PathFactory.createPath(1);
 
 		//Creating a player
 		Player player = new Player();
