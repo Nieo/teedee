@@ -18,6 +18,20 @@ public class WaveCreator {
 	 * the wave and not just add more enemies of the same kind in a pattern.
 	 * 
 	 */
+	public static ArrayList<Wave> createWave(int d, Path p){
+		switch(d){
+		case 1:
+			return creatEasyWave(p);
+		case 2:
+			return creatMediumWave(p);
+		case 3:
+			return creatHardWave(p);
+		default:
+			return creatHardWave(p);
+		}
+	}
+	
+	
 	
 	public static ArrayList<Wave> creatEasyWave(Path path) {
 		int[] enemies = {5};
