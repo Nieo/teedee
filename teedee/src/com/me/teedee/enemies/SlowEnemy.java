@@ -28,7 +28,7 @@ public class SlowEnemy extends AbstractEnemy {
 		this.setSpeed(this.getSpeed()*0.5f);
 		int nr=(int) (this.getEnemyReward().getReward()*1.3);
 		this.setReward( new Reward(nr));
-		int nl= (int) (this.getLives().getLivesHealth()*2);
+		int nl= (int) (this.getLives().getCurrentLives()*2);
 		this.setLives(new Lives(nl));
 	}
 	

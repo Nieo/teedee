@@ -29,7 +29,7 @@ public class FastEnemy extends AbstractEnemy {
 		this.setSpeed(this.getSpeed()*1.5f);
 		int nr=(int) (this.getEnemyReward().getReward()*1.3);
 		this.setReward( new Reward(nr));
-		int nl= (int) (this.getLives().getLivesHealth()*0.7);
+		int nl= (int) (this.getLives().getCurrentLives()*0.7);
 		this.setLives(new Lives(nl));
 	}
 	
