@@ -17,8 +17,8 @@ import com.me.teedee.towers.BasicTower;
 
 public class MapTest {
 	
-	private List<AbstractTower> towers = new ArrayList<AbstractTower>();
-	private ArrayList<Wave> waves = new ArrayList<Wave>();
+	private List<AbstractTower> towers;
+	private ArrayList<Wave> waves;
 	private Path path; 
 	private Player player;
 	private ArrayList<AbstractEnemy> currentEnemies;
@@ -38,15 +38,14 @@ public class MapTest {
 		pathPositions.add(new Position(850,90));
 		pathPositions.add(new Position(850,720));
 
-		//Creating the path
 		path = new Path(pathPositions);
-
-		//Creating a player
 		player = new Player();
-
-		//Creating the map
-		map = new Map(WaveCreator.creatHardWave(path), path, player);
+		map = new Map(WaveFactory.creatHardWave(path), path, player);
+		waves = new ArrayList<Wave>();
+		towers = new ArrayList<AbstractTower>();
+		
 		System.out.println("Test set up");
+		
 	}
 	
     @After
@@ -134,7 +133,7 @@ public class MapTest {
 	public void testNextWave() {
 		List<AbstractEnemy> wave1 = map.getEnemies();
 		
-		//Assert
+		//Assert that there are no enemies from the beginning
 		assertTrue(wave1.isEmpty());
 		
 		map.nextWave();
