@@ -47,7 +47,9 @@ public class MultiTower extends AbstractTower {
 				bullets = targets.size();
 			}
 			for(int i = 0; i < bullets; i++){
-				targets.get(i).takeDamage(attackDamage[currentLevel], status);
+				if(!targets.get(i).takeDamage(attackDamage[currentLevel], status)) {
+					kills++;
+				}
 			}	
 		}
 		

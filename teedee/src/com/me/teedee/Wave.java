@@ -1,6 +1,7 @@
 package com.me.teedee;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import com.me.teedee.enemies.AbstractEnemy;
 import com.me.teedee.enemies.BasicEnemy;
@@ -28,6 +29,7 @@ public class Wave {
 	}
 	
 	public ArrayList<AbstractEnemy> getEnemies(){
+		Collections.shuffle(enemies);
 		return enemies;
 		
 	}

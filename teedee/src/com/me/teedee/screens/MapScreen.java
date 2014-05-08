@@ -102,13 +102,13 @@ public class MapScreen implements Screen {
 			dx = x2-x1;
 			dy = y2-y1;
 			if(dx > 0)
-				tiledPath[i].setBounds(x1+20, y1+30, dx+60, 60);			
+				tiledPath[i].setBounds(x1, y1, dx, 60);			
 			else if(dx < 0)
-				tiledPath[i].setBounds(x1+80, y1+30, dx-60, 60);
+				tiledPath[i].setBounds(x1, y1, dx, 60);
 			else if(dy > 0)
-				tiledPath[i].setBounds(x1+30, y1+30, 60, dy+60);
+				tiledPath[i].setBounds(x1, y1, 60, dy);
 			else if(dy < 0)
-				tiledPath[i].setBounds(x1+20, y1+90, 60, dy-60);
+				tiledPath[i].setBounds(x1, y1+60, 60, dy-60);
 			//else
 			//tiledPath[i].setBounds(x1, y1-30, dx, dy);
 		}
@@ -192,7 +192,7 @@ public class MapScreen implements Screen {
 			waveIndex = m.getWaveIndex();
 		}
 
-		hpLabel.setText("HP: " + m.getPlayer().getLives().getLivesHealth());
+		hpLabel.setText("HP: " + m.getPlayer().getLives().getCurrentLives());
 		moneyLabel.setText("$ " + m.getPlayer().getMoneyInt());
 
 		if(chosedTower != null) {
@@ -241,6 +241,7 @@ public class MapScreen implements Screen {
 		final TextButton upgradeBtn = new TextButton("Upgrade", uiSkin);
 		final TextButton sellBtn = new TextButton("Sell", uiSkin);
 		final TextButton nextWaveBtn = new TextButton("Next Wave", uiSkin);
+		final TextButton cancelBuyBtn = new TextButton("Cancel Buy", uiSkin);
 
 		Table guiTable = new Table();
 		Table towerInfoTable = new Table();
@@ -343,8 +344,13 @@ public class MapScreen implements Screen {
 						}
 					} else if(event.getListenerActor() == nextWaveBtn) {
 						m.nextWave();
+					} else if(event.getListenerActor() == cancelBuyBtn) {
+						if(tmp != null) {
+							tmp.setVisible(false);
+							tmp = null;
+						}
 					}
-				}
+				} 
 			}
 
 			@Override
@@ -380,6 +386,7 @@ public class MapScreen implements Screen {
 		upgradeBtn.addListener(clickListener);
 		sellBtn.addListener(clickListener);
 		nextWaveBtn.addListener(clickListener);
+		cancelBuyBtn.addListener(clickListener);
 
 		towerInfoTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
 		towerInfoTable.add(chosedTowerImage).left().row();
@@ -390,7 +397,7 @@ public class MapScreen implements Screen {
 
 		Table buildTable = new Table();
 		buildTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
-		buildTable.add(hpLabel = new Label("HP: " + m.getPlayer().getLives().getLivesHealth(), uiSkin)).padTop(10).row();
+		buildTable.add(hpLabel = new Label("HP: " + m.getPlayer().getLives().getCurrentLives(), uiSkin)).padTop(10).row();
 		buildTable.add(moneyLabel = new Label("$ " + m.getPlayer().getMoneyInt(), uiSkin)).padBottom(30).row();
 		buildTable.add(bt).top().padLeft(20);
 		buildTable.add(it);
@@ -404,7 +411,8 @@ public class MapScreen implements Screen {
 
 		guiTable.add(buildTable).row();
 		guiTable.add(towerInfoTable).width(315).row();
-		guiTable.add(nextWaveBtn).width(200).height(100).padTop(20).padBottom(20);
+		guiTable.add(nextWaveBtn).width(200).height(60).padTop(5).padBottom(0).row();
+		guiTable.add(cancelBuyBtn).width(200).height(60).padTop(0).padBottom(0);
 
 		table = new Table();
 		//table.debug();			//TODO debug

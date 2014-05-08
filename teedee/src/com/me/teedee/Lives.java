@@ -22,7 +22,7 @@ public class Lives {
 		return currentLives >  0;
 	}
 	
-	public float getLivesHealth() {
+	public float getCurrentLives() {
 		return currentLives;
 	}
 	public float getMaxLives() {

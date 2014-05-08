@@ -164,15 +164,12 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 	}
 
 	public void move(float delta) {
-		System.out.println("Moving");
-		for(Position p: path.getPositions())
-			System.out.println(p.toString());
+
 		//reachedEnd = false;
 		boolean checkpointFound = false;
 		//xSpeed = 1;	//TODO debug
 		if(reachedCheckpoint(nextCheckPoint, delta)) {
 			setPosition(new Position(nextCheckPoint));
-			System.out.println("Next " + nextCheckPoint.toString());
 			checkpointFound = true;
 			if(i+1 < path.getPositions().size()) {
 				i++;
@@ -183,10 +180,6 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 				float dx = position.getX()-nextCheckPoint.getX();
 				float dy = position.getY()-nextCheckPoint.getY();
 				
-				System.out.println("My   " + position.toString());
-				System.out.println("Next " + nextCheckPoint.toString());
-				
-				System.out.println("dx " + dx + "  dy " + dy);
 				if(Math.abs(dx) > Math.abs(dy)) {
 					if(dx > 0) {
 						xSpeed = -speed;

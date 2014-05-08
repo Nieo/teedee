@@ -62,7 +62,7 @@ public class EnemyView extends Sprite {
 		setY(enemy.getPosition().getY());
 		green.setX(getX());
 		green.setY(getY()+getHeight());
-		float tmpHP = enemy.getLives().getLivesHealth();
+		float tmpHP = enemy.getLives().getCurrentLives();
 		float maxHP = enemy.getLives().getMaxLives();
 		green.setSize(red.getWidth()*(tmpHP/maxHP), red.getHeight());
 		red.setX(getX());
