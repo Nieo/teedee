@@ -91,5 +91,13 @@ public class InfoImage {
 	public void hide() {
 		alpha = 0;
 	}
+	
+	public float getHeight() {
+		return table.getHeight();
+	}
+	
+	public float getWidth() {
+		return table.getWidth();
+	}
 
 }

@@ -44,6 +44,7 @@ public class MapScreen implements Screen {
 	private Map m;
 	private Stage hud;
 	private Table table;
+	private Table guiTable;
 
 	private Label towerName;
 	private Label towerKills;
@@ -70,6 +71,7 @@ public class MapScreen implements Screen {
 	FPSLogger fps = new FPSLogger();		// TODO debug
 
 	public MapScreen() {
+		guiTable = new Table();
 		//Specifying the path positions
 		List<Position> pathPositions = new ArrayList<Position>();
 		pathPositions.add(new Position(0,490));
@@ -174,7 +176,7 @@ public class MapScreen implements Screen {
 			towerList.get(i).draw(hud.getSpriteBatch());
 		}
 
-		info.setPosition(800, Gdx.graphics.getHeight()-Gdx.input.getY()-100);
+		info.setPosition(guiTable.getX()-info.getWidth()*1.1f, Gdx.graphics.getHeight()-Gdx.input.getY()-info.getHeight()/2);	//TODO fix y position
 		info.draw(hud.getSpriteBatch());
 	}
 
@@ -218,6 +220,7 @@ public class MapScreen implements Screen {
 	@Override
 	public void resize(int width, int height) {
 		hud.getViewport().update(width, height, true);
+		table.invalidateHierarchy();
 	}
 
 	public TowerView clickedOnTower(float x, float y) {
@@ -243,8 +246,8 @@ public class MapScreen implements Screen {
 		final TextButton nextWaveBtn = new TextButton("Next Wave", uiSkin);
 		final TextButton cancelBuyBtn = new TextButton("Cancel Buy", uiSkin);
 
-		Table guiTable = new Table();
 		Table towerInfoTable = new Table();
+		Table buildTable = new Table();
 
 		hud = new Stage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())); // OR
 		hud.setViewport(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
@@ -350,7 +353,10 @@ public class MapScreen implements Screen {
 							tmp = null;
 						}
 					}
-				} 
+				}
+				
+				System.out.println(Gdx.input.getX()+ " " + Gdx.input.getY());
+				System.out.println(Gdx.graphics.getWidth()+" "+Gdx.graphics.getHeight());
 			}
 
 			@Override
@@ -395,7 +401,6 @@ public class MapScreen implements Screen {
 		towerInfoTable.add(upgradeBtn).width(100).height(70).padBottom(20).padTop(20).padRight(20);
 		towerInfoTable.add(sellBtn).width(100).height(70);
 
-		Table buildTable = new Table();
 		buildTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
 		buildTable.add(hpLabel = new Label("HP: " + m.getPlayer().getLives().getCurrentLives(), uiSkin)).padTop(10).row();
 		buildTable.add(moneyLabel = new Label("$ " + m.getPlayer().getMoneyInt(), uiSkin)).padBottom(30).row();
@@ -413,6 +418,7 @@ public class MapScreen implements Screen {
 		guiTable.add(towerInfoTable).width(315).row();
 		guiTable.add(nextWaveBtn).width(200).height(60).padTop(5).padBottom(0).row();
 		guiTable.add(cancelBuyBtn).width(200).height(60).padTop(0).padBottom(0);
+		//guiTable.debug();		//TODO debug;
 
 		table = new Table();
 		//table.debug();			//TODO debug
