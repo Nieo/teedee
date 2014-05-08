@@ -26,7 +26,7 @@ import com.me.teedee.Path;
 import com.me.teedee.PathFactory;
 import com.me.teedee.Player;
 import com.me.teedee.Position;
-import com.me.teedee.WaveCreator;
+import com.me.teedee.WaveFactory;
 import com.me.teedee.enemies.AbstractEnemy;
 import com.me.teedee.towers.AbstractTower;
 import com.me.teedee.towers.BasicTower;
@@ -70,16 +70,16 @@ public class MapScreen implements Screen {
 	protected boolean buildAble;		//TODO remove?
 	FPSLogger fps = new FPSLogger();		// TODO debug
 
-	public MapScreen() {
+	public MapScreen(int difficulty, int pathChoice) {
 
 		//Creating the path
-		Path path = PathFactory.createPath(1);
+		Path path = PathFactory.createPath(pathChoice);
 
 		//Creating a player
 		Player player = new Player();
 
 		//Creating the map
-		m = new Map(WaveCreator.creatHardWave(path), path, player);
+		m = new Map(WaveFactory.createWave(difficulty,path), path, player);
 
 		tiledPath = new Sprite[m.getPath().getPositions().size()];
 
