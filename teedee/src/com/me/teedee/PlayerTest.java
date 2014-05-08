@@ -32,7 +32,7 @@ public class PlayerTest {
 		player.takeDamage(75);
 		player.takeDamage(5);
 		//The player has 100 in lives when instantiated
-		assertTrue(player.getLives().getLivesHealth() == 20);
+		assertTrue(player.getLives().getCurrentLives() == 20);
 		
 	}
 

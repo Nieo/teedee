@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.me.teedee.enemies.AbstractEnemy;
+import com.me.teedee.screens.GameOverScreen;
+import com.me.teedee.screens.MainMenuScreen;
 import com.me.teedee.towers.AbstractTower;
 
 /**
@@ -23,6 +27,7 @@ public class Map {
 
 	//TODO temporary, this can probably be done in a different way
 	private int waveIndex = 0;
+	private boolean gameIsOn;
 
 	/**
 	 * Constructs a map containing the given waves, path and player
@@ -42,6 +47,7 @@ public class Map {
 		for(int i = 0; i < currentEnemies.size(); i++) {
 			currentEnemies.get(i).setPosition(new Position(currentEnemies.get(i).getPosition().getX()-100*i,currentEnemies.get(i).getPosition().getY()));
 		}
+		gameIsOn = true;
 	}
 
 	/**
@@ -57,6 +63,7 @@ public class Map {
 		//if(!this.waves.isEmpty()) {
 		this.currentEnemies = this.waves.get(0).getEnemies();
 		//}
+		gameIsOn = true;
 	}
 
 	/**
@@ -225,6 +232,12 @@ public class Map {
 		this.updateEnemiesPositions(delta);
 		this.towersShoot(delta);
 		this.updateEnemiesStatuses(delta);
+		
+		if(player.getLives().getCurrentLives()<=0){
+			gameIsOn = false;
+			((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen());
+		}
+			
 	}
 	
 	public void updateEnemiesStatuses(float delta){
