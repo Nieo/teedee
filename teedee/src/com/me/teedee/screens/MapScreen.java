@@ -102,13 +102,13 @@ public class MapScreen implements Screen {
 			dx = x2-x1;
 			dy = y2-y1;
 			if(dx > 0)
-				tiledPath[i].setBounds(x1+20, y1+30, dx+60, 60);			
+				tiledPath[i].setBounds(x1, y1, dx, 60);			
 			else if(dx < 0)
-				tiledPath[i].setBounds(x1+80, y1+30, dx-60, 60);
+				tiledPath[i].setBounds(x1, y1, dx, 60);
 			else if(dy > 0)
-				tiledPath[i].setBounds(x1+30, y1+30, 60, dy+60);
+				tiledPath[i].setBounds(x1, y1, 60, dy);
 			else if(dy < 0)
-				tiledPath[i].setBounds(x1+20, y1+90, 60, dy-60);
+				tiledPath[i].setBounds(x1, y1+60, 60, dy-60);
 			//else
 			//tiledPath[i].setBounds(x1, y1-30, dx, dy);
 		}
