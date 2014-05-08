@@ -1,0 +1,52 @@
+Meeting Agenda
+
+  Date:140508
+
+  Facilitator:Jacob Genander
+
+  Participants:David Michaëlsson, Erik Pihl, Daniel Jansson
+
+1. Objectives (5 min) Resolve any issues preventing the team to
+  continue (this should be possible to verify at next meeting,
+  short clear description, use issues from project site).
+
+	a. Need more code to reach the goal (750 rows/person)
+	b. Need more tests to verify that the code is working properly.
+
+2. Reports (15 min) From previous meetings, (un)solved issues,
+  etc. , see also 4
+	Stuff is now being drawn at the right places.
+	The aim issue for towers is now solved.
+	The enemies are now moving accordingly to their path.
+	The documentation is still to be completed.
+	Two more enemies and one tower has been made.
+	No more maps have been made.
+
+3. Discussion items (35 min)
+
+  (a) How do we efficiently send a value (svårighetsgraden) from MapScreen to Map?
+	The problem is that it has to be sent in many steps.
+
+  (b) Why is the class Bullet not in the screen package?
+
+  (c) How should a map be created? Should the paths be created inside a single map instance and then be selected,
+	or should the paths be created in a path factory class?
+
+4. Outcomes and assignments (5 min)
+
+  (a) It's decided that a path factory class will be created, and that it can instantiate predefined paths 
+	from some sort of path identifiers (i.e. an int). This will be used when creating maps.
+
+  (b) David will implement the path factory class.
+
+  (c) Daniel will make the application window resizable during a game.
+
+  (d) Jacob will continue to write tests. He will also create a ”Game Over” screen.
+
+  (e) Erik will continue to write tests. He will also create a ”Credits” screen.
+
+5. Wrap up
+
+  (a) Follow the plan we’ve just made.
+
+  (b) Next meeting will take place next week.
