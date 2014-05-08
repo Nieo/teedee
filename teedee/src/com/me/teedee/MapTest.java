@@ -90,25 +90,60 @@ public class MapTest {
 		
 		//The tower should NOT be built on the path, which is set to be 60 points wide.
 		assertFalse(map.buildTower(tower2, new Position(500,300)));
-
 		
 	}
 
-//	@Test
-//	public void testSellTower() {
-//		assertTrue(false);
-//	}
-//
-//	@Test
-//	public void testUpgradeTower() {
-//		assertTrue(false);
-//	}
-//
-//	@Test
-//	public void testNextWave() {
-//		assertTrue(false);
-//	}
-//
+	@Test
+	public void testSellTower() {
+		double moneyFromBeginning = player.getMoneyInt();
+		AbstractTower tower = new BasicTower(new Position(200,200),currentEnemies);
+		map.buildTower(tower,new Position(200,200));
+		
+		//Assert that the buildTower method actually reduces the amount of money the player has
+		assertTrue(player.getMoneyInt() == 1000-tower.getValue());
+		
+		map.sellTower(0);
+		
+		//Assert that the sellTower method actually increases the amount of money the player has
+		assertEquals(moneyFromBeginning - (int)(tower.getValue()*0.2),(int)player.getMoneyInt(),1);
+		
+		assertTrue(towers.isEmpty());
+	}
+
+	@Test
+	public void testUpgradeTower() {
+		AbstractTower tower = new BasicTower(new Position(200,200),currentEnemies);
+		map.buildTower(tower, new Position(200,200));
+		player.removeMoney(950);
+		//Assert that a tower can't be upgraded if the player doesn't have enough money
+		assertFalse(map.upgradeTower(tower));
+		
+		player.addMoney(3000);
+		
+		//Assert that a tower can be upgraded if the player has enough money
+		assertTrue(map.upgradeTower(tower));
+		
+		map.upgradeTower(tower);
+		map.upgradeTower(tower);
+		map.upgradeTower(tower);
+		//Assert that a tower that is fully upgraded can't be upgraded any more
+		assertFalse(map.upgradeTower(tower));
+	}
+
+	@Test
+	public void testNextWave() {
+		List<AbstractEnemy> wave1 = map.getEnemies();
+		
+		//Assert
+		assertTrue(wave1.isEmpty());
+		
+		map.nextWave();
+		
+		//Assert that a wave is created when nextWave() is called and there are no current enemies
+		assertFalse(wave1.isEmpty());
+		
+	}
+
 //	@Test
 //	public void testUpdateEnemiesPositions() {
 //		assertTrue(false);
