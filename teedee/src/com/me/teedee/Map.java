@@ -206,12 +206,14 @@ public class Map {
 		}
 	}
 
-	public void removeDeadEnemies() {
+	public void removeEnemies() {
 		if(!currentEnemies.isEmpty()) {
 			for(int i = 0; i < currentEnemies.size(); i++) {
 				if(!currentEnemies.get(i).isAlive() || currentEnemies.get(i).reachedEnd()) {
 					if(!currentEnemies.get(i).reachedEnd()) {
 						player.addMoney(currentEnemies.get(i).getEnemyReward().getReward());
+					}else{
+						player.takeDamage(1);
 					}
 					currentEnemies.remove(i);
 				}
@@ -220,8 +222,8 @@ public class Map {
 	}
 
 	public void update(float delta) {
-		playerTakesLife();
-		this.removeDeadEnemies(); //Must be done first, since the EnemyViews must have a reference to the enemy for deletion
+
+		this.removeEnemies(); //Must be done first, since the EnemyViews must have a reference to the enemy for deletion
 		this.updateEnemiesPositions(delta);
 		this.towersShoot(delta);
 		this.updateEnemiesStatuses(delta);
@@ -241,12 +243,6 @@ public class Map {
 		}
 	}
 
-	private void playerTakesLife() {			//TODO please change name
-		for(int i = 0; i < currentEnemies.size(); i++) {
-			if(currentEnemies.get(i).reachedEnd()) {
-				player.takeDamage(1); 				// TODO Maybe the player should loose different amount of lives
-			}
-		}
-	}
+	
 
 }
