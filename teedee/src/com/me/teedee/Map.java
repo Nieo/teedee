@@ -180,6 +180,10 @@ public class Map {
 			currentEnemies = waves.get(waveIndex).getEnemies();
 			for(int i = 0; i < currentEnemies.size(); i++) {
 				currentEnemies.get(i).setPosition(new Position(currentEnemies.get(i).getPosition().getX()-100*i,currentEnemies.get(i).getPosition().getY()));
+			if(waveIndex%3==0){
+				currentEnemies.get(i).levelUp();
+			}
+			
 			}
 
 			for(int i = 0; i < towers.size(); i++) {
