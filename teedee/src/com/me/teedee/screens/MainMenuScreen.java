@@ -27,6 +27,7 @@ public class MainMenuScreen implements Screen {
 	private Table table;
 	private Skin skin;
 	private TextButton playButton;
+	private TextButton creditsButton;
 	private TextButton exitButton;
 	private Sprite mainSprite;
 	private SpriteBatch batch;
@@ -70,10 +71,18 @@ public class MainMenuScreen implements Screen {
 				((Game) Gdx.app.getApplicationListener()).setScreen(new DiffSelScreen()); // TODO snygg övergång
 			}
 		});
-
+		
+		creditsButton = new TextButton("Credits", skin);
+		creditsButton.pad(20);
+		creditsButton.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y){
+				((Game) Gdx.app.getApplicationListener()).setScreen(new CreditsScreen());
+			}
+		});
 		exitButton = new TextButton("Exit", skin);
 		exitButton.pad(20);
-
+		
 		exitButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -82,6 +91,7 @@ public class MainMenuScreen implements Screen {
 		});
 
 		table.add(playButton).width(200).spaceBottom(20).row();
+		table.add(creditsButton).width(200).spaceBottom(20).row();
 		table.add(exitButton).width(200);
 
 		stage.addActor(table);

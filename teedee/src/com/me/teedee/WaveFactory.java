@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * different difficulties.
  * @author Daniel
  */
-public class WaveCreator {
+public class WaveFactory {
 	
 	/**
 	 * TODO
@@ -46,7 +46,7 @@ public class WaveCreator {
 	}
 	
 	public static ArrayList<Wave> creatMediumWave(Path path) {
-		int[] enemies = {5};
+		int[] enemies = {5,3};
 
 		ArrayList<Wave> waveList = new ArrayList<Wave>();
 		
@@ -58,7 +58,7 @@ public class WaveCreator {
 	}
 	
 	public static ArrayList<Wave> creatHardWave(Path path) {
-		int[] enemies = {5};
+		int[] enemies = {5,3,3};
 
 		ArrayList<Wave> waveList = new ArrayList<Wave>();
 		

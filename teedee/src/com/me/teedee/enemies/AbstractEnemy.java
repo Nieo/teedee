@@ -270,6 +270,11 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 			return 1;
 		}
 	}
+	
+	public void levelUp(){
+		lives = new Lives(lives.getMaxLives()*1.1f);
+	}
+	
 	public int getId() {
 		return id;
 	}
