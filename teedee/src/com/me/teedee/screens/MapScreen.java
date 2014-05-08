@@ -70,6 +70,8 @@ public class MapScreen implements Screen {
 	private int buildIndex = 0;		//	^this
 	protected boolean buildAble;		//TODO remove?
 	FPSLogger fps = new FPSLogger();		// TODO debug
+	
+	float ratio;
 
 	public MapScreen(int difficulty, int pathChoice) {
 
@@ -201,7 +203,8 @@ public class MapScreen implements Screen {
 
 		//TODO Fix the color changer and maybe move this
 		if(tmp != null) {
-			tmp.setPosition(Gdx.input.getX()-tmp.getWidth()/2, Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2);
+			//TODO maybe change this row
+			tmp.setPosition((Gdx.input.getX()-tmp.getWidth()/2/ratio)*ratio, (Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2/ratio)*ratio);
 			radius.showRadius();
 			radius.setPosition(tmp.getX(), tmp.getY());
 		} else if(tmp == null && chosedTower == null) {
@@ -213,11 +216,12 @@ public class MapScreen implements Screen {
 	public void resize(int width, int height) {
 		hud.getViewport().update(width, height, true);
 		table.invalidateHierarchy();
+		ratio = hud.getHeight()/Gdx.graphics.getHeight();
 	}
 
 	public TowerView clickedOnTower(float x, float y) {
 		for(TowerView tv : towerList) {
-			if(tv.contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
+			if(tv.contains(Gdx.input.getX()*ratio, (Gdx.graphics.getHeight()-Gdx.input.getY())*ratio)) {
 				return tv;
 			}
 		}
@@ -275,8 +279,10 @@ public class MapScreen implements Screen {
 				} else if(event.getListenerActor() == mapImg) {
 					if(tmp != null) {
 						tmp.setVisible(false);		// TODO the image still exists under the tower, or does it?
-						int tmpX = (int) (Gdx.input.getX()-tmp.getWidth()/2);
-						int tmpY = (int) (Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2);
+						
+						//TODO maybe change these two rows under
+						int tmpX = (int) ((Gdx.input.getX()-tmp.getWidth()/2/ratio)*ratio);
+						int tmpY = (int) ((Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2/ratio)*ratio);
 						tmp = null;
 						boolean towerBuilt = false;
 						switch(buildIndex) {		//TODO probably should do something else than this
