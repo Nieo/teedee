@@ -113,6 +113,7 @@ public class MapScreen implements Screen {
 		chosedTowerImage = new Image(new Texture("img/unknown.png"));
 		radius = new RadiusImage(new Texture("img/radius200.png"));
 		info = new InfoImage();
+		guiTable = new Table();
 	}
 
 	@Override
