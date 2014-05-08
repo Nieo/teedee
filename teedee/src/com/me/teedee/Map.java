@@ -10,7 +10,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.me.teedee.enemies.AbstractEnemy;
 import com.me.teedee.screens.GameOverScreen;
-import com.me.teedee.screens.MainMenuScreen;
 import com.me.teedee.towers.AbstractTower;
 
 /**

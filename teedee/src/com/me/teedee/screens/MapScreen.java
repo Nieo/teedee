@@ -65,13 +65,13 @@ public class MapScreen implements Screen {
 
 	private Sprite[] tiledPath;
 
-	Image tmp;						// TODO tmp varaible, should probably create new class to handle this
+	private Image tmp;						// TODO tmp varaible, should probably create new class to handle this
 
 	private int buildIndex = 0;		//	^this
 	protected boolean buildAble;		//TODO remove?
 	FPSLogger fps = new FPSLogger();		// TODO debug
 	
-	float ratio;
+	private float ratio = 1;
 
 	public MapScreen(int difficulty, int pathChoice) {
 
@@ -207,6 +207,19 @@ public class MapScreen implements Screen {
 			tmp.setPosition((Gdx.input.getX()-tmp.getWidth()/2/ratio)*ratio, (Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2/ratio)*ratio);
 			radius.showRadius();
 			radius.setPosition(tmp.getX(), tmp.getY());
+			
+			//TODO maybe this needs optimizing
+			for(int i = 0; i < towerList.size(); i++) {
+				float dx = tmp.getX()- towerList.get(i).getX();
+				float dy = tmp.getY()- towerList.get(i).getY();
+				double d =  Math.sqrt(dx*dx+dy*dy);
+				if(d < 40) {
+					radius.setColorRed();
+					break;
+				} else {
+					radius.setColorDefault();
+				}
+			}
 		} else if(tmp == null && chosedTower == null) {
 			radius.hideRadius();
 		}
@@ -349,6 +362,7 @@ public class MapScreen implements Screen {
 						if(tmp != null) {
 							tmp.setVisible(false);
 							tmp = null;
+							radius.hideRadius();
 						}
 					}
 				}

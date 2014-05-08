@@ -18,6 +18,14 @@ public class RadiusImage extends Actor {
 		this.radius = 100;
 	}
 	
+	public void setColorRed() {
+		sprite.setTexture(new Texture("img/radius200_red.png"));
+	}
+	
+	public void setColorDefault() {
+		sprite.setTexture(new Texture("img/radius200.png"));
+	}
+	
 	public Texture getTexture() {
 		return sprite.getTexture();
 	}
