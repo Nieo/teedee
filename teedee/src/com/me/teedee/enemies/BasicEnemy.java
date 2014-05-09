@@ -29,6 +29,7 @@ public class BasicEnemy extends AbstractEnemy {
 		super(b);
 	}
 
+	@Override
 	public int getId() {
 		return id;
 	}

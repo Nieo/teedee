@@ -52,6 +52,7 @@ public class TowerView extends Sprite {
 		return rect.contains(x, y);
 	}
 
+	@Override
 	public void draw(Batch batch) {
 		//TODO not sure if this is needed
 		vector.set(posX, posY);

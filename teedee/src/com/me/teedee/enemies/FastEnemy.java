@@ -33,6 +33,7 @@ public class FastEnemy extends AbstractEnemy {
 		this.setLives(new Lives(nl));
 	}
 	
+	@Override
 	public int getId(){
 		return id;
 	}

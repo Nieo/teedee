@@ -201,21 +201,21 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 		}
 		
 		if(!reachedEnd && !checkpointFound) {
-			position.setxCoordinate(position.getX()+xSpeed*(float)getOverallStatus().getSpeedRatio()*delta);
-			position.setyCoordinate(position.getY()+ySpeed*(float)getOverallStatus().getSpeedRatio()*delta);
+			position.setxCoordinate(position.getX()+xSpeed*getOverallStatus().getSpeedRatio()*delta);
+			position.setyCoordinate(position.getY()+ySpeed*getOverallStatus().getSpeedRatio()*delta);
 		}
 		//return reachedEnd;
 	}
 	
 	private boolean reachedCheckpoint(Position p, float delta) {
 		if(xSpeed < 0){
-			return position.getX()+xSpeed*(float)getOverallStatus().getSpeedRatio()*delta <= p.getX();
+			return position.getX()+xSpeed*getOverallStatus().getSpeedRatio()*delta <= p.getX();
 		}else if(xSpeed > 0){
-			return position.getX()+xSpeed*(float)getOverallStatus().getSpeedRatio()*delta >= p.getX();
+			return position.getX()+xSpeed*getOverallStatus().getSpeedRatio()*delta >= p.getX();
 		}else if(ySpeed < 0){
-			return position.getY()+ySpeed*(float)getOverallStatus().getSpeedRatio()*delta <= p.getY();
+			return position.getY()+ySpeed*getOverallStatus().getSpeedRatio()*delta <= p.getY();
 		}else if(ySpeed > 0){
-			return position.getY()+ySpeed*(float)getOverallStatus().getSpeedRatio()*delta >= p.getY();
+			return position.getY()+ySpeed*getOverallStatus().getSpeedRatio()*delta >= p.getY();
 		}
 		return false;
 	}
@@ -261,6 +261,7 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 		return lives;
 	}
 	
+	@Override
 	public int compareTo(AbstractEnemy ae){
 		if(this.distanceTraveled < ae.distanceTraveled){
 			return -1;

@@ -1,7 +1,6 @@
 package com.me.teedee.towers;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.me.teedee.Position;
@@ -32,6 +31,7 @@ public class ShockWaveTower extends AbstractTower{
 			id = 4;
 	}
 	
+	@Override
 	public void shoot(float delta){
 		super.shoot(delta);
 		

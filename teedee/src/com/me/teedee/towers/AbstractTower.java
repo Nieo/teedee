@@ -1,6 +1,6 @@
 package com.me.teedee.towers;
 
-import java.util.*;
+import java.util.ArrayList;
 
 import com.me.teedee.Position;
 import com.me.teedee.Price;
