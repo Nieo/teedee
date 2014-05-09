@@ -169,7 +169,7 @@ public class MapScreen implements Screen {
 	}
 
 	private void updateObjects() {
-		if(!m.isGameIsOn()){
+		if(!m.isPlayerAlive()){
 			((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen());
 		}
 
@@ -252,7 +252,8 @@ public class MapScreen implements Screen {
 		final TextButton sellBtn = new TextButton("Sell", uiSkin);
 		final TextButton nextWaveBtn = new TextButton("Next Wave", uiSkin);
 		final TextButton cancelBuyBtn = new TextButton("Cancel Buy", uiSkin);
-
+		final TextButton pauseBtn = new TextButton("Pause", uiSkin);
+		
 		Table towerInfoTable = new Table();
 		Table buildTable = new Table();
 
@@ -263,6 +264,7 @@ public class MapScreen implements Screen {
 		ClickListener clickListener = new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				if(MapScreen.this.m.isRunning()){
 				if(event.getListenerActor() instanceof Image && event.getListenerActor() != mapImg) {
 					if(tmp != null) {
 						tmp.setVisible(false);
@@ -364,6 +366,14 @@ public class MapScreen implements Screen {
 						}
 					}
 				}
+				}
+				if(event.getListenerActor().equals(pauseBtn)){
+					if(MapScreen.this.m.isRunning()){
+					MapScreen.this.m.setRunning(false);
+				}else{
+					MapScreen.this.m.setRunning(true);
+				}
+				}
 
 				System.out.println(Gdx.input.getX()+ " " + Gdx.input.getY());
 				System.out.println(Gdx.graphics.getWidth()+" "+Gdx.graphics.getHeight());
@@ -403,7 +413,8 @@ public class MapScreen implements Screen {
 		sellBtn.addListener(clickListener);
 		nextWaveBtn.addListener(clickListener);
 		cancelBuyBtn.addListener(clickListener);
-
+		pauseBtn.addListener(clickListener);
+		
 		towerInfoTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
 		towerInfoTable.add(chosedTowerImage).left().row();
 		towerInfoTable.add(towerName = new Label("Tower Name", uiSkin)).left().row();
@@ -427,7 +438,8 @@ public class MapScreen implements Screen {
 		guiTable.add(buildTable).row();
 		guiTable.add(towerInfoTable).width(315).row();
 		guiTable.add(nextWaveBtn).width(200).height(60).padTop(5).padBottom(0).row();
-		guiTable.add(cancelBuyBtn).width(200).height(60).padTop(0).padBottom(0);
+		guiTable.add(cancelBuyBtn).width(200).height(60).padTop(0).padBottom(0).row();
+		guiTable.add(pauseBtn).width(200).height(60);
 		//guiTable.debug();		//TODO debug;
 
 		table = new Table();

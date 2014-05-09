@@ -26,7 +26,8 @@ public class Map {
 
 	//TODO temporary, this can probably be done in a different way
 	private int waveIndex = 0;
-	private boolean gameIsOn;
+	private boolean playerIsAlive;
+	private boolean isRunning = true;
 
 	/**
 	 * Constructs a map containing the given waves, path and player
@@ -46,7 +47,7 @@ public class Map {
 		for(int i = 0; i < currentEnemies.size(); i++) {
 			currentEnemies.get(i).setPosition(new Position(currentEnemies.get(i).getPosition().getX()-100*i,currentEnemies.get(i).getPosition().getY()));
 		}
-		gameIsOn = true;
+		playerIsAlive = true;
 	}
 
 	/**
@@ -62,7 +63,7 @@ public class Map {
 		//if(!this.waves.isEmpty()) {
 		this.currentEnemies = this.waves.get(0).getEnemies();
 		//}
-		gameIsOn = true;
+		playerIsAlive = true;
 	}
 
 	/**
@@ -228,22 +229,34 @@ public class Map {
 	}
 
 	public void update(float delta) {
-
+		if(!isRunning){
+			return;
+		}
+		
 		this.removeEnemies(); //Must be done first, since the EnemyViews must have a reference to the enemy for deletion
 		this.updateEnemiesPositions(delta);
 		this.towersShoot(delta);
 		this.updateEnemiesStatuses(delta);
 		
 		if(player.getLives().getCurrentLives()<=0){
-			gameIsOn = false;
+			playerIsAlive = false;
 		}
 			
 	}
 	
-	public boolean isGameIsOn() {
-		return gameIsOn;
+	public boolean isPlayerAlive() {
+		return playerIsAlive;
 	}
 
+	public boolean isRunning() {
+		return isRunning;
+	}
+
+	public void setRunning(boolean isRunning) {
+		this.isRunning = isRunning;
+	}
+	
+	
 	public void updateEnemiesStatuses(float delta){
 		for(int i = 0; i < currentEnemies.size();i++){
 			Iterator<Status> statusMapIterator = currentEnemies.get(i).getStatusMap().values().iterator();
