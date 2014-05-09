@@ -11,6 +11,7 @@ public class Position {
 		xCoordinate = 0;
 		yCoordinate = 0;
 	}
+	@Override
 	public String toString(){
 		return "X: " + xCoordinate + " Y: " + yCoordinate;
 	}

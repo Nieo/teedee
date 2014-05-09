@@ -1,6 +1,8 @@
 package com.me.teedee;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +11,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.me.teedee.enemies.AbstractEnemy;
 import com.me.teedee.towers.AbstractTower;
@@ -104,7 +105,7 @@ public class MapTest {
 		map.sellTower(0);
 		
 		//Assert that the sellTower method actually increases the amount of money the player has
-		assertEquals(moneyFromBeginning - (int)(tower.getValue()*0.2),(int)player.getMoneyInt(),1);
+		assertEquals(moneyFromBeginning - (int)(tower.getValue()*0.2),player.getMoneyInt(),1);
 		
 		assertTrue(towers.isEmpty());
 	}

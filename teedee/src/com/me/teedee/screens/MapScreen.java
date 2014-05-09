@@ -3,6 +3,7 @@ package com.me.teedee.screens;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
@@ -22,7 +23,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.me.teedee.Bullet;
 import com.me.teedee.Map;
 import com.me.teedee.Path;
 import com.me.teedee.PathFactory;
@@ -41,9 +41,7 @@ import com.me.teedee.towers.MultiTower;
  * @author Daniel
  */
 public class MapScreen implements Screen {
-
 	// TODO Make all possible variables more local!!!
-
 	private Map m;
 	private Stage hud;
 	private Table table;
@@ -69,8 +67,8 @@ public class MapScreen implements Screen {
 
 	private Image tmp;						// TODO tmp varaible, should probably create new class to handle this
 
+	private float ratio = 1;
 	private int buildIndex = 0;		//	^this
-	protected boolean buildAble;		//TODO remove?
 	FPSLogger fps = new FPSLogger();		// TODO debug
 	private float ratio = 1;
 	private boolean soundIsOn = true;
@@ -143,11 +141,10 @@ public class MapScreen implements Screen {
 
 		hud.act(delta);
 		hud.draw();
-		Table.drawDebug(hud);
+		Table.drawDebug(hud);		//TODO debug
+
 		hud.getSpriteBatch().begin();
-
 		drawObjects();
-
 		hud.getSpriteBatch().end();
 	}
 
@@ -182,8 +179,8 @@ public class MapScreen implements Screen {
 		for(int i = 0; i< towerList.size(); i++) {
 			towerList.get(i).draw(hud.getSpriteBatch());
 		}
-
-		info.setPosition(guiTable.getX()-info.getWidth()*1.1f, Gdx.graphics.getHeight()-Gdx.input.getY()-info.getHeight()/2);	//TODO fix y position
+		//TODO row is too long
+		info.setPosition(guiTable.getX()-info.getWidth()*1.1f, (Gdx.graphics.getHeight()-Gdx.input.getY()-info.getHeight()/2/ratio)*ratio);
 		info.draw(hud.getSpriteBatch());
 	}
 
@@ -191,8 +188,13 @@ public class MapScreen implements Screen {
 		shootingSoundList.get(index).play();
 	}
 	private void updateObjects() {
+		if(!m.isPlayerAlive()){
+			((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen());
+		}
+
 		for (AbstractTower tower : m.getTowers()){
 			if(tower.isShooting()){ //TODO Fix line under this, could be shorter
+				bulletList.add(new Bullet(tower.getTargetPosition().getX(), tower.getTargetPosition().getY(), 14f, tower));
 				bulletList.add(new Bullet(tower.getPosition().getX() + 45,tower.getPosition().getY() + 40,tower.getTargetPosition().getX()+27,tower.getTargetPosition().getY()+30,14f,new Texture("img/RedBullet.png")));
 				if(soundIsOn)
 					playShootingSound(tower.getId());
@@ -206,7 +208,7 @@ public class MapScreen implements Screen {
 			waveIndex = m.getWaveIndex();
 		}
 
-		hpLabel.setText("HP: " + m.getPlayer().getLives().getCurrentLives());
+		hpLabel.setText("HP: " + (int)m.getPlayer().getLives().getCurrentLives());
 		moneyLabel.setText("$ " + m.getPlayer().getMoneyInt());
 
 		if(chosedTower != null) {
@@ -225,8 +227,8 @@ public class MapScreen implements Screen {
 			tmp.setPosition((Gdx.input.getX()-tmp.getWidth()/2/ratio)*ratio, (Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2/ratio)*ratio);
 			radius.showRadius();
 			radius.setPosition(tmp.getX(), tmp.getY());
-			
-			//TODO maybe this needs optimizing
+
+			//TODO this needs optimizing or done in another way
 			for(int i = 0; i < towerList.size(); i++) {
 				float dx = tmp.getX()- towerList.get(i).getX();
 				float dy = tmp.getY()- towerList.get(i).getY();
@@ -272,6 +274,8 @@ public class MapScreen implements Screen {
 		final TextButton sellBtn = new TextButton("Sell", uiSkin);
 		final TextButton nextWaveBtn = new TextButton("Next Wave", uiSkin);
 		final TextButton cancelBuyBtn = new TextButton("Cancel Buy", uiSkin);
+		final TextButton pauseBtn = new TextButton("Pause", uiSkin);
+		
 		final Button soundButton = new Button(uiSkin);
 		soundButton.add(new Image(soundOnTexture));
 		
@@ -286,6 +290,7 @@ public class MapScreen implements Screen {
 		ClickListener clickListener = new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				if(MapScreen.this.m.isRunning()){
 				if(event.getListenerActor() instanceof Image && event.getListenerActor() != mapImg) {
 					if(tmp != null) {
 						tmp.setVisible(false);
@@ -314,7 +319,7 @@ public class MapScreen implements Screen {
 				} else if(event.getListenerActor() == mapImg) {
 					if(tmp != null) {
 						tmp.setVisible(false);		// TODO the image still exists under the tower, or does it?
-						
+
 						//TODO maybe change these two rows under
 						int tmpX = (int) ((Gdx.input.getX()-tmp.getWidth()/2/ratio)*ratio);
 						int tmpY = (int) ((Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2/ratio)*ratio);
@@ -398,7 +403,15 @@ public class MapScreen implements Screen {
 						soundButton.add(new Image(soundOnTexture));
 					}
 				}
-				
+				}
+				if(event.getListenerActor().equals(pauseBtn)){
+					if(MapScreen.this.m.isRunning()){
+					MapScreen.this.m.setRunning(false);
+				}else{
+					MapScreen.this.m.setRunning(true);
+				}
+				}
+
 				System.out.println(Gdx.input.getX()+ " " + Gdx.input.getY());
 				System.out.println(Gdx.graphics.getWidth()+" "+Gdx.graphics.getHeight());
 			}
@@ -437,6 +450,8 @@ public class MapScreen implements Screen {
 		sellBtn.addListener(clickListener);
 		nextWaveBtn.addListener(clickListener);
 		cancelBuyBtn.addListener(clickListener);
+		pauseBtn.addListener(clickListener);
+		
 		soundButton.addListener(clickListener);
 
 		towerInfoTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
@@ -463,6 +478,8 @@ public class MapScreen implements Screen {
 		guiTable.add(towerInfoTable).width(315).row();
 		guiTable.add(nextWaveBtn).width(200).height(60).padTop(5).padBottom(0).row();
 		guiTable.add(cancelBuyBtn).width(200).height(60).padTop(0).padBottom(0).row();
+		guiTable.add(pauseBtn).width(200).height(60);
+		guiTable.add(cancelBuyBtn).width(200).height(60).padTop(0).padBottom(0).row();
 		guiTable.add(soundButton).width(60).height(60).padTop(0).padBottom(0).row();
 		//guiTable.debug();		//TODO debug;
 
@@ -480,7 +497,8 @@ public class MapScreen implements Screen {
 	public void hide() { dispose();	}
 
 	@Override
-	public void pause() { }
+	public void pause() { 
+	}
 
 	@Override
 	public void resume() { }

@@ -52,6 +52,7 @@ public class TowerView extends Sprite {
 		return rect.contains(x, y);
 	}
 
+	@Override
 	public void draw(Batch batch) {
 		//TODO not sure if this is needed
 		vector.set(posX, posY);
@@ -103,10 +104,10 @@ public class TowerView extends Sprite {
 		String picPath = "";
 		switch(tower.getCurrentLevel()) {
 		case 1:
-			picPath = "img/iceDragon.png";
+			picPath = "img/iceDragon1.png";
 			break;
 		case 2:
-			picPath = "img/iceDragon.png";
+			picPath = "img/iceDragon2.png";
 			break;
 		case 3:
 			picPath = "img/iceDragon.png";

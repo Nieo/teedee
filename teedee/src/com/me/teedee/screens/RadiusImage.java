@@ -39,6 +39,7 @@ public class RadiusImage extends Actor {
 		sprite.setSize(radius*2, radius*2);
 	}
 	
+	@Override
 	public void setPosition(float x, float y) {
 		sprite.setPosition(x - radius + 40, y - radius + 40);
 	}
