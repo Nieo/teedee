@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -70,11 +72,22 @@ public class MapScreen implements Screen {
 	private int buildIndex = 0;		//	^this
 	protected boolean buildAble;		//TODO remove?
 	FPSLogger fps = new FPSLogger();		// TODO debug
-	
 	private float ratio = 1;
+	private boolean soundIsOn = true;
+	
+	private List<Sound> shootingSoundList = new ArrayList<Sound>();
+	private Texture soundOnTexture = new Texture("data/speaker_louder_32.png");
+	private Texture soundOffTexture = new Texture("data/speaker_off_32.png");
 
 	public MapScreen(int difficulty, int pathChoice) {
-
+		
+		//Adding sounds for shooting
+		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot0.wav")));
+		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot1.wav")));
+		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot2.wav")));
+		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot3.wav")));
+		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot4.wav")));
+		
 		//Creating the path
 		Path path = PathFactory.createPath(pathChoice);
 
@@ -174,10 +187,15 @@ public class MapScreen implements Screen {
 		info.draw(hud.getSpriteBatch());
 	}
 
+	private void playShootingSound(int index){
+		shootingSoundList.get(index).play();
+	}
 	private void updateObjects() {
 		for (AbstractTower tower : m.getTowers()){
 			if(tower.isShooting()){ //TODO Fix line under this, could be shorter
 				bulletList.add(new Bullet(tower.getPosition().getX() + 45,tower.getPosition().getY() + 40,tower.getTargetPosition().getX()+27,tower.getTargetPosition().getY()+30,14f,new Texture("img/RedBullet.png")));
+				if(soundIsOn)
+					playShootingSound(tower.getId());
 			}
 		}
 
@@ -254,6 +272,9 @@ public class MapScreen implements Screen {
 		final TextButton sellBtn = new TextButton("Sell", uiSkin);
 		final TextButton nextWaveBtn = new TextButton("Next Wave", uiSkin);
 		final TextButton cancelBuyBtn = new TextButton("Cancel Buy", uiSkin);
+		final Button soundButton = new Button(uiSkin);
+		soundButton.add(new Image(soundOnTexture));
+		
 
 		Table towerInfoTable = new Table();
 		Table buildTable = new Table();
@@ -285,6 +306,7 @@ public class MapScreen implements Screen {
 						buildIndex = 3;
 						rad = 400;
 					}
+					
 					tmp = new Image(new Texture(path));
 					tmp.setPosition(Gdx.input.getX()-tmp.getWidth()/2, Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2);
 					tmp.setTouchable(null);
@@ -365,6 +387,16 @@ public class MapScreen implements Screen {
 							radius.hideRadius();
 						}
 					}
+				} else if(event.getListenerActor() == soundButton){
+					if(soundIsOn){
+						soundIsOn = false;
+						soundButton.clearChildren();
+						soundButton.add(new Image(soundOffTexture));
+					} else{
+						soundIsOn = true;
+						soundButton.clearChildren();
+						soundButton.add(new Image(soundOnTexture));
+					}
 				}
 				
 				System.out.println(Gdx.input.getX()+ " " + Gdx.input.getY());
@@ -405,6 +437,7 @@ public class MapScreen implements Screen {
 		sellBtn.addListener(clickListener);
 		nextWaveBtn.addListener(clickListener);
 		cancelBuyBtn.addListener(clickListener);
+		soundButton.addListener(clickListener);
 
 		towerInfoTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
 		towerInfoTable.add(chosedTowerImage).left().row();
@@ -429,7 +462,8 @@ public class MapScreen implements Screen {
 		guiTable.add(buildTable).row();
 		guiTable.add(towerInfoTable).width(315).row();
 		guiTable.add(nextWaveBtn).width(200).height(60).padTop(5).padBottom(0).row();
-		guiTable.add(cancelBuyBtn).width(200).height(60).padTop(0).padBottom(0);
+		guiTable.add(cancelBuyBtn).width(200).height(60).padTop(0).padBottom(0).row();
+		guiTable.add(soundButton).width(60).height(60).padTop(0).padBottom(0).row();
 		//guiTable.debug();		//TODO debug;
 
 		table = new Table();
@@ -452,6 +486,11 @@ public class MapScreen implements Screen {
 	public void resume() { }
 
 	@Override
-	public void dispose() {	hud.dispose(); }
+	public void dispose() {	
+		hud.dispose();
+		for(Sound sound : shootingSoundList){
+			sound.dispose();
+		}
+	}
 
 }
