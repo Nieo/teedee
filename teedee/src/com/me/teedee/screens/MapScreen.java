@@ -70,7 +70,6 @@ public class MapScreen implements Screen {
 	private float ratio = 1;
 	private int buildIndex = 0;		//	^this
 	FPSLogger fps = new FPSLogger();		// TODO debug
-	private float ratio = 1;
 	private boolean soundIsOn = true;
 	
 	private List<Sound> shootingSoundList = new ArrayList<Sound>();
@@ -195,7 +194,6 @@ public class MapScreen implements Screen {
 		for (AbstractTower tower : m.getTowers()){
 			if(tower.isShooting()){ //TODO Fix line under this, could be shorter
 				bulletList.add(new Bullet(tower.getTargetPosition().getX(), tower.getTargetPosition().getY(), 14f, tower));
-				bulletList.add(new Bullet(tower.getPosition().getX() + 45,tower.getPosition().getY() + 40,tower.getTargetPosition().getX()+27,tower.getTargetPosition().getY()+30,14f,new Texture("img/RedBullet.png")));
 				if(soundIsOn)
 					playShootingSound(tower.getId());
 			}
@@ -478,8 +476,7 @@ public class MapScreen implements Screen {
 		guiTable.add(towerInfoTable).width(315).row();
 		guiTable.add(nextWaveBtn).width(200).height(60).padTop(5).padBottom(0).row();
 		guiTable.add(cancelBuyBtn).width(200).height(60).padTop(0).padBottom(0).row();
-		guiTable.add(pauseBtn).width(200).height(60);
-		guiTable.add(cancelBuyBtn).width(200).height(60).padTop(0).padBottom(0).row();
+		guiTable.add(pauseBtn).width(200).height(60).row();
 		guiTable.add(soundButton).width(60).height(60).padTop(0).padBottom(0).row();
 		//guiTable.debug();		//TODO debug;
 
