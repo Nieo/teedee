@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.me.teedee.PathFactory;
 /**
  * A screen for selecting difficulty.
  * @author Fridgeridge
@@ -70,6 +71,8 @@ public class DiffSelScreen implements Screen {
 
 	@Override
 	public void show() {
+		
+		pathLimit = PathFactory.nbrOfPaths;
 		
 		skin  = new Skin(Gdx.files.internal("skin/uiskin.json"));
 		

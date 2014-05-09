@@ -236,11 +236,14 @@ public class Map {
 		
 		if(player.getLives().getCurrentLives()<=0){
 			gameIsOn = false;
-			((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen());
 		}
 			
 	}
 	
+	public boolean isGameIsOn() {
+		return gameIsOn;
+	}
+
 	public void updateEnemiesStatuses(float delta){
 		for(int i = 0; i < currentEnemies.size();i++){
 			Iterator<Status> statusMapIterator = currentEnemies.get(i).getStatusMap().values().iterator();

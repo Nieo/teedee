@@ -3,6 +3,7 @@ package com.me.teedee.screens;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.FPSLogger;
@@ -175,6 +176,12 @@ public class MapScreen implements Screen {
 	}
 
 	private void updateObjects() {
+		
+		if(!m.isGameIsOn()){
+		((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen());
+		}
+		
+		
 		for (AbstractTower tower : m.getTowers()){
 			if(tower.isShooting()){ //TODO Fix line under this, could be shorter
 				bulletList.add(new Bullet(tower.getPosition().getX() + 45,tower.getPosition().getY() + 40,tower.getTargetPosition().getX()+27,tower.getTargetPosition().getY()+30,14f,new Texture("img/RedBullet.png")));
@@ -446,7 +453,8 @@ public class MapScreen implements Screen {
 	public void hide() { dispose();	}
 
 	@Override
-	public void pause() { }
+	public void pause() { 
+	}
 
 	@Override
 	public void resume() { }

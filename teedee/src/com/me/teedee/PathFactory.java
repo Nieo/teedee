@@ -5,6 +5,8 @@ import java.util.List;
 
 public class PathFactory {
 	
+	public static final int nbrOfPaths = 2;
+	
 	public static Path createPath(int i){
 		switch(i){
 		case 1:
