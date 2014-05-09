@@ -76,9 +76,11 @@ public class MapScreen implements Screen {
 	private List<Sound> shootingSoundList = new ArrayList<Sound>();
 	private Texture soundOnTexture = new Texture("data/speaker_louder_32.png");
 	private Texture soundOffTexture = new Texture("data/speaker_off_32.png");
+	
+	private String mapPath;
 
-	public MapScreen(int difficulty, int pathChoice) {
-
+	public MapScreen(int difficulty, int pathChoice, String mapPath) {
+		this.mapPath = mapPath;
 		//Adding sounds for shooting
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot0.wav")));
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot1.wav")));
@@ -281,7 +283,7 @@ public class MapScreen implements Screen {
 	public void show() {
 		Skin uiSkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
-		final Image mapImg = new Image(new Texture("map/map.png"));
+		final Image mapImg = new Image(new Texture(mapPath));
 		final Image bt = new Image(new Texture("img/firstDragon.png"));
 		final Image it = new Image(new Texture("img/iceDragon.png"));
 		final Image mt = new Image(new Texture("img/hydra.png"));
