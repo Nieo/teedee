@@ -40,9 +40,7 @@ import com.me.teedee.towers.MultiTower;
  * @author Daniel
  */
 public class MapScreen implements Screen {
-
 	// TODO Make all possible variables more local!!!
-
 	private Map m;
 	private Stage hud;
 	private Table table;
@@ -68,14 +66,11 @@ public class MapScreen implements Screen {
 
 	private Image tmp;						// TODO tmp varaible, should probably create new class to handle this
 
-	private int buildIndex = 0;		//	^this
-	protected boolean buildAble;		//TODO remove?
-	FPSLogger fps = new FPSLogger();		// TODO debug
-	
 	private float ratio = 1;
+	private int buildIndex = 0;		//	^this
+	FPSLogger fps = new FPSLogger();		// TODO debug
 
 	public MapScreen(int difficulty, int pathChoice) {
-
 		//Creating the path
 		Path path = PathFactory.createPath(pathChoice);
 
@@ -131,11 +126,10 @@ public class MapScreen implements Screen {
 
 		hud.act(delta);
 		hud.draw();
-		Table.drawDebug(hud);
+		Table.drawDebug(hud);		//TODO debug
+		
 		hud.getSpriteBatch().begin();
-
 		drawObjects();
-
 		hud.getSpriteBatch().end();
 	}
 
@@ -171,7 +165,7 @@ public class MapScreen implements Screen {
 			towerList.get(i).draw(hud.getSpriteBatch());
 		}
 
-		info.setPosition(guiTable.getX()-info.getWidth()*1.1f, Gdx.graphics.getHeight()-Gdx.input.getY()-info.getHeight()/2);	//TODO fix y position
+		info.setPosition(guiTable.getX()-info.getWidth()*1.1f, (Gdx.graphics.getHeight()-Gdx.input.getY()-info.getHeight()/2/ratio)*ratio);	//TODO fix y position
 		info.draw(hud.getSpriteBatch());
 	}
 
@@ -184,7 +178,8 @@ public class MapScreen implements Screen {
 		
 		for (AbstractTower tower : m.getTowers()){
 			if(tower.isShooting()){ //TODO Fix line under this, could be shorter
-				bulletList.add(new Bullet(tower.getPosition().getX() + 45,tower.getPosition().getY() + 40,tower.getTargetPosition().getX()+27,tower.getTargetPosition().getY()+30,14f,new Texture("img/RedBullet.png")));
+				//bulletList.add(new Bullet(tower.getPosition().getX() + 45,tower.getPosition().getY() + 40,tower.getTargetPosition().getX()+27,tower.getTargetPosition().getY()+30,14f,new Texture("img/RedBullet.png")));
+				bulletList.add(new Bullet(tower.getTargetPosition().getX(), tower.getTargetPosition().getY(), 14f, tower));
 			}
 		}
 
@@ -195,7 +190,7 @@ public class MapScreen implements Screen {
 			waveIndex = m.getWaveIndex();
 		}
 
-		hpLabel.setText("HP: " + m.getPlayer().getLives().getCurrentLives());
+		hpLabel.setText("HP: " + (int)m.getPlayer().getLives().getCurrentLives());
 		moneyLabel.setText("$ " + m.getPlayer().getMoneyInt());
 
 		if(chosedTower != null) {
@@ -214,7 +209,7 @@ public class MapScreen implements Screen {
 			tmp.setPosition((Gdx.input.getX()-tmp.getWidth()/2/ratio)*ratio, (Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2/ratio)*ratio);
 			radius.showRadius();
 			radius.setPosition(tmp.getX(), tmp.getY());
-			
+
 			//TODO maybe this needs optimizing
 			for(int i = 0; i < towerList.size(); i++) {
 				float dx = tmp.getX()- towerList.get(i).getX();
@@ -299,7 +294,7 @@ public class MapScreen implements Screen {
 				} else if(event.getListenerActor() == mapImg) {
 					if(tmp != null) {
 						tmp.setVisible(false);		// TODO the image still exists under the tower, or does it?
-						
+
 						//TODO maybe change these two rows under
 						int tmpX = (int) ((Gdx.input.getX()-tmp.getWidth()/2/ratio)*ratio);
 						int tmpY = (int) ((Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2/ratio)*ratio);
@@ -373,7 +368,7 @@ public class MapScreen implements Screen {
 						}
 					}
 				}
-				
+
 				System.out.println(Gdx.input.getX()+ " " + Gdx.input.getY());
 				System.out.println(Gdx.graphics.getWidth()+" "+Gdx.graphics.getHeight());
 			}

@@ -32,6 +32,7 @@ public class MultiTower extends AbstractTower {
 		range = 400;
 		id = 3;
 	}
+	@Override
 	public void shoot(float delta){
 		cooldown = cooldown - delta;
 		if(cooldown <= 0) {

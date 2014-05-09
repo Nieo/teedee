@@ -1,6 +1,7 @@
 package com.me.teedee;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Describes the path that the enemy units will take when they travel through the map. 
@@ -85,10 +86,10 @@ public class Path implements Iterator {
 	public Position next() {
 		//Iterator<Position> list = getPositions().iterator();
 		if(list.hasNext()) {
-			return (Position) list.next();
+			return list.next();
 		} else {
 			list.remove();
-			return (Position) this.next();
+			return this.next();
 		}
 
 		/*if(this.hasNext()){//Again, not sure if this is a correct way of handling things

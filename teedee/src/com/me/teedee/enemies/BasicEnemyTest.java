@@ -1,6 +1,6 @@
 package com.me.teedee.enemies;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,6 @@ import org.junit.Test;
 import com.me.teedee.Path;
 import com.me.teedee.Position;
 import com.me.teedee.Status;
-import com.me.teedee.screens.TowerView;
 import com.me.teedee.towers.AbstractTower;
 import com.me.teedee.towers.BasicTower;
 
