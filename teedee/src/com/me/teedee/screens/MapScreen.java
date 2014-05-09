@@ -3,6 +3,7 @@ package com.me.teedee.screens;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.FPSLogger;
@@ -67,7 +68,7 @@ public class MapScreen implements Screen {
 	private float ratio = 1;
 	private int buildIndex = 0;		//	^this
 	FPSLogger fps = new FPSLogger();		// TODO debug
-	
+
 	public MapScreen(int difficulty, int pathChoice) {
 		//Creating the path
 		Path path = PathFactory.createPath(pathChoice);
@@ -125,7 +126,7 @@ public class MapScreen implements Screen {
 		hud.act(delta);
 		hud.draw();
 		Table.drawDebug(hud);		//TODO debug
-		
+
 		hud.getSpriteBatch().begin();
 		drawObjects();
 		hud.getSpriteBatch().end();
@@ -168,8 +169,12 @@ public class MapScreen implements Screen {
 	}
 
 	private void updateObjects() {
-		for (AbstractTower tower : m.getTowers()) {
-			if(tower.isShooting()) {
+		if(!m.isGameIsOn()){
+			((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen());
+		}
+
+		for (AbstractTower tower : m.getTowers()){
+			if(tower.isShooting()){ //TODO Fix line under this, could be shorter
 				bulletList.add(new Bullet(tower.getTargetPosition().getX(), tower.getTargetPosition().getY(), 14f, tower));
 			}
 		}
@@ -439,7 +444,8 @@ public class MapScreen implements Screen {
 	public void hide() { dispose();	}
 
 	@Override
-	public void pause() { }
+	public void pause() { 
+	}
 
 	@Override
 	public void resume() { }
