@@ -1,9 +1,10 @@
-package com.me.teedee;
+package com.me.teedee.screens;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.me.teedee.Position;
 import com.me.teedee.towers.AbstractTower;
 
 public class Bullet extends Sprite{
@@ -22,14 +23,15 @@ public class Bullet extends Sprite{
 	}
 
 	public Bullet(float targetX, float targetY, float speed, AbstractTower t){
-		super(new Texture("img/RedBullet.png"));
+		super(new Texture("img/IceBullet.png"));
 		switch(t.getId()) {
 		case 1:
-			setTexture(new Texture("img/RedBullet.png"));
+			setRegion(new Texture("img/RedBullet.png"));
 			break;
 		case 2:
-			setTexture(new Texture("img/BlueBullet.png"));
+			setTexture(new Texture("img/IceBullet.png"));
 			break;
+			//osv
 		default:
 			setTexture(new Texture("img/RedBullet.png"));
 		}
@@ -37,6 +39,8 @@ public class Bullet extends Sprite{
 		targetPosition = new Position(targetX, targetY);
 		this.direction = new Vector2(targetPosition.getX() - startPosition.getX(),
 				targetPosition.getY() - startPosition.getY()).nor();
+		setOrigin(getX() + getWidth()/2, getY() + getWidth());
+		setRotation(direction.angle()+90);
 		this.speed = speed;
 		this.goalDistance = Math.sqrt((targetPosition.getX()-getX()) + (targetPosition.getY()-getY()));
 		this.setPosition(startPosition.getX(), startPosition.getY());

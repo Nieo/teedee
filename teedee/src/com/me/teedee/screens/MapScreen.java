@@ -20,7 +20,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.me.teedee.Bullet;
 import com.me.teedee.Map;
 import com.me.teedee.Path;
 import com.me.teedee.PathFactory;
@@ -68,7 +67,7 @@ public class MapScreen implements Screen {
 	private float ratio = 1;
 	private int buildIndex = 0;		//	^this
 	FPSLogger fps = new FPSLogger();		// TODO debug
-
+	
 	public MapScreen(int difficulty, int pathChoice) {
 		//Creating the path
 		Path path = PathFactory.createPath(pathChoice);
@@ -163,15 +162,14 @@ public class MapScreen implements Screen {
 		for(int i = 0; i< towerList.size(); i++) {
 			towerList.get(i).draw(hud.getSpriteBatch());
 		}
-
-		info.setPosition(guiTable.getX()-info.getWidth()*1.1f, (Gdx.graphics.getHeight()-Gdx.input.getY()-info.getHeight()/2/ratio)*ratio);	//TODO fix y position
+		//TODO row is too long
+		info.setPosition(guiTable.getX()-info.getWidth()*1.1f, (Gdx.graphics.getHeight()-Gdx.input.getY()-info.getHeight()/2/ratio)*ratio);
 		info.draw(hud.getSpriteBatch());
 	}
 
 	private void updateObjects() {
-		for (AbstractTower tower : m.getTowers()){
-			if(tower.isShooting()){ //TODO Fix line under this, could be shorter
-				//bulletList.add(new Bullet(tower.getPosition().getX() + 45,tower.getPosition().getY() + 40,tower.getTargetPosition().getX()+27,tower.getTargetPosition().getY()+30,14f,new Texture("img/RedBullet.png")));
+		for (AbstractTower tower : m.getTowers()) {
+			if(tower.isShooting()) {
 				bulletList.add(new Bullet(tower.getTargetPosition().getX(), tower.getTargetPosition().getY(), 14f, tower));
 			}
 		}
@@ -203,7 +201,7 @@ public class MapScreen implements Screen {
 			radius.showRadius();
 			radius.setPosition(tmp.getX(), tmp.getY());
 
-			//TODO maybe this needs optimizing
+			//TODO this needs optimizing or done in another way
 			for(int i = 0; i < towerList.size(); i++) {
 				float dx = tmp.getX()- towerList.get(i).getX();
 				float dy = tmp.getY()- towerList.get(i).getY();
