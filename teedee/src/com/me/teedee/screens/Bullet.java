@@ -35,11 +35,11 @@ public class Bullet extends Sprite{
 		default:
 			setTexture(new Texture("img/RedBullet.png"));
 		}
-		startPosition = new Position(t.getPosition().getX() + 45, t.getPosition().getY() + 40);
+		startPosition = new Position(t.getPosition().getX() + 45 - getWidth()/2, t.getPosition().getY() + 40 - getHeight()/2);
 		targetPosition = new Position(targetX, targetY);
 		this.direction = new Vector2(targetPosition.getX() - startPosition.getX(),
 				targetPosition.getY() - startPosition.getY()).nor();
-		setOrigin(getX() + getWidth()/2, getY() + getWidth());
+		setOrigin(getX() + getWidth()/2, getY() + getHeight()/2);
 		setRotation(direction.angle()+90);
 		this.speed = speed;
 		this.goalDistance = Math.sqrt((targetPosition.getX()-getX()) + (targetPosition.getY()-getY()));

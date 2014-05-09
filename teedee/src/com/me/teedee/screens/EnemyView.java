@@ -72,4 +72,8 @@ public class EnemyView extends Sprite {
 	public boolean reachedEnd() {
 		return enemy.reachedEnd();
 	}
+	
+	public int getReward() {
+		return enemy.getEnemyReward().getReward();
+	}
 }

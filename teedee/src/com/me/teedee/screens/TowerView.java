@@ -183,4 +183,12 @@ public class TowerView extends Sprite {
 		return tower.getId();
 	}
 
+	public int getUpgradePrice() {
+		return tower.getUpgradePrice().getPrice();
+	}
+
+	public int getValue() {
+		return (int) tower.getValue();
+	}
+
 }

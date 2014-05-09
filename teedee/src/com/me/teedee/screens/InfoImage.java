@@ -9,6 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
+/**
+ * A image that represents information about
+ * a tower for example
+ * @author Daniel
+ */
 public class InfoImage {
 	
 	private Label towerName;

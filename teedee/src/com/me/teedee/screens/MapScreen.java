@@ -57,9 +57,10 @@ public class MapScreen implements Screen {
 
 	private int towerIndex = 0;		// TODO change this shit, maybe not, i dont know
 	private int waveIndex = 0;
-	private List<EnemyView> enemyList = new ArrayList<EnemyView>();
 	private List<Bullet> bulletList = new ArrayList<Bullet>();
 	private List<TowerView> towerList = new ArrayList<TowerView>();
+	private List<EnemyView> enemyList = new ArrayList<EnemyView>();
+	private List<Notification> notificationList = new ArrayList<Notification>();
 
 	private Sprite[] tiledPath;
 
@@ -141,8 +142,19 @@ public class MapScreen implements Screen {
 			enemyList.get(i).draw(hud.getSpriteBatch());
 			if(!enemyList.get(i).isAlive() || enemyList.get(i).reachedEnd()){
 				enemyList.get(i).setAlpha(0);
+				if(!enemyList.get(i).isAlive() && !enemyList.get(i).reachedEnd()) {
+					notificationList.add(new Notification("$" + enemyList.get(i).getReward(), enemyList.get(i).getX(), enemyList.get(i).getY()));
+				} else {
+					//TODO wrong location
+					notificationList.add(new Notification("-1", hpLabel.getX(), hpLabel.getY()));
+				}
 				enemyList.remove(i);
+
 			}
+		}
+
+		for(int i = 0; i < notificationList.size(); i++) {
+			notificationList.get(i).draw(hud.getSpriteBatch());
 		}
 
 		//This loop does not work with for-each
@@ -184,6 +196,12 @@ public class MapScreen implements Screen {
 				enemyList.add(new EnemyView( m.getEnemies().get(i)));
 			}
 			waveIndex = m.getWaveIndex();
+		}
+
+		for(int i = 0; i < notificationList.size(); i++) {
+			if(notificationList.get(i).isDone()) {
+				notificationList.remove(i);
+			}
 		}
 
 		hpLabel.setText("HP: " + (int)m.getPlayer().getLives().getCurrentLives());
@@ -253,7 +271,7 @@ public class MapScreen implements Screen {
 		final TextButton nextWaveBtn = new TextButton("Next Wave", uiSkin);
 		final TextButton cancelBuyBtn = new TextButton("Cancel Buy", uiSkin);
 		final TextButton pauseBtn = new TextButton("Pause", uiSkin);
-		
+
 		Table towerInfoTable = new Table();
 		Table buildTable = new Table();
 
@@ -265,114 +283,118 @@ public class MapScreen implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if(MapScreen.this.m.isRunning()){
-				if(event.getListenerActor() instanceof Image && event.getListenerActor() != mapImg) {
-					if(tmp != null) {
-						tmp.setVisible(false);
-						tmp = null;				//TODO i dont think this is needed
-					}
-					String path = "";
-					int rad = 0;
-					if(event.getListenerActor() == bt) {
-						path = "img/firstDragon.png";
-						buildIndex = 1;
-						rad = 200;
-					} else if(event.getListenerActor() == it) {
-						path = "img/iceDragon.png";
-						buildIndex = 2;
-						rad = 150;
-					} else if(event.getListenerActor() == mt) {
-						path = "img/hydra.png";
-						buildIndex = 3;
-						rad = 400;
-					}
-					tmp = new Image(new Texture(path));
-					tmp.setPosition(Gdx.input.getX()-tmp.getWidth()/2, Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2);
-					tmp.setTouchable(null);
-					radius.setRadius(rad);
-				} else if(event.getListenerActor() == mapImg) {
-					if(tmp != null) {
-						tmp.setVisible(false);		// TODO the image still exists under the tower, or does it?
-
-						//TODO maybe change these two rows under
-						int tmpX = (int) ((Gdx.input.getX()-tmp.getWidth()/2/ratio)*ratio);
-						int tmpY = (int) ((Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2/ratio)*ratio);
-						tmp = null;
-						boolean towerBuilt = false;
-						switch(buildIndex) {		//TODO probably should do something else than this
-						case 1:
-							if(towerBuilt = m.buildTower(new BasicTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
-								towerList.add(new TowerView(new Sprite(new Texture("img/firstDragon.png")), m.getTowers().get(towerIndex), towerIndex));
-							}
-							break;
-						case 2:
-							if(towerBuilt = m.buildTower(new IceTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
-								towerList.add(new TowerView(new Sprite(new Texture("img/iceDragon.png")), m.getTowers().get(towerIndex), towerIndex));
-							}
-							break;
-						case 3:
-							if(towerBuilt = m.buildTower(new MultiTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
-								towerList.add(new TowerView(new Sprite(new Texture("img/hydra.png")), m.getTowers().get(towerIndex), towerIndex));
-							}
-							break;
-						default:
-							System.out.println("No such tower exists"); 	//TODO debug
-							break;
-						}
-						if(towerBuilt) {
-							chosedTower = towerList.get(towerIndex);
-							towerIndex++;
-							buildIndex = 0;
-						} else {
-							radius.hideRadius();
-						}
-					} else {
-						chosedTower = clickedOnTower(Gdx.input.getX(), Gdx.input.getY());
-						if(chosedTower != null) {
-							radius.setRadius((float) chosedTower.getTower().getRange());
-							radius.setPosition(chosedTower.getX(), chosedTower.getY());
-							radius.showRadius();
-							towerName.setText(chosedTower.getName());
-							towerKills.setText("Enemies killed: " + chosedTower.getKills());
-						} else {
-							radius.hideRadius();
-						}
-					}
-				} else if(event.getListenerActor() instanceof TextButton) {
-					if(event.getListenerActor() == sellBtn) {
-						if(chosedTower != null) {
-							int tmpIndex = chosedTower.getIndex();
-							m.sellTower(tmpIndex);
-							chosedTower.setAlpha(0);
-							towerList.remove(tmpIndex);
-							for(int i = tmpIndex; i < towerList.size(); i++) {
-								int oldIndex = towerList.get(tmpIndex).getIndex();
-								towerList.get(i).setIndex(oldIndex - 1);
-							}
-							towerIndex--;
-							chosedTower = null;
-						}
-					} else if(event.getListenerActor() == upgradeBtn) {
-						if(chosedTower != null) {
-							if(m.upgradeTower(chosedTower.getTower()))
-								chosedTower.upgrade();
-						}
-					} else if(event.getListenerActor() == nextWaveBtn) {
-						m.nextWave();
-					} else if(event.getListenerActor() == cancelBuyBtn) {
+					if(event.getListenerActor() instanceof Image && event.getListenerActor() != mapImg) {
 						if(tmp != null) {
 							tmp.setVisible(false);
+							tmp = null;				//TODO i dont think this is needed
+						}
+						String path = "";
+						int rad = 0;
+						if(event.getListenerActor() == bt) {
+							path = "img/firstDragon.png";
+							buildIndex = 1;
+							rad = 200;
+						} else if(event.getListenerActor() == it) {
+							path = "img/iceDragon.png";
+							buildIndex = 2;
+							rad = 150;
+						} else if(event.getListenerActor() == mt) {
+							path = "img/hydra.png";
+							buildIndex = 3;
+							rad = 400;
+						}
+						tmp = new Image(new Texture(path));
+						tmp.setPosition(Gdx.input.getX()-tmp.getWidth()/2, Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2);
+						tmp.setTouchable(null);
+						radius.setRadius(rad);
+					} else if(event.getListenerActor() == mapImg) {
+						if(tmp != null) {
+							tmp.setVisible(false);		// TODO the image still exists under the tower, or does it?
+
+							//TODO maybe change these two rows under
+							int tmpX = (int) ((Gdx.input.getX()-tmp.getWidth()/2/ratio)*ratio);
+							int tmpY = (int) ((Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2/ratio)*ratio);
 							tmp = null;
-							radius.hideRadius();
+							boolean towerBuilt = false;
+							switch(buildIndex) {		//TODO probably should do something else than this
+							case 1:
+								if(towerBuilt = m.buildTower(new BasicTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
+									towerList.add(new TowerView(new Sprite(new Texture("img/firstDragon.png")), m.getTowers().get(towerIndex), towerIndex));
+								}
+								break;
+							case 2:
+								if(towerBuilt = m.buildTower(new IceTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
+									towerList.add(new TowerView(new Sprite(new Texture("img/iceDragon.png")), m.getTowers().get(towerIndex), towerIndex));
+								}
+								break;
+							case 3:
+								if(towerBuilt = m.buildTower(new MultiTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
+									towerList.add(new TowerView(new Sprite(new Texture("img/hydra.png")), m.getTowers().get(towerIndex), towerIndex));
+								}
+								break;
+							default:
+								System.out.println("No such tower exists"); 	//TODO debug
+								break;
+							}
+							if(towerBuilt) {
+								chosedTower = towerList.get(towerIndex);
+								towerIndex++;
+								buildIndex = 0;
+							} else {
+								radius.hideRadius();
+							}
+						} else {
+							chosedTower = clickedOnTower(Gdx.input.getX(), Gdx.input.getY());
+							if(chosedTower != null) {
+								radius.setRadius((float) chosedTower.getTower().getRange());
+								radius.setPosition(chosedTower.getX(), chosedTower.getY());
+								radius.showRadius();
+								towerName.setText(chosedTower.getName());
+								towerKills.setText("Enemies killed: " + chosedTower.getKills());
+							} else {
+								radius.hideRadius();
+							}
+						}
+					} else if(event.getListenerActor() instanceof TextButton) {
+						if(event.getListenerActor() == sellBtn) {
+							if(chosedTower != null) {
+								int tmpIndex = chosedTower.getIndex();
+								m.sellTower(tmpIndex);
+								chosedTower.setAlpha(0);
+								notificationList.add(new Notification("$" + chosedTower.getValue(), chosedTower.getX(), chosedTower.getY()));
+								towerList.remove(tmpIndex);
+								for(int i = tmpIndex; i < towerList.size(); i++) {
+									int oldIndex = towerList.get(tmpIndex).getIndex();
+									towerList.get(i).setIndex(oldIndex - 1);
+								}
+								towerIndex--;
+								chosedTower = null;
+							}
+						} else if(event.getListenerActor() == upgradeBtn) {
+							if(chosedTower != null) {
+								int tmpValue = chosedTower.getUpgradePrice();
+								if(m.upgradeTower(chosedTower.getTower())) {
+									notificationList.add(new Notification("-$" + tmpValue, chosedTower.getX(), chosedTower.getY()));
+									chosedTower.upgrade();
+								}
+							}
+						} else if(event.getListenerActor() == nextWaveBtn) {
+							m.nextWave();
+						} else if(event.getListenerActor() == cancelBuyBtn) {
+							if(tmp != null) {
+								tmp.setVisible(false);
+								tmp = null;
+								radius.hideRadius();
+							}
 						}
 					}
-				}
 				}
 				if(event.getListenerActor().equals(pauseBtn)){
 					if(MapScreen.this.m.isRunning()){
-					MapScreen.this.m.setRunning(false);
-				}else{
-					MapScreen.this.m.setRunning(true);
-				}
+						MapScreen.this.m.setRunning(false);
+					}else{
+						MapScreen.this.m.setRunning(true);
+					}
 				}
 
 				System.out.println(Gdx.input.getX()+ " " + Gdx.input.getY());
@@ -414,7 +436,7 @@ public class MapScreen implements Screen {
 		nextWaveBtn.addListener(clickListener);
 		cancelBuyBtn.addListener(clickListener);
 		pauseBtn.addListener(clickListener);
-		
+
 		towerInfoTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
 		towerInfoTable.add(chosedTowerImage).left().row();
 		towerInfoTable.add(towerName = new Label("Tower Name", uiSkin)).left().row();
