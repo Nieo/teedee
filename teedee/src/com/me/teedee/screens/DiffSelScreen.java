@@ -1,5 +1,7 @@
 package com.me.teedee.screens;
 
+import java.util.Collections;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -12,6 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton.ImageTextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -36,11 +41,14 @@ public class DiffSelScreen implements Screen {
 	private TextButton hardButton;
 	private TextButton startGame;
 	
+	private TextButton pathButton;
+	
 	private ButtonGroup bg;
 	
 	
-	
+	private int pathLimit = 2;
 	private int diff=2;
+	private int currentPathChoice=1;
 	
 	@Override
 	public void render(float delta) {
@@ -72,6 +80,7 @@ public class DiffSelScreen implements Screen {
 		table = new Table(skin);
 		table.setFillParent(true);
 		
+
 		
 		
 		DiffListener dl = new DiffListener();
@@ -80,6 +89,8 @@ public class DiffSelScreen implements Screen {
 		easyButton.setName("Easy");
 		easyButton.addListener(dl);
 		easyButton.setColor(Color.GRAY);
+		
+		
 		
 		normalButton = new TextButton("Normal", skin);
 		normalButton.setName("Normal");
@@ -95,6 +106,11 @@ public class DiffSelScreen implements Screen {
 		startGame.setName("Start");
 		startGame.addListener(dl);
 		
+		pathButton = new TextButton("Path 1", skin);
+		pathButton.setName("Path");
+		pathButton.addListener(dl);
+		pathButton.setColor(Color.LIGHT_GRAY);
+		
 		normalButton.setChecked(true);
 		
 		
@@ -106,9 +122,13 @@ public class DiffSelScreen implements Screen {
 		
 		table.add(easyButton).width(200).spaceBottom(20).row();
 		table.add(normalButton).width(200).spaceBottom(20).row();
-		table.add(hardButton).width(200).spaceBottom(20).row();
+		table.add(hardButton).width(200).spaceBottom(40).row();
+		
+		table.add(pathButton).width(200).spaceBottom(40).row();
 		
 		table.add(startGame).width(200).height(50);
+		
+		
 		
 		
 		
@@ -158,6 +178,13 @@ public class DiffSelScreen implements Screen {
 			DiffSelScreen.this.diff=2;
 		}else if(s.equals("Hard")){
 			DiffSelScreen.this.diff=3;
+		}else if(s.equals("Path")){
+			if(currentPathChoice<pathLimit){
+				currentPathChoice += 1;
+			}else{
+				currentPathChoice = 1;
+			}
+			DiffSelScreen.this.pathButton.getLabel().setText("Path "+currentPathChoice);
 		}
 		
 		for(Button tb: bg.getButtons()){
@@ -173,7 +200,7 @@ public class DiffSelScreen implements Screen {
 		
 		if(event.getListenerActor().getName().equals("Start")){
 			System.out.println("Difficulty is "+diff);
-		((Game) Gdx.app.getApplicationListener()).setScreen(new MapScreen(diff,1));
+		((Game) Gdx.app.getApplicationListener()).setScreen(new MapScreen(diff,currentPathChoice));
 		}
 		}
 	}
