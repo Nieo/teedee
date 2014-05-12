@@ -27,6 +27,7 @@ public abstract class AbstractTower {
 	protected ArrayList<AbstractEnemy> target = new ArrayList<AbstractEnemy>();
 	protected String name;
 	protected int id;
+	private int index;		// the towers position in maps list
 	
 	public void setEnemies(ArrayList<AbstractEnemy> enemies) {
 		this.enemies = enemies;
@@ -136,6 +137,12 @@ public abstract class AbstractTower {
 	}
 	public double getValue() {
 		return value;
+	}
+	public int getIndex() {
+		return index;
+	}
+	public void setIndex(int i) {
+		this.index = i;
 	}
 	
 	
