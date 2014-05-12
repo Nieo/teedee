@@ -53,8 +53,7 @@ public class DiffSelScreen implements Screen {
 	private int diff=2;
 	private int currentPathChoice=1;
 
-	private String mapPath;
-	private boolean mapSelected = false;
+	private String mapPath = "map/map.png";
 	
 	@Override
 	public void render(float delta) {
@@ -145,6 +144,8 @@ public class DiffSelScreen implements Screen {
 		mapTable.add(militaryMap).padTop(20).padRight(20).padBottom(20);
 		mapTable.add(parkMap).padTop(20).padBottom(20);
 		
+		spaceMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/mapThumbnailS.png"))));
+		
 		table.add(mapTable).padBottom(20).padTop(20).row();
 		table.add(easyButton).width(200).spaceBottom(20).row();
 		table.add(normalButton).width(200).spaceBottom(20).row();
@@ -208,7 +209,6 @@ public class DiffSelScreen implements Screen {
 				}
 				DiffSelScreen.this.pathButton.getLabel().setText("Path "+currentPathChoice);
 			} else if(event.getListenerActor() instanceof Image) { 
-				mapSelected = true;
 				resetImages();
 				if(s.equals("SpaceMap")) {
 					mapPath = "map/map.png";
@@ -235,7 +235,7 @@ public class DiffSelScreen implements Screen {
 				}
 			}
 
-			if(event.getListenerActor().getName().equals("Start") && mapSelected){
+			if(event.getListenerActor().getName().equals("Start")){
 				System.out.println("Difficulty is "+diff);
 				((Game) Gdx.app.getApplicationListener()).setScreen(new MapScreen(diff,currentPathChoice, mapPath));
 			}

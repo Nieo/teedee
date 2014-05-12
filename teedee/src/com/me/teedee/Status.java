@@ -84,4 +84,8 @@ public class Status {
 	public void reduceTimeLeft(float time){
 		this.timeLeft -= time;
 	}
+	
+	public void resetTime(){
+		this.timeLeft = this.influenceTime;
+	}
 }

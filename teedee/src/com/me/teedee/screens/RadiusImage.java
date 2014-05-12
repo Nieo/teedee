@@ -1,5 +1,6 @@
 package com.me.teedee.screens;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -7,23 +8,35 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class RadiusImage extends Actor {
 	private Sprite sprite;
+	private Sprite red;
 	private float radius;
+	private boolean isRed = false;
+	Color col;
 	
 	public RadiusImage(Texture texture) {
 		this(new Sprite(texture));
 	}
 	
 	public RadiusImage(Sprite sprite) {
+		this.col = new Color(Color.WHITE);
 		this.sprite = sprite;
+		this.red = new Sprite(new Texture("img/radius200_red.png"));
+		red.setAlpha(0);
 		this.radius = 100;
 	}
 	
 	public void setColorRed() {
-		sprite.setTexture(new Texture("img/radius200_red.png"));
+		//sprite.setTexture(new Texture("img/radius200_red.png"));
+		red.setAlpha(1);
+		sprite.setAlpha(0);
+		isRed = true;
 	}
 	
 	public void setColorDefault() {
-		sprite.setTexture(new Texture("img/radius200.png"));
+		red.setAlpha(0);
+		sprite.setAlpha(1);
+		//sprite.setTexture(new Texture("img/radius200.png"));
+		isRed = false;
 	}
 	
 	public Texture getTexture() {
@@ -32,16 +45,19 @@ public class RadiusImage extends Actor {
 	
 	public void draw(Batch batch) {
 		sprite.draw(batch);
+		red.draw(batch);
 	}
 	
 	public void setRadius(float radius) {
 		this.radius = radius;
 		sprite.setSize(radius*2, radius*2);
+		red.setSize(radius*2, radius*2);
 	}
 	
 	@Override
 	public void setPosition(float x, float y) {
 		sprite.setPosition(x - radius + 40, y - radius + 40);
+		red.setPosition(sprite.getX(), sprite.getY());
 	}
 	
 	public void showRadius() {
@@ -54,5 +70,9 @@ public class RadiusImage extends Actor {
 	
 	public void setAlpha(float alpha) {
 		sprite.setAlpha(alpha);
+	}
+	
+	public boolean isRed() {
+		return isRed;
 	}
 }

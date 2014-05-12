@@ -76,8 +76,10 @@ public class MapScreen implements Screen {
 	private List<Sound> shootingSoundList = new ArrayList<Sound>();
 	private Texture soundOnTexture = new Texture("data/speaker_louder_32.png");
 	private Texture soundOffTexture = new Texture("data/speaker_off_32.png");
-	
+
 	private String mapPath;
+
+	int k = 0;
 
 	public MapScreen(int difficulty, int pathChoice, String mapPath) {
 		this.mapPath = mapPath;
@@ -133,7 +135,7 @@ public class MapScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		//fps.log();		// TODO debug
+		fps.log();		// TODO debug
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -207,7 +209,9 @@ public class MapScreen implements Screen {
 
 		for (AbstractTower tower : m.getTowers()){
 			if(tower.isShooting()){ //TODO Fix line under this, could be shorter
-				bulletList.add(new Bullet(tower.getTargetPosition().getX(), tower.getTargetPosition().getY(), 14f, tower));
+				System.out.println(tower.getTargetPosition().size());
+				for(Position p: tower.getTargetPosition())
+					bulletList.add(new Bullet(p.getX(), p.getY(), 14f, tower));
 				if(soundIsOn)
 					playShootingSound(tower.getId());
 			}
@@ -247,17 +251,24 @@ public class MapScreen implements Screen {
 			radius.setPosition(tmp.getX(), tmp.getY());
 
 			//TODO this needs optimizing or done in another way
-			for(int i = 0; i < towerList.size(); i++) {
-				float dx = tmp.getX()- towerList.get(i).getX();
-				float dy = tmp.getY()- towerList.get(i).getY();
+			if(!towerList.isEmpty()) {
+				float dx = tmp.getX() - towerList.get(k).getX();
+				float dy = tmp.getY() - towerList.get(k).getY();
 				double d =  Math.sqrt(dx*dx+dy*dy);
 				if(d < 40) {
 					radius.setColorRed();
-					break;
 				} else {
 					radius.setColorDefault();
 				}
+
+				if(!radius.isRed()) {
+					k++;
+					if(k >= towerList.size()) {
+						k = 0;
+					}
+				}
 			}
+
 		} else if(tmp == null && chosedTower == null) {
 			radius.hideRadius();
 		}
@@ -362,6 +373,7 @@ public class MapScreen implements Screen {
 								break;
 							}
 							if(towerBuilt) {
+								m.getTowers().get(towerIndex).setIndex(towerIndex);
 								chosedTower = towerList.get(towerIndex);
 								towerIndex++;
 								buildIndex = 0;
@@ -388,11 +400,14 @@ public class MapScreen implements Screen {
 								chosedTower.setAlpha(0);
 								notificationList.add(new Notification("$" + chosedTower.getValue(), chosedTower.getX(), chosedTower.getY()));
 								towerList.remove(tmpIndex);
-								for(int i = tmpIndex; i < towerList.size(); i++) {
-									int oldIndex = towerList.get(tmpIndex).getIndex();
-									towerList.get(i).setIndex(oldIndex - 1);
+								for(int i = 0; i < m.getTowers().size(); i++) {
+									m.getTowers().get(i).setIndex(i);
 								}
-								towerIndex--;
+								for(int i = 0; i < towerList.size(); i++) {
+									TowerView tmp = towerList.get(i);
+									tmp.setIndex(tmp.getTower().getIndex());
+								}
+								towerIndex = towerList.size();
 								chosedTower = null;
 							}
 						} else if(event.getListenerActor() == upgradeBtn) {
@@ -426,9 +441,9 @@ public class MapScreen implements Screen {
 				}
 				if(event.getListenerActor().equals(pauseBtn)){
 					if(MapScreen.this.m.isRunning()){
-						MapScreen.this.m.setRunning(false);
+						MapScreen.this.pause();
 					}else{
-						MapScreen.this.m.setRunning(true);
+						MapScreen.this.resume();
 					}
 				}
 
@@ -515,11 +530,14 @@ public class MapScreen implements Screen {
 	public void hide() { dispose();	}
 
 	@Override
-	public void pause() { 
+	public void pause() {
+		MapScreen.this.m.setRunning(false);
 	}
 
 	@Override
-	public void resume() { }
+	public void resume() { 
+		MapScreen.this.m.setRunning(true);
+	}
 
 	@Override
 	public void dispose() {	
