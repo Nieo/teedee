@@ -34,6 +34,7 @@ import com.me.teedee.towers.AbstractTower;
 import com.me.teedee.towers.BasicTower;
 import com.me.teedee.towers.IceTower;
 import com.me.teedee.towers.MultiTower;
+import com.me.teedee.towers.ShockWaveTower;
 
 /**
  * A screen that represents a the map with its
@@ -298,6 +299,7 @@ public class MapScreen implements Screen {
 		final Image bt = new Image(new Texture("img/firstDragon.png"));
 		final Image it = new Image(new Texture("img/iceDragon.png"));
 		final Image mt = new Image(new Texture("img/hydra.png"));
+		final Image swt = new Image(new Texture("img/shockwave.png"));
 
 		final TextButton upgradeBtn = new TextButton("Upgrade", uiSkin);
 		final TextButton sellBtn = new TextButton("Sell", uiSkin);
@@ -339,6 +341,12 @@ public class MapScreen implements Screen {
 							buildIndex = 3;
 							rad = 400;
 						}
+						else if(event.getListenerActor() == swt) {
+							path = "img/shockwave.png";
+							buildIndex = 4;
+							//TODO range should be read from the tower model, not hard coded like this
+							rad = 500;
+						}
 						tmp = new Image(new Texture(path));
 						tmp.setPosition(Gdx.input.getX()-tmp.getWidth()/2, Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2);
 						tmp.setTouchable(null);
@@ -366,6 +374,10 @@ public class MapScreen implements Screen {
 							case 3:
 								if(towerBuilt = m.buildTower(new MultiTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
 									towerList.add(new TowerView(new Sprite(new Texture("img/hydra.png")), m.getTowers().get(towerIndex), towerIndex));
+								}
+							case 4:
+								if(towerBuilt = m.buildTower(new ShockWaveTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
+									towerList.add(new TowerView(new Sprite(new Texture("img/shockwave.png")), m.getTowers().get(towerIndex), towerIndex));
 								}
 								break;
 							default:
@@ -481,6 +493,7 @@ public class MapScreen implements Screen {
 		bt.addListener(clickListener);
 		it.addListener(clickListener);
 		mt.addListener(clickListener);
+		swt.addListener(clickListener);
 		upgradeBtn.addListener(clickListener);
 		sellBtn.addListener(clickListener);
 		nextWaveBtn.addListener(clickListener);
@@ -501,7 +514,8 @@ public class MapScreen implements Screen {
 		buildTable.add(bt).top().padLeft(20);
 		buildTable.add(it);
 		buildTable.add(mt).padRight(20).row();
-		buildTable.add(new Image(new Texture("img/firstDragon.png"))).padLeft(20);
+		buildTable.add(swt).padLeft(20);
+		//buildTable.add(new Image(new Texture("img/firstDragon.png"))).padLeft(20);
 		buildTable.add(new Image(new Texture("img/firstDragon.png")));
 		buildTable.add(new Image(new Texture("img/firstDragon.png"))).padRight(20);
 
