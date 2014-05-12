@@ -22,13 +22,19 @@ public abstract class AbstractTower {
 	protected int kills = 0;
 	private Position position;
 	protected ArrayList<AbstractEnemy> enemies;
-	private boolean isShooting = false;
+	protected boolean isShooting = false;
 	protected float cooldown = 1;
-	private AbstractEnemy target;
+	protected ArrayList<AbstractEnemy> target = new ArrayList<AbstractEnemy>();
 	protected String name;
 	protected int id;
 	private int index;		// the towers position in maps list
 	
+	public void setEnemies(ArrayList<AbstractEnemy> enemies) {
+		this.enemies = enemies;
+	}
+	public void setPosition(Position pos) {
+		position = pos;
+	}
 	public Price getBuildPrice() {
 		return price[currentLevel];
 	}
@@ -38,24 +44,14 @@ public abstract class AbstractTower {
 		return new Price(Integer.MAX_VALUE);
 	}
 	
-	public Position getTargetPosition() {
-		if(hasTarget()) {
-			return new Position(target.getPosition().getX(),target.getPosition().getY());
-		} else {
-			return new Position(0,0); //TODO Should this throw an exception instead?
+	public ArrayList<Position> getTargetPosition() {
+		ArrayList<Position> targetpositions = new ArrayList<Position>();
+		if(!target.isEmpty()){
+			for(AbstractEnemy a: target){
+				targetpositions.add(a.getPosition());
+			}	
 		}
-	}
-	
-	public void setEnemies(ArrayList<AbstractEnemy> enemies) {
-		this.enemies = enemies;
-	}
-	
-	public boolean hasTarget() {
-		return !(target == null);
-	}
-	
-	public void setPosition(Position pos) {
-		position = pos;
+		return targetpositions;
 	}
 	
 	public int getCurrentLevel() {
@@ -82,6 +78,9 @@ public abstract class AbstractTower {
 		return position;
 	}
 	
+	public boolean hasTarget() {
+		return !target.isEmpty();
+	}
 	public Boolean upgrade() {
 		if(currentLevel < maxLevel - 1) {
 			currentLevel++;
@@ -101,27 +100,27 @@ public abstract class AbstractTower {
 		cooldown = cooldown - delta;
 		if(cooldown <= 0) {
 			cooldown = attackSpeed[currentLevel] + cooldown;
-			target = null;
+			target.clear();
 			//isShooting = true;
 			for(int i = 0; i < enemies.size(); i++) {
 				if(distance(position, enemies.get(i).getPosition()) < range && enemies.get(i).isAlive()) {
-					if(target == null) {
-						target = enemies.get(i); 
+					if(target.isEmpty()) {
+						target.add(enemies.get(i));  
 					} else {
-						if(enemies.get(i).getStepsTraveled() > target.getStepsTraveled())
-								target = enemies.get(i);
+						if(enemies.get(i).getStepsTraveled() > target.get(0).getStepsTraveled()){
+								target.clear();
+								target.add(enemies.get(i));
+						}
 					}
 				}
 			}
 			
-			if(target != null) {
+			if(!target.isEmpty()) {
 				isShooting = true;
-				if(!target.getStatusMap().containsKey(this)){
-					target.addTowerStatus(this, new Status(status));
-				}
-
+				target.get(0).addTowerStatus(this, new Status(status));
+			
 				//TODO maybe do this in another way
-				if(!target.takeDamage(attackDamage[currentLevel], status)) {
+				if(!target.get(0).takeDamage(attackDamage[currentLevel])) {
 					kills++;
 				}
 			}

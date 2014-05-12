@@ -35,25 +35,33 @@ public class MultiTower extends AbstractTower {
 	@Override
 	public void shoot(float delta){
 		cooldown = cooldown - delta;
+		
 		if(cooldown <= 0) {
+			isShooting = true;
 			cooldown = attackSpeed[currentLevel] + cooldown;
+			target.clear();
 			ArrayList<AbstractEnemy> targets = new ArrayList<AbstractEnemy>();
 			for(AbstractEnemy a: enemies){
 				if(AbstractTower.distance(this.getPosition(), a.getPosition()) < this.getRange())
-					targets.add(a);
+					target.add(a);
 			}
 			Collections.sort(targets);
-			int bullets = currentLevel+2;
-			if(targets.size() < bullets){
-				bullets = targets.size();
-			}
-			for(int i = 0; i < bullets; i++){
-				if(!targets.get(i).takeDamage(attackDamage[currentLevel], status)) {
-					kills++;
+			Collections.reverse(targets);
+			for(int i = target.size()-1; i >= 0 ; i--){
+				if(i < currentLevel+2){
+					if(!target.get(i).takeDamage(attackDamage[currentLevel])) {
+						kills++;
+					}
+				}else{
+					target.remove(i);
 				}
-			}	
+			
+				
+			}
+			
+		}else{
+			isShooting = false;
 		}
 		
-
 	}
 }
