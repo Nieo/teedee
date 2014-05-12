@@ -79,7 +79,7 @@ public class MapScreen implements Screen {
 
 	private String mapPath;
 
-	int k = 0;
+	int k = 0; 		// logic for radius color changer
 
 	public MapScreen(int difficulty, int pathChoice, String mapPath) {
 		this.mapPath = mapPath;
@@ -168,7 +168,6 @@ public class MapScreen implements Screen {
 					notificationList.add(new Notification("-1", hpLabel.getX(), hpLabel.getY()));
 				}
 				enemyList.remove(i);
-
 			}
 		}
 
@@ -308,6 +307,7 @@ public class MapScreen implements Screen {
 
 		Table towerInfoTable = new Table();
 		Table buildTable = new Table();
+		Table buttonTable = new Table();
 
 		hud = new Stage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())); // OR
 		hud.setViewport(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
@@ -444,9 +444,6 @@ public class MapScreen implements Screen {
 						MapScreen.this.m.setRunning(true);
 					}
 				}
-
-				System.out.println(Gdx.input.getX()+ " " + Gdx.input.getY());
-				System.out.println(Gdx.graphics.getWidth()+" "+Gdx.graphics.getHeight());
 			}
 
 			@Override
@@ -502,24 +499,25 @@ public class MapScreen implements Screen {
 		buildTable.add(new Image(new Texture("img/firstDragon.png"))).padLeft(20);
 		buildTable.add(new Image(new Texture("img/firstDragon.png")));
 		buildTable.add(new Image(new Texture("img/firstDragon.png"))).padRight(20);
-
-		//buildTable.debug();		//TODO debug
 		buildTable.top();
-
+		//buildTable.debug();		//TODO debug
+		
+		buttonTable.add(nextWaveBtn).width(200).height(60).padTop(5);
+		buttonTable.add(pauseBtn).width(60).height(60).padTop(5).row();
+		buttonTable.add(cancelBuyBtn).width(200).height(60).padTop(0);
+		buttonTable.add(soundButton).width(60).height(60).padTop(0).row();
+		
 		guiTable.add(buildTable).row();
 		guiTable.add(towerInfoTable).width(315).row();
-		guiTable.add(nextWaveBtn).width(200).height(60).padTop(5).padBottom(0).row();
-		guiTable.add(cancelBuyBtn).width(200).height(60).padTop(0).padBottom(0).row();
-		guiTable.add(pauseBtn).width(200).height(60).row();
-		guiTable.add(soundButton).width(60).height(60).padTop(0).padBottom(0).row();
+		guiTable.add(buttonTable);
 		//guiTable.debug();		//TODO debug;
 
 		table = new Table();
-		//table.debug();			//TODO debug
 		table.add(mapImg);
 		table.add(guiTable);
 		table.setFillParent(true);
 		table.bottom().left();
+		//table.debug();			//TODO debug
 
 		hud.addActor(table);
 	}
