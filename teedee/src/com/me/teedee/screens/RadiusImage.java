@@ -1,5 +1,6 @@
 package com.me.teedee.screens;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -8,22 +9,27 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 public class RadiusImage extends Actor {
 	private Sprite sprite;
 	private float radius;
+	private boolean isRed = false;
+	Color col;
 	
 	public RadiusImage(Texture texture) {
 		this(new Sprite(texture));
 	}
 	
 	public RadiusImage(Sprite sprite) {
+		this.col = new Color(Color.WHITE);
 		this.sprite = sprite;
 		this.radius = 100;
 	}
 	
 	public void setColorRed() {
 		sprite.setTexture(new Texture("img/radius200_red.png"));
+		isRed = true;
 	}
 	
 	public void setColorDefault() {
 		sprite.setTexture(new Texture("img/radius200.png"));
+		isRed = false;
 	}
 	
 	public Texture getTexture() {
@@ -54,5 +60,9 @@ public class RadiusImage extends Actor {
 	
 	public void setAlpha(float alpha) {
 		sprite.setAlpha(alpha);
+	}
+	
+	public boolean isRed() {
+		return isRed;
 	}
 }
