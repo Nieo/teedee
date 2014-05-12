@@ -56,15 +56,18 @@ public class RadiusImage extends Actor {
 	}
 	
 	public void showRadius() {
-		setAlpha(1);
+		if(isRed) {
+			red.setAlpha(1);
+			sprite.setAlpha(0);
+		} else {
+			sprite.setAlpha(1);
+			red.setAlpha(0);
+		}
 	}
 	
 	public void hideRadius() {
-		setAlpha(0);
-	}
-	
-	public void setAlpha(float alpha) {
-		sprite.setAlpha(alpha);
+		sprite.setAlpha(0);
+		red.setAlpha(0);
 	}
 	
 	public boolean isRed() {

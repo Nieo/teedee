@@ -386,6 +386,7 @@ public class MapScreen implements Screen {
 								radius.setRadius((float) chosedTower.getTower().getRange());
 								radius.setPosition(chosedTower.getX(), chosedTower.getY());
 								radius.showRadius();
+								radius.setColorDefault();
 								towerName.setText(chosedTower.getName());
 								towerKills.setText("Enemies killed: " + chosedTower.getKills());
 							} else {
