@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.me.teedee.enemies.AbstractEnemy;
+import com.me.teedee.enemies.BasicEnemy;
 import com.me.teedee.towers.AbstractTower;
 import com.me.teedee.towers.BasicTower;
 
@@ -23,7 +24,7 @@ public class MapTest {
 	private Path path; 
 	private Player player;
 	private ArrayList<AbstractEnemy> currentEnemies;
-	private TiledMap tiledMap;
+	//private TiledMap tiledMap;
 	private int waveIndex = 0;
 	private Map map;
 
@@ -41,9 +42,12 @@ public class MapTest {
 
 		path = new Path(pathPositions);
 		player = new Player();
-		map = new Map(WaveFactory.creatHardWave(path), path, player);
-		waves = new ArrayList<Wave>();
+		waves = WaveFactory.creatEasyWave(path);
+		map = new Map(waves, path, player);
+		
+		
 		towers = new ArrayList<AbstractTower>();
+		currentEnemies = waves.get(0).getEnemies();
 		
 		System.out.println("Test set up");
 		
@@ -145,29 +149,48 @@ public class MapTest {
 		
 	}
 
-//	@Test
-//	public void testUpdateEnemiesPositions() {
-//		assertTrue(false);
-//	}
+	@Test
+	public void testUpdateEnemiesPositions() {
+		AbstractEnemy enemy = currentEnemies.get(0);
+		Position pos1 = new Position(enemy.getPosition());
+		
+		//The newly instantiated position, pos1, should be equal to the one that the tower has
+		assertTrue(enemy.getPosition().equals(pos1));
+		map.updateEnemiesPositions(1.0f/60.0f);
+		
+		//pos1 should now be unequal to the tower's position, since the tower has been moved 
+		assertFalse(enemy.getPosition().equals(pos1));
+	}
 //
 //	@Test
 //	public void testTowersShoot() {
 //		assertTrue(false);
 //	}
 //
-//	@Test
-//	public void testRemoveDeadEnemies() {
-//		assertTrue(false);
-//	}
+	@Test
+	public void testRemoveEnemies() {
+		int numberOfEnemiesStart = currentEnemies.size();
+		//No enemies should've been removed
+		assertTrue(numberOfEnemiesStart == currentEnemies.size());
+		//TODO Remove status parameter
+		currentEnemies.get(0).takeDamage(101, new Status());
+		map.removeEnemies();
+		//One enemy should've been removed
+		System.out.println(numberOfEnemiesStart);
+		System.out.println(currentEnemies.size());
+		assertTrue(numberOfEnemiesStart - currentEnemies.size() == 1);
+	}
 //
 //	@Test
 //	public void testUpdate() {
 //		assertTrue(false);
 //	}
 //
-//	@Test
-//	public void testUpdateEnemiesStatuses() {
-//		assertTrue(false);
-//	}
+	@Test
+	public void testUpdateEnemiesStatuses() {
+		AbstractTower tower = new BasicTower(new Position(200,200), currentEnemies);
+
+		assertTrue(false);
+	}
 
 }

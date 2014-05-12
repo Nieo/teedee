@@ -34,17 +34,16 @@ public class ShockWaveTower extends AbstractTower{
 	@Override
 	public void shoot(float delta){
 		super.shoot(delta);
-		
 
 	}
 	
 	public List<AbstractEnemy> getNeighbourEnemies(){
 		List<AbstractEnemy> neighbours = new ArrayList<AbstractEnemy>();
-		AbstractEnemy tempEnemy = enemies.get(0);
 		for(AbstractEnemy enemy : enemies){
-//			if(distance(this.getTargetPosition(),tempEnemy.getPosition()) < ){
-//				tempEnemy = enemy;
-//			}
+			//If the distance between the target and any of the other enemies is less than 100 points
+			if(distance(this.getTargetPosition(), enemy.getPosition()) < 100){
+				neighbours.add(enemy);
+			}
 		}
 		return neighbours;
 	}
