@@ -27,7 +27,7 @@ public class BasicEnemyTest {
 	public void testTakeDamage() {
 		this.setUp();
 		float maxLives = a.getLives().getMaxLives();
-		a.takeDamage(10, new Status(1,0,0));
+		a.takeDamage(10);
 		assertEquals(maxLives-10, a.getLives().getCurrentLives(), 0.1f);
 	}
 	

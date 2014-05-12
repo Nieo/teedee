@@ -57,8 +57,8 @@ public class TowerView extends Sprite {
 		//TODO not sure if this is needed
 		vector.set(posX, posY);
 
-		if(tower.getTargetPosition().getX() != 0 && tower.getTargetPosition().getY() != 0) {
-			vector.sub(tower.getTargetPosition().getX(), tower.getTargetPosition().getY());
+		if(!tower.getTargetPosition().isEmpty() && tower.getTargetPosition().get(0).getX() != 0 && tower.getTargetPosition().get(0).getY() != 0) {
+			vector.sub(tower.getTargetPosition().get(0).getX(), tower.getTargetPosition().get(0).getY());
 			vector.nor();
 			angle = vector.angle() + 90;
 		}

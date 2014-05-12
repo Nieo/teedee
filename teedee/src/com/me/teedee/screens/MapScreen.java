@@ -207,7 +207,9 @@ public class MapScreen implements Screen {
 
 		for (AbstractTower tower : m.getTowers()){
 			if(tower.isShooting()){ //TODO Fix line under this, could be shorter
-				bulletList.add(new Bullet(tower.getTargetPosition().getX(), tower.getTargetPosition().getY(), 14f, tower));
+				System.out.println(tower.getTargetPosition().size());
+				for(Position p: tower.getTargetPosition())
+					bulletList.add(new Bullet(p.getX(), p.getY(), 14f, tower));
 				if(soundIsOn)
 					playShootingSound(tower.getId());
 			}

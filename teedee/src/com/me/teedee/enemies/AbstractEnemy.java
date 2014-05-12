@@ -140,14 +140,17 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 		this(a.path,a.speed,a.lives,a.reward, a.position);
 	}
 	
-	public boolean takeDamage(int damage, Status s) {
+	public boolean takeDamage(int damage) {
 		// TODO Add even more logic!
 		isAlive = this.lives.lowerLives(damage);
 		return isAlive;
 	}
 	
 	public void addTowerStatus(AbstractTower tower,Status status){
-		this.statusMap.put(tower, status);
+		if(!statusMap.containsKey(tower))
+			this.statusMap.put(tower, status);
+		else
+			statusMap.get(tower).resetTime();
 	}
 	
 	public Status getOverallStatus(){
@@ -203,8 +206,12 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 		if(!reachedEnd && !checkpointFound) {
 			position.setxCoordinate(position.getX()+xSpeed*getOverallStatus().getSpeedRatio()*delta);
 			position.setyCoordinate(position.getY()+ySpeed*getOverallStatus().getSpeedRatio()*delta);
+			if(position.getX() > 0 && position.getY() > 0){
+			distanceTraveled = distanceTraveled +
+					Math.abs(xSpeed*getOverallStatus().getSpeedRatio()*delta) + 
+					Math.abs(ySpeed*getOverallStatus().getSpeedRatio()*delta);
+			}
 		}
-		//return reachedEnd;
 	}
 	
 	private boolean reachedCheckpoint(Position p, float delta) {
@@ -225,10 +232,6 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 	}
 
 	
-	public void setStatus(Status s) {
-		this.status= s;
-	}
-
 	public HashMap<AbstractTower,Status> getStatusMap() {
 		return this.statusMap;
 	}
@@ -279,5 +282,6 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 	public int getId() {
 		return id;
 	}
+
 	
 }
