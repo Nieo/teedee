@@ -441,9 +441,9 @@ public class MapScreen implements Screen {
 				}
 				if(event.getListenerActor().equals(pauseBtn)){
 					if(MapScreen.this.m.isRunning()){
-						MapScreen.this.m.setRunning(false);
+						MapScreen.this.pause();
 					}else{
-						MapScreen.this.m.setRunning(true);
+						MapScreen.this.resume();
 					}
 				}
 
@@ -530,11 +530,14 @@ public class MapScreen implements Screen {
 	public void hide() { dispose();	}
 
 	@Override
-	public void pause() { 
+	public void pause() {
+		MapScreen.this.m.setRunning(false);
 	}
 
 	@Override
-	public void resume() { }
+	public void resume() { 
+		MapScreen.this.m.setRunning(true);
+	}
 
 	@Override
 	public void dispose() {	
