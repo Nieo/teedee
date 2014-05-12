@@ -41,6 +41,9 @@ public class TowerView extends Sprite {
 			this.name = "Multi Tower";
 			break;
 		case 4:
+			this.name = "Shock Wave Tower";
+			break;
+		default:
 			this.name = "Another Tower";
 			break;
 			// osv
@@ -94,10 +97,35 @@ public class TowerView extends Sprite {
 		case 3:
 			upgradeMultiTower();
 			break;
+		case 4:
+			upgradeShockWaveTower();
+			break;
 		default:
 			System.out.println("nope");		//TODO debug
 		}
 
+	}
+
+	private void upgradeShockWaveTower() {
+		String picPath = "";
+		switch(tower.getCurrentLevel()) {
+		case 1:
+			picPath = "img/shockwave.png";
+			break;
+		case 2:
+			picPath = "img/shockwave.png";
+			break;
+		case 3:
+			picPath = "img/shockwave.png";
+			break;
+		case 4:
+			picPath = "img/shockwave.png";
+			break;
+		default:
+			picPath = "img/shockwave.png";
+		}
+		super.setTexture(new Texture(picPath));
+		
 	}
 
 	private void upgradeIceTower() {

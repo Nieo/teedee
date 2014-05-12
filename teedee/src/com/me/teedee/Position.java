@@ -38,4 +38,8 @@ public class Position {
 	public void setyCoordinate(float yCoordinate) {
 		this.yCoordinate = yCoordinate;
 	}
+	
+	public boolean equals(Position position){
+		return this.getX() == position.getX() && this.getY() == position.getY();
+	}
 }
