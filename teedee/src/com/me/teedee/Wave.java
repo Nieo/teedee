@@ -6,6 +6,7 @@ import java.util.Collections;
 import com.me.teedee.enemies.AbstractEnemy;
 import com.me.teedee.enemies.BasicEnemy;
 import com.me.teedee.enemies.FastEnemy;
+import com.me.teedee.enemies.ShieldEnemy;
 import com.me.teedee.enemies.SlowEnemy;
 
 /*
@@ -51,6 +52,11 @@ public class Wave {
 		case 2:
 			for(int i = 0; i < amount; i++){
 				enemies.add(new SlowEnemy(p));
+			}
+			break;
+		case 3:
+			for(int i = 0; i < amount; i++){
+				enemies.add(new ShieldEnemy(p));
 			}
 			break;
 			
