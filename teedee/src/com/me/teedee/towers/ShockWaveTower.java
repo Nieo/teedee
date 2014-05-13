@@ -8,7 +8,7 @@ import com.me.teedee.Price;
 import com.me.teedee.Status;
 import com.me.teedee.enemies.AbstractEnemy;
 /**
- * A class representing an enemy with high range but low attack speed.
+ * A class representing a tower with high range but low attack speed.
  * When the target is hit, its neighbors take damage. The nearest neighbor
  * takes more damage than ones that are farther away.
  */

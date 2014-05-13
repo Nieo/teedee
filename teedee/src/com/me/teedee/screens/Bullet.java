@@ -26,7 +26,7 @@ public class Bullet extends Sprite{
 		super(new Texture("img/IceBullet.png"));
 		switch(t.getId()) {
 		case 1:
-			setRegion(new Texture("img/RedBullet.png"));
+			setRegion(new Texture("img/fireBullet.png"));
 			break;
 		case 2:
 			setTexture(new Texture("img/IceBullet.png"));

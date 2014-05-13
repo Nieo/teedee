@@ -63,6 +63,14 @@ public class InfoImage {
 			setText("Multi Tower", 500);
 			setDescription(3);
 			break;
+		case 4:
+			setText("Shock Wave Tower", 500);
+			setDescription(4);
+			break;
+		case 6:
+			setText("Blood Dragon Tower", 200);
+			setDescription(6);
+			break;
 		}
 	}
 	
@@ -77,7 +85,13 @@ public class InfoImage {
 		case 3:
 			description.setText("A tower that can hit many enemies at once");
 			break;
-		}
+		case 4:
+			description.setText("A tower that makes damage to the enemies around a hit target");
+			break;
+		case 6:
+			description.setText("A tower that increases its damage by killing enemies");
+			break;
+	}
 	}
 
 	public void setPosition(float x, float y) {

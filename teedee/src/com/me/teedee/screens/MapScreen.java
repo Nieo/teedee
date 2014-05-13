@@ -33,6 +33,7 @@ import com.me.teedee.WaveFactory;
 import com.me.teedee.enemies.AbstractEnemy;
 import com.me.teedee.towers.AbstractTower;
 import com.me.teedee.towers.BasicTower;
+import com.me.teedee.towers.BloodDragonTower;
 import com.me.teedee.towers.IceTower;
 import com.me.teedee.towers.MultiTower;
 import com.me.teedee.towers.RNGTower;
@@ -95,6 +96,8 @@ public class MapScreen implements Screen {
 		//FIXME
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot0.wav")));
 
+		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot5.wav")));
+		
 		//Creating the path
 		Path path = PathFactory.createPath(pathChoice);
 
@@ -306,6 +309,7 @@ public class MapScreen implements Screen {
 		final Image it = new Image(new Texture("img/iceDragon.png"));
 		final Image mt = new Image(new Texture("img/hydra.png"));
 		final Image swt = new Image(new Texture("img/shockwave.png"));
+		final Image bdt = new Image(new Texture("img/bloodDragon.png"));
 		// FIXME
 		final Image rng = new Image(new Texture("img/twitterEnemy.png"));
 
@@ -363,7 +367,12 @@ public class MapScreen implements Screen {
 							path = "img/twitterEnemy.png";
 							buildIndex = 5;
 							rad = 500;
+						} else if(event.getListenerActor() == bdt) {
+							path = "img/bloodDragon.png";
+							buildIndex = 6;
+							rad = 200;
 						}
+						
 						tmp = new Image(new Texture(path));
 						tmp.setPosition(Gdx.input.getX()-tmp.getWidth()/2, Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2);
 						tmp.setTouchable(null);
@@ -402,6 +411,11 @@ public class MapScreen implements Screen {
 									towerList.add(new TowerView(new Sprite(new Texture("img/twitterEnemy.png")), map.getTowers().get(towerIndex), towerIndex));
 								}
 								break; 
+							case 6:
+								if(towerBuilt = map.buildTower(new BloodDragonTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) map.getEnemies()), new Position(tmpX, tmpY))) {
+									towerList.add(new TowerView(new Sprite(new Texture("img/bloodDragon.png")), map.getTowers().get(towerIndex), towerIndex));
+								}
+								break;
 							default:
 								System.out.println("No such tower exists"); 	//TODO debug
 								break;
@@ -504,6 +518,12 @@ public class MapScreen implements Screen {
 						index = 2;
 					} else if(event.getListenerActor() == mt) {
 						index = 3;
+					} else if(event.getListenerActor() == swt) {
+						index = 4;
+					} else if(event.getListenerActor() == bdt) {
+						index = 5;
+					} else if(event.getListenerActor() == bdt) {
+						index = 6;
 					}
 
 					if(index != -1) {
@@ -526,6 +546,7 @@ public class MapScreen implements Screen {
 		mt.addListener(clickListener);
 		swt.addListener(clickListener);
 		rng.addListener(clickListener);
+		bdt.addListener(clickListener);
 		upgradeBtn.addListener(clickListener);
 		sellBtn.addListener(clickListener);
 		nextWaveBtn.addListener(clickListener);
@@ -552,8 +573,9 @@ public class MapScreen implements Screen {
 		buildTable.add(it);
 		buildTable.add(mt).padRight(20).row();
 		buildTable.add(swt).padLeft(20);
+		buildTable.add(bdt);
 		buildTable.add(rng);
-		buildTable.add(new Image(new Texture("img/firstDragon.png"))).padRight(20);
+		//buildTable.add(new Image(new Texture("img/firstDragon.png"))).padRight(20);
 		buildTable.top();
 		//buildTable.debug();		//TODO debug
 
