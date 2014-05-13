@@ -32,6 +32,10 @@ public class Bullet extends Sprite{
 			setTexture(new Texture("img/IceBullet.png"));
 			break;
 			//osv
+		case 6:
+			//TODO Laserbeams looks awful
+			setTexture(new Texture("img/laserBeam.png"));
+			break;
 		default:
 			setTexture(new Texture("img/RedBullet.png"));
 		}
@@ -44,7 +48,7 @@ public class Bullet extends Sprite{
 		this.speed = speed;
 		this.goalDistance = Math.sqrt((targetPosition.getX()-getX()) + (targetPosition.getY()-getY()));
 		this.setPosition(startPosition.getX(), startPosition.getY());
-		
+
 	}
 
 	public Bullet(Position startPosition, Position targetPosition, float speed, Texture texture){
@@ -77,6 +81,4 @@ public class Bullet extends Sprite{
 		update();
 		super.draw(batch);
 	}
-
-
 }

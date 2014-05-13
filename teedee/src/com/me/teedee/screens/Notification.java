@@ -37,20 +37,20 @@ public class Notification {
 			alpha = 0;
 		}
 	}
-	
+
 	public void setPosition(float x, float y) {
 		table.setPosition(x, y);
 	}
-	
+
 	public void setAlpha(float alpha) {
 		this.alpha = alpha;
 	}
-	
+
 	public void draw(Batch batch) {
 		moveTable();
 		table.draw(batch, alpha);
 	}
-	
+
 	public boolean isDone() {
 		return done;
 	}
