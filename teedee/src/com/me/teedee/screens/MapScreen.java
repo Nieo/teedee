@@ -130,7 +130,6 @@ public class MapScreen implements Screen {
 			enemyList.add(new EnemyView( map.getEnemies().get(i)));
 		}
 
-
 		chosedTowerImage = new Image(new Texture("img/unknown.png"));
 		radius = new RadiusImage(new Texture("img/radius200.png"));
 		info = new InfoImage();
@@ -155,7 +154,6 @@ public class MapScreen implements Screen {
 		hud.getSpriteBatch().begin();
 		drawObjects();
 		hud.getSpriteBatch().end();
-
 	}
 
 	private void drawObjects() {
@@ -207,14 +205,14 @@ public class MapScreen implements Screen {
 	private void playShootingSound(int index){
 		shootingSoundList.get(index).play();
 	}
+	
 	private void updateObjects() {
 		if(!map.isPlayerAlive()){
 			((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen());
 		}
 
 		for (AbstractTower tower : map.getTowers()){
-			if(tower.isShooting()){ //TODO Fix line under this, could be shorter
-				System.out.println(tower.getTargetPosition().size());
+			if(tower.isShooting()){			 //TODO Fix line under this, could be shorter
 				for(Position p: tower.getTargetPosition())
 					bulletList.add(new Bullet(p.getX(), p.getY(), 14f, tower));
 				if(soundIsOn)
@@ -482,7 +480,7 @@ public class MapScreen implements Screen {
 					} else if(event.getListenerActor() == mt) {
 						index = 3;
 					}
-						
+
 					if(index != -1) {
 						info.choseTower(index);
 						info.show();
