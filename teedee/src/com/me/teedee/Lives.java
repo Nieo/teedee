@@ -7,8 +7,8 @@ public class Lives {
 	private float maxLives;
 	
 	public Lives(){
-		maxLives = 10;
-		currentLives = 10;
+		maxLives = 1000;
+		currentLives = 1000;
 	}
 	public Lives(float lives){
 		maxLives = lives;

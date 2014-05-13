@@ -24,7 +24,7 @@ public class MultiTower extends AbstractTower {
 		cooldown = attackSpeed[0];
 
 		for(int i = 0; i < 5; i++)
-			attackDamage[i] = 1 ;
+			attackDamage[i] = 35 + 35 * i ;
 
 		status = new Status(0.5f,1,0);
 		setPosition(pos);

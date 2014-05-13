@@ -17,7 +17,7 @@ public class ShockWaveTower extends AbstractTower{
 	public ShockWaveTower(Position pos, ArrayList<AbstractEnemy> enemies){
 		price[0] = new Price(350);
 		for(int i = 1; i < 5; i++){
-			price[i] = new Price(100*i);
+			price[i] = new Price(200*i);
 		}
 			value = price[0].getPrice();
 			currentLevel = 0;
@@ -27,7 +27,7 @@ public class ShockWaveTower extends AbstractTower{
 			cooldown = attackSpeed[0];
 			
 			for(int i = 0; i < 5; i++)
-				attackDamage[i] = 1 + i/2;
+				attackDamage[i] = 70 + i * 70;
 			
 			status = new Status(1f, 0, 1);
 			setPosition(pos);
