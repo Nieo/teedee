@@ -20,7 +20,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -44,7 +43,7 @@ import com.me.teedee.towers.ShockWaveTower;
  */
 public class MapScreen implements Screen {
 	// TODO Make all possible variables more local!!!
-	private Map m;
+	private Map map;
 	private Stage hud;
 	private Table table;
 	private Table guiTable;
@@ -53,9 +52,9 @@ public class MapScreen implements Screen {
 	private Label towerKills;
 	private Label moneyLabel;
 	private Label hpLabel;
-	
+
 	private PauseWindow pauseWindow;
-	
+
 	private InfoImage info;
 	private RadiusImage radius;
 	private Image chosedTowerImage;
@@ -101,16 +100,16 @@ public class MapScreen implements Screen {
 		Player player = new Player();
 
 		//Creating the map
-		m = new Map(WaveFactory.createWave(difficulty,path), path, player);
+		map = new Map(WaveFactory.createWave(difficulty,path), path, player);
 
-		tiledPath = new Sprite[m.getPath().getPositions().size()];
+		tiledPath = new Sprite[map.getPath().getPositions().size()];
 
-		for(int i=0; i<m.getPath().getPositions().size()-1; i++){
+		for(int i=0; i<map.getPath().getPositions().size()-1; i++){
 			float x1,x2,y1,y2,dx,dy;//TODO Leaves a square to be rendered
-			x1=m.getPath().getPositions().get(i).getX();
-			x2=m.getPath().getPositions().get(i+1).getX();
-			y1=m.getPath().getPositions().get(i).getY();
-			y2=m.getPath().getPositions().get(i+1).getY();
+			x1=map.getPath().getPositions().get(i).getX();
+			x2=map.getPath().getPositions().get(i+1).getX();
+			y1=map.getPath().getPositions().get(i).getY();
+			y2=map.getPath().getPositions().get(i+1).getY();
 
 			tiledPath[i]=new Sprite(new Texture("img/pathTile.png"));
 			dx = x2-x1;
@@ -127,11 +126,11 @@ public class MapScreen implements Screen {
 			//tiledPath[i].setBounds(x1, y1-30, dx, dy);
 		}
 
-		for(int i = 0; i < m.getEnemies().size(); i++) {
-			enemyList.add(new EnemyView( m.getEnemies().get(i)));
+		for(int i = 0; i < map.getEnemies().size(); i++) {
+			enemyList.add(new EnemyView( map.getEnemies().get(i)));
 		}
-		
-		
+
+
 		chosedTowerImage = new Image(new Texture("img/unknown.png"));
 		radius = new RadiusImage(new Texture("img/radius200.png"));
 		info = new InfoImage();
@@ -143,31 +142,27 @@ public class MapScreen implements Screen {
 		fps.log();		// TODO debug
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
-		if(m.isRunning()){
-		m.update(delta);
-		
-		updateObjects();
-		
+
+		if(map.isRunning()){
+			map.update(delta);
+			updateObjects();
 		}
-		
+
 		hud.act(delta);
 		hud.draw();
 		Table.drawDebug(hud);		//TODO debug
-		
-		
+
 		hud.getSpriteBatch().begin();
 		drawObjects();
 		hud.getSpriteBatch().end();
-		
+
 	}
 
 	private void drawObjects() {
-		for(int i=0; i<m.getPath().getPositions().size()-1; i++){//As of now renders the path somewhat, should probably not be an sprite. If possible use another more suitable class.  
+		for(int i=0; i<map.getPath().getPositions().size()-1; i++){//As of now renders the path somewhat, should probably not be an sprite. If possible use another more suitable class.  
 			tiledPath[i].draw(hud.getSpriteBatch());
 		}
-		
-		
+
 		for(int i = 0; i < enemyList.size(); i++) {
 			enemyList.get(i).draw(hud.getSpriteBatch());
 			if(!enemyList.get(i).isAlive() || enemyList.get(i).reachedEnd()){
@@ -207,18 +202,17 @@ public class MapScreen implements Screen {
 		//TODO row is too long
 		info.setPosition(guiTable.getX()-info.getWidth()*1.1f, (Gdx.graphics.getHeight()-Gdx.input.getY()-info.getHeight()/2/ratio)*ratio);
 		info.draw(hud.getSpriteBatch());
-		
 	}
 
 	private void playShootingSound(int index){
 		shootingSoundList.get(index).play();
 	}
 	private void updateObjects() {
-		if(!m.isPlayerAlive()){
+		if(!map.isPlayerAlive()){
 			((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen());
 		}
 
-		for (AbstractTower tower : m.getTowers()){
+		for (AbstractTower tower : map.getTowers()){
 			if(tower.isShooting()){ //TODO Fix line under this, could be shorter
 				System.out.println(tower.getTargetPosition().size());
 				for(Position p: tower.getTargetPosition())
@@ -228,11 +222,11 @@ public class MapScreen implements Screen {
 			}
 		}
 
-		if(waveIndex != m.getWaveIndex()) {
-			for(int i = 0; i < m.getEnemies().size(); i++) {
-				enemyList.add(new EnemyView( m.getEnemies().get(i)));
+		if(waveIndex != map.getWaveIndex()) {
+			for(int i = 0; i < map.getEnemies().size(); i++) {
+				enemyList.add(new EnemyView( map.getEnemies().get(i)));
 			}
-			waveIndex = m.getWaveIndex();
+			waveIndex = map.getWaveIndex();
 		}
 
 		for(int i = 0; i < notificationList.size(); i++) {
@@ -241,8 +235,8 @@ public class MapScreen implements Screen {
 			}
 		}
 
-		hpLabel.setText("HP: " + (int)m.getPlayer().getLives().getCurrentLives());
-		moneyLabel.setText("$ " + m.getPlayer().getMoneyInt());
+		hpLabel.setText("HP: " + (int)map.getPlayer().getLives().getCurrentLives());
+		moneyLabel.setText("$ " + map.getPlayer().getMoneyInt());
 
 		if(chosedTower != null) {
 			towerName.setText(chosedTower.getName() + " Lv." + chosedTower.getCurrentLevel());
@@ -304,10 +298,9 @@ public class MapScreen implements Screen {
 	@Override
 	public void show() {
 		Skin uiSkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-		
+
 		pauseWindow = new PauseWindow("", uiSkin);
-		
-		
+
 		final Image mapImg = new Image(new Texture(mapPath));
 		final Image bt = new Image(new Texture("img/firstDragon.png"));
 		final Image it = new Image(new Texture("img/iceDragon.png"));
@@ -334,7 +327,7 @@ public class MapScreen implements Screen {
 		ClickListener clickListener = new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if(MapScreen.this.m.isRunning()){
+				if(MapScreen.this.map.isRunning()){
 					if(event.getListenerActor() instanceof Image && event.getListenerActor() != mapImg) {
 						if(tmp != null) {
 							tmp.setVisible(false);
@@ -354,11 +347,9 @@ public class MapScreen implements Screen {
 							path = "img/hydra.png";
 							buildIndex = 3;
 							rad = 400;
-						}
-						else if(event.getListenerActor() == swt) {
+						} else if(event.getListenerActor() == swt) {
 							path = "img/shockwave.png";
 							buildIndex = 4;
-							//TODO range should be read from the tower model, not hard coded like this
 							rad = 500;
 						}
 						tmp = new Image(new Texture(path));
@@ -376,22 +367,22 @@ public class MapScreen implements Screen {
 							boolean towerBuilt = false;
 							switch(buildIndex) {		//TODO probably should do something else than this
 							case 1:
-								if(towerBuilt = m.buildTower(new BasicTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
-									towerList.add(new TowerView(new Sprite(new Texture("img/firstDragon.png")), m.getTowers().get(towerIndex), towerIndex));
+								if(towerBuilt = map.buildTower(new BasicTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) map.getEnemies()), new Position(tmpX, tmpY))) {
+									towerList.add(new TowerView(new Sprite(new Texture("img/firstDragon.png")), map.getTowers().get(towerIndex), towerIndex));
 								}
 								break;
 							case 2:
-								if(towerBuilt = m.buildTower(new IceTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
-									towerList.add(new TowerView(new Sprite(new Texture("img/iceDragon.png")), m.getTowers().get(towerIndex), towerIndex));
+								if(towerBuilt = map.buildTower(new IceTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) map.getEnemies()), new Position(tmpX, tmpY))) {
+									towerList.add(new TowerView(new Sprite(new Texture("img/iceDragon.png")), map.getTowers().get(towerIndex), towerIndex));
 								}
 								break;
 							case 3:
-								if(towerBuilt = m.buildTower(new MultiTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
-									towerList.add(new TowerView(new Sprite(new Texture("img/hydra.png")), m.getTowers().get(towerIndex), towerIndex));
+								if(towerBuilt = map.buildTower(new MultiTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) map.getEnemies()), new Position(tmpX, tmpY))) {
+									towerList.add(new TowerView(new Sprite(new Texture("img/hydra.png")), map.getTowers().get(towerIndex), towerIndex));
 								}
 							case 4:
-								if(towerBuilt = m.buildTower(new ShockWaveTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) m.getEnemies()), new Position(tmpX, tmpY))) {
-									towerList.add(new TowerView(new Sprite(new Texture("img/shockwave.png")), m.getTowers().get(towerIndex), towerIndex));
+								if(towerBuilt = map.buildTower(new ShockWaveTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) map.getEnemies()), new Position(tmpX, tmpY))) {
+									towerList.add(new TowerView(new Sprite(new Texture("img/shockwave.png")), map.getTowers().get(towerIndex), towerIndex));
 								}
 								break;
 							default:
@@ -399,7 +390,7 @@ public class MapScreen implements Screen {
 								break;
 							}
 							if(towerBuilt) {
-								m.getTowers().get(towerIndex).setIndex(towerIndex);
+								map.getTowers().get(towerIndex).setIndex(towerIndex);
 								chosedTower = towerList.get(towerIndex);
 								towerIndex++;
 								buildIndex = 0;
@@ -423,12 +414,12 @@ public class MapScreen implements Screen {
 						if(event.getListenerActor() == sellBtn) {
 							if(chosedTower != null) {
 								int tmpIndex = chosedTower.getIndex();
-								m.sellTower(tmpIndex);
+								map.sellTower(tmpIndex);
 								chosedTower.setAlpha(0);
 								notificationList.add(new Notification("$" + chosedTower.getValue(), chosedTower.getX(), chosedTower.getY()));
 								towerList.remove(tmpIndex);
-								for(int i = 0; i < m.getTowers().size(); i++) {
-									m.getTowers().get(i).setIndex(i);
+								for(int i = 0; i < map.getTowers().size(); i++) {
+									map.getTowers().get(i).setIndex(i);
 								}
 								for(int i = 0; i < towerList.size(); i++) {
 									TowerView tmp = towerList.get(i);
@@ -440,13 +431,13 @@ public class MapScreen implements Screen {
 						} else if(event.getListenerActor() == upgradeBtn) {
 							if(chosedTower != null) {
 								int tmpValue = chosedTower.getUpgradePrice();
-								if(m.upgradeTower(chosedTower.getTower())) {
+								if(map.upgradeTower(chosedTower.getTower())) {
 									notificationList.add(new Notification("-$" + tmpValue, chosedTower.getX(), chosedTower.getY()));
 									chosedTower.upgrade();
 								}
 							}
 						} else if(event.getListenerActor() == nextWaveBtn) {
-							m.nextWave();
+							map.nextWave();
 						} else if(event.getListenerActor() == cancelBuyBtn) {
 							if(tmp != null) {
 								tmp.setVisible(false);
@@ -468,10 +459,10 @@ public class MapScreen implements Screen {
 					}
 				}
 				if(event.getListenerActor().equals(pauseBtn)){
-					if(MapScreen.this.m.isRunning()){
+					if(MapScreen.this.map.isRunning()){
 						MapScreen.this.pause();
 						pauseWindow.setVisible(true);
-								
+
 					}else{
 						MapScreen.this.resume();
 						pauseWindow.setVisible(false);
@@ -482,9 +473,8 @@ public class MapScreen implements Screen {
 			@Override
 			public void enter(InputEvent event, float x, float y, int pointer,
 					Actor fromActor) {
-				if(event.getListenerActor() == bt || event.getListenerActor() == it || 
-						event.getListenerActor() == mt) {
-					int index = 0;
+				if(event.getListenerActor() instanceof Image) {
+					int index = -1;
 					if(event.getListenerActor() == bt) {
 						index = 1;
 					} else if(event.getListenerActor() == it) {
@@ -492,9 +482,11 @@ public class MapScreen implements Screen {
 					} else if(event.getListenerActor() == mt) {
 						index = 3;
 					}
-
-					info.choseTower(index);
-					info.show();
+						
+					if(index != -1) {
+						info.choseTower(index);
+						info.show();
+					}
 				}
 			}
 
@@ -523,26 +515,24 @@ public class MapScreen implements Screen {
 		towerInfoTable.add(towerKills = new Label("Tower Name", uiSkin)).left().row();
 		towerInfoTable.add(upgradeBtn).width(100).height(70).padBottom(20).padTop(20).padRight(20);
 		towerInfoTable.add(sellBtn).width(100).height(70);
-		
-		
+
 		buildTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
-		buildTable.add(hpLabel = new Label("HP: " + m.getPlayer().getLives().getCurrentLives(), uiSkin)).padTop(10).row();
-		buildTable.add(moneyLabel = new Label("$ " + m.getPlayer().getMoneyInt(), uiSkin)).padBottom(30).row();
+		buildTable.add(hpLabel = new Label("HP: " + map.getPlayer().getLives().getCurrentLives(), uiSkin)).padTop(10).row();
+		buildTable.add(moneyLabel = new Label("$ " + map.getPlayer().getMoneyInt(), uiSkin)).padBottom(30).row();
 		buildTable.add(bt).top().padLeft(20);
 		buildTable.add(it);
 		buildTable.add(mt).padRight(20).row();
 		buildTable.add(swt).padLeft(20);
-		//buildTable.add(new Image(new Texture("img/firstDragon.png"))).padLeft(20);
 		buildTable.add(new Image(new Texture("img/firstDragon.png")));
 		buildTable.add(new Image(new Texture("img/firstDragon.png"))).padRight(20);
 		buildTable.top();
 		//buildTable.debug();		//TODO debug
-		
+
 		buttonTable.add(nextWaveBtn).width(200).height(60).padTop(5);
 		buttonTable.add(pauseBtn).width(60).height(60).padTop(5).row();
 		buttonTable.add(cancelBuyBtn).width(200).height(60).padTop(0);
 		buttonTable.add(soundButton).width(60).height(60).padTop(0).row();
-		
+
 		guiTable.add(buildTable).row();
 		guiTable.add(towerInfoTable).width(315).row();
 		guiTable.add(buttonTable);
@@ -564,12 +554,12 @@ public class MapScreen implements Screen {
 
 	@Override
 	public void pause() {
-		MapScreen.this.m.setRunning(false);
+		MapScreen.this.map.setRunning(false);
 	}
 
 	@Override
 	public void resume() { 
-		MapScreen.this.m.setRunning(true);
+		MapScreen.this.map.setRunning(true);
 	}
 
 	@Override
