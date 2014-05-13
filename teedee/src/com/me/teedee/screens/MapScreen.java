@@ -363,14 +363,14 @@ public class MapScreen implements Screen {
 							path = "img/shockwave.png";
 							buildIndex = 4;
 							rad = 500;
-						} else if(event.getListenerActor() == bdt) {
-							path = "img/bloodDragon.png";
-							buildIndex = 5;
-							rad = 200;
 						} else if(event.getListenerActor() == rng) {
 							path = "img/twitterEnemy.png";
 							buildIndex = 5;
 							rad = 500;
+						} else if(event.getListenerActor() == bdt) {
+							path = "img/bloodDragon.png";
+							buildIndex = 6;
+							rad = 200;
 						}
 						
 						tmp = new Image(new Texture(path));
@@ -520,9 +520,10 @@ public class MapScreen implements Screen {
 						index = 3;
 					} else if(event.getListenerActor() == swt) {
 						index = 4;
-					}
-					 else if(event.getListenerActor() == bdt) {
-							index = 5;
+					} else if(event.getListenerActor() == bdt) {
+						index = 5;
+					} else if(event.getListenerActor() == bdt) {
+						index = 6;
 					}
 
 					if(index != -1) {
@@ -574,7 +575,7 @@ public class MapScreen implements Screen {
 		buildTable.add(swt).padLeft(20);
 		buildTable.add(bdt);
 		buildTable.add(rng);
-		buildTable.add(new Image(new Texture("img/firstDragon.png"))).padRight(20);
+		//buildTable.add(new Image(new Texture("img/firstDragon.png"))).padRight(20);
 		buildTable.top();
 		//buildTable.debug();		//TODO debug
 
