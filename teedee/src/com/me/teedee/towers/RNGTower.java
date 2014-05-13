@@ -18,11 +18,11 @@ public class RNGTower extends AbstractTower {
 		currentLevel = 0;
 		maxLevel = 5;
 		for(int i = 0; i < 5; i++)
-			attackSpeed[i] = 0.8f - i * 0.1f;
+			attackSpeed[i] = 0.8f;
 		cooldown = attackSpeed[0];
 		
 		for(int i = 0; i < 5; i++)
-			attackDamage[i] = 120 + 50 * i;
+			attackDamage[i] = 120 + 80 * (i+1);
 
 		status = new Status(2f,0,0.3f);
 		setPosition(pos);
@@ -37,7 +37,6 @@ public class RNGTower extends AbstractTower {
 		if(cooldown <= 0) {
 			cooldown = attackSpeed[currentLevel] + cooldown;
 			target.clear();
-			//isShooting = true;
 			for(int i = 0; i < enemies.size(); i++) {
 				if(distance(position, enemies.get(i).getPosition()) < range && enemies.get(i).isAlive()) {
 					if(target.isEmpty()) {
@@ -63,16 +62,11 @@ public class RNGTower extends AbstractTower {
 					if(!target.get(0).takeDamage(attackDamage[currentLevel])) {
 						kills++;
 					}
-				}else if(rand > 0.30){
-					if(!target.get(0).takeDamage(attackDamage[currentLevel])) {
-						kills++;
-					}
-					
-				}else{
+				}else {
 					if(!target.get(0).takeDamage(attackDamage[currentLevel]/2)) {
 						kills++;
 					}
-					target.get(0).addTowerStatus(this, new Status(0.5f , 0 , 0.3f));
+					target.get(0).addTowerStatus(this, new Status(0.05f , 0 , 0.15f));
 				}
 
 			}
