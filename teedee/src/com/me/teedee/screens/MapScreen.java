@@ -3,6 +3,8 @@ package com.me.teedee.screens;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.tools.ant.types.CommandlineJava.SysProperties;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -286,6 +288,7 @@ public class MapScreen implements Screen {
 		hud.getViewport().update(width, height, true);
 		table.invalidateHierarchy();
 		ratio = hud.getHeight()/Gdx.graphics.getHeight();
+		System.out.println("gui" + guiTable.getWidth() + " " + guiTable.getHeight());
 	}
 
 	public TowerView clickedOnTower(float x, float y) {
@@ -538,14 +541,14 @@ public class MapScreen implements Screen {
 		pauseWindow.add(resumeButton).center().row();
 		pauseWindow.add(quitButton);
 		
-		towerInfoTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
+		towerInfoTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTable.png"))));
 		towerInfoTable.add(chosedTowerImage).left().row();
 		towerInfoTable.add(towerName = new Label("Tower Name", uiSkin)).left().row();
 		towerInfoTable.add(towerKills = new Label("Tower Name", uiSkin)).left().row();
 		towerInfoTable.add(upgradeBtn).width(100).height(70).padBottom(20).padTop(20).padRight(20);
 		towerInfoTable.add(sellBtn).width(100).height(70);
 
-		buildTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
+		buildTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTable.png"))));
 		buildTable.add(hpLabel = new Label("HP: " + map.getPlayer().getLives().getCurrentLives(), uiSkin)).padTop(10).row();
 		buildTable.add(moneyLabel = new Label("$ " + map.getPlayer().getMoneyInt(), uiSkin)).padBottom(30).row();
 		buildTable.add(bt).top().padLeft(20);
