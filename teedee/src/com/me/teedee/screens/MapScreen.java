@@ -3,8 +3,6 @@ package com.me.teedee.screens;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.tools.ant.types.CommandlineJava.SysProperties;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
