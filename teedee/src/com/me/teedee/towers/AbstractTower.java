@@ -20,7 +20,7 @@ public abstract class AbstractTower {
 	protected double range;
 	protected Status status;
 	protected int kills = 0;
-	private Position position;
+	protected Position position;
 	protected ArrayList<AbstractEnemy> enemies;
 	protected boolean isShooting = false;
 	protected float cooldown = 1;
