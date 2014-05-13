@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -52,7 +53,9 @@ public class MapScreen implements Screen {
 	private Label towerKills;
 	private Label moneyLabel;
 	private Label hpLabel;
-
+	
+	private PauseWindow pauseWindow;
+	
 	private InfoImage info;
 	private RadiusImage radius;
 	private Image chosedTowerImage;
@@ -127,7 +130,8 @@ public class MapScreen implements Screen {
 		for(int i = 0; i < m.getEnemies().size(); i++) {
 			enemyList.add(new EnemyView( m.getEnemies().get(i)));
 		}
-
+		
+		
 		chosedTowerImage = new Image(new Texture("img/unknown.png"));
 		radius = new RadiusImage(new Texture("img/radius200.png"));
 		info = new InfoImage();
@@ -139,25 +143,31 @@ public class MapScreen implements Screen {
 		fps.log();		// TODO debug
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+		
+		if(m.isRunning()){
 		m.update(delta);
-
+		
 		updateObjects();
-
+		
+		}
+		
 		hud.act(delta);
 		hud.draw();
 		Table.drawDebug(hud);		//TODO debug
-
+		
+		
 		hud.getSpriteBatch().begin();
 		drawObjects();
 		hud.getSpriteBatch().end();
+		
 	}
 
 	private void drawObjects() {
 		for(int i=0; i<m.getPath().getPositions().size()-1; i++){//As of now renders the path somewhat, should probably not be an sprite. If possible use another more suitable class.  
 			tiledPath[i].draw(hud.getSpriteBatch());
 		}
-
+		
+		
 		for(int i = 0; i < enemyList.size(); i++) {
 			enemyList.get(i).draw(hud.getSpriteBatch());
 			if(!enemyList.get(i).isAlive() || enemyList.get(i).reachedEnd()){
@@ -197,6 +207,7 @@ public class MapScreen implements Screen {
 		//TODO row is too long
 		info.setPosition(guiTable.getX()-info.getWidth()*1.1f, (Gdx.graphics.getHeight()-Gdx.input.getY()-info.getHeight()/2/ratio)*ratio);
 		info.draw(hud.getSpriteBatch());
+		
 	}
 
 	private void playShootingSound(int index){
@@ -293,7 +304,10 @@ public class MapScreen implements Screen {
 	@Override
 	public void show() {
 		Skin uiSkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-
+		
+		pauseWindow = new PauseWindow("", uiSkin);
+		
+		
 		final Image mapImg = new Image(new Texture(mapPath));
 		final Image bt = new Image(new Texture("img/firstDragon.png"));
 		final Image it = new Image(new Texture("img/iceDragon.png"));
@@ -441,7 +455,8 @@ public class MapScreen implements Screen {
 							}
 						}
 					}
-				} else if(event.getListenerActor() == soundButton){
+				} 
+				if(event.getListenerActor() == soundButton){
 					if(soundIsOn){
 						soundIsOn = false;
 						soundButton.clearChildren();
@@ -455,8 +470,11 @@ public class MapScreen implements Screen {
 				if(event.getListenerActor().equals(pauseBtn)){
 					if(MapScreen.this.m.isRunning()){
 						MapScreen.this.pause();
+						pauseWindow.setVisible(true);
+								
 					}else{
 						MapScreen.this.resume();
+						pauseWindow.setVisible(false);
 					}
 				}
 			}
@@ -505,7 +523,8 @@ public class MapScreen implements Screen {
 		towerInfoTable.add(towerKills = new Label("Tower Name", uiSkin)).left().row();
 		towerInfoTable.add(upgradeBtn).width(100).height(70).padBottom(20).padTop(20).padRight(20);
 		towerInfoTable.add(sellBtn).width(100).height(70);
-
+		
+		
 		buildTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
 		buildTable.add(hpLabel = new Label("HP: " + m.getPlayer().getLives().getCurrentLives(), uiSkin)).padTop(10).row();
 		buildTable.add(moneyLabel = new Label("$ " + m.getPlayer().getMoneyInt(), uiSkin)).padBottom(30).row();
@@ -537,6 +556,7 @@ public class MapScreen implements Screen {
 		//table.debug();			//TODO debug
 
 		hud.addActor(table);
+		hud.addActor(pauseWindow);
 	}
 
 	@Override
