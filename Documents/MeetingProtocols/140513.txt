@@ -1,0 +1,50 @@
+Meeting Agenda
+
+  Date: 2014-05-13
+
+  Facilitator: David
+
+  Participants:Daniel, Erik, Jacob
+
+1. Objectives (5 min) Resolve any issues preventing the team to
+  continue (this should be possible to verify at next meeting,
+  short clear description, use issues from project site).
+
+	David needs more coding. 
+	Bullets trajectory is a bit weird. 
+	Add two more towers.
+	Add some more enemies.	
+	Add a boss enemy
+	Clear up MapScreen	
+
+2. Reports (15 min) From previous meetings, (un)solved issues,
+  etc. , see also 4
+	
+	Everyone have completed their assignments.
+	See objectives. 
+
+3. Discussion items (35 min)
+	
+	Why is the bullet's trajectory weird. Something's up with the algorithm?
+	
+	What abilities should the two last towers have? Critical hits? Random hits? Egg tower? 
+	Blood knight tower?
+
+	What abilities should the enemies have? Immune enemy? Enemy spawner? Damage-->Faster enemy?
+	
+	Boss should be? Lotsa hp, many slow, such big.
+
+4. Outcomes and assignments (5 min)
+	
+	David will create a new enemy and continue work on the pause window. 
+	
+	Erik will create a critical hit tower.
+
+	Jacob will add a notification tab and new tower.
+
+	Daniel will create a new enemy.
+	
+
+5. Wrap up
+
+  
