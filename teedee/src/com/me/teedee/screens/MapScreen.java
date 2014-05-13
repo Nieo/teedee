@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -35,6 +36,7 @@ import com.me.teedee.towers.BasicTower;
 import com.me.teedee.towers.BloodDragonTower;
 import com.me.teedee.towers.IceTower;
 import com.me.teedee.towers.MultiTower;
+import com.me.teedee.towers.RNGTower;
 import com.me.teedee.towers.ShockWaveTower;
 
 /**
@@ -53,8 +55,6 @@ public class MapScreen implements Screen {
 	private Label towerKills;
 	private Label moneyLabel;
 	private Label hpLabel;
-
-	private PauseWindow pauseWindow;
 
 	private InfoImage info;
 	private RadiusImage radius;
@@ -93,6 +93,9 @@ public class MapScreen implements Screen {
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot2.wav")));
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot3.wav")));
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot4.wav")));
+		//FIXME
+		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot0.wav")));
+
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot5.wav")));
 		
 		//Creating the path
@@ -153,10 +156,12 @@ public class MapScreen implements Screen {
 		hud.draw();
 		Table.drawDebug(hud);		//TODO debug
 
+		if(map.isRunning()){
 		hud.getSpriteBatch().begin();
 		drawObjects();
 		hud.getSpriteBatch().end();
-	}
+		}
+		}
 
 	private void drawObjects() {
 		for(int i=0; i<map.getPath().getPositions().size()-1; i++){//As of now renders the path somewhat, should probably not be an sprite. If possible use another more suitable class.  
@@ -298,22 +303,28 @@ public class MapScreen implements Screen {
 	@Override
 	public void show() {
 		Skin uiSkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-
-		pauseWindow = new PauseWindow("", uiSkin);
-
+		
 		final Image mapImg = new Image(new Texture(mapPath));
 		final Image bt = new Image(new Texture("img/firstDragon.png"));
 		final Image it = new Image(new Texture("img/iceDragon.png"));
 		final Image mt = new Image(new Texture("img/hydra.png"));
 		final Image swt = new Image(new Texture("img/shockwave.png"));
 		final Image bdt = new Image(new Texture("img/bloodDragon.png"));
+		// FIXME
+		final Image rng = new Image(new Texture("img/twitterEnemy.png"));
 
 		final TextButton upgradeBtn = new TextButton("Upgrade", uiSkin);
 		final TextButton sellBtn = new TextButton("Sell", uiSkin);
 		final TextButton nextWaveBtn = new TextButton("Next Wave", uiSkin);
 		final TextButton cancelBuyBtn = new TextButton("Cancel Buy", uiSkin);
 		final TextButton pauseBtn = new TextButton("Pause", uiSkin);
-
+		final TextButton resumeButton =  new TextButton("Resume Game", uiSkin);
+		final TextButton quitButton = new TextButton("Quit Game", uiSkin);
+		
+		final Window pauseWindow = new Window("", uiSkin);
+		pauseWindow.setVisible(false);
+		pauseWindow.setFillParent(true);
+		
 		final Button soundButton = new Button(uiSkin);
 		soundButton.add(new Image(soundOnTexture));
 
@@ -324,7 +335,7 @@ public class MapScreen implements Screen {
 		hud = new Stage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())); // OR
 		hud.setViewport(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 		Gdx.input.setInputProcessor(hud);
-
+		
 		ClickListener clickListener = new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -356,6 +367,10 @@ public class MapScreen implements Screen {
 							path = "img/bloodDragon.png";
 							buildIndex = 5;
 							rad = 200;
+						} else if(event.getListenerActor() == rng) {
+							path = "img/twitterEnemy.png";
+							buildIndex = 5;
+							rad = 500;
 						}
 						
 						tmp = new Image(new Texture(path));
@@ -391,6 +406,11 @@ public class MapScreen implements Screen {
 									towerList.add(new TowerView(new Sprite(new Texture("img/shockwave.png")), map.getTowers().get(towerIndex), towerIndex));
 								}
 								break;
+							case 5:
+								if(towerBuilt = map.buildTower(new RNGTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) map.getEnemies()), new Position(tmpX, tmpY))) {
+									towerList.add(new TowerView(new Sprite(new Texture("img/twitterEnemy.png")), map.getTowers().get(towerIndex), towerIndex));
+								}
+								break; 
 							case 6:
 								if(towerBuilt = map.buildTower(new BloodDragonTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) map.getEnemies()), new Position(tmpX, tmpY))) {
 									towerList.add(new TowerView(new Sprite(new Texture("img/bloodDragon.png")), map.getTowers().get(towerIndex), towerIndex));
@@ -479,6 +499,12 @@ public class MapScreen implements Screen {
 						pauseWindow.setVisible(false);
 					}
 				}
+				if(event.getListenerActor().equals(resumeButton)){
+					MapScreen.this.resume();
+					pauseWindow.setVisible(false);
+				}else if(event.getListenerActor().equals(quitButton)){
+					((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
+				}
 			}
 
 			@Override
@@ -518,6 +544,7 @@ public class MapScreen implements Screen {
 		it.addListener(clickListener);
 		mt.addListener(clickListener);
 		swt.addListener(clickListener);
+		rng.addListener(clickListener);
 		bdt.addListener(clickListener);
 		upgradeBtn.addListener(clickListener);
 		sellBtn.addListener(clickListener);
@@ -525,7 +552,12 @@ public class MapScreen implements Screen {
 		cancelBuyBtn.addListener(clickListener);
 		pauseBtn.addListener(clickListener);
 		soundButton.addListener(clickListener);
-
+		resumeButton.addListener(clickListener);
+		quitButton.addListener(clickListener);
+		
+		pauseWindow.add(resumeButton).center().row();
+		pauseWindow.add(quitButton);
+		
 		towerInfoTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
 		towerInfoTable.add(chosedTowerImage).left().row();
 		towerInfoTable.add(towerName = new Label("Tower Name", uiSkin)).left().row();
@@ -541,6 +573,7 @@ public class MapScreen implements Screen {
 		buildTable.add(mt).padRight(20).row();
 		buildTable.add(swt).padLeft(20);
 		buildTable.add(bdt);
+		buildTable.add(rng);
 		buildTable.add(new Image(new Texture("img/firstDragon.png"))).padRight(20);
 		buildTable.top();
 		//buildTable.debug();		//TODO debug
