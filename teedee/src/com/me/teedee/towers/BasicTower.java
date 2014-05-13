@@ -22,7 +22,7 @@ public class BasicTower extends AbstractTower {
 		cooldown = attackSpeed[0];
 		
 		for(int i = 0; i < 5; i++)
-			attackDamage[i] = 1 + i;
+			attackDamage[i] = 50 + 35 * i;
 
 		status = new Status(0.5f,1,0);
 		setPosition(pos);

@@ -22,7 +22,7 @@ public class IceTower extends AbstractTower {
 		cooldown = attackSpeed[0];
 		
 		for(int i = 0; i < 5; i++)
-			attackDamage[i] = 1 + i/2;
+			attackDamage[i] = 20 + 10*i;
 		
 		status = new Status(0.5f, 0, 1);
 		setPosition(pos);
