@@ -15,18 +15,18 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
  * @author Daniel
  */
 public class InfoImage {
-	
+
 	private Label towerName;
 	private Label towerPrice;
 	private Label description;
 	private Table table;
 	private Skin skin;
 	float alpha;
-	
+
 	public InfoImage() {
 		this("Tower", 100);
 	}
-	
+
 	public InfoImage(String name, int price) {
 		skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 		towerName = new Label(name, skin);
@@ -43,12 +43,11 @@ public class InfoImage {
 		table.add(towerPrice).left().padLeft(10).row();
 		table.add(description).left().padTop(10).padLeft(10).width(130);
 	}
-	
+
 	public void draw(Batch batch) {
-		//table.act(0); 			//TODO maybe this can be removed
 		table.draw(batch, alpha);
 	}
-	
+
 	public void choseTower(int index) {
 		switch(index) {
 		case 1:
@@ -67,13 +66,17 @@ public class InfoImage {
 			setText("Shock Wave Tower", 500);
 			setDescription(4);
 			break;
+		case 5:
+			setText("RNG Tower", 1000);
+			setDescription(5);
+			break;
 		case 6:
 			setText("Blood Dragon Tower", 200);
 			setDescription(6);
 			break;
 		}
 	}
-	
+
 	private void setDescription(int id) {
 		switch(id) {
 		case 1:
@@ -88,16 +91,19 @@ public class InfoImage {
 		case 4:
 			description.setText("A tower that makes damage to the enemies around a hit target");
 			break;
+		case 5:
+			description.setText("Add a description for RNG tower in InfoImage");
+			break;
 		case 6:
 			description.setText("A tower that increases its damage by killing enemies");
 			break;
-	}
+		}
 	}
 
 	public void setPosition(float x, float y) {
 		table.setPosition(x, y);
 	}
-	
+
 	public void setText(String name, int price) {
 		towerName.setText(name);
 		towerPrice.setText("$" + price);
@@ -110,11 +116,11 @@ public class InfoImage {
 	public void hide() {
 		alpha = 0;
 	}
-	
+
 	public float getHeight() {
 		return table.getHeight();
 	}
-	
+
 	public float getWidth() {
 		return table.getWidth();
 	}

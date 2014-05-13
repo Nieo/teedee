@@ -14,11 +14,15 @@ import com.me.teedee.TeeDeeGame;
  * @author Daniel
  */
 public class SplashScreen implements Screen {
-	
+
 	private Sprite splashSprite;
 	private SpriteBatch batch;
 	private Texture splashTexture;
 	private TeeDeeGame game;
+	float alpha = 0;
+	private int counter = 0;
+	private boolean fadeOut = false;
+	private boolean fadeIn = true;
 
 	public SplashScreen(TeeDeeGame game) {
 		this.game = game;
@@ -28,20 +32,47 @@ public class SplashScreen implements Screen {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+
 		batch.begin();
+		splashSprite.setAlpha(alpha);
 		splashSprite.draw(batch);
 		batch.end();
 		
-		//TODO Istället för att behöva klicka borde den fadeas in och sedan ut igen
+		fadeAnimation();
+
+		if(alpha <= 0) {
+			game.setScreen(new MainMenuScreen());
+		}
+		
+		//TODO debug, REMOVE BEFORE SUBMIT!
 		if(Gdx.input.justTouched()) {
 			game.setScreen(new MainMenuScreen());
+		}
+	}
+	
+	private void fadeAnimation() {
+		if(fadeIn ) {
+			alpha += 0.01;
+			if(alpha > 1) {
+				alpha = 1;
+				fadeIn = false;
+			}
+		} else if(!fadeIn && !fadeOut) {
+			counter++;
+			if(counter > 120) {
+				fadeOut = true;
+			}
+		} else if(fadeOut){
+			alpha -= 0.01;
+			if(alpha < 0) {
+				alpha = 0;
+			}
 		}
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		
+
 	}
 
 	@Override
@@ -72,5 +103,5 @@ public class SplashScreen implements Screen {
 		batch.dispose();
 		splashTexture.dispose();
 	}
-	
+
 }

@@ -521,7 +521,7 @@ public class MapScreen implements Screen {
 						index = 3;
 					} else if(event.getListenerActor() == swt) {
 						index = 4;
-					} else if(event.getListenerActor() == bdt) {
+					} else if(event.getListenerActor() == rng) {
 						index = 5;
 					} else if(event.getListenerActor() == bdt) {
 						index = 6;
@@ -546,8 +546,8 @@ public class MapScreen implements Screen {
 		it.addListener(clickListener);
 		mt.addListener(clickListener);
 		swt.addListener(clickListener);
-		rng.addListener(clickListener);
 		bdt.addListener(clickListener);
+		rng.addListener(clickListener);
 		upgradeBtn.addListener(clickListener);
 		sellBtn.addListener(clickListener);
 		nextWaveBtn.addListener(clickListener);
@@ -574,9 +574,8 @@ public class MapScreen implements Screen {
 		buildTable.add(it);
 		buildTable.add(mt).padRight(20).row();
 		buildTable.add(swt).padLeft(20);
-		buildTable.add(bdt);
 		buildTable.add(rng);
-		//buildTable.add(new Image(new Texture("img/firstDragon.png"))).padRight(20);
+		buildTable.add(bdt);
 		buildTable.top();
 		//buildTable.debug();		//TODO debug
 
