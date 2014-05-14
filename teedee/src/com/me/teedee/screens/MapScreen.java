@@ -215,6 +215,10 @@ public class MapScreen implements Screen {
 	private void playShootingSound(int index){
 		shootingSoundList.get(index).play();
 	}
+	
+	private void playDyingSound(int index){
+		dyingSoundList.get(index).play();
+	}
 
 	private void updateObjects() {
 		if(!map.isPlayerAlive()){
