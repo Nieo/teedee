@@ -213,7 +213,7 @@ public class MapScreen implements Screen {
 		for (AbstractTower tower : map.getTowers()){
 			if(tower.isShooting()){			 //TODO Fix line under this, could be shorter
 				for(Position p: tower.getTargetPosition()){
-					bulletList.add(new Bullet(p.getX() + 30 , p.getY() + 30 , 14f, tower));
+					bulletList.add(new Bullet(p , 14f, tower));
 				}
 				if(soundIsOn)
 					playShootingSound(tower.getId());
