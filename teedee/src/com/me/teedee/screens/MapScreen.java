@@ -80,6 +80,7 @@ public class MapScreen implements Screen {
 	FPSLogger fps = new FPSLogger();		// TODO debug
 	private boolean soundIsOn = true;
 
+	private List<Sound> dyingSoundList = new ArrayList<Sound>();
 	private List<Sound> shootingSoundList = new ArrayList<Sound>();
 	private Texture soundOnTexture = new Texture("data/speaker_louder_32.png");
 	private Texture soundOffTexture = new Texture("data/speaker_off_32.png");
@@ -98,9 +99,10 @@ public class MapScreen implements Screen {
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot4.wav")));
 		//FIXME
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot0.wav")));
-
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot5.wav")));
-
+		// Adding sounds for dying
+		dyingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/WilhelmScream_64kb.mp3")));
+		
 		//Creating the path
 		Path path = PathFactory.createPath(pathChoice);
 
@@ -181,6 +183,7 @@ public class MapScreen implements Screen {
 				enemyList.get(i).setAlpha(0);
 				if(!enemyList.get(i).isAlive() && !enemyList.get(i).reachedEnd()) {
 					notificationList.add(new Notification("$" + enemyList.get(i).getReward(), enemyList.get(i).getX(), enemyList.get(i).getY()));
+					playDyingSound(0);
 				} else {
 					//TODO wrong location
 					notificationList.add(new Notification("-1", hpLabel.getX(), hpLabel.getY()));
@@ -219,6 +222,10 @@ public class MapScreen implements Screen {
 	private void playShootingSound(int index){
 		shootingSoundList.get(index).play();
 	}
+	
+	private void playDyingSound(int index){
+		dyingSoundList.get(index).play();
+	}
 
 	private void updateObjects() {
 		if(!map.isPlayerAlive()){
@@ -227,8 +234,9 @@ public class MapScreen implements Screen {
 
 		for (AbstractTower tower : map.getTowers()){
 			if(tower.isShooting()){			 //TODO Fix line under this, could be shorter
-				for(Position p: tower.getTargetPosition())
-					bulletList.add(new Bullet(p.getX(), p.getY(), 14f, tower));
+				for(Position p: tower.getTargetPosition()){
+					bulletList.add(new Bullet(p.getX() + 30 , p.getY() + 30 , 14f, tower));
+				}
 				if(soundIsOn)
 					playShootingSound(tower.getId());
 			}
@@ -272,6 +280,9 @@ public class MapScreen implements Screen {
 			radius.setPosition(tmp.getX(), tmp.getY());
 
 			//TODO this needs optimizing or done in another way
+			if(k >= towerList.size()) {
+				k = 0;
+			}
 			if(!towerList.isEmpty()) {
 				float dx = tmp.getX() - towerList.get(k).getX();
 				float dy = tmp.getY() - towerList.get(k).getY();
@@ -413,6 +424,7 @@ public class MapScreen implements Screen {
 								if(towerBuilt = map.buildTower(new MultiTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) map.getEnemies()), new Position(tmpX, tmpY))) {
 									towerList.add(new TowerView(new Sprite(new Texture("img/hydra.png")), map.getTowers().get(towerIndex), towerIndex));
 								}
+								break;
 							case 4:
 								if(towerBuilt = map.buildTower(new ShockWaveTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) map.getEnemies()), new Position(tmpX, tmpY))) {
 									towerList.add(new TowerView(new Sprite(new Texture("img/shockwave.png")), map.getTowers().get(towerIndex), towerIndex));
