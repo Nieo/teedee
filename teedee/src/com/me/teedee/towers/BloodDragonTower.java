@@ -46,7 +46,7 @@ public class BloodDragonTower extends AbstractTower{
 			**/
 			if(getKills() > killsCount){
 				killsCount++;
-				attackDamage[currentLevel] += 20;
+				attackDamage[currentLevel] += 10;
 			}
 		}
 		super.shoot(delta);
