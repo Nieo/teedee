@@ -32,7 +32,7 @@ public class ShockWaveTower extends AbstractTower{
 			status = new Status(1f, 0, 1);
 			setPosition(pos);
 			this.enemies = enemies;
-			range = 500;
+			range = 350;
 			id = 4;
 	}
 	

@@ -31,6 +31,7 @@ import com.me.teedee.Player;
 import com.me.teedee.Position;
 import com.me.teedee.WaveFactory;
 import com.me.teedee.enemies.AbstractEnemy;
+import com.me.teedee.enemies.ShieldEnemy;
 import com.me.teedee.towers.AbstractTower;
 import com.me.teedee.towers.BasicTower;
 import com.me.teedee.towers.BloodDragonTower;
@@ -98,7 +99,7 @@ public class MapScreen implements Screen {
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot0.wav")));
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot5.wav")));
 		// Adding sounds for dying
-		dyingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/WilhelmScream_64kb.mp3")));
+//		dyingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/WilhelmScream_64kb.mp3")));
 		
 		//Creating the path
 		Path path = PathFactory.createPath(pathChoice);
@@ -108,34 +109,18 @@ public class MapScreen implements Screen {
 
 		//Creating the map
 		map = new Map(WaveFactory.createWave(difficulty,path), path, player);
-
-		tiledPath = new Sprite[map.getPath().getPositions().size()];
-
-		for(int i=0; i<map.getPath().getPositions().size()-1; i++){
-			float x1,x2,y1,y2,dx,dy;//TODO Leaves a square to be rendered
-			x1=map.getPath().getPositions().get(i).getX();
-			x2=map.getPath().getPositions().get(i+1).getX();
-			y1=map.getPath().getPositions().get(i).getY();
-			y2=map.getPath().getPositions().get(i+1).getY();
-
-			tiledPath[i]=new Sprite(new Texture("img/pathTile.png"));
-			dx = x2-x1;
-			dy = y2-y1;
-			if(dx > 0)
-				tiledPath[i].setBounds(x1, y1, dx, 60);			
-			else if(dx < 0)
-				tiledPath[i].setBounds(x1, y1, dx, 60);
-			else if(dy > 0)
-				tiledPath[i].setBounds(x1, y1, 60, dy);
-			else if(dy < 0)
-				tiledPath[i].setBounds(x1, y1+60, 60, dy-60);
-			//else
-			//tiledPath[i].setBounds(x1, y1-30, dx, dy);
-		}
+		
+		PathView pv = new PathView(map.getPath().getPositions());
+		
+		tiledPath = pv.getSprites();
 
 		for(int i = 0; i < map.getEnemies().size(); i++) {
+			if( map.getEnemies().get(i) instanceof ShieldEnemy){
+				enemyList.add(new ShieldEnemyView((ShieldEnemy) map.getEnemies().get(i)));	
+			}else{
 			enemyList.add(new EnemyView( map.getEnemies().get(i)));
-		}
+			}
+			}
 
 		chosedTowerImage = new Image(new Texture("img/unknown.png"));
 		radius = new RadiusImage(new Texture("img/radius200.png"));
@@ -217,7 +202,7 @@ public class MapScreen implements Screen {
 	}
 	
 	private void playDyingSound(int index){
-		dyingSoundList.get(index).play();
+//		dyingSoundList.get(index).play();
 	}
 
 	private void updateObjects() {
@@ -237,7 +222,11 @@ public class MapScreen implements Screen {
 
 		if(waveIndex != map.getWaveIndex()) {
 			for(int i = 0; i < map.getEnemies().size(); i++) {
+				if( map.getEnemies().get(i) instanceof ShieldEnemy){
+					enemyList.add(new ShieldEnemyView((ShieldEnemy) map.getEnemies().get(i)));	
+				}else{
 				enemyList.add(new EnemyView( map.getEnemies().get(i)));
+				}
 			}
 			waveIndex = map.getWaveIndex();
 		}
