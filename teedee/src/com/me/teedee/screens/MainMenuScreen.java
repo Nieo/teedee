@@ -54,7 +54,7 @@ public class MainMenuScreen implements Screen {
 	@Override
 	public void show() {
 		skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-		
+
 		stage = new Stage();
 
 		Gdx.input.setInputProcessor(stage);
@@ -71,7 +71,7 @@ public class MainMenuScreen implements Screen {
 				((Game) Gdx.app.getApplicationListener()).setScreen(new DiffSelScreen()); // TODO snygg övergång
 			}
 		});
-		
+
 		creditsButton = new TextButton("Credits", skin);
 		creditsButton.pad(20);
 		creditsButton.addListener(new ClickListener(){
@@ -82,7 +82,7 @@ public class MainMenuScreen implements Screen {
 		});
 		exitButton = new TextButton("Exit", skin);
 		exitButton.pad(20);
-		
+
 		exitButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {

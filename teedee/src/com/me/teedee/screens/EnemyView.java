@@ -13,15 +13,15 @@ import com.me.teedee.enemies.AbstractEnemy;
  */
 
 public class EnemyView extends Sprite {
-	
+
 	private AbstractEnemy enemy;
 	private Sprite sprite;
 	private Sprite green;
 	private Sprite red;
 	private Texture t = new Texture("img/firstEnemy.png");
-	
+
 	public EnemyView(AbstractEnemy abstractEnemy) {
-		
+
 		int swID = abstractEnemy.getId();
 		switch(swID){
 		case 1: 
@@ -32,6 +32,9 @@ public class EnemyView extends Sprite {
 			break;
 		case 3:
 			t = new Texture("img/firstEnemy.png");
+			break;
+		case 4:
+			t = new Texture("img/hydra3.png");
 			break;
 		default:
 			break;
@@ -51,11 +54,11 @@ public class EnemyView extends Sprite {
 		red.draw(batch);
 		green.draw(batch);
 	}
-	
+
 	public boolean isAlive(){
 		return enemy.isAlive();
 	}
-	
+
 	//FIXME probably should clean the method up a bit
 	private void update() {
 		setX(enemy.getPosition().getX());
@@ -64,7 +67,11 @@ public class EnemyView extends Sprite {
 		green.setY(getY()+getHeight());
 		float tmpHP = enemy.getLives().getCurrentLives();
 		float maxHP = enemy.getLives().getMaxLives();
-		green.setSize(red.getWidth()*(tmpHP/maxHP), red.getHeight());
+		if(tmpHP/maxHP < 0) {
+			green.setSize(0, red.getHeight());
+		} else {
+			green.setSize(red.getWidth()*(tmpHP/maxHP), red.getHeight());
+		}
 		red.setX(getX());
 		red.setY(getY()+getHeight());
 	}
@@ -72,7 +79,7 @@ public class EnemyView extends Sprite {
 	public boolean reachedEnd() {
 		return enemy.reachedEnd();
 	}
-	
+
 	public int getReward() {
 		return enemy.getEnemyReward().getReward();
 	}

@@ -159,11 +159,11 @@ public class MapScreen implements Screen {
 		Table.drawDebug(hud);		//TODO debug
 
 		if(map.isRunning()){
-		hud.getSpriteBatch().begin();
-		drawObjects();
-		hud.getSpriteBatch().end();
+			hud.getSpriteBatch().begin();
+			drawObjects();
+			hud.getSpriteBatch().end();
 		}
-		}
+	}
 
 	private void drawObjects() {
 		for(int i=0; i<map.getPath().getPositions().size()-1; i++){//As of now renders the path somewhat, should probably not be an sprite. If possible use another more suitable class.  
@@ -215,11 +215,7 @@ public class MapScreen implements Screen {
 	private void playShootingSound(int index){
 		shootingSoundList.get(index).play();
 	}
-	
-	private void playDyingSound(int index){
-		dyingSoundList.get(index).play();
-	}
-	
+
 	private void updateObjects() {
 		if(!map.isPlayerAlive()){
 			((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen());
@@ -269,6 +265,9 @@ public class MapScreen implements Screen {
 			radius.setPosition(tmp.getX(), tmp.getY());
 
 			//TODO this needs optimizing or done in another way
+			if(k >= towerList.size()) {
+				k = 0;
+			}
 			if(!towerList.isEmpty()) {
 				float dx = tmp.getX() - towerList.get(k).getX();
 				float dy = tmp.getY() - towerList.get(k).getY();
@@ -297,6 +296,7 @@ public class MapScreen implements Screen {
 		hud.getViewport().update(width, height, true);
 		table.invalidateHierarchy();
 		ratio = hud.getHeight()/Gdx.graphics.getHeight();
+		System.out.println("gui" + guiTable.getWidth() + " " + guiTable.getHeight());
 	}
 
 	public TowerView clickedOnTower(float x, float y) {
@@ -311,7 +311,7 @@ public class MapScreen implements Screen {
 	@Override
 	public void show() {
 		Skin uiSkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-		
+
 		final Image mapImg = new Image(new Texture(mapPath));
 		final Image bt = new Image(new Texture("img/firstDragon.png"));
 		final Image it = new Image(new Texture("img/iceDragon.png"));
@@ -328,11 +328,11 @@ public class MapScreen implements Screen {
 		final TextButton pauseBtn = new TextButton("Pause", uiSkin);
 		final TextButton resumeButton =  new TextButton("Resume Game", uiSkin);
 		final TextButton quitButton = new TextButton("Quit Game", uiSkin);
-		
+
 		final Window pauseWindow = new Window("", uiSkin);
 		pauseWindow.setVisible(false);
 		pauseWindow.setFillParent(true);
-		
+
 		final Button soundButton = new Button(uiSkin);
 		soundButton.add(new Image(soundOnTexture));
 
@@ -343,7 +343,7 @@ public class MapScreen implements Screen {
 		hud = new Stage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())); // OR
 		hud.setViewport(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 		Gdx.input.setInputProcessor(hud);
-		
+
 		ClickListener clickListener = new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -380,7 +380,7 @@ public class MapScreen implements Screen {
 							buildIndex = 6;
 							rad = 200;
 						}
-						
+
 						tmp = new Image(new Texture(path));
 						tmp.setPosition(Gdx.input.getX()-tmp.getWidth()/2, Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2);
 						tmp.setTouchable(null);
@@ -409,6 +409,7 @@ public class MapScreen implements Screen {
 								if(towerBuilt = map.buildTower(new MultiTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) map.getEnemies()), new Position(tmpX, tmpY))) {
 									towerList.add(new TowerView(new Sprite(new Texture("img/hydra.png")), map.getTowers().get(towerIndex), towerIndex));
 								}
+								break;
 							case 4:
 								if(towerBuilt = map.buildTower(new ShockWaveTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) map.getEnemies()), new Position(tmpX, tmpY))) {
 									towerList.add(new TowerView(new Sprite(new Texture("img/shockwave.png")), map.getTowers().get(towerIndex), towerIndex));
@@ -528,7 +529,7 @@ public class MapScreen implements Screen {
 						index = 3;
 					} else if(event.getListenerActor() == swt) {
 						index = 4;
-					} else if(event.getListenerActor() == bdt) {
+					} else if(event.getListenerActor() == rng) {
 						index = 5;
 					} else if(event.getListenerActor() == bdt) {
 						index = 6;
@@ -553,8 +554,8 @@ public class MapScreen implements Screen {
 		it.addListener(clickListener);
 		mt.addListener(clickListener);
 		swt.addListener(clickListener);
-		rng.addListener(clickListener);
 		bdt.addListener(clickListener);
+		rng.addListener(clickListener);
 		upgradeBtn.addListener(clickListener);
 		sellBtn.addListener(clickListener);
 		nextWaveBtn.addListener(clickListener);
@@ -563,27 +564,26 @@ public class MapScreen implements Screen {
 		soundButton.addListener(clickListener);
 		resumeButton.addListener(clickListener);
 		quitButton.addListener(clickListener);
-		
+
 		pauseWindow.add(resumeButton).center().row();
 		pauseWindow.add(quitButton);
-		
-		towerInfoTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
+
+		towerInfoTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTable.png"))));
 		towerInfoTable.add(chosedTowerImage).left().row();
 		towerInfoTable.add(towerName = new Label("Tower Name", uiSkin)).left().row();
 		towerInfoTable.add(towerKills = new Label("Tower Name", uiSkin)).left().row();
 		towerInfoTable.add(upgradeBtn).width(100).height(70).padBottom(20).padTop(20).padRight(20);
 		towerInfoTable.add(sellBtn).width(100).height(70);
 
-		buildTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTest.png"))));
+		buildTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTable.png"))));
 		buildTable.add(hpLabel = new Label("HP: " + map.getPlayer().getLives().getCurrentLives(), uiSkin)).padTop(10).row();
 		buildTable.add(moneyLabel = new Label("$ " + map.getPlayer().getMoneyInt(), uiSkin)).padBottom(30).row();
 		buildTable.add(bt).top().padLeft(20);
 		buildTable.add(it);
 		buildTable.add(mt).padRight(20).row();
 		buildTable.add(swt).padLeft(20);
-		buildTable.add(bdt);
 		buildTable.add(rng);
-		//buildTable.add(new Image(new Texture("img/firstDragon.png"))).padRight(20);
+		buildTable.add(bdt);
 		buildTable.top();
 		//buildTable.debug();		//TODO debug
 

@@ -32,11 +32,14 @@ public class Bullet extends Sprite{
 			setTexture(new Texture("img/IceBullet.png"));
 			break;
 			//osv
+		case 6:
+			//TODO Laserbeams looks awful
+			setTexture(new Texture("img/laserBeam.png"));
+			break;
 		default:
 			setTexture(new Texture("img/RedBullet.png"));
 		}
 		startPosition = new Position(t.getPosition().getX() + 45 - getWidth()/2, t.getPosition().getY() + 40 - getHeight()/2);
-		//30 is the width of the enemy sprite
 		targetPosition = new Position(targetX, targetY);
 		this.direction = new Vector2(targetPosition.getX() - startPosition.getX(),
 				targetPosition.getY() - startPosition.getY()).nor();
@@ -79,6 +82,4 @@ public class Bullet extends Sprite{
 		update();
 		super.draw(batch);
 	}
-
-
 }
