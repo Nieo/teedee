@@ -12,8 +12,7 @@ public class Bullet extends Sprite{
 	private Position startPosition;
 	private Vector2 direction;
 	private float speed;
-	private float travelledDistance = 0;
-	private double goalDistance;
+	//private float travelledDistance = 0;
 	private boolean hasHitTarget = false;
 
 
@@ -22,7 +21,7 @@ public class Bullet extends Sprite{
 
 	}
 
-	public Bullet(float targetX, float targetY, float speed, AbstractTower t){
+	public Bullet(Position targetPosition, float speed, AbstractTower t){
 		super(new Texture("img/IceBullet.png"));
 		switch(t.getId()) {
 		case 1:
@@ -39,35 +38,41 @@ public class Bullet extends Sprite{
 		default:
 			setTexture(new Texture("img/RedBullet.png"));
 		}
-		startPosition = new Position(t.getPosition().getX() + 45 - getWidth()/2, t.getPosition().getY() + 40 - getHeight()/2);
-		targetPosition = new Position(targetX, targetY);
-		this.direction = new Vector2(targetPosition.getX() - startPosition.getX(),
-				targetPosition.getY() - startPosition.getY()).nor();
+		this.startPosition = new Position(t.getPosition().getX() + 45 - getWidth()/2, t.getPosition().getY() + 40 - getHeight()/2);
+		this.targetPosition = targetPosition;
+		this.direction = getDirection(startPosition, targetPosition);
 		setOrigin(getX() + getWidth()/2, getY() + getHeight()/2);
 		setRotation(direction.angle()+90);
 		this.speed = speed;
-		this.goalDistance = Math.sqrt((Math.pow(targetPosition.getX() - this.getWidth()/2 - startPosition.getX(), 2)) 
-												+ Math.pow(targetPosition.getY() - this.getHeight()/2 - startPosition.getY(), 2));
 		this.setPosition(startPosition.getX(), startPosition.getY());
+		
 	}
 
 	public Bullet(Position startPosition, Position targetPosition, float speed, Texture texture){
 		super(new Sprite(texture));
 		this.startPosition = startPosition;
 		this.targetPosition = targetPosition;
-		this.direction = new Vector2(targetPosition.getX() - startPosition.getX(),
-				targetPosition.getY() - startPosition.getY()).nor();
+		this.direction = getDirection(startPosition, targetPosition);
 		this.speed = speed;
-		this.goalDistance = Math.sqrt((Math.pow(targetPosition.getX()-startPosition.getX(), 2)) 
-										+ Math.pow(targetPosition.getY()-startPosition.getY(), 2));
 		this.setPosition(startPosition.getX(), startPosition.getY());
+	}
+	
+	private Vector2 getDirection(Position startPosition, Position targetPosition){
+		return new Vector2(targetPosition.getX() - startPosition.getX(),
+							targetPosition.getY() - startPosition.getY()).nor();
+	}
+	
+	private float getDistance(Position a, Position b){
+		return (float)Math.sqrt((Math.pow(b.getX()-a.getX(), 2)) 
+				+ Math.pow(b.getY()-b.getY(), 2));
 	}
 
 	public void update(){
-		travelledDistance += speed;
+		startPosition = new Position(this.getX(),this.getY());
+		direction = getDirection(startPosition, targetPosition);
 		this.setPosition(getX() + speed*direction.x, getY() + speed*direction.y);
-
-		if(travelledDistance >= goalDistance){
+		
+		if(getDistance(startPosition,targetPosition) <= speed ){
 			this.setAlpha(0);
 			hasHitTarget = true;
 		}
