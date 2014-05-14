@@ -58,7 +58,7 @@ public class WaveFactory {
 	}
 	
 	public static ArrayList<Wave> creatHardWave(Path path) {
-		int[] enemies = {0,0,0,1};
+		int[] enemies = {5,3,2,1};
 
 		ArrayList<Wave> waveList = new ArrayList<Wave>();
 		
