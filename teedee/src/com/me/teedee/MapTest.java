@@ -173,7 +173,7 @@ public class MapTest {
 		//No enemies should've been removed
 		assertTrue(numberOfEnemiesStart == currentEnemies.size());
 		//TODO Remove status parameter
-		currentEnemies.get(0).takeDamage(101, new Status());
+		currentEnemies.get(0).takeDamage(101);
 		map.removeEnemies();
 		//One enemy should've been removed
 		System.out.println(numberOfEnemiesStart);
