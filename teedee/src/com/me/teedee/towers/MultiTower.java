@@ -12,7 +12,7 @@ public class MultiTower extends AbstractTower {
 
 	private float cooldown;
 	public MultiTower(Position pos, ArrayList<AbstractEnemy> enemies){
-		price[0] = new Price(500);
+		price[0] = new Price(700);
 		for(int i = 1; i < 5; i++)
 			price[i] = new Price(i * 100);
 
@@ -23,13 +23,13 @@ public class MultiTower extends AbstractTower {
 			attackSpeed[i] = 1.2f;
 		cooldown = attackSpeed[0];
 
-		for(int i = 0; i < 5; i++)
-			attackDamage[i] = 35 + 35 * i ;
-
-		status = new Status(0.5f,1,0);
+		for(int i = 0; i < 4; i++)
+			attackDamage[i] = 80 + i * 20 ;
+		attackDamage[4] = 180;
+		status = new Status(1f,0,0);
 		setPosition(pos);
 		this.enemies = enemies;
-		range = 400;
+		range = 300;
 		id = 3;
 	}
 	@Override
