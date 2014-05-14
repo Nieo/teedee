@@ -28,7 +28,7 @@ public class TowerView extends Sprite {
 		setX(posX);
 		setY(posY);
 		rect = new Rectangle(getX(), getY(), getWidth(), getHeight());
-		//this.name = tower.getType();		//TODO or getName(); or something similiar
+		//this.name = tower.getType();		//TODO or getName(); or something similiar or not
 
 		switch(tower.getId())  {
 		case 1:
@@ -42,6 +42,12 @@ public class TowerView extends Sprite {
 			break;
 		case 4:
 			this.name = "Shock Wave Tower";
+			break;
+		case 5:
+			this.name = "RNG Tower";
+			break;
+		case 6:
+			this.name = "Blood Dragon";
 			break;
 		default:
 			this.name = "Another Tower";
@@ -100,10 +106,60 @@ public class TowerView extends Sprite {
 		case 4:
 			upgradeShockWaveTower();
 			break;
+		case 5:
+			upgradeRNGTower();
+			break;
+		case 6:
+			upgradeBloodDragon();
+			break;
 		default:
 			System.out.println("nope");		//TODO debug
 		}
 
+	}
+	
+	//TODO change images
+	private void upgradeRNGTower() {
+		String picPath = "";
+		switch(tower.getCurrentLevel()) {
+		case 1:
+			picPath = "img/RNGTower.png";
+			break;
+		case 2:
+			picPath = "img/RNGTower.png";
+			break;
+		case 3:
+			picPath = "img/RNGTower.png";
+			break;
+		case 4:
+			picPath = "img/RNGTower.png";
+			break;
+		default:
+			picPath = "img/RNGTower.png";
+		}
+		super.setTexture(new Texture(picPath));		
+	}
+	
+	//TODO Change images
+	private void upgradeBloodDragon() {
+		String picPath = "";
+		switch(tower.getCurrentLevel()) {
+		case 1:
+			picPath = "img/bloodDragon.png";
+			break;
+		case 2:
+			picPath = "img/bloodDragon.png";
+			break;
+		case 3:
+			picPath = "img/bloodDragon.png";
+			break;
+		case 4:
+			picPath = "img/bloodDragon.png";
+			break;
+		default:
+			picPath = "img/bloodDragon.png";
+		}
+		super.setTexture(new Texture(picPath));		
 	}
 
 	private void upgradeShockWaveTower() {

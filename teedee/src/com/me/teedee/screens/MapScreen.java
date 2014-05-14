@@ -99,7 +99,7 @@ public class MapScreen implements Screen {
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot0.wav")));
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot5.wav")));
 		// Adding sounds for dying
-//		dyingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/WilhelmScream_64kb.mp3")));
+		dyingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/WilhelmScream_64kb.mp3")));
 		
 		//Creating the path
 		Path path = PathFactory.createPath(pathChoice);
@@ -202,7 +202,7 @@ public class MapScreen implements Screen {
 	}
 	
 	private void playDyingSound(int index){
-//		dyingSoundList.get(index).play();
+		dyingSoundList.get(index).play();
 	}
 
 	private void updateObjects() {
@@ -310,10 +310,9 @@ public class MapScreen implements Screen {
 		final Image it = new Image(new Texture("img/iceDragon.png"));
 		final Image mt = new Image(new Texture("img/hydra.png"));
 		final Image swt = new Image(new Texture("img/shockwave.png"));
+		final Image rng = new Image(new Texture("img/RNGTower.png"));
 		final Image bdt = new Image(new Texture("img/bloodDragon.png"));
-		// FIXME
-		final Image rng = new Image(new Texture("img/twitterEnemy.png"));
-
+		
 		final TextButton upgradeBtn = new TextButton("Upgrade", uiSkin);
 		final TextButton sellBtn = new TextButton("Sell", uiSkin);
 		final TextButton nextWaveBtn = new TextButton("Next Wave", uiSkin);
@@ -365,7 +364,7 @@ public class MapScreen implements Screen {
 							buildIndex = 4;
 							rad = 500;
 						} else if(event.getListenerActor() == rng) {
-							path = "img/twitterEnemy.png";
+							path = "img/RNGTower.png";
 							buildIndex = 5;
 							rad = 500;
 						} else if(event.getListenerActor() == bdt) {
@@ -410,7 +409,7 @@ public class MapScreen implements Screen {
 								break;
 							case 5:
 								if(towerBuilt = map.buildTower(new RNGTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) map.getEnemies()), new Position(tmpX, tmpY))) {
-									towerList.add(new TowerView(new Sprite(new Texture("img/twitterEnemy.png")), map.getTowers().get(towerIndex), towerIndex));
+									towerList.add(new TowerView(new Sprite(new Texture("img/RNGTower.png")), map.getTowers().get(towerIndex), towerIndex));
 								}
 								break; 
 							case 6:
@@ -576,7 +575,7 @@ public class MapScreen implements Screen {
 		buildTable.add(mt).padRight(20).row();
 		buildTable.add(swt).padLeft(20);
 		buildTable.add(rng);
-		buildTable.add(bdt);
+		buildTable.add(bdt).padRight(20);
 		buildTable.top();
 		//buildTable.debug();		//TODO debug
 
