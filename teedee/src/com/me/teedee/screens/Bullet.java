@@ -31,7 +31,12 @@ public class Bullet extends Sprite{
 		case 2:
 			setTexture(new Texture("img/IceBullet.png"));
 			break;
-			//osv
+		case 3:
+			setTexture(new Texture("img/greenBullet.png"));
+			break;
+		case 5:
+			setTexture(new Texture("img/blackHole.png"));
+			break;
 		case 6:
 			//TODO Laserbeams looks awful
 			setTexture(new Texture("img/laserBeam.png"));
