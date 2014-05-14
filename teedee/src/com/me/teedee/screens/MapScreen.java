@@ -261,6 +261,9 @@ public class MapScreen implements Screen {
 			radius.setPosition(tmp.getX(), tmp.getY());
 
 			//TODO this needs optimizing or done in another way
+			if(k >= towerList.size()) {
+				k = 0;
+			}
 			if(!towerList.isEmpty()) {
 				float dx = tmp.getX() - towerList.get(k).getX();
 				float dy = tmp.getY() - towerList.get(k).getY();
@@ -402,6 +405,7 @@ public class MapScreen implements Screen {
 								if(towerBuilt = map.buildTower(new MultiTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) map.getEnemies()), new Position(tmpX, tmpY))) {
 									towerList.add(new TowerView(new Sprite(new Texture("img/hydra.png")), map.getTowers().get(towerIndex), towerIndex));
 								}
+								break;
 							case 4:
 								if(towerBuilt = map.buildTower(new ShockWaveTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) map.getEnemies()), new Position(tmpX, tmpY))) {
 									towerList.add(new TowerView(new Sprite(new Texture("img/shockwave.png")), map.getTowers().get(towerIndex), towerIndex));
