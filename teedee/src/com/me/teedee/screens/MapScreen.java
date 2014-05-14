@@ -3,6 +3,8 @@ package com.me.teedee.screens;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hamcrest.core.IsInstanceOf;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -31,6 +33,7 @@ import com.me.teedee.Player;
 import com.me.teedee.Position;
 import com.me.teedee.WaveFactory;
 import com.me.teedee.enemies.AbstractEnemy;
+import com.me.teedee.enemies.ShieldEnemy;
 import com.me.teedee.towers.AbstractTower;
 import com.me.teedee.towers.BasicTower;
 import com.me.teedee.towers.BloodDragonTower;
@@ -132,8 +135,12 @@ public class MapScreen implements Screen {
 		}
 
 		for(int i = 0; i < map.getEnemies().size(); i++) {
+			if( map.getEnemies().get(i) instanceof ShieldEnemy){
+				enemyList.add(new ShieldEnemyView((ShieldEnemy) map.getEnemies().get(i)));	
+			}else{
 			enemyList.add(new EnemyView( map.getEnemies().get(i)));
-		}
+			}
+			}
 
 		chosedTowerImage = new Image(new Texture("img/unknown.png"));
 		radius = new RadiusImage(new Texture("img/radius200.png"));
@@ -229,7 +236,11 @@ public class MapScreen implements Screen {
 
 		if(waveIndex != map.getWaveIndex()) {
 			for(int i = 0; i < map.getEnemies().size(); i++) {
+				if( map.getEnemies().get(i) instanceof ShieldEnemy){
+					enemyList.add(new ShieldEnemyView((ShieldEnemy) map.getEnemies().get(i)));	
+				}else{
 				enemyList.add(new EnemyView( map.getEnemies().get(i)));
+				}
 			}
 			waveIndex = map.getWaveIndex();
 		}

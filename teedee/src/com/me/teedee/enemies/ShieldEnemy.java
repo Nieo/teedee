@@ -13,6 +13,8 @@ public class ShieldEnemy extends AbstractEnemy {
 	private float shield;
 	private float regen;
 	
+	private boolean shieldDown = false;
+	
 	public ShieldEnemy(Path p){
 		super(p);
 		this.updateShieldEnemy();
@@ -36,7 +38,7 @@ public class ShieldEnemy extends AbstractEnemy {
  	
  	@Override
  	public boolean takeDamage(int damage) {
- 		if(this.takeShieldDamage(damage)){
+ 		if(this.takeShieldDamage(damage) || shieldDown){
  			return super.takeDamage(damage);
  		}else{
  			takeShieldDamage(damage);
@@ -48,6 +50,7 @@ public class ShieldEnemy extends AbstractEnemy {
 	
 	private boolean takeShieldDamage(float damage) {
 		if(shield <= damage){
+			shieldDown = true;
 			shield = 0;
 			return true;
 		}else{
@@ -60,6 +63,14 @@ public class ShieldEnemy extends AbstractEnemy {
 		if(shield < shieldLimit){
 			shield += regen/(1/delta);
 		}
+		//Checks whether the shield has regened enough to be considered up.
+		if(shieldDown && shield>100f){
+			shieldDown = false;
+		}	
+	}
+	
+	public boolean isShieldDown(){
+		return shieldDown;
 	}
 	
 	private void updateShieldEnemy(){
