@@ -15,7 +15,6 @@ public class Bullet extends Sprite{
 	//private float travelledDistance = 0;
 	private boolean hasHitTarget = false;
 
-
 	public Bullet(float startX, float startY, float targetX, float targetY, float speed, Texture texture){
 		this(new Position(startX,startY),new Position (targetX,targetY), speed, texture);
 
@@ -50,7 +49,7 @@ public class Bullet extends Sprite{
 		setRotation(direction.angle()+90);
 		this.speed = speed;
 		this.setPosition(startPosition.getX(), startPosition.getY());
-		
+
 	}
 
 	public Bullet(Position startPosition, Position targetPosition, float speed, Texture texture){
@@ -61,12 +60,12 @@ public class Bullet extends Sprite{
 		this.speed = speed;
 		this.setPosition(startPosition.getX(), startPosition.getY());
 	}
-	
+
 	private Vector2 getDirection(Position startPosition, Position targetPosition){
 		return new Vector2(targetPosition.getX() - startPosition.getX(),
-							targetPosition.getY() - startPosition.getY()).nor();
+				targetPosition.getY() - startPosition.getY()).nor();
 	}
-	
+
 	private float getDistance(Position a, Position b){
 		return (float)Math.sqrt((Math.pow(b.getX()-a.getX(), 2)) 
 				+ Math.pow(b.getY()-b.getY(), 2));
@@ -76,7 +75,7 @@ public class Bullet extends Sprite{
 		startPosition = new Position(this.getX(),this.getY());
 		direction = getDirection(startPosition, targetPosition);
 		this.setPosition(getX() + speed*direction.x, getY() + speed*direction.y);
-		
+
 		if(getDistance(startPosition,targetPosition) <= speed ){
 			this.setAlpha(0);
 			hasHitTarget = true;

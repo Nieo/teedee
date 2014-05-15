@@ -5,7 +5,7 @@ package com.me.teedee;
 public class Lives {
 	private float currentLives;
 	private float maxLives;
-	
+
 	public Lives(){
 		maxLives = 1000;
 		currentLives = 1000;
@@ -21,12 +21,12 @@ public class Lives {
 		currentLives = currentLives - damage;
 		return currentLives >  0;
 	}
-	
+
 	public float getCurrentLives() {
 		return currentLives;
 	}
 	public float getMaxLives() {
 		return maxLives;
 	}
-	
+
 }

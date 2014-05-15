@@ -117,7 +117,7 @@ public class TowerView extends Sprite {
 		}
 
 	}
-	
+
 	//TODO change images
 	private void upgradeRNGTower() {
 		String picPath = "";
@@ -139,7 +139,7 @@ public class TowerView extends Sprite {
 		}
 		super.setTexture(new Texture(picPath));		
 	}
-	
+
 	//TODO Change images
 	private void upgradeBloodDragon() {
 		String picPath = "";
@@ -181,7 +181,7 @@ public class TowerView extends Sprite {
 			picPath = "img/shockwave.png";
 		}
 		super.setTexture(new Texture(picPath));
-		
+
 	}
 
 	private void upgradeIceTower() {
@@ -225,7 +225,7 @@ public class TowerView extends Sprite {
 		}
 		super.setTexture(new Texture(picPath));
 	}
-	
+
 	private void upgradeMultiTower() {
 		String picPath = "";
 		switch(tower.getCurrentLevel()) {

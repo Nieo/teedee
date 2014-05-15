@@ -1,10 +1,9 @@
-package com.me.teedee;
+package com.me.teedee.screens;
 
 import com.badlogic.gdx.Game;
-import com.me.teedee.screens.SplashScreen;
 
 public class TeeDeeGame extends Game {
-	
+
 	@Override
 	public void create() {
 		setScreen(new SplashScreen(this));
@@ -23,13 +22,13 @@ public class TeeDeeGame extends Game {
 	@Override
 	public void resize(int width, int height) {
 		super.resize(width, height);
-		
+
 	}
 
 	@Override
 	public void pause() {
 		super.pause();
-		
+
 	}
 
 	@Override

@@ -19,23 +19,23 @@ public class ShockWaveTower extends AbstractTower{
 		for(int i = 1; i < 5; i++){
 			price[i] = new Price(200*i);
 		}
-			value = price[0].getPrice();
-			currentLevel = 0;
-			maxLevel = 5;
-			for(int i = 0; i < 5; i++)
-				attackSpeed[i] = 1;
-			cooldown = attackSpeed[0];
-			
-			for(int i = 0; i < 5; i++)
-				attackDamage[i] = 70 + i * 70;
-			
-			status = new Status(1f, 0, 1);
-			setPosition(pos);
-			this.enemies = enemies;
-			range = 350;
-			id = 4;
+		value = price[0].getPrice();
+		currentLevel = 0;
+		maxLevel = 5;
+		for(int i = 0; i < 5; i++)
+			attackSpeed[i] = 1;
+		cooldown = attackSpeed[0];
+
+		for(int i = 0; i < 5; i++)
+			attackDamage[i] = 70 + i * 70;
+
+		status = new Status(1f, 0, 1);
+		setPosition(pos);
+		this.enemies = enemies;
+		range = 350;
+		id = 4;
 	}
-	
+
 	@Override
 	public void shoot(float delta){
 		if(cooldown - delta <= 0){
@@ -46,7 +46,7 @@ public class ShockWaveTower extends AbstractTower{
 		}
 		super.shoot(delta);
 	}
-	
+
 	public List<AbstractEnemy> getNeighbourEnemies(){
 		List<AbstractEnemy> neighbours = new ArrayList<AbstractEnemy>();
 		if(!this.getTargetPosition().isEmpty()){

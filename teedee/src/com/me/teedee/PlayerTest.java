@@ -23,7 +23,7 @@ public class PlayerTest {
 		player.removeMoney(100);
 		//The player has 1000 in money when instantiated
 		assertTrue(player.getMoneyInt() == 1400);
-		
+
 	}
 
 	@Test
@@ -33,7 +33,7 @@ public class PlayerTest {
 		player.takeDamage(5);
 		//The player has 100 in lives when instantiated
 		assertTrue(player.getLives().getCurrentLives() == 20);
-		
+
 	}
 
 }

@@ -12,11 +12,11 @@ import com.me.teedee.enemies.AbstractEnemy;
  * increases with the number of enemies it has killed."
  */
 public class BloodDragonTower extends AbstractTower{
-	
+
 	int killsCount = 0;
 	int startAttackDamage = 40;
 	int currentAttackDamage;
-	
+
 	public BloodDragonTower(Position pos, ArrayList<AbstractEnemy> enemies){
 		price[0] = new Price(300);
 		for(int i = 1; i < 5; i++){
@@ -38,12 +38,13 @@ public class BloodDragonTower extends AbstractTower{
 		range = 200;
 		id = 6;
 	}
-	
+
+	@Override
 	public void shoot(float delta){
 		if(cooldown - delta <= 0){
 			/**Instead of rewriting (duplicating many rows of code) from the AbstractTower class,
 			 * we just keep track of the number of killed enemies.
-			**/
+			 **/
 			if(getKills() > killsCount){
 				killsCount++;
 				attackDamage[currentLevel] += 10;
@@ -51,7 +52,7 @@ public class BloodDragonTower extends AbstractTower{
 		}
 		super.shoot(delta);
 	}
-	
+
 	@Override
 	public Boolean upgrade() {
 		if(currentLevel < maxLevel - 1) {
