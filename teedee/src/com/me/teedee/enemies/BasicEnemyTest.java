@@ -14,7 +14,7 @@ import com.me.teedee.towers.AbstractTower;
 import com.me.teedee.towers.BasicTower;
 
 public class BasicEnemyTest {
-	
+
 	protected AbstractEnemy a;
 	protected void setUp(){
 		List<Position> pathPos = new ArrayList<Position>();
@@ -22,7 +22,7 @@ public class BasicEnemyTest {
 		pathPos.add(new Position(10,200));
 		a = new BasicEnemy(new Path(pathPos));
 	}
-	
+
 	@Test
 	public void testTakeDamage() {
 		this.setUp();
@@ -30,7 +30,7 @@ public class BasicEnemyTest {
 		a.takeDamage(10);
 		assertEquals(maxLives-10, a.getLives().getCurrentLives(), 0.1f);
 	}
-	
+
 	@Test
 	public void testGetOverallStatus() {
 		this.setUp();

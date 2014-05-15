@@ -11,9 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.me.teedee.enemies.AbstractEnemy;
-import com.me.teedee.enemies.BasicEnemy;
 import com.me.teedee.towers.AbstractTower;
 import com.me.teedee.towers.BasicTower;
 
