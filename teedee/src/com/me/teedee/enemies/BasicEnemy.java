@@ -15,8 +15,8 @@ public class BasicEnemy extends AbstractEnemy {
 	
 	private final int id = 1;
 	
-	public BasicEnemy(Path p) {
-		super(p, 120f, new Lives(1000), new Reward(50));
+	public BasicEnemy(Path p, int level) {
+		super(p, 120f, new Lives(700*(1+0.1f*level)), new Reward(50));
 	}
 
 

@@ -15,9 +15,14 @@ public class ShieldEnemy extends AbstractEnemy {
 	
 	private boolean shieldDown = false;
 	
-	public ShieldEnemy(Path p){
-		super(p, 120f, new Lives(500),new Reward(65));
-		this.updateShieldEnemy();
+	public ShieldEnemy(Path p, int level){
+		
+		super(p, 120f, new Lives(500*(1+0.1f*level)),new Reward(65));
+		shield = 1000f*(1+0.1f*level);
+		shieldLimit = 1000f*(1+0.1f*level);
+		
+		regen = 100f;
+		
 	}
 	
  	@Override
@@ -63,16 +68,6 @@ public class ShieldEnemy extends AbstractEnemy {
 		return shieldDown;
 	}
 	
-	private void updateShieldEnemy(){
-		shield = 1000f;
-		shieldLimit = 1000f;
-		
-		regen = 100f;
-		
-		this.setLives(new Lives(getLives().getMaxLives()*0.5f));
-		int nr=(int) (this.getEnemyReward().getReward()*1.3);
-		this.setReward( new Reward(nr));
-	}
 	
 	@Override
 	public int getId(){

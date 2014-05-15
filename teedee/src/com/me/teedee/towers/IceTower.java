@@ -11,11 +11,9 @@ public class IceTower extends AbstractTower {
 		ArrayList<Status> statusLevels = new ArrayList<Status>();
 	public IceTower(Position pos, ArrayList<AbstractEnemy> enemies) {
 		
-		statusLevels.add(new Status(0.75f,0,1.7f));
-		statusLevels.add(new Status(0.70f,0,1.8f));
-		statusLevels.add(new Status(0.65f,0,1.9f));
-		statusLevels.add(new Status(0.60f,0,2f));
-		statusLevels.add(new Status(0.50f,0,2.2f));
+		statusLevels.add(new Status(0.50f,50,1.2f));
+		statusLevels.add(new Status(0.40f,75,1.7f));
+		statusLevels.add(new Status(0.35f,100,2.5f));
 		
 		price[0] = new Price(400);
 		for(int i = 1; i < 5; i++)
@@ -23,12 +21,12 @@ public class IceTower extends AbstractTower {
 		
 		value = price[0].getPrice();
 		currentLevel = 0;
-		maxLevel = 5;
-		for(int i = 0; i < 5; i++)
-			attackSpeed[i] = 1;
+		maxLevel = 3;
+		for(int i = 0; i < maxLevel; i++)
+			attackSpeed[i] = 0.7f;
 		cooldown = attackSpeed[0];
 		
-		for(int i = 0; i < 5; i++)
+		for(int i = 0; i < maxLevel; i++)
 			attackDamage[i] = 20 + 10*i;
 		
 		status = statusLevels.get(0);

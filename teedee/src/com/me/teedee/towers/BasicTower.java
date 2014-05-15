@@ -10,7 +10,7 @@ import com.me.teedee.enemies.AbstractEnemy;
 public class BasicTower extends AbstractTower {
 
 	public BasicTower(Position pos, ArrayList<AbstractEnemy> enemies) {
-		price[0] = new Price(500);
+		price[0] = new Price(400);
 		price[1] = new Price(200);
 		price[2] = new Price(200);
 		price[3] = new Price(300);

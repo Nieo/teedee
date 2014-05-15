@@ -57,7 +57,6 @@ public class RNGTower extends AbstractTower {
 				int dmg;
 				if(rand > 0.85){
 					dmg = attackDamage[currentLevel] * 5;
-					target.get(0).addTowerStatus(this, new Status(status));
 				}else if(rand > 0.60){
 					dmg = attackDamage[currentLevel];
 				}else {

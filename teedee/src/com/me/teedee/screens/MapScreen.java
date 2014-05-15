@@ -358,15 +358,15 @@ public class MapScreen implements Screen {
 						} else if(event.getListenerActor() == mt) {
 							path = "img/hydra.png";
 							buildIndex = 3;
-							rad = 400;
+							rad = 300;
 						} else if(event.getListenerActor() == swt) {
 							path = "img/shockwave.png";
 							buildIndex = 4;
-							rad = 500;
+							rad = 300;
 						} else if(event.getListenerActor() == rng) {
 							path = "img/RNGTower.png";
 							buildIndex = 5;
-							rad = 500;
+							rad = 280;
 						} else if(event.getListenerActor() == bdt) {
 							path = "img/bloodDragon.png";
 							buildIndex = 6;

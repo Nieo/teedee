@@ -10,8 +10,8 @@ public class FastEnemy extends AbstractEnemy {
 	
 	private final int id = 2;
 	
-	public FastEnemy(Path p){
-		super(p, 240f, new Lives(700), new Reward(65));
+	public FastEnemy(Path p, int level){
+		super(p, 180f, new Lives(700*(1+0.1f*level)), new Reward(65));
 		
 	}
 	

@@ -9,8 +9,8 @@ public class DaBossEnemy extends AbstractEnemy {
 
 	private final int id = 5;
 	
-	public DaBossEnemy(Path p){
-		super(p, 120f, new Lives(50000), new Reward(1000));
+	public DaBossEnemy(Path p, int level){
+		super(p, 120f, new Lives(20000*(1+0.1f*level)), new Reward(5000));
 		
 	}
 

@@ -13,9 +13,9 @@ import com.me.teedee.enemies.AbstractEnemy;
  * takes more damage than ones that are farther away.
  */
 public class ShockWaveTower extends AbstractTower{
-	private int shockWaveRange = 300;
+	private int shockWaveRange = 200;
 	public ShockWaveTower(Position pos, ArrayList<AbstractEnemy> enemies){
-		price[0] = new Price(350);
+		price[0] = new Price(450);
 		for(int i = 1; i < 5; i++){
 			price[i] = new Price(200*i);
 		}
@@ -32,19 +32,20 @@ public class ShockWaveTower extends AbstractTower{
 			status = new Status(1f, 0, 1);
 			setPosition(pos);
 			this.enemies = enemies;
-			range = 350;
+			range = 300;
 			id = 4;
 	}
 	
 	@Override
 	public void shoot(float delta){
-		if(cooldown - delta <= 0){
+		
+		super.shoot(delta);
+		if(cooldown + delta >= attackSpeed[currentLevel]){
 			for(AbstractEnemy enemy : getNeighbourEnemies()){
 				int damage = (int)(attackDamage[currentLevel]*(1-distance(this.getTargetPosition().get(0), enemy.getPosition())/shockWaveRange));
 				enemy.takeDamage(damage);
 			}
 		}
-		super.shoot(delta);
 	}
 	
 	public List<AbstractEnemy> getNeighbourEnemies(){

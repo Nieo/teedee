@@ -20,7 +20,7 @@ public class BasicEnemyTest {
 		List<Position> pathPos = new ArrayList<Position>();
 		pathPos.add(new Position(10, 0));
 		pathPos.add(new Position(10,200));
-		a = new BasicEnemy(new Path(pathPos));
+		a = new BasicEnemy(new Path(pathPos), 0);
 	}
 	
 	@Test
