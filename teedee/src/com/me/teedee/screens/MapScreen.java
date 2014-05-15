@@ -52,7 +52,10 @@ public class MapScreen implements Screen {
 	private Stage hud;
 	private Table table;
 	private Table guiTable;
-
+	
+	private int difficulty;
+	private int pathChoice;
+	
 	private Label towerName;
 	private Label towerKills;
 	private Label moneyLabel;
@@ -92,6 +95,9 @@ public class MapScreen implements Screen {
 
 	public MapScreen(int difficulty, int pathChoice, String mapPath) {
 		this.mapPath = mapPath;
+		this.difficulty = difficulty;
+		this.pathChoice = pathChoice;
+		
 		//Adding sounds for shooting
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot0.wav")));
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot1.wav")));
@@ -342,7 +348,7 @@ public class MapScreen implements Screen {
 		final TextButton pauseBtn = new TextButton("Pause", uiSkin);
 		final TextButton resumeButton =  new TextButton("Resume Game", uiSkin);
 		final TextButton quitButton = new TextButton("Quit Game", uiSkin);
-
+		final TextButton resetButton = new TextButton("Reset Game", uiSkin);
 
 
 		final Button soundButton = new Button(uiSkin);
@@ -533,6 +539,8 @@ public class MapScreen implements Screen {
 					pauseWindow.setVisible(false);
 				}else if(event.getListenerActor().equals(quitButton)){
 					((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
+				}else if(event.getListenerActor().equals(resetButton)){
+					((Game) Gdx.app.getApplicationListener()).setScreen(new MapScreen(MapScreen.this.difficulty,MapScreen.this.pathChoice,MapScreen.this.mapPath));
 				}
 			}
 
@@ -584,10 +592,12 @@ public class MapScreen implements Screen {
 		soundButton.addListener(clickListener);
 		resumeButton.addListener(clickListener);
 		quitButton.addListener(clickListener);
-
-		pauseWindow.add(resumeButton).center().row();
-		pauseWindow.add(quitButton);
-
+		resetButton.addListener(clickListener);
+		
+		pauseWindow.add(resumeButton).width(200).height(50).spaceBottom(30f).center().row();
+		pauseWindow.add(resetButton).width(200).height(50).spaceBottom(30f).row();
+		pauseWindow.add(quitButton).width(200).height(50);
+		
 
 		towerButtons.add(upgradeBtn).width(100).height(70).padBottom(20).padTop(20).padRight(20);
 		towerButtons.add(sellBtn).width(100).height(70).left();
