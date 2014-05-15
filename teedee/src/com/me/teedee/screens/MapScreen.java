@@ -331,6 +331,7 @@ public class MapScreen implements Screen {
 		Table towerInfoTable = new Table();
 		Table buildTable = new Table();
 		Table buttonTable = new Table();
+		Table towerButtons = new Table();
 
 		hud = new Stage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())); // OR
 		hud.setViewport(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
@@ -560,12 +561,16 @@ public class MapScreen implements Screen {
 		pauseWindow.add(resumeButton).center().row();
 		pauseWindow.add(quitButton);
 
+		
+		towerButtons.add(upgradeBtn).width(100).height(70).padBottom(20).padTop(20).padRight(20);
+		towerButtons.add(sellBtn).width(100).height(70).left();
+		
 		towerInfoTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTable.png"))));
 		towerInfoTable.add(chosedTowerImage).left().row();
 		towerInfoTable.add(towerName = new Label("Tower Name", uiSkin)).left().row();
 		towerInfoTable.add(towerKills = new Label("Tower Name", uiSkin)).left().row();
-		towerInfoTable.add(upgradeBtn).width(100).height(70).padBottom(20).padTop(20).padRight(20);
-		towerInfoTable.add(sellBtn).width(100).height(70);
+		towerInfoTable.add(towerButtons);
+		//towerInfoTable.debug();		// TODO debug
 
 		buildTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTable.png"))));
 		buildTable.add(hpLabel = new Label("HP: " + map.getPlayer().getLives().getCurrentLives(), uiSkin)).padTop(10).row();
