@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -321,10 +322,8 @@ public class MapScreen implements Screen {
 		final TextButton resumeButton =  new TextButton("Resume Game", uiSkin);
 		final TextButton quitButton = new TextButton("Quit Game", uiSkin);
 
-		final Window pauseWindow = new Window("", uiSkin);
-		pauseWindow.setVisible(false);
-		pauseWindow.setFillParent(true);
-
+		
+		
 		final Button soundButton = new Button(uiSkin);
 		soundButton.add(new Image(soundOnTexture));
 
@@ -335,7 +334,14 @@ public class MapScreen implements Screen {
 		hud = new Stage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())); // OR
 		hud.setViewport(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 		Gdx.input.setInputProcessor(hud);
-
+		
+		final Window pauseWindow = new Window("", uiSkin);
+		pauseWindow.setVisible(false);
+		pauseWindow.setMovable(false);
+		pauseWindow.sizeBy(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/2f);
+		pauseWindow.setY(Gdx.graphics.getHeight()/7f);
+		pauseWindow.setX(Gdx.graphics.getWidth()/15f);
+		
 		ClickListener clickListener = new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
