@@ -56,6 +56,7 @@ public class MapScreen implements Screen {
 	private Label towerKills;
 	private Label moneyLabel;
 	private Label hpLabel;
+	private Label waveLabel;
 
 	private InfoImage info;
 	private RadiusImage radius;
@@ -239,6 +240,7 @@ public class MapScreen implements Screen {
 
 		hpLabel.setText("HP: " + (int)map.getPlayer().getLives().getCurrentLives());
 		moneyLabel.setText("$ " + map.getPlayer().getMoneyInt());
+		waveLabel.setText("Wave: " + map.getWaveIndex());
 
 		if(chosedTower != null) {
 			towerName.setText(chosedTower.getName() + " Lv." + chosedTower.getCurrentLevel());
@@ -573,8 +575,9 @@ public class MapScreen implements Screen {
 		//towerInfoTable.debug();		// TODO debug
 
 		buildTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTable.png"))));
-		buildTable.add(hpLabel = new Label("HP: " + map.getPlayer().getLives().getCurrentLives(), uiSkin)).padTop(10).row();
-		buildTable.add(moneyLabel = new Label("$ " + map.getPlayer().getMoneyInt(), uiSkin)).padBottom(30).row();
+		buildTable.add(hpLabel = new Label("HP: " + map.getPlayer().getLives().getCurrentLives(), uiSkin)).padTop(10).left().padLeft(40).row();
+		buildTable.add(moneyLabel = new Label("$ " + map.getPlayer().getMoneyInt(), uiSkin)).padLeft(40).left().row();
+		buildTable.add(waveLabel = new Label("Wave: " + map.getWaveIndex(), uiSkin)).padBottom(30).padLeft(40).left().row();
 		buildTable.add(bt).top().padLeft(20);
 		buildTable.add(it);
 		buildTable.add(mt).padRight(20).row();
