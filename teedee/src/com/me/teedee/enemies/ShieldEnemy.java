@@ -16,19 +16,9 @@ public class ShieldEnemy extends AbstractEnemy {
 	private boolean shieldDown = false;
 	
 	public ShieldEnemy(Path p){
-		super(p);
+		super(p, 120f, new Lives(500),new Reward(65));
 		this.updateShieldEnemy();
 	}
-	
- 	public ShieldEnemy(ShieldEnemy a) {
-		super(a);
-		this.updateShieldEnemy();
-	}
-	
- 	public ShieldEnemy(Path p, Position pos) {
- 		super(p, 120f,new Lives(100),new Reward(50),pos);
- 		this.updateShieldEnemy();
- 	}
 	
  	@Override
  	public void move(float delta){

@@ -92,7 +92,7 @@ public class InfoImage {
 			description.setText("A tower that makes damage to the enemies around a hit target");
 			break;
 		case 5:
-			description.setText("Add a description for RNG tower in InfoImage");
+			description.setText("A tower that has a random damage and has a chance to stun enemies");
 			break;
 		case 6:
 			description.setText("A tower that increases its damage by killing enemies");

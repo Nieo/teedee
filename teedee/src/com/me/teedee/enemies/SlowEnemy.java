@@ -8,28 +8,9 @@ import com.me.teedee.Reward;
 public class SlowEnemy extends AbstractEnemy {
 	
 	private final int id = 3;
-	
-	public SlowEnemy(AbstractEnemy a) {
-		super(a);
-		updateSlowEnemy();
-	}
-
-	public SlowEnemy(Path p, Position pos) {
-		super(p, 120f, new Lives(100), new Reward(50), pos);
-		updateSlowEnemy();
-	}
 
 	public SlowEnemy(Path p) {
-		super(p);
-		updateSlowEnemy();
-	}
-	
-	private void updateSlowEnemy(){
-		this.setSpeed(this.getSpeed()*0.5f);
-		int nr=(int) (this.getEnemyReward().getReward()*1.3);
-		this.setReward( new Reward(nr));
-		int nl= (int) (this.getLives().getCurrentLives()*2);
-		this.setLives(new Lives(nl));
+		super(p, 60f, new Lives(2000f), new Reward(65));
 	}
 	
 	@Override

@@ -11,27 +11,11 @@ public class FastEnemy extends AbstractEnemy {
 	private final int id = 2;
 	
 	public FastEnemy(Path p){
-		super(p);
-		updateFastEnemy();
+		super(p, 240f, new Lives(700), new Reward(65));
+		
 	}
 	
-	public FastEnemy(Path p, Position pos) {
-		super(p, 120f,new Lives(100),new Reward(50),pos);
-		updateFastEnemy();
-	}
-	
-	public FastEnemy(FastEnemy f){
-		super(f);
-		updateFastEnemy();
-	}
-	
-	private void updateFastEnemy(){
-		this.setSpeed(this.getSpeed()*1.5f);
-		int nr=(int) (this.getEnemyReward().getReward()*1.3);
-		this.setReward( new Reward(nr));
-		int nl= (int) (this.getLives().getCurrentLives()*0.7);
-		this.setLives(new Lives(nl));
-	}
+
 	
 	@Override
 	public int getId(){

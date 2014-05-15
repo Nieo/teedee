@@ -19,13 +19,13 @@ public class BasicTowerTest {
 	public void testGetUpgradePrice() {
 
 		this.setUp();
-		assertEquals(100, t.getUpgradePrice().getPrice());
+		assertEquals(200, t.getUpgradePrice().getPrice());
 		t.upgrade();
 		assertEquals(200, t.getUpgradePrice().getPrice());
 		t.upgrade();
 		assertEquals(300, t.getUpgradePrice().getPrice());
 		t.upgrade();
-		assertEquals(400, t.getUpgradePrice().getPrice());
+		assertEquals(300, t.getUpgradePrice().getPrice());
 		
 	}
 
