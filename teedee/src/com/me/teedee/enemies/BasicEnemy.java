@@ -16,18 +16,9 @@ public class BasicEnemy extends AbstractEnemy {
 	private final int id = 1;
 	
 	public BasicEnemy(Path p) {
-		super(p);
-		// TODO Auto-generated constructor stub
+		super(p, 120f, new Lives(1000), new Reward(50));
 	}
 
-	public BasicEnemy(Path p, Position pos) {
-		super(p,120f,new Lives(100),new Reward(50),pos);
-		//TODO
-	}
-	
-	public BasicEnemy(BasicEnemy b) {
-		super(b);
-	}
 
 	@Override
 	public int getId() {

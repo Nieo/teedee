@@ -106,7 +106,7 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 	 */	
 	public AbstractEnemy(Path p) {
 		
-		this(p,120f, new Lives(),new Reward(100), new Position());
+		this(p,120f, new Lives(),new Reward(100));
 	}
 	
 	/**
@@ -117,7 +117,7 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 	 * @param r The reward of the enemy unit.
 	 * @param s The status effect of the enemy unit.
 	 */
-	public AbstractEnemy(Path p, float sp, Lives l, Reward r, Position pos) {
+	public AbstractEnemy(Path p, float sp, Lives l, Reward r) {
 		this.path = p;
 		
 		sp = (sp < 0 ? 1 : sp);//Checks if the speed is negative. If so sets the new speed to 1.
@@ -136,9 +136,6 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 	 * Constructor utilising an enemy to construct a new enemy
 	 * @param a The enemy unit to be used for construction
 	 */
-	public AbstractEnemy(AbstractEnemy a) {
-		this(a.path,a.speed,a.lives,a.reward, a.position);
-	}
 	
 	public boolean takeDamage(int damage) {
 		// TODO Add even more logic!
