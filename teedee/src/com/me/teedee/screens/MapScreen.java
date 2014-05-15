@@ -99,7 +99,7 @@ public class MapScreen implements Screen {
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot0.wav")));
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot5.wav")));
 		// Adding sounds for dying
-//		dyingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/WilhelmScream_64kb.mp3")));
+		dyingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/WilhelmScream_64kb.mp3")));
 		
 		//Creating the path
 		Path path = PathFactory.createPath(pathChoice);
@@ -161,7 +161,8 @@ public class MapScreen implements Screen {
 				enemyList.get(i).setAlpha(0);
 				if(!enemyList.get(i).isAlive() && !enemyList.get(i).reachedEnd()) {
 					notificationList.add(new Notification("$" + enemyList.get(i).getReward(), enemyList.get(i).getX(), enemyList.get(i).getY()));
-					playDyingSound(0);
+					if(soundIsOn)
+						playDyingSound(0);
 				} else {
 					//TODO wrong location
 					notificationList.add(new Notification("-1", hpLabel.getX(), hpLabel.getY()));
@@ -202,7 +203,7 @@ public class MapScreen implements Screen {
 	}
 	
 	private void playDyingSound(int index){
-//		dyingSoundList.get(index).play();
+		dyingSoundList.get(index).play();
 	}
 
 	private void updateObjects() {

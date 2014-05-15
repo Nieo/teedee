@@ -48,7 +48,6 @@ public class TowerView extends Sprite {
 			break;
 			// osv
 		}
-
 	}
 
 	public boolean contains(float x, float y) {
