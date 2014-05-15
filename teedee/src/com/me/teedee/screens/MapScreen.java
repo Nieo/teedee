@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -21,7 +22,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -88,6 +88,7 @@ public class MapScreen implements Screen {
 	private String mapPath;
 
 	int k = 0; 		// logic for radius color changer
+	int l = 0;		
 
 	public MapScreen(int difficulty, int pathChoice, String mapPath) {
 		this.mapPath = mapPath;
@@ -119,7 +120,7 @@ public class MapScreen implements Screen {
 		for(int i = 0; i < map.getEnemies().size(); i++) {
 			if( map.getEnemies().get(i) instanceof ShieldEnemy){
 				enemyList.add(new ShieldEnemyView((ShieldEnemy) map.getEnemies().get(i)));	
-			}else{
+			} else {
 				enemyList.add(new EnemyView( map.getEnemies().get(i)));
 			}
 		}
@@ -132,7 +133,7 @@ public class MapScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		fps.log();		// TODO debug
+		//fps.log();		// TODO debug
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -259,12 +260,30 @@ public class MapScreen implements Screen {
 			tmp.setPosition((Gdx.input.getX()-tmp.getWidth()/2/ratio)*ratio, (Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2/ratio)*ratio);
 			radius.showRadius();
 			radius.setPosition(tmp.getX(), tmp.getY());
+			
+			//FIXME Change width and height to correct numbers
+			//TODO maybe change this to a for loop instead and see if performance still is good
+			Rectangle tmpRect = new Rectangle(0, 0, 40, 40);
+			tmpRect.setCenter(Gdx.input.getX()*ratio, Gdx.graphics.getHeight()-Gdx.input.getY()*ratio);
+			if(tiledPath[l].getBoundingRectangle().overlaps(tmpRect)) {
+				radius.setColorRed();
+			} else {
+				radius.setColorDefault();
+			}
+			
+			if(!radius.isRed()) {
+				l++;
+				if(l >= tiledPath.length -1) {
+					l = 0;
+				}
+			}
 
 			//TODO this needs optimizing or done in another way
 			if(k >= towerList.size()) {
 				k = 0;
 			}
-			if(!towerList.isEmpty()) {
+			//TODO maybe change this to a for loop instead and see if performance still is good
+			if(!towerList.isEmpty() && !radius.isRed()) {
 				float dx = tmp.getX() - towerList.get(k).getX();
 				float dy = tmp.getY() - towerList.get(k).getY();
 				double d =  Math.sqrt(dx*dx+dy*dy);
@@ -324,8 +343,8 @@ public class MapScreen implements Screen {
 		final TextButton resumeButton =  new TextButton("Resume Game", uiSkin);
 		final TextButton quitButton = new TextButton("Quit Game", uiSkin);
 
-		
-		
+
+
 		final Button soundButton = new Button(uiSkin);
 		soundButton.add(new Image(soundOnTexture));
 
@@ -337,14 +356,14 @@ public class MapScreen implements Screen {
 		hud = new Stage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())); // OR
 		hud.setViewport(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 		Gdx.input.setInputProcessor(hud);
-		
+
 		final Window pauseWindow = new Window("", uiSkin);
 		pauseWindow.setVisible(false);
 		pauseWindow.setMovable(false);
 		pauseWindow.sizeBy(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/2f);
 		pauseWindow.setY(Gdx.graphics.getHeight()/7f);
 		pauseWindow.setX(Gdx.graphics.getWidth()/15f);
-		
+
 		ClickListener clickListener = new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -367,15 +386,15 @@ public class MapScreen implements Screen {
 						} else if(event.getListenerActor() == mt) {
 							path = "img/hydra.png";
 							buildIndex = 3;
-							rad = 400;
+							rad = 300;
 						} else if(event.getListenerActor() == swt) {
 							path = "img/shockwave.png";
 							buildIndex = 4;
-							rad = 500;
+							rad = 350;
 						} else if(event.getListenerActor() == rng) {
 							path = "img/RNGTower.png";
 							buildIndex = 5;
-							rad = 500;
+							rad = 280;
 						} else if(event.getListenerActor() == bdt) {
 							path = "img/bloodDragon.png";
 							buildIndex = 6;
