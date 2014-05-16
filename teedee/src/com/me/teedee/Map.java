@@ -115,7 +115,7 @@ public class Map {
 					x1 = x2;
 					x2 = tmp;
 				}
-				if(p.getX() > x1-30 && p.getX() < x2+30 && Math.abs(p.getY()-y1+30)< 30)
+				if(p.getX() > x1-30 && p.getX() < x2+30 && (p.getY()-y1) > -45 && (p.getY()-y1) < 28)//Math.abs(p.getY()-(y1-11))< 35)
 					return false;
 			}
 			if(x1 == x2){
@@ -124,7 +124,7 @@ public class Map {
 					y1 = y2;
 					y2 = tmp;
 				}
-				if(p.getY() > y1-30 && p.getY() < y2+30 && Math.abs(p.getX()-x1) < 30)
+				if(p.getY() > y1-30 && p.getY() < y2+30 && (p.getX()-x1) > -51 && (p.getX()-x1) < 20)
 					return false;
 			}
 		}
