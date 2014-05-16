@@ -71,12 +71,12 @@ public class Bullet extends Sprite{
 				+ Math.pow(b.getY()-b.getY(), 2));
 	}
 
-	public void update(){
+	public void update(float delta){
 		startPosition = new Position(this.getX(),this.getY());
 		direction = getDirection(startPosition, targetPosition);
-		this.setPosition(getX() + speed*direction.x, getY() + speed*direction.y);
-
-		if(getDistance(startPosition,targetPosition) <= speed ){
+		this.setPosition(getX() + speed*direction.x*delta, getY() + speed*direction.y*delta);
+		setRotation(direction.angle() + 90);
+		if(getDistance(startPosition,targetPosition) <= speed*delta ){
 			this.setAlpha(0);
 			hasHitTarget = true;
 		}
@@ -87,8 +87,8 @@ public class Bullet extends Sprite{
 	}
 
 	@Override
-	public void draw(Batch batch) {
-		update();
+	public void draw(Batch batch, float delta) {
+		update(delta);
 		super.draw(batch);
 	}
 }

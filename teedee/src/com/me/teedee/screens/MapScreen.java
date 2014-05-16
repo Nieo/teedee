@@ -145,12 +145,12 @@ public class MapScreen implements Screen {
 
 		if(map.isRunning()){
 			hud.getSpriteBatch().begin();
-			drawObjects();
+			drawObjects(delta);
 			hud.getSpriteBatch().end();
 		}
 	}
 
-	private void drawObjects() {
+	private void drawObjects(float delta) {
 		for(int i=0; i<map.getPath().getPositions().size()-1; i++){//As of now renders the path somewhat, should probably not be an sprite. If possible use another more suitable class.  
 			tiledPath[i].draw(hud.getSpriteBatch());
 		}
@@ -177,7 +177,7 @@ public class MapScreen implements Screen {
 
 		//This loop does not work with for-each
 		for(int i = 0; i < bulletList.size(); i++) {
-			bulletList.get(i).draw(hud.getSpriteBatch());
+			bulletList.get(i).draw(hud.getSpriteBatch(), delta);
 			if(bulletList.get(i).hasHitTarget()){
 				bulletList.get(i).setAlpha(0);
 				bulletList.remove(i);
@@ -214,7 +214,7 @@ public class MapScreen implements Screen {
 		for (AbstractTower tower : map.getTowers()){
 			if(tower.isShooting()){			 //TODO Fix line under this, could be shorter
 				for(Position p: tower.getTargetPosition()){
-					bulletList.add(new Bullet(p , 14f, tower));
+					bulletList.add(new Bullet(p , 1000f, tower));
 				}
 				if(soundIsOn)
 					playShootingSound(tower.getId());
@@ -225,7 +225,7 @@ public class MapScreen implements Screen {
 			for(int i = 0; i < map.getEnemies().size(); i++) {
 				if( map.getEnemies().get(i) instanceof ShieldEnemy){
 					enemyList.add(new ShieldEnemyView((ShieldEnemy) map.getEnemies().get(i)));	
-				}else{
+				} else {
 					enemyList.add(new EnemyView( map.getEnemies().get(i)));
 				}
 			}
