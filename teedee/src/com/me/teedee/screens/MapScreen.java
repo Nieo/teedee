@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -21,7 +22,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -52,7 +52,10 @@ public class MapScreen implements Screen {
 	private Stage hud;
 	private Table table;
 	private Table guiTable;
-
+	
+	private int difficulty;
+	private int pathChoice;
+	
 	private Label towerName;
 	private Label towerKills;
 	private Label moneyLabel;
@@ -88,9 +91,13 @@ public class MapScreen implements Screen {
 	private String mapPath;
 
 	int k = 0; 		// logic for radius color changer
+	int l = 0;		
 
 	public MapScreen(int difficulty, int pathChoice, String mapPath) {
 		this.mapPath = mapPath;
+		this.difficulty = difficulty;
+		this.pathChoice = pathChoice;
+		
 		//Adding sounds for shooting
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot0.wav")));
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot1.wav")));
@@ -119,7 +126,7 @@ public class MapScreen implements Screen {
 		for(int i = 0; i < map.getEnemies().size(); i++) {
 			if( map.getEnemies().get(i) instanceof ShieldEnemy){
 				enemyList.add(new ShieldEnemyView((ShieldEnemy) map.getEnemies().get(i)));	
-			}else{
+			} else {
 				enemyList.add(new EnemyView( map.getEnemies().get(i)));
 			}
 		}
@@ -132,7 +139,7 @@ public class MapScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		fps.log();		// TODO debug
+		//fps.log();		// TODO debug
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -259,12 +266,30 @@ public class MapScreen implements Screen {
 			tmp.setPosition((Gdx.input.getX()-tmp.getWidth()/2/ratio)*ratio, (Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2/ratio)*ratio);
 			radius.showRadius();
 			radius.setPosition(tmp.getX(), tmp.getY());
+			
+			//FIXME Change width and height to correct numbers
+			//TODO maybe change this to a for loop instead and see if performance still is good
+			Rectangle tmpRect = new Rectangle(0, 0, 40, 40);
+			tmpRect.setCenter(Gdx.input.getX()*ratio, Gdx.graphics.getHeight()-Gdx.input.getY()*ratio);
+			if(tiledPath[l].getBoundingRectangle().overlaps(tmpRect)) {
+				radius.setColorRed();
+			} else {
+				radius.setColorDefault();
+			}
+			
+			if(!radius.isRed()) {
+				l++;
+				if(l >= tiledPath.length -1) {
+					l = 0;
+				}
+			}
 
 			//TODO this needs optimizing or done in another way
 			if(k >= towerList.size()) {
 				k = 0;
 			}
-			if(!towerList.isEmpty()) {
+			//TODO maybe change this to a for loop instead and see if performance still is good
+			if(!towerList.isEmpty() && !radius.isRed()) {
 				float dx = tmp.getX() - towerList.get(k).getX();
 				float dy = tmp.getY() - towerList.get(k).getY();
 				double d =  Math.sqrt(dx*dx+dy*dy);
@@ -323,9 +348,9 @@ public class MapScreen implements Screen {
 		final TextButton pauseBtn = new TextButton("Pause", uiSkin);
 		final TextButton resumeButton =  new TextButton("Resume Game", uiSkin);
 		final TextButton quitButton = new TextButton("Quit Game", uiSkin);
+		final TextButton resetButton = new TextButton("Reset Game", uiSkin);
 
-		
-		
+
 		final Button soundButton = new Button(uiSkin);
 		soundButton.add(new Image(soundOnTexture));
 
@@ -337,14 +362,14 @@ public class MapScreen implements Screen {
 		hud = new Stage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())); // OR
 		hud.setViewport(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 		Gdx.input.setInputProcessor(hud);
-		
+
 		final Window pauseWindow = new Window("", uiSkin);
 		pauseWindow.setVisible(false);
 		pauseWindow.setMovable(false);
 		pauseWindow.sizeBy(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/2f);
 		pauseWindow.setY(Gdx.graphics.getHeight()/7f);
 		pauseWindow.setX(Gdx.graphics.getWidth()/15f);
-		
+
 		ClickListener clickListener = new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -514,6 +539,8 @@ public class MapScreen implements Screen {
 					pauseWindow.setVisible(false);
 				}else if(event.getListenerActor().equals(quitButton)){
 					((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
+				}else if(event.getListenerActor().equals(resetButton)){
+					((Game) Gdx.app.getApplicationListener()).setScreen(new MapScreen(MapScreen.this.difficulty,MapScreen.this.pathChoice,MapScreen.this.mapPath));
 				}
 			}
 
@@ -565,10 +592,12 @@ public class MapScreen implements Screen {
 		soundButton.addListener(clickListener);
 		resumeButton.addListener(clickListener);
 		quitButton.addListener(clickListener);
-
-		pauseWindow.add(resumeButton).center().row();
-		pauseWindow.add(quitButton);
-
+		resetButton.addListener(clickListener);
+		
+		pauseWindow.add(resumeButton).width(200).height(50).spaceBottom(30f).center().row();
+		pauseWindow.add(resetButton).width(200).height(50).spaceBottom(30f).row();
+		pauseWindow.add(quitButton).width(200).height(50);
+		
 
 		towerButtons.add(upgradeBtn).width(100).height(70).padBottom(20).padTop(20).padRight(20);
 		towerButtons.add(sellBtn).width(100).height(70).left();
