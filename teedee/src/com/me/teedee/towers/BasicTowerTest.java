@@ -26,7 +26,7 @@ public class BasicTowerTest {
 		assertEquals(300, t.getUpgradePrice().getPrice());
 		t.upgrade();
 		assertEquals(300, t.getUpgradePrice().getPrice());
-		
+
 	}
 
 	@Test

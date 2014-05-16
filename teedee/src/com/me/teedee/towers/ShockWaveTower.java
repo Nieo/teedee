@@ -35,7 +35,7 @@ public class ShockWaveTower extends AbstractTower{
 			range = 300;
 			id = 4;
 	}
-	
+
 	@Override
 	public void shoot(float delta){
 		
@@ -47,7 +47,7 @@ public class ShockWaveTower extends AbstractTower{
 			}
 		}
 	}
-	
+
 	public List<AbstractEnemy> getNeighbourEnemies(){
 		List<AbstractEnemy> neighbours = new ArrayList<AbstractEnemy>();
 		if(!this.getTargetPosition().isEmpty()){

@@ -16,21 +16,21 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class CreditsScreen implements Screen {
-	
+
 	private Stage stage;
 	private SpriteBatch batch;
 	private Table table;
-	
+
 	private Skin skin;
 	private Texture background;
 	private Sprite bSprite;
-	
+
 	private Label header;
 	private Label body;
-	
+
 	private TextButton backButton;
-	
-	
+
+
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -39,7 +39,7 @@ public class CreditsScreen implements Screen {
 		batch.begin();
 		bSprite.draw(batch);
 		batch.end();
-		
+
 		stage.act(delta);
 		stage.draw();
 
@@ -53,17 +53,17 @@ public class CreditsScreen implements Screen {
 
 	@Override
 	public void show() {
-		
-		
+
+
 		skin  = new Skin(Gdx.files.internal("skin/uiskin.json"));
 		stage = new Stage();
-		
+
 		Gdx.input.setInputProcessor(stage);
-		
+
 		header = new Label("Creators of teedee", skin);
 		body = new Label("Nieo, FridgeRidge,Dannemannet,Jacob \n"
 				+ "Magni memor Ludovico XII", skin);
-		
+
 		backButton = new TextButton("Back", skin);
 		backButton.pad(20);
 		backButton.addListener(new ClickListener(){
@@ -72,18 +72,18 @@ public class CreditsScreen implements Screen {
 				((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
 			}
 		});
-		
+
 		table = new Table(skin);
 		table.setFillParent(true);
-		
+
 		table.add(header).spaceBottom(20).row();
 		table.add(body).spaceBottom(20).row();
 		table.add(backButton).row();
-		
+
 		stage.addActor(table);
-		
+
 		batch = new SpriteBatch();	
-		
+
 		background = new Texture("data/MainMenu.png");
 		bSprite = new Sprite(background);
 		bSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

@@ -54,7 +54,7 @@ public class DiffSelScreen implements Screen {
 	private int currentPathChoice=1;
 
 	private String mapPath = "map/map.png";
-	
+
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -143,16 +143,16 @@ public class DiffSelScreen implements Screen {
 		mapTable.add(jungleMap).padTop(40).row();
 		mapTable.add(militaryMap).padTop(20).padRight(20).padBottom(20);
 		mapTable.add(parkMap).padTop(20).padBottom(20);
-		
+
 		spaceMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/mapThumbnailS.png"))));
-		
+
 		table.add(mapTable).padBottom(20).padTop(20).row();
 		table.add(easyButton).width(200).spaceBottom(20).row();
 		table.add(normalButton).width(200).spaceBottom(20).row();
 		table.add(hardButton).width(200).spaceBottom(40).row();
 		table.add(pathButton).width(200).spaceBottom(40).row();
 		table.add(startGame).width(200).height(50).padBottom(20);
-		
+
 		stage.addActor(table);
 
 		batch = new SpriteBatch();	
@@ -224,7 +224,7 @@ public class DiffSelScreen implements Screen {
 					parkMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/parkS.png"))));
 				}
 			}
-			
+
 			for(Button tb: bg.getButtons()){
 				if(tb.isChecked()){
 					tb.setDisabled(true);
@@ -248,7 +248,7 @@ public class DiffSelScreen implements Screen {
 		militaryMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/miliTmp.png"))));
 		parkMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/park.png"))));
 	}
-	
+
 	public int getDifficulty(){
 		return diff;
 	}

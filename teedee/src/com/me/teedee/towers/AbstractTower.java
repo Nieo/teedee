@@ -28,7 +28,7 @@ public abstract class AbstractTower {
 	protected String name;
 	protected int id;
 	private int index;		// the towers position in maps list
-	
+
 	public void setEnemies(ArrayList<AbstractEnemy> enemies) {
 		this.enemies = enemies;
 	}
@@ -43,7 +43,7 @@ public abstract class AbstractTower {
 			return price[currentLevel+1];
 		return new Price(Integer.MAX_VALUE);
 	}
-	
+
 	public ArrayList<Position> getTargetPosition() {
 		ArrayList<Position> targetpositions = new ArrayList<Position>();
 		if(!target.isEmpty()){
@@ -53,31 +53,31 @@ public abstract class AbstractTower {
 		}
 		return targetpositions;
 	}
-	
+
 	public int getCurrentLevel() {
 		return currentLevel;
 	}
-	
+
 	public int getMaxLevel() {
 		return maxLevel;
 	}
-	
+
 	public int getKills() {
 		return kills;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
-	
+
 	public double getRange() {
 		return range;
 	}
-	
+
 	public Position getPosition() {
 		return position;
 	}
-	
+
 	public boolean hasTarget() {
 		return !target.isEmpty();
 	}
@@ -89,7 +89,7 @@ public abstract class AbstractTower {
 		}
 		return false;
 	}
-	
+
 	public Boolean isShooting() {
 		return isShooting;
 	}
@@ -108,28 +108,28 @@ public abstract class AbstractTower {
 						target.add(enemies.get(i));  
 					} else {
 						if(enemies.get(i).getStepsTraveled() > target.get(0).getStepsTraveled()){
-								target.clear();
-								target.add(enemies.get(i));
+							target.clear();
+							target.add(enemies.get(i));
 						}
 					}
 				}
 			}
-			
+
 			if(!target.isEmpty()) {
 				isShooting = true;
 				target.get(0).addTowerStatus(this, new Status(status));
-			
+
 				//TODO maybe do this in another way
 				if(!target.get(0).takeDamage(attackDamage[currentLevel])) {
 					kills++;
 				}
 			}
-			
+
 		} else {
 			isShooting = false;
 		}
 	}
-	
+
 	public static double distance(Position p1, Position p2) {
 		float dx = p1.getX()- p2.getX();
 		float dy = p1.getY()- p2.getY();
@@ -144,6 +144,6 @@ public abstract class AbstractTower {
 	public void setIndex(int i) {
 		this.index = i;
 	}
-	
-	
+
+
 }
