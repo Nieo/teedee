@@ -35,9 +35,9 @@ public class MultiTower extends AbstractTower {
 	@Override
 	public void shoot(float delta){
 		cooldown = cooldown - delta;
-		
+
 		if(cooldown <= 0) {
-			
+
 			cooldown = attackSpeed[currentLevel] + cooldown;
 			target.clear();
 			for(AbstractEnemy a: enemies){
@@ -54,15 +54,15 @@ public class MultiTower extends AbstractTower {
 				}else{
 					target.remove(i);
 				}
-			if(!target.isEmpty()){
-				isShooting = true;
+				if(!target.isEmpty()){
+					isShooting = true;
+				}
+
 			}
-				
-			}
-			
+
 		}else{
 			isShooting = false;
 		}
-		
+
 	}
 }

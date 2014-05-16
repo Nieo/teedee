@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -51,11 +52,15 @@ public class MapScreen implements Screen {
 	private Stage hud;
 	private Table table;
 	private Table guiTable;
-
+	
+	private int difficulty;
+	private int pathChoice;
+	
 	private Label towerName;
 	private Label towerKills;
 	private Label moneyLabel;
 	private Label hpLabel;
+	private Label waveLabel;
 
 	private InfoImage info;
 	private RadiusImage radius;
@@ -86,9 +91,13 @@ public class MapScreen implements Screen {
 	private String mapPath;
 
 	int k = 0; 		// logic for radius color changer
+	int l = 0;		
 
 	public MapScreen(int difficulty, int pathChoice, String mapPath) {
 		this.mapPath = mapPath;
+		this.difficulty = difficulty;
+		this.pathChoice = pathChoice;
+		
 		//Adding sounds for shooting
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot0.wav")));
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot1.wav")));
@@ -100,7 +109,7 @@ public class MapScreen implements Screen {
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot5.wav")));
 		// Adding sounds for dying
 		dyingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/WilhelmScream_64kb.mp3")));
-		
+
 		//Creating the path
 		Path path = PathFactory.createPath(pathChoice);
 
@@ -109,18 +118,18 @@ public class MapScreen implements Screen {
 
 		//Creating the map
 		map = new Map(WaveFactory.createWave(difficulty,path), path, player);
-		
+
 		PathView pv = new PathView(map.getPath().getPositions());
-		
+
 		tiledPath = pv.getSprites();
 
 		for(int i = 0; i < map.getEnemies().size(); i++) {
 			if( map.getEnemies().get(i) instanceof ShieldEnemy){
 				enemyList.add(new ShieldEnemyView((ShieldEnemy) map.getEnemies().get(i)));	
-			}else{
-			enemyList.add(new EnemyView( map.getEnemies().get(i)));
+			} else {
+				enemyList.add(new EnemyView( map.getEnemies().get(i)));
 			}
-			}
+		}
 
 		chosedTowerImage = new Image(new Texture("img/unknown.png"));
 		radius = new RadiusImage(new Texture("img/radius200.png"));
@@ -130,7 +139,7 @@ public class MapScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		fps.log();		// TODO debug
+		//fps.log();		// TODO debug
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -201,7 +210,7 @@ public class MapScreen implements Screen {
 	private void playShootingSound(int index){
 		shootingSoundList.get(index).play();
 	}
-	
+
 	private void playDyingSound(int index){
 		dyingSoundList.get(index).play();
 	}
@@ -226,7 +235,7 @@ public class MapScreen implements Screen {
 				if( map.getEnemies().get(i) instanceof ShieldEnemy){
 					enemyList.add(new ShieldEnemyView((ShieldEnemy) map.getEnemies().get(i)));	
 				}else{
-				enemyList.add(new EnemyView( map.getEnemies().get(i)));
+					enemyList.add(new EnemyView( map.getEnemies().get(i)));
 				}
 			}
 			waveIndex = map.getWaveIndex();
@@ -240,6 +249,7 @@ public class MapScreen implements Screen {
 
 		hpLabel.setText("HP: " + (int)map.getPlayer().getLives().getCurrentLives());
 		moneyLabel.setText("$ " + map.getPlayer().getMoneyInt());
+		waveLabel.setText("Wave: " + map.getWaveIndex());
 
 		if(chosedTower != null) {
 			towerName.setText(chosedTower.getName() + " Lv." + chosedTower.getCurrentLevel());
@@ -257,12 +267,30 @@ public class MapScreen implements Screen {
 			tmp.setPosition((Gdx.input.getX()-tmp.getWidth()/2/ratio)*ratio, (Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2/ratio)*ratio);
 			radius.showRadius();
 			radius.setPosition(tmp.getX(), tmp.getY());
+			
+			//FIXME Change width and height to correct numbers
+			//TODO maybe change this to a for loop instead and see if performance still is good
+			Rectangle tmpRect = new Rectangle(0, 0, 40, 40);
+			tmpRect.setCenter(Gdx.input.getX()*ratio, Gdx.graphics.getHeight()-Gdx.input.getY()*ratio);
+			if(tiledPath[l].getBoundingRectangle().overlaps(tmpRect)) {
+				radius.setColorRed();
+			} else {
+				radius.setColorDefault();
+			}
+			
+			if(!radius.isRed()) {
+				l++;
+				if(l >= tiledPath.length -1) {
+					l = 0;
+				}
+			}
 
 			//TODO this needs optimizing or done in another way
 			if(k >= towerList.size()) {
 				k = 0;
 			}
-			if(!towerList.isEmpty()) {
+			//TODO maybe change this to a for loop instead and see if performance still is good
+			if(!towerList.isEmpty() && !radius.isRed()) {
 				float dx = tmp.getX() - towerList.get(k).getX();
 				float dy = tmp.getY() - towerList.get(k).getY();
 				double d =  Math.sqrt(dx*dx+dy*dy);
@@ -313,7 +341,7 @@ public class MapScreen implements Screen {
 		final Image swt = new Image(new Texture("img/shockwave.png"));
 		final Image rng = new Image(new Texture("img/RNGTower.png"));
 		final Image bdt = new Image(new Texture("img/bloodDragon.png"));
-		
+
 		final TextButton upgradeBtn = new TextButton("Upgrade", uiSkin);
 		final TextButton sellBtn = new TextButton("Sell", uiSkin);
 		final TextButton nextWaveBtn = new TextButton("Next Wave", uiSkin);
@@ -321,10 +349,8 @@ public class MapScreen implements Screen {
 		final TextButton pauseBtn = new TextButton("Pause", uiSkin);
 		final TextButton resumeButton =  new TextButton("Resume Game", uiSkin);
 		final TextButton quitButton = new TextButton("Quit Game", uiSkin);
+		final TextButton resetButton = new TextButton("Reset Game", uiSkin);
 
-		final Window pauseWindow = new Window("", uiSkin);
-		pauseWindow.setVisible(false);
-		pauseWindow.setFillParent(true);
 
 		final Button soundButton = new Button(uiSkin);
 		soundButton.add(new Image(soundOnTexture));
@@ -332,10 +358,18 @@ public class MapScreen implements Screen {
 		Table towerInfoTable = new Table();
 		Table buildTable = new Table();
 		Table buttonTable = new Table();
+		Table towerButtons = new Table();
 
 		hud = new Stage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())); // OR
 		hud.setViewport(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 		Gdx.input.setInputProcessor(hud);
+
+		final Window pauseWindow = new Window("", uiSkin);
+		pauseWindow.setVisible(false);
+		pauseWindow.setMovable(false);
+		pauseWindow.sizeBy(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/2f);
+		pauseWindow.setY(Gdx.graphics.getHeight()/7f);
+		pauseWindow.setX(Gdx.graphics.getWidth()/15f);
 
 		ClickListener clickListener = new ClickListener() {
 			@Override
@@ -359,15 +393,15 @@ public class MapScreen implements Screen {
 						} else if(event.getListenerActor() == mt) {
 							path = "img/hydra.png";
 							buildIndex = 3;
-							rad = 400;
+							rad = 300;
 						} else if(event.getListenerActor() == swt) {
 							path = "img/shockwave.png";
 							buildIndex = 4;
-							rad = 500;
+							rad = 350;
 						} else if(event.getListenerActor() == rng) {
 							path = "img/RNGTower.png";
 							buildIndex = 5;
-							rad = 500;
+							rad = 280;
 						} else if(event.getListenerActor() == bdt) {
 							path = "img/bloodDragon.png";
 							buildIndex = 6;
@@ -506,6 +540,8 @@ public class MapScreen implements Screen {
 					pauseWindow.setVisible(false);
 				}else if(event.getListenerActor().equals(quitButton)){
 					((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
+				}else if(event.getListenerActor().equals(resetButton)){
+					((Game) Gdx.app.getApplicationListener()).setScreen(new MapScreen(MapScreen.this.difficulty,MapScreen.this.pathChoice,MapScreen.this.mapPath));
 				}
 			}
 
@@ -557,20 +593,27 @@ public class MapScreen implements Screen {
 		soundButton.addListener(clickListener);
 		resumeButton.addListener(clickListener);
 		quitButton.addListener(clickListener);
+		resetButton.addListener(clickListener);
+		
+		pauseWindow.add(resumeButton).width(200).height(50).spaceBottom(30f).center().row();
+		pauseWindow.add(resetButton).width(200).height(50).spaceBottom(30f).row();
+		pauseWindow.add(quitButton).width(200).height(50);
+		
 
-		pauseWindow.add(resumeButton).center().row();
-		pauseWindow.add(quitButton);
+		towerButtons.add(upgradeBtn).width(100).height(70).padBottom(20).padTop(20).padRight(20);
+		towerButtons.add(sellBtn).width(100).height(70).left();
 
 		towerInfoTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTable.png"))));
 		towerInfoTable.add(chosedTowerImage).left().row();
 		towerInfoTable.add(towerName = new Label("Tower Name", uiSkin)).left().row();
 		towerInfoTable.add(towerKills = new Label("Tower Name", uiSkin)).left().row();
-		towerInfoTable.add(upgradeBtn).width(100).height(70).padBottom(20).padTop(20).padRight(20);
-		towerInfoTable.add(sellBtn).width(100).height(70);
+		towerInfoTable.add(towerButtons);
+		//towerInfoTable.debug();		// TODO debug
 
 		buildTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTable.png"))));
-		buildTable.add(hpLabel = new Label("HP: " + map.getPlayer().getLives().getCurrentLives(), uiSkin)).padTop(10).row();
-		buildTable.add(moneyLabel = new Label("$ " + map.getPlayer().getMoneyInt(), uiSkin)).padBottom(30).row();
+		buildTable.add(hpLabel = new Label("HP: " + map.getPlayer().getLives().getCurrentLives(), uiSkin)).padTop(10).left().padLeft(40).row();
+		buildTable.add(moneyLabel = new Label("$ " + map.getPlayer().getMoneyInt(), uiSkin)).padLeft(40).left().row();
+		buildTable.add(waveLabel = new Label("Wave: " + map.getWaveIndex(), uiSkin)).padBottom(30).padLeft(40).left().row();
 		buildTable.add(bt).top().padLeft(20);
 		buildTable.add(it);
 		buildTable.add(mt).padRight(20).row();

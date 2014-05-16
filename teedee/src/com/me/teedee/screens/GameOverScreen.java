@@ -19,12 +19,12 @@ public class GameOverScreen implements Screen{
 	private Stage stage;
 	private SpriteBatch batch;
 	private Table table;
-	
+
 	private Skin skin;
 	private Texture background;
 	private Sprite backgroundSprite;
 	private Label gameOverLabel;
-	
+
 	private TextButton newGameButton;
 	private TextButton exitButton;
 
@@ -36,10 +36,10 @@ public class GameOverScreen implements Screen{
 		batch.begin();
 		backgroundSprite.draw(batch);
 		batch.end();
-		
+
 		stage.act(delta);
 		stage.draw();
-	
+
 	}
 
 	@Override
@@ -51,11 +51,11 @@ public class GameOverScreen implements Screen{
 	public void show() {
 		skin  = new Skin(Gdx.files.internal("skin/uiskin.json"));
 		stage = new Stage();
-		
+
 		Gdx.input.setInputProcessor(stage);
-		
+
 		//gameOverLabel = new Label("GAME OVER", skin);
-		
+
 		newGameButton = new TextButton("New Game", skin);
 		newGameButton.pad(20);
 		newGameButton.addListener(new ClickListener(){
@@ -64,7 +64,7 @@ public class GameOverScreen implements Screen{
 				((Game) Gdx.app.getApplicationListener()).setScreen(new DiffSelScreen());
 			}
 		});
-		
+
 		exitButton = new TextButton("Quit", skin);
 		exitButton.pad(20);
 		exitButton.addListener(new ClickListener(){
@@ -73,17 +73,17 @@ public class GameOverScreen implements Screen{
 				Gdx.app.exit();
 			}
 		});
-		
-		
+
+
 		table = new Table(skin);
 		table.setFillParent(true);
-		
+
 		//table.add(gameOverLabel).spaceBottom(20).row();
 		table.add(newGameButton).width(200).spaceBottom(20).row();
 		table.add(exitButton).width(200).row();
-		
+
 		stage.addActor(table);
-		
+
 		batch = new SpriteBatch();	
 		background = new Texture("data/GAME_OVER_Screen.png");
 		backgroundSprite = new Sprite(background);
@@ -93,19 +93,19 @@ public class GameOverScreen implements Screen{
 	@Override
 	public void hide() {
 		dispose();
-		
+
 	}
 
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -114,5 +114,5 @@ public class GameOverScreen implements Screen{
 		batch.dispose();
 		background.dispose();
 	}
-	
+
 }

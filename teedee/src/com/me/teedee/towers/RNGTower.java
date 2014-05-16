@@ -8,20 +8,20 @@ import com.me.teedee.Status;
 import com.me.teedee.enemies.AbstractEnemy;
 
 public class RNGTower extends AbstractTower {
-		
+
 	public RNGTower(Position pos, ArrayList<AbstractEnemy> enemies) {
 		price[0] = new Price(1000);
 		for(int i = 1; i < 5; i++)
 			price[i] = new Price(300 + i * 100);
 		value = price[0].getPrice();
-		
+
 		currentLevel = 0;
 		maxLevel = 5;
 		for(int i = 0; i < 4; i++)
 			attackSpeed[i] = 0.8f - 0.02f*1;
 		attackSpeed[4] = 0.7f;
 		cooldown = attackSpeed[0];
-		
+
 		for(int i = 0; i < 5; i++)
 			attackDamage[i] = 200 + 100 * i;
 
@@ -31,7 +31,7 @@ public class RNGTower extends AbstractTower {
 		range = 280;
 		id = 5;
 	}
-	
+
 	@Override
 	public void shoot(float delta){
 		cooldown = cooldown - delta;
@@ -44,13 +44,13 @@ public class RNGTower extends AbstractTower {
 						target.add(enemies.get(i));  
 					} else {
 						if(enemies.get(i).getStepsTraveled() > target.get(0).getStepsTraveled()){
-								target.clear();
-								target.add(enemies.get(i));
+							target.clear();
+							target.add(enemies.get(i));
 						}
 					}
 				}
 			}
-			
+
 			if(!target.isEmpty()) {
 				isShooting = true;
 				double rand = Math.random();
@@ -69,7 +69,7 @@ public class RNGTower extends AbstractTower {
 					kills++;
 
 			}
-			
+
 		} else {
 			isShooting = false;
 		}

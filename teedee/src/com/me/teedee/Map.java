@@ -128,11 +128,11 @@ public class Map {
 					return false;
 			}
 		}
-		
-		
+
+
 		return true;
 	}
-	
+
 	public void sellTower(int index) {
 		player.addMoney((int) (towers.get(index).getValue()*0.8));
 		towers.remove(index);
@@ -174,7 +174,7 @@ public class Map {
 		}
 		return false;
 	}
-	
+
 
 	/**
 	 * Setting the current enemies to the next wave's enemies
@@ -184,10 +184,10 @@ public class Map {
 			currentEnemies = waves.get(waveIndex).getEnemies();
 			for(int i = 0; i < currentEnemies.size(); i++) {
 				currentEnemies.get(i).setPosition(new Position(currentEnemies.get(i).getPosition().getX()-100*i,currentEnemies.get(i).getPosition().getY()));
-			if(waveIndex%3==0){
-				currentEnemies.get(i).levelUp();
-			}
-			
+				if(waveIndex%3==0){
+					currentEnemies.get(i).levelUp();
+				}
+
 			}
 
 			for(int i = 0; i < towers.size(); i++) {
@@ -229,18 +229,18 @@ public class Map {
 		if(!isRunning){
 			return;
 		}
-		
+
 		this.removeEnemies(); //Must be done first, since the EnemyViews must have a reference to the enemy for deletion
 		this.updateEnemiesPositions(delta);
 		this.towersShoot(delta);
 		this.updateEnemiesStatuses(delta);
-		
+
 		if(player.getLives().getCurrentLives()<=0){
 			playerIsAlive = false;
 		}
-			
+
 	}
-	
+
 	public boolean isPlayerAlive() {
 		return playerIsAlive;
 	}
@@ -252,8 +252,8 @@ public class Map {
 	public void setRunning(boolean isRunning) {
 		this.isRunning = isRunning;
 	}
-	
-	
+
+
 	public void updateEnemiesStatuses(float delta){
 		for(int i = 0; i < currentEnemies.size();i++){
 			Iterator<Status> statusMapIterator = currentEnemies.get(i).getStatusMap().values().iterator();
@@ -268,6 +268,6 @@ public class Map {
 		}
 	}
 
-	
+
 
 }

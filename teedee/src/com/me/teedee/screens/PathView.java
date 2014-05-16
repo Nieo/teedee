@@ -9,11 +9,11 @@ import com.me.teedee.Position;
 public class PathView {
 	private List<Position> pos;
 	private Sprite[] tiledPath;
-	
+
 	public PathView(List<Position> list){
 		this.pos = list;
 		tiledPath = new Sprite[list.size()];
-		
+
 		for(int i=0; i<this.pos.size()-1; i++){
 			float x1,x2,y1,y2,dx,dy;//TODO Leaves a square to be rendered
 			x1 = this.pos.get(i).getX();
@@ -33,19 +33,19 @@ public class PathView {
 			else if(dy < 0)
 				tiledPath[i].setBounds(x1, y1+60, 60, dy-60);
 		}
-		
-		
-			
-		}
-	
+
+
+
+	}
+
 
 	public Sprite[] getSprites(){
 		return tiledPath;	
 	}
-	
+
 
 }
-	
-	
-	
+
+
+
 
