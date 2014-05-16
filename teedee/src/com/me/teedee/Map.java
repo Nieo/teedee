@@ -18,7 +18,7 @@ public class Map {
 	private ArrayList<Wave> waves = new ArrayList<Wave>();
 	private Path path; 
 	private Player player;
-	private ArrayList<AbstractEnemy> currentEnemies;
+	private ArrayList<AbstractEnemy> currentEnemies = new ArrayList<AbstractEnemy>();
 	private TiledMap tiledMap;
 
 	//TODO temporary, this can probably be done in a different way
@@ -36,14 +36,6 @@ public class Map {
 		this.waves = waves;
 		this.path = path;
 		this.player = player;
-		if(!this.waves.isEmpty()) {
-			this.currentEnemies = this.waves.get(0).getEnemies();
-			waveIndex++;
-		}
-
-		for(int i = 0; i < currentEnemies.size(); i++) {
-			currentEnemies.get(i).setPosition(new Position(currentEnemies.get(i).getPosition().getX()-100*i,currentEnemies.get(i).getPosition().getY()));
-		}
 		playerIsAlive = true;
 	}
 
@@ -57,9 +49,6 @@ public class Map {
 		this.waves = waves;
 		this.tiledMap = new TmxMapLoader().load(mapPath);
 		this.player = player;
-		//if(!this.waves.isEmpty()) {
-		this.currentEnemies = this.waves.get(0).getEnemies();
-		//}
 		playerIsAlive = true;
 	}
 
@@ -117,7 +106,7 @@ public class Map {
 					x1 = x2;
 					x2 = tmp;
 				}
-				if(p.getX() > x1-30 && p.getX() < x2+30 && Math.abs(p.getY()-y1+30)< 30)
+				if(p.getX() > x1-30 && p.getX() < x2+30 && (p.getY()-y1) > -60 && (p.getY()-y1) < 40)//Math.abs(p.getY()-(y1-11))< 35)
 					return false;
 			}
 			if(x1 == x2){
@@ -126,7 +115,7 @@ public class Map {
 					y1 = y2;
 					y2 = tmp;
 				}
-				if(p.getY() > y1-30 && p.getY() < y2+30 && Math.abs(p.getX()-x1) < 30)
+				if(p.getY() > y1-30 && p.getY() < y2+30 && (p.getX()-x1) > -65 && (p.getX()-x1) < 35)
 					return false;
 			}
 		}

@@ -122,15 +122,6 @@ public class MapScreen implements Screen {
 		PathView pv = new PathView(map.getPath().getPositions());
 
 		tiledPath = pv.getSprites();
-
-		for(int i = 0; i < map.getEnemies().size(); i++) {
-			if( map.getEnemies().get(i) instanceof ShieldEnemy){
-				enemyList.add(new ShieldEnemyView((ShieldEnemy) map.getEnemies().get(i)));	
-			} else {
-				enemyList.add(new EnemyView( map.getEnemies().get(i)));
-			}
-		}
-
 		chosedTowerImage = new Image(new Texture("img/unknown.png"));
 		radius = new RadiusImage(new Texture("img/radius200.png"));
 		info = new InfoImage();
@@ -170,7 +161,8 @@ public class MapScreen implements Screen {
 				enemyList.get(i).setAlpha(0);
 				if(!enemyList.get(i).isAlive() && !enemyList.get(i).reachedEnd()) {
 					notificationList.add(new Notification("$" + enemyList.get(i).getReward(), enemyList.get(i).getX(), enemyList.get(i).getY()));
-					playDyingSound(0);
+					if(soundIsOn)
+						playDyingSound(0);
 				} else {
 					//TODO wrong location
 					notificationList.add(new Notification("-1", hpLabel.getX(), hpLabel.getY()));
