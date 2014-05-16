@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -23,7 +22,6 @@ public class GameOverScreen implements Screen{
 	private Skin skin;
 	private Texture background;
 	private Sprite backgroundSprite;
-	private Label gameOverLabel;
 
 	private TextButton newGameButton;
 	private TextButton exitButton;
@@ -39,7 +37,6 @@ public class GameOverScreen implements Screen{
 
 		stage.act(delta);
 		stage.draw();
-
 	}
 
 	@Override
@@ -53,8 +50,6 @@ public class GameOverScreen implements Screen{
 		stage = new Stage();
 
 		Gdx.input.setInputProcessor(stage);
-
-		//gameOverLabel = new Label("GAME OVER", skin);
 
 		newGameButton = new TextButton("New Game", skin);
 		newGameButton.pad(20);
@@ -74,11 +69,9 @@ public class GameOverScreen implements Screen{
 			}
 		});
 
-
 		table = new Table(skin);
 		table.setFillParent(true);
 
-		//table.add(gameOverLabel).spaceBottom(20).row();
 		table.add(newGameButton).width(200).spaceBottom(20).row();
 		table.add(exitButton).width(200).row();
 
@@ -93,20 +86,13 @@ public class GameOverScreen implements Screen{
 	@Override
 	public void hide() {
 		dispose();
-
 	}
 
 	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-
-	}
+	public void pause() { }
 
 	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-
-	}
+	public void resume() { }
 
 	@Override
 	public void dispose() {
@@ -114,5 +100,4 @@ public class GameOverScreen implements Screen{
 		batch.dispose();
 		background.dispose();
 	}
-
 }

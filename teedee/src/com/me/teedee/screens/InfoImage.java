@@ -21,7 +21,7 @@ public class InfoImage {
 	private Label description;
 	private Table table;
 	private Skin skin;
-	float alpha;
+	private float alpha;
 
 	public InfoImage() {
 		this("Tower", 100);
@@ -47,7 +47,7 @@ public class InfoImage {
 	public void draw(Batch batch) {
 		table.draw(batch, alpha);
 	}
-	
+
 	public void setUpgradeCost(int cost) {
 		towerName.setText("Upgrade price");
 		towerPrice.setText("$" + cost);
@@ -134,5 +134,4 @@ public class InfoImage {
 	public float getWidth() {
 		return table.getWidth();
 	}
-
 }

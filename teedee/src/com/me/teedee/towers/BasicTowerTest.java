@@ -10,6 +10,7 @@ import com.me.teedee.Position;
 
 public class BasicTowerTest {
 	AbstractTower t;
+
 	@Before
 	public void setUp(){
 		t = new BasicTower(new Position(), null);
@@ -17,7 +18,6 @@ public class BasicTowerTest {
 
 	@Test
 	public void testGetUpgradePrice() {
-
 		this.setUp();
 		assertEquals(200, t.getUpgradePrice().getPrice());
 		t.upgrade();
@@ -26,7 +26,6 @@ public class BasicTowerTest {
 		assertEquals(300, t.getUpgradePrice().getPrice());
 		t.upgrade();
 		assertEquals(300, t.getUpgradePrice().getPrice());
-
 	}
 
 	@Test
@@ -47,5 +46,4 @@ public class BasicTowerTest {
 	public void testDistance() {
 		assertEquals(5f, AbstractTower.distance(new Position(), new Position(3f, 4f)), 0);
 	}
-
 }

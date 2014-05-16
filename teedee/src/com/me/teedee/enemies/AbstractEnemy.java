@@ -20,6 +20,12 @@ import com.me.teedee.towers.AbstractTower;
 public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 
 	private final int id = 0;
+	private float xSpeed;
+	private float ySpeed;
+	private Position nextCheckPoint;
+	private HashMap<AbstractTower,Status> statusMap = new HashMap<AbstractTower, Status>();
+	private int i = 0;		//Path checkpoint index
+	private boolean reachedEnd = false;
 
 	/**
 	 * The health of the enemy unit
@@ -30,43 +36,11 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 	 * The speed of the enemy unit in points per second
 	 */
 	private float speed;
-	private float defaultSpeed;
-
-	public float getSpeed() {
-		return speed;
-	}
-
-	public void setSpeed(float speed) {
-		this.speed = speed;
-	}
-
-	public void setLives(Lives lives) {
-		this.lives = lives;
-	}
-
-	private float xSpeed;
-	private float ySpeed;
 
 	/**
 	 * The reward that the enemy gives to the player when it dies
 	 */
 	private Reward reward;
-
-	public void setReward(Reward reward) {
-		this.reward = reward;
-	}
-
-	/**
-	 * The overall status effect of the statuses in the enemys status list.
-	 */
-	private Status status; //TODO Will probably not be needed, since all statuses are stored in a list and the overall status is calculated
-
-	//	/**
-	//	 * A list containing all the enemy's applied status effects
-	//	 */
-	//	private ArrayList<Status> statusList;
-
-	private HashMap<AbstractTower,Status> statusMap = new HashMap<AbstractTower, Status>();
 
 	/**
 	 * The current position of the enemy unit
@@ -82,30 +56,17 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 	 * The path the enemy will take
 	 */
 	private Path path;
-	private Position nextCheckPoint;
-
-	/**
-	 * Vector that describes the direction to travel for the enemy unit
-	 */
 
 	/**
 	 * Describes the distance traveled of the enemy unit
 	 */
 	private float distanceTraveled = 0f;
 
-
-
-	// Path checkpoint index
-	private int i = 0;
-
-	private boolean reachedEnd = false;
-
 	/**
 	 * Constructs a new enemy unit. 
 	 * @param p The path the enemy unit will go. Is needed.
 	 */	
 	public AbstractEnemy(Path p) {
-
 		this(p,120f, new Lives(),new Reward(100));
 	}
 
@@ -122,7 +83,6 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 
 		sp = (sp < 0 ? 1 : sp);//Checks if the speed is negative. If so sets the new speed to 1.
 		this.speed = sp;
-		this.defaultSpeed = sp;
 
 		this.lives = l;
 
@@ -132,10 +92,6 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 		this.setPosition(path.getPositions().get(0));
 		this.nextCheckPoint = path.getPositions().get(0);
 	}
-	/**
-	 * Constructor utilising an enemy to construct a new enemy
-	 * @param a The enemy unit to be used for construction
-	 */
 
 	public boolean takeDamage(int damage) {
 		// TODO Add even more logic!
@@ -186,8 +142,7 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 					} else {
 						xSpeed = speed;
 					}
-				}
-				else {
+				} else {
 					if(dy > 0) {
 						ySpeed = -speed;
 					} else {
@@ -212,13 +167,13 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 	}
 
 	private boolean reachedCheckpoint(Position p, float delta) {
-		if(xSpeed < 0){
+		if(xSpeed < 0) {
 			return position.getX()+xSpeed*getOverallStatus().getSpeedRatio()*delta <= p.getX();
-		}else if(xSpeed > 0){
+		} else if(xSpeed > 0) {
 			return position.getX()+xSpeed*getOverallStatus().getSpeedRatio()*delta >= p.getX();
-		}else if(ySpeed < 0){
+		} else if(ySpeed < 0) {
 			return position.getY()+ySpeed*getOverallStatus().getSpeedRatio()*delta <= p.getY();
-		}else if(ySpeed > 0){
+		} else if(ySpeed > 0) {
 			return position.getY()+ySpeed*getOverallStatus().getSpeedRatio()*delta >= p.getY();
 		}
 		return false;
@@ -228,14 +183,13 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 		return reward;
 	}
 
+	public void setReward(Reward reward) {
+		this.reward = reward;
+	}
 
 	public HashMap<AbstractTower,Status> getStatusMap() {
 		return this.statusMap;
 	}
-
-	//	public Status getStatusEffect() {
-	//		return this.status;
-	//	}
 
 	public void setPosition(Position p) {
 		this.position=p;
@@ -255,6 +209,10 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 
 	public boolean reachedEnd() {
 		return reachedEnd;
+	}
+
+	public void setLives(Lives lives) {
+		this.lives = lives;
 	}
 
 	public Lives getLives() {
@@ -280,5 +238,11 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 		return id;
 	}
 
+	public float getSpeed() {
+		return speed;
+	}
 
+	public void setSpeed(float speed) {
+		this.speed = speed;
+	}
 }

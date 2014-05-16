@@ -1,5 +1,6 @@
 package com.me.teedee;
-/*
+
+/**
  * @Author Nieo
  */
 public class Lives {
@@ -10,12 +11,14 @@ public class Lives {
 		maxLives = 1000;
 		currentLives = 1000;
 	}
+
 	public Lives(float lives){
 		maxLives = lives;
 		currentLives = lives;
 	}
+
 	/**
-	 * Returns true if currentLives is greater than 0 
+	 * @return true if currentLives is greater than 0 
 	 */
 	public boolean lowerLives(float damage){
 		currentLives = currentLives - damage;
@@ -25,8 +28,8 @@ public class Lives {
 	public float getCurrentLives() {
 		return currentLives;
 	}
+
 	public float getMaxLives() {
 		return maxLives;
 	}
-
 }

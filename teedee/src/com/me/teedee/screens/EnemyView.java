@@ -21,7 +21,6 @@ public class EnemyView extends Sprite {
 	private Texture t = new Texture("img/firstEnemy.png");
 
 	public EnemyView(AbstractEnemy abstractEnemy) {
-
 		int swID = abstractEnemy.getId();
 		switch(swID){
 		case 1: 

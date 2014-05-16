@@ -4,7 +4,6 @@ package com.me.teedee;
  * Player class
  * @author Daniel
  */
-
 public class Player {
 
 	private String name;

@@ -1,17 +1,12 @@
 package com.me.teedee.enemies;
 
-import java.util.Iterator;
-
 import com.me.teedee.Lives;
 import com.me.teedee.Path;
 import com.me.teedee.Reward;
-import com.me.teedee.Status;
-	
-	/*
-	 * Slow moving enemy with lots of health and immunity to slow effects 
-	 */
 
-
+/**
+ * Slow moving enemy with lots of health and immunity to slow effects 
+ */
 public class SlowEnemy extends AbstractEnemy {
 
 	private final int id = 3;
@@ -24,6 +19,4 @@ public class SlowEnemy extends AbstractEnemy {
 	public int getId(){
 		return id;
 	}
-	
-	
 }

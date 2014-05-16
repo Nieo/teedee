@@ -9,13 +9,13 @@ import com.me.teedee.towers.AbstractTower;
 
 public class TowerView extends Sprite {
 	private AbstractTower tower;
-	private Vector2 vector;
+	private String name;
 	private float posX;
 	private float posY;
-	private String name;
+	private float angle;
+	private Vector2 vector;
 	private int index;
 	public Rectangle rect;
-	private float angle;
 
 	public TowerView(Sprite sprite, AbstractTower tower, int index) {
 		super(sprite);
@@ -28,7 +28,7 @@ public class TowerView extends Sprite {
 		setX(posX);
 		setY(posY);
 		rect = new Rectangle(getX(), getY(), getWidth(), getHeight());
-		//this.name = tower.getType();		//TODO or getName(); or something similiar or not
+		//this.name = tower.getType();		//TODO or getName(); or something similiar or nots
 
 		switch(tower.getId())  {
 		case 1:
@@ -52,9 +52,7 @@ public class TowerView extends Sprite {
 		default:
 			this.name = "Another Tower";
 			break;
-			// osv
 		}
-
 	}
 
 	public boolean contains(float x, float y) {
@@ -66,16 +64,14 @@ public class TowerView extends Sprite {
 		//TODO not sure if this is needed
 		vector.set(posX, posY);
 
-		if(!tower.getTargetPosition().isEmpty() && tower.getTargetPosition().get(0).getX() != 0 && tower.getTargetPosition().get(0).getY() != 0) {
+		if(!tower.getTargetPosition().isEmpty() && 
+				tower.getTargetPosition().get(0).getX() != 0 && 
+				tower.getTargetPosition().get(0).getY() != 0) {
 			vector.sub(tower.getTargetPosition().get(0).getX(), tower.getTargetPosition().get(0).getY());
 			vector.nor();
 			angle = vector.angle() + 90;
 		}
 		setRotation(angle);
-
-		if(tower.isShooting()) {
-			//TODO
-		}
 
 		super.draw(batch);
 	}
@@ -87,10 +83,10 @@ public class TowerView extends Sprite {
 	public String getName() {
 		return name;
 	}
+	
 	public AbstractTower getTower(){
 		return tower;
 	}
-
 
 	public void upgrade() {
 		switch(tower.getId()) {
@@ -115,7 +111,6 @@ public class TowerView extends Sprite {
 		default:
 			System.out.println("nope");		//TODO debug
 		}
-
 	}
 
 	//TODO change images
@@ -181,7 +176,6 @@ public class TowerView extends Sprite {
 			picPath = "img/shockwave.png";
 		}
 		super.setTexture(new Texture(picPath));
-
 	}
 
 	private void upgradeIceTower() {
@@ -247,10 +241,6 @@ public class TowerView extends Sprite {
 		super.setTexture(new Texture(picPath));
 	}
 
-	public void sell() {
-		//tower.sell();		//TODO no sellmethod in tower class
-	}
-
 	public int getCurrentLevel() {
 		return tower.getCurrentLevel();
 	}
@@ -274,5 +264,4 @@ public class TowerView extends Sprite {
 	public int getValue() {
 		return (int) tower.getValue();
 	}
-
 }

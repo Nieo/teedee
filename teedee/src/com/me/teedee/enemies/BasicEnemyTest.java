@@ -16,6 +16,7 @@ import com.me.teedee.towers.BasicTower;
 public class BasicEnemyTest {
 
 	protected AbstractEnemy a;
+
 	protected void setUp(){
 		List<Position> pathPos = new ArrayList<Position>();
 		pathPos.add(new Position(10, 0));
@@ -51,5 +52,4 @@ public class BasicEnemyTest {
 		a.move(1f);
 		assertEquals(120f, a.getPosition().getY(), 0);
 	}
-
 }

@@ -30,7 +30,6 @@ public class CreditsScreen implements Screen {
 
 	private TextButton backButton;
 
-
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -42,19 +41,15 @@ public class CreditsScreen implements Screen {
 
 		stage.act(delta);
 		stage.draw();
-
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
-
 	}
 
 	@Override
 	public void show() {
-
-
 		skin  = new Skin(Gdx.files.internal("skin/uiskin.json"));
 		stage = new Stage();
 
@@ -90,29 +85,18 @@ public class CreditsScreen implements Screen {
 	}
 
 	@Override
-	public void hide() {
-		dispose();
-
-	}
+	public void hide() { dispose();	}
 
 	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-
-	}
+	public void pause() { }
 
 	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-
-	}
+	public void resume() { }
 
 	@Override
 	public void dispose() {
 		stage.dispose();
 		batch.dispose();
 		background.dispose();
-
 	}
-
 }

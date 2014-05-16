@@ -1,12 +1,10 @@
 package com.me.teedee;
+
 /**
- * 
- * @author Jacob Genander
- *
  * A class representing the status of an enemy. The status affects the enemy by 
  * changing its speed, and may also cause damage during a period of time.
+ * @author Jacob Genander
  */
-
 public class Status {
 	private float speedRatio;
 	private float damagePerSecond;
@@ -45,7 +43,6 @@ public class Status {
 	}
 
 	/**
-	 * 
 	 * @return the status' applied speed
 	 */
 	public float getSpeedRatio(){
@@ -53,7 +50,6 @@ public class Status {
 	}
 
 	/**
-	 * 
 	 * @return the status' applied damage per second
 	 */
 	public float getDamagePerSecond(){
@@ -61,7 +57,6 @@ public class Status {
 	}
 
 	/**
-	 * 
 	 * @return the status' applied time of influence
 	 */
 	public float getInfluenceTime(){
@@ -69,7 +64,6 @@ public class Status {
 	}
 
 	/**
-	 * 
 	 * @return how many seconds the status will affect the enemy before it disappears
 	 */
 	public float getTimeLeft(){
@@ -77,7 +71,6 @@ public class Status {
 	}
 
 	/**
-	 * 
 	 * Reducing the time that's left for the status to affect the enemy
 	 * @param time the time, in seconds, to reduce the status' time left
 	 */

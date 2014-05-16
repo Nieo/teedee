@@ -18,7 +18,7 @@ public class SplashScreen implements Screen {
 	private SpriteBatch batch;
 	private Texture splashTexture;
 	private TeeDeeGame game;
-	float alpha = 0;
+	private float alpha = 0;
 	private int counter = 0;
 	private boolean fadeOut = false;
 	private boolean fadeIn = true;
@@ -70,9 +70,7 @@ public class SplashScreen implements Screen {
 	}
 
 	@Override
-	public void resize(int width, int height) {
-
-	}
+	public void resize(int width, int height) { }
 
 	@Override
 	public void show() {
@@ -88,19 +86,14 @@ public class SplashScreen implements Screen {
 	}
 
 	@Override
-	public void pause() {
-
-	}
+	public void pause() { }
 
 	@Override
-	public void resume() {
-
-	}
+	public void resume() { }
 
 	@Override
 	public void dispose() {
 		batch.dispose();
 		splashTexture.dispose();
 	}
-
 }

@@ -10,7 +10,7 @@ import com.me.teedee.enemies.AbstractEnemy;
 import com.me.teedee.towers.AbstractTower;
 
 /**
-@author Jacob Genander
+ *@author Jacob Genander
  */
 public class Map {
 
@@ -98,11 +98,13 @@ public class Map {
 		}
 		return false;
 	}
+
 	private boolean canBuildHere(Position p){
 		for(AbstractTower t: towers){
 			if(AbstractTower.distance(p, t.getPosition()) < 40 )
 				return false;
 		}
+
 		List<Position> positions = path.getPositions();
 		for(int i = 0; i < positions.size() - 1; i++){
 			float x1 = positions.get(i).getX();
@@ -128,8 +130,6 @@ public class Map {
 					return false;
 			}
 		}
-
-
 		return true;
 	}
 
@@ -165,6 +165,7 @@ public class Map {
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
+
 	public boolean upgradeTower(AbstractTower t){
 		if(t.getUpgradePrice().getPrice() <= player.getMoneyInt()){
 			if(t.upgrade()){
@@ -174,7 +175,6 @@ public class Map {
 		}
 		return false;
 	}
-
 
 	/**
 	 * Setting the current enemies to the next wave's enemies
@@ -187,13 +187,10 @@ public class Map {
 				if(waveIndex%3==0){
 					currentEnemies.get(i).levelUp();
 				}
-
 			}
-
 			for(int i = 0; i < towers.size(); i++) {
 				towers.get(i).setEnemies(currentEnemies);
 			}
-
 			waveIndex++;
 		}
 	}
@@ -216,7 +213,7 @@ public class Map {
 				if(!currentEnemies.get(i).isAlive() || currentEnemies.get(i).reachedEnd()) {
 					if(!currentEnemies.get(i).reachedEnd()) {
 						player.addMoney(currentEnemies.get(i).getEnemyReward().getReward());
-					}else{
+					} else {
 						player.takeDamage(1);
 					}
 					currentEnemies.remove(i);
@@ -238,7 +235,6 @@ public class Map {
 		if(player.getLives().getCurrentLives()<=0){
 			playerIsAlive = false;
 		}
-
 	}
 
 	public boolean isPlayerAlive() {
@@ -253,7 +249,6 @@ public class Map {
 		this.isRunning = isRunning;
 	}
 
-
 	public void updateEnemiesStatuses(float delta){
 		for(int i = 0; i < currentEnemies.size();i++){
 			Iterator<Status> statusMapIterator = currentEnemies.get(i).getStatusMap().values().iterator();
@@ -267,7 +262,4 @@ public class Map {
 			}
 		}
 	}
-
-
-
 }

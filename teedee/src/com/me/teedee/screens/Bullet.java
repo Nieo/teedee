@@ -12,7 +12,6 @@ public class Bullet extends Sprite{
 	private Position startPosition;
 	private Vector2 direction;
 	private float speed;
-	//private float travelledDistance = 0;
 	private boolean hasHitTarget = false;
 
 	public Bullet(float startX, float startY, float targetX, float targetY, float speed, Texture texture){

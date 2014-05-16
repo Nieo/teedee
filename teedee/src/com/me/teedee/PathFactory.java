@@ -16,7 +16,6 @@ public class PathFactory {
 		default:
 			return createPathOne();
 		}
-
 	}
 
 	private static Path createPathOne(){
@@ -33,7 +32,6 @@ public class PathFactory {
 	}
 
 	private static Path createPathTwo(){
-
 		List<Position> pathPositions = new ArrayList<Position>();
 		pathPositions.add(new Position(0,300));
 		pathPositions.add(new Position(300,300));
@@ -45,5 +43,4 @@ public class PathFactory {
 
 		return new Path(pathPositions);
 	}
-
 }

@@ -306,7 +306,6 @@ public class MapScreen implements Screen {
 					}
 				}
 			}
-
 		} else if(tmp == null && chosedTower == null) {
 			radius.hideRadius();
 		}
@@ -604,7 +603,6 @@ public class MapScreen implements Screen {
 		pauseWindow.add(resumeButton).width(200).height(50).spaceBottom(30f).center().row();
 		pauseWindow.add(resetButton).width(200).height(50).spaceBottom(30f).row();
 		pauseWindow.add(quitButton).width(200).height(50);
-
 
 		towerButtons.add(upgradeBtn).width(100).height(70).padBottom(20).padTop(20).padRight(20);
 		towerButtons.add(sellBtn).width(100).height(70).left();

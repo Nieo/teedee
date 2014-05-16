@@ -33,16 +33,11 @@ public class PathView {
 			else if(dy < 0)
 				tiledPath[i].setBounds(x1, y1+60, 60, dy-60);
 		}
-
-
-
 	}
-
 
 	public Sprite[] getSprites(){
 		return tiledPath;	
 	}
-
 
 }
 

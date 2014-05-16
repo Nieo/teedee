@@ -23,5 +23,4 @@ public class Price {
 	public void setPrice(int newPrice) {
 		price.setMoney(newPrice);
 	}
-
 }

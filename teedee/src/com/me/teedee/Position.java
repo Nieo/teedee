@@ -9,10 +9,12 @@ public class Position {
 		xCoordinate = 0;
 		yCoordinate = 0;
 	}
+
 	@Override
 	public String toString(){
 		return "X: " + xCoordinate + " Y: " + yCoordinate;
 	}
+
 	public Position(float x, float y) {
 		xCoordinate = x;
 		yCoordinate = y;
@@ -21,6 +23,7 @@ public class Position {
 	public Position(Position pos) {
 		this(pos.xCoordinate,pos.yCoordinate);
 	}
+
 	public float getX() {
 		return xCoordinate;
 	}

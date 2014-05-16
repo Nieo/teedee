@@ -28,12 +28,11 @@ public class ShieldEnemyView extends EnemyView {
 	private void update() {
 		if(se.isShieldDown()){
 			shieldSprite.setAlpha(0f);
-		}else if(shieldSprite.getColor().a <= 0f && !se.isShieldDown()){;
-		shieldSprite.setAlpha(origAlpha);
+		} else if(shieldSprite.getColor().a <= 0f && !se.isShieldDown()){
+			shieldSprite.setAlpha(origAlpha);
 		}
+
 		shieldSprite.setX(this.getX());
 		shieldSprite.setY(this.getY());
-
 	}
-
 }

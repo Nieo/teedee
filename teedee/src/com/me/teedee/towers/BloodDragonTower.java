@@ -12,7 +12,6 @@ import com.me.teedee.enemies.AbstractEnemy;
  * increases with the number of enemies it has killed."
  */
 public class BloodDragonTower extends AbstractTower{
-
 	int killsCount = 0;
 	int startAttackDamage = 40;
 	int currentAttackDamage;

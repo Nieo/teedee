@@ -32,12 +32,15 @@ public abstract class AbstractTower {
 	public void setEnemies(ArrayList<AbstractEnemy> enemies) {
 		this.enemies = enemies;
 	}
+
 	public void setPosition(Position pos) {
 		position = pos;
 	}
+
 	public Price getBuildPrice() {
 		return price[currentLevel];
 	}
+
 	public Price getUpgradePrice() {
 		if(currentLevel < maxLevel-1)
 			return price[currentLevel+1];
@@ -81,6 +84,7 @@ public abstract class AbstractTower {
 	public boolean hasTarget() {
 		return !target.isEmpty();
 	}
+
 	public Boolean upgrade() {
 		if(currentLevel < maxLevel - 1) {
 			currentLevel++;
@@ -94,8 +98,8 @@ public abstract class AbstractTower {
 		return isShooting;
 	}
 
-	//Should probably be named startShooting instead, since it's something that SHOULD be going on for a period of time,
-	//we don't want a new thread to be created every time this method is created, just once.
+	//TODO Should probably be named startShooting instead, since it's something that 
+	//SHOULD be going on for a period of time,
 	public void shoot(float delta) {
 		cooldown = cooldown - delta;
 		if(cooldown <= 0) {
@@ -114,7 +118,6 @@ public abstract class AbstractTower {
 					}
 				}
 			}
-
 			if(!target.isEmpty()) {
 				isShooting = true;
 				target.get(0).addTowerStatus(this, new Status(status));
@@ -124,7 +127,6 @@ public abstract class AbstractTower {
 					kills++;
 				}
 			}
-
 		} else {
 			isShooting = false;
 		}
@@ -135,15 +137,16 @@ public abstract class AbstractTower {
 		float dy = p1.getY()- p2.getY();
 		return Math.sqrt((double)dx*dx+dy*dy);
 	}
+
 	public double getValue() {
 		return value;
 	}
+
 	public int getIndex() {
 		return index;
 	}
+
 	public void setIndex(int i) {
 		this.index = i;
 	}
-
-
 }

@@ -108,22 +108,15 @@ public class MainMenuScreen implements Screen {
 	}
 
 	@Override
-	public void pause() {
-
-	}
+	public void pause() { }
 
 	@Override
-	public void resume() {
-
-	}
+	public void resume() { }
 
 	@Override
 	public void dispose() {
 		stage.dispose();
 		batch.dispose();
 		mainTexture.dispose();
-
-		// TODO maybe more things should be disposed here
 	}
-
 }

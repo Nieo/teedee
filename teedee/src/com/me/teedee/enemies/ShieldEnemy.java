@@ -14,15 +14,13 @@ public class ShieldEnemy extends AbstractEnemy {
 	private float regen;
 
 	private boolean shieldDown = false;
-	
+
 	public ShieldEnemy(Path p, int level){
-		
 		super(p, 120f, new Lives(500*(1+0.1f*level)),new Reward(65));
 		shield = 1000f*(1+0.1f*level);
 		shieldLimit = 1000f*(1+0.1f*level);
-		
+
 		regen = 100f;
-		
 	}
 
 	@Override
@@ -35,7 +33,7 @@ public class ShieldEnemy extends AbstractEnemy {
 	public boolean takeDamage(int damage) {
 		if(this.takeShieldDamage(damage) || shieldDown){
 			return super.takeDamage(damage);
-		}else{
+		} else {
 			takeShieldDamage(damage);
 			return false;
 		}
@@ -46,7 +44,7 @@ public class ShieldEnemy extends AbstractEnemy {
 			shieldDown = true;
 			shield = 0;
 			return true;
-		}else{
+		} else {
 			shield -= damage;
 			return false;
 		}
@@ -65,11 +63,9 @@ public class ShieldEnemy extends AbstractEnemy {
 	public boolean isShieldDown(){
 		return shieldDown;
 	}
-	
-	
+
 	@Override
 	public int getId(){
 		return id;
 	}
-
 }

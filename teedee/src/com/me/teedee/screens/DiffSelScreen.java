@@ -39,7 +39,6 @@ public class DiffSelScreen implements Screen {
 	private TextButton normalButton;
 	private TextButton hardButton;
 	private TextButton startGame;
-
 	private TextButton pathButton;
 
 	private ButtonGroup bg;
@@ -160,7 +159,6 @@ public class DiffSelScreen implements Screen {
 		background = new Texture("data/MainMenu.png");
 		bSprite = new Sprite(background);
 		bSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
 	}
 
 	@Override
@@ -169,16 +167,10 @@ public class DiffSelScreen implements Screen {
 	}
 
 	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-
-	}
+	public void pause() { }
 
 	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-
-	}
+	public void resume() { }
 
 	@Override
 	public void dispose() {
@@ -187,8 +179,7 @@ public class DiffSelScreen implements Screen {
 		background.dispose();
 	}
 
-	private class DiffListener extends ClickListener{
-
+	private class DiffListener extends ClickListener {
 
 		@Override
 		public void clicked(InputEvent event, float x, float y) {
@@ -252,5 +243,4 @@ public class DiffSelScreen implements Screen {
 	public int getDifficulty(){
 		return diff;
 	}
-
 }
