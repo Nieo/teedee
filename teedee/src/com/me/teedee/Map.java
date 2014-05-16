@@ -18,7 +18,7 @@ public class Map {
 	private ArrayList<Wave> waves = new ArrayList<Wave>();
 	private Path path; 
 	private Player player;
-	private ArrayList<AbstractEnemy> currentEnemies;
+	private ArrayList<AbstractEnemy> currentEnemies = new ArrayList<AbstractEnemy>();
 	private TiledMap tiledMap;
 
 	//TODO temporary, this can probably be done in a different way
@@ -36,14 +36,6 @@ public class Map {
 		this.waves = waves;
 		this.path = path;
 		this.player = player;
-		if(!this.waves.isEmpty()) {
-			this.currentEnemies = this.waves.get(0).getEnemies();
-			waveIndex++;
-		}
-
-		for(int i = 0; i < currentEnemies.size(); i++) {
-			currentEnemies.get(i).setPosition(new Position(currentEnemies.get(i).getPosition().getX()-100*i,currentEnemies.get(i).getPosition().getY()));
-		}
 		playerIsAlive = true;
 	}
 
@@ -57,9 +49,6 @@ public class Map {
 		this.waves = waves;
 		this.tiledMap = new TmxMapLoader().load(mapPath);
 		this.player = player;
-		//if(!this.waves.isEmpty()) {
-		this.currentEnemies = this.waves.get(0).getEnemies();
-		//}
 		playerIsAlive = true;
 	}
 
