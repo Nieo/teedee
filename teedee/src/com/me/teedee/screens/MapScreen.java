@@ -47,7 +47,6 @@ import com.me.teedee.towers.ShockWaveTower;
  * @author Daniel
  */
 public class MapScreen implements Screen {
-	// TODO Make all possible variables more local!!!
 	private Map map;
 	private Stage hud;
 	private Table table;
@@ -350,8 +349,8 @@ public class MapScreen implements Screen {
 		Table buttonTable = new Table();
 		Table towerButtons = new Table();
 
-		hud = new Stage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())); // OR
-		hud.setViewport(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+		hud = new Stage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+		hud.setViewport(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));	//TODO maybe remove
 		Gdx.input.setInputProcessor(hud);
 
 		final Window pauseWindow = new Window("", uiSkin);
@@ -656,6 +655,7 @@ public class MapScreen implements Screen {
 	@Override
 	public void dispose() {	
 		hud.dispose();
+		info.dispose();
 		for(Sound sound : shootingSoundList){
 			sound.dispose();
 		}

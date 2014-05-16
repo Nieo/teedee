@@ -134,4 +134,8 @@ public class InfoImage {
 	public float getWidth() {
 		return table.getWidth();
 	}
+	
+	public void dispose() {
+		skin.dispose();
+	}
 }

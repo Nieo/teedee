@@ -185,13 +185,13 @@ public class TowerView extends Sprite {
 			picPath = "img/iceDragon1.png";
 			break;
 		case 2:
-			picPath = "img/iceDragon2.png";
+			picPath = "img/iceDragon1.png";
 			break;
 		case 3:
-			picPath = "img/iceDragon.png";
+			picPath = "img/iceDragon2.png";
 			break;
 		case 4:
-			picPath = "img/iceDragon.png";
+			picPath = "img/iceDragon2.png";
 			break;
 		default:
 			picPath = "img/iceDragon.png";
@@ -224,13 +224,13 @@ public class TowerView extends Sprite {
 		String picPath = "";
 		switch(tower.getCurrentLevel()) {
 		case 1:
-			picPath = "img/hydra.png";
+			picPath = "img/hydra3.png";
 			break;
 		case 2:
 			picPath = "img/hydra3.png";
 			break;
 		case 3:
-			picPath = "img/hydra3.png";
+			picPath = "img/hydra5.png";
 			break;
 		case 4:
 			picPath = "img/hydra5.png";

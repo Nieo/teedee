@@ -31,13 +31,18 @@ public class Bullet extends Sprite{
 		case 3:
 			setTexture(new Texture("img/greenBullet.png"));
 			break;
+		case 4:
+			setTexture(new Texture("img/shockwaveBullet.png"));
+			setSize(40, 40);
+			break;
 		case 5:
 			setTexture(new Texture("img/blackHoleBIG.png"));
-			setSize(40,40);
+			setSize(40, 40);
 			break;
 		case 6:
 			//TODO Laserbeams looks awful
 			setTexture(new Texture("img/laserBeam.png"));
+			setSize(34, 60);
 			break;
 		default:
 			setTexture(new Texture("img/RedBullet.png"));
