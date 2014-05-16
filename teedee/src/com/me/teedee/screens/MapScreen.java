@@ -396,7 +396,7 @@ public class MapScreen implements Screen {
 						} else if(event.getListenerActor() == swt) {
 							path = "img/shockwave.png";
 							buildIndex = 4;
-							rad = 350;
+							rad = 300;
 						} else if(event.getListenerActor() == rng) {
 							path = "img/RNGTower.png";
 							buildIndex = 5;
