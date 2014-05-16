@@ -13,7 +13,7 @@ public class Player {
 
 	public Player() {
 		name = "Player";
-		money = new Money(1000);
+		money = new Money(800);
 		life = new Lives(100);
 	}
 

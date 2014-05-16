@@ -47,8 +47,18 @@ public class InfoImage {
 	public void draw(Batch batch) {
 		table.draw(batch, alpha);
 	}
+	
+	public void setUpgradeCost(int cost) {
+		towerName.setText("Upgrade price");
+		towerPrice.setText("$" + cost);
+		description.setText("");
+		table.setWidth(130);
+		table.setHeight(70);
+	}
 
 	public void choseTower(int index) {
+		table.setWidth(150);
+		table.setHeight(200);
 		switch(index) {
 		case 1:
 			setText("Basic Tower", 500);
