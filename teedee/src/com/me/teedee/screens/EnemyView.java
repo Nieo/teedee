@@ -31,7 +31,7 @@ public class EnemyView extends Sprite {
 			t = new Texture("img/firstEnemy.png");
 			break;
 		case 3:
-			t = new Texture("img/firstEnemy.png");
+			t = new Texture("img/slowEnemy.png");
 			break;
 		case 4:
 			t = new Texture("img/hydra3.png");

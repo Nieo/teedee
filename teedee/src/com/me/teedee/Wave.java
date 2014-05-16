@@ -31,9 +31,16 @@ public class Wave {
 	}
 	
 	public ArrayList<AbstractEnemy> getEnemies(){
+		int swap = 0;
 		Collections.shuffle(enemies);
-		return enemies;
+		for(int i = 0; i < enemies.size(); i++){
+		if(enemies.get(i) instanceof SlowEnemy){
+		Collections.swap(enemies, i, swap);
+		swap++;	
+		}
+		}
 		
+		return enemies;
 	}
 	
 	private void addEnemies(int type, int amount,Path p, int level){

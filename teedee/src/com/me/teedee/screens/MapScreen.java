@@ -52,10 +52,10 @@ public class MapScreen implements Screen {
 	private Stage hud;
 	private Table table;
 	private Table guiTable;
-	
+
 	private int difficulty;
 	private int pathChoice;
-	
+
 	private Label towerName;
 	private Label towerKills;
 	private Label moneyLabel;
@@ -97,7 +97,7 @@ public class MapScreen implements Screen {
 		this.mapPath = mapPath;
 		this.difficulty = difficulty;
 		this.pathChoice = pathChoice;
-		
+
 		//Adding sounds for shooting
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot0.wav")));
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot1.wav")));
@@ -122,15 +122,6 @@ public class MapScreen implements Screen {
 		PathView pv = new PathView(map.getPath().getPositions());
 
 		tiledPath = pv.getSprites();
-
-		for(int i = 0; i < map.getEnemies().size(); i++) {
-			if( map.getEnemies().get(i) instanceof ShieldEnemy){
-				enemyList.add(new ShieldEnemyView((ShieldEnemy) map.getEnemies().get(i)));	
-			} else {
-				enemyList.add(new EnemyView( map.getEnemies().get(i)));
-			}
-		}
-
 		chosedTowerImage = new Image(new Texture("img/unknown.png"));
 		radius = new RadiusImage(new Texture("img/radius200.png"));
 		info = new InfoImage();
@@ -170,7 +161,8 @@ public class MapScreen implements Screen {
 				enemyList.get(i).setAlpha(0);
 				if(!enemyList.get(i).isAlive() && !enemyList.get(i).reachedEnd()) {
 					notificationList.add(new Notification("$" + enemyList.get(i).getReward(), enemyList.get(i).getX(), enemyList.get(i).getY()));
-					playDyingSound(0);
+					if(soundIsOn)
+						playDyingSound(0);
 				} else {
 					//TODO wrong location
 					notificationList.add(new Notification("-1", hpLabel.getX(), hpLabel.getY()));
@@ -266,7 +258,7 @@ public class MapScreen implements Screen {
 			tmp.setPosition((Gdx.input.getX()-tmp.getWidth()/2/ratio)*ratio, (Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2/ratio)*ratio);
 			radius.showRadius();
 			radius.setPosition(tmp.getX(), tmp.getY());
-			
+
 			//FIXME Change width and height to correct numbers
 			//TODO maybe change this to a for loop instead and see if performance still is good
 			Rectangle tmpRect = new Rectangle(0, 0, 40, 40);
@@ -276,7 +268,7 @@ public class MapScreen implements Screen {
 			} else {
 				radius.setColorDefault();
 			}
-			
+
 			if(!radius.isRed()) {
 				l++;
 				if(l >= tiledPath.length -1) {
@@ -567,6 +559,13 @@ public class MapScreen implements Screen {
 						info.choseTower(index);
 						info.show();
 					}
+				} else if(event.getListenerActor() instanceof TextButton) {
+					if(event.getListenerActor() == upgradeBtn) {
+						if(chosedTower != null) {
+							info.setUpgradeCost(chosedTower.getUpgradePrice());
+							info.show();
+						}
+					}
 				}
 			}
 
@@ -593,11 +592,11 @@ public class MapScreen implements Screen {
 		resumeButton.addListener(clickListener);
 		quitButton.addListener(clickListener);
 		resetButton.addListener(clickListener);
-		
+
 		pauseWindow.add(resumeButton).width(200).height(50).spaceBottom(30f).center().row();
 		pauseWindow.add(resetButton).width(200).height(50).spaceBottom(30f).row();
 		pauseWindow.add(quitButton).width(200).height(50);
-		
+
 
 		towerButtons.add(upgradeBtn).width(100).height(70).padBottom(20).padTop(20).padRight(20);
 		towerButtons.add(sellBtn).width(100).height(70).left();
