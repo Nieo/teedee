@@ -28,31 +28,9 @@ public class TowerView extends Sprite {
 		setX(posX);
 		setY(posY);
 		rect = new Rectangle(getX(), getY(), getWidth(), getHeight());
-		//this.name = tower.getType();		//TODO or getName(); or something similiar or nots
+		
+		this.name = tower.getName();
 
-		switch(tower.getId())  {
-		case 1:
-			this.name = "Basic Tower";
-			break;
-		case 2:
-			this.name = "Ice Tower";
-			break;
-		case 3:
-			this.name = "Multi Tower";
-			break;
-		case 4:
-			this.name = "Shock Wave Tower";
-			break;
-		case 5:
-			this.name = "RNG Tower";
-			break;
-		case 6:
-			this.name = "Blood Dragon";
-			break;
-		default:
-			this.name = "Another Tower";
-			break;
-		}
 	}
 
 	public boolean contains(float x, float y) {
@@ -61,7 +39,7 @@ public class TowerView extends Sprite {
 
 	@Override
 	public void draw(Batch batch) {
-		//TODO not sure if this is needed
+		
 		vector.set(posX, posY);
 
 		if(!tower.getTargetPosition().isEmpty() && 
@@ -109,7 +87,6 @@ public class TowerView extends Sprite {
 			upgradeBloodDragon();
 			break;
 		default:
-			System.out.println("nope");		//TODO debug
 		}
 	}
 
@@ -262,6 +239,6 @@ public class TowerView extends Sprite {
 	}
 
 	public int getValue() {
-		return (int) tower.getValue();
+		return (int) tower.getSellValue();
 	}
 }

@@ -35,6 +35,7 @@ public class MultiTower extends AbstractTower {
 		this.enemies = enemies;
 		range = 300;
 		id = 3;
+		name = "Hydra";
 	}
 
 	@Override

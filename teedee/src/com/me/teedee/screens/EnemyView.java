@@ -59,18 +59,18 @@ public class EnemyView extends Sprite {
 		return enemy.isAlive();
 	}
 
-	//FIXME probably should clean the method up a bit
+	
 	private void update() {
 		setX(enemy.getPosition().getX());
 		setY(enemy.getPosition().getY());
 		green.setX(getX());
 		green.setY(getY()+getHeight());
-		float tmpHP = enemy.getLives().getCurrentLives();
+		float currentHP = enemy.getLives().getCurrentLives();
 		float maxHP = enemy.getLives().getMaxLives();
-		if(tmpHP/maxHP < 0) {
+		if(currentHP/maxHP < 0) {
 			green.setSize(0, red.getHeight());
 		} else {
-			green.setSize(red.getWidth()*(tmpHP/maxHP), red.getHeight());
+			green.setSize(red.getWidth()*(currentHP/maxHP), red.getHeight());
 		}
 		red.setX(getX());
 		red.setY(getY()+getHeight());

@@ -43,7 +43,6 @@ public class SplashScreen implements Screen {
 			game.setScreen(new MainMenuScreen());
 		}
 
-		//TODO debug, REMOVE BEFORE SUBMIT!
 		if(Gdx.input.justTouched()) {
 			game.setScreen(new MainMenuScreen());
 		}
