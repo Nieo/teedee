@@ -30,5 +30,6 @@ public class BasicTower extends AbstractTower {
 		this.enemies = enemies;
 		range = 200;
 		id = 1;
+		name = "Yellow Dragon";
 	}
 }
