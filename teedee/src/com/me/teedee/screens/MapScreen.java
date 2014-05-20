@@ -75,7 +75,9 @@ public class MapScreen implements Screen {
 	private List<Notification> notificationList = new ArrayList<Notification>();
 
 	private Sprite[] tiledPath;
-
+	
+	private float gameSpeed = 1f;
+	
 	private Image selectedImage;
 
 	private float ratio = 1;
