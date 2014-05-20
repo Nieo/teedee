@@ -183,7 +183,6 @@ public class DiffSelScreen implements Screen {
 
 		@Override
 		public void clicked(InputEvent event, float x, float y) {
-			System.out.println(event.getListenerActor().getName());
 			String s = event.getListenerActor().getName();
 
 			if(s.equals("Easy")){
@@ -227,7 +226,6 @@ public class DiffSelScreen implements Screen {
 			}
 
 			if(event.getListenerActor().getName().equals("Start")){
-				System.out.println("Difficulty is "+diff);
 				((Game) Gdx.app.getApplicationListener()).setScreen(new MapScreen(diff,currentPathChoice, mapPath));
 			}
 		}
@@ -235,7 +233,7 @@ public class DiffSelScreen implements Screen {
 
 	private void resetImages() {
 		spaceMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/spaceMapThumbnail.png"))));
-		explosionMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/jungleTmp.png"))));
+		explosionMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/explosionMapSmall.png"))));
 		militaryMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/miliTmp.png"))));
 		parkMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/park.png"))));
 	}
