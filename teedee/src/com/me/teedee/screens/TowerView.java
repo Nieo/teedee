@@ -262,6 +262,6 @@ public class TowerView extends Sprite {
 	}
 
 	public int getValue() {
-		return (int) tower.getValue();
+		return (int) tower.getSellValue();
 	}
 }
