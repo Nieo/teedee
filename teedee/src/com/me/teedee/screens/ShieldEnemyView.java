@@ -9,13 +9,13 @@ public class ShieldEnemyView extends EnemyView {
 
 	private ShieldEnemy se;
 	private Sprite shieldSprite;
-	private float origAlpha;
 
 	public ShieldEnemyView(ShieldEnemy se) {
 		super(se);
 		this.se = se;
-		shieldSprite = new Sprite(new Texture("img/unknown.png"));
-		origAlpha = shieldSprite.getColor().a;
+		shieldSprite = new Sprite(new Texture("img/shield.png"));
+		shieldSprite.setX(this.getPositionX()-20);
+		shieldSprite.setY(this.getPositionY()-20);
 	}
 
 	@Override
@@ -28,11 +28,10 @@ public class ShieldEnemyView extends EnemyView {
 	private void update() {
 		if(se.isShieldDown()){
 			shieldSprite.setAlpha(0f);
-		} else if(shieldSprite.getColor().a <= 0f && !se.isShieldDown()){
-			shieldSprite.setAlpha(origAlpha);
+		} else {
+			shieldSprite.setAlpha(se.getShield()/se.getShieldMax());
 		}
-
-		shieldSprite.setX(this.getX());
-		shieldSprite.setY(this.getY());
+		shieldSprite.setX(this.getX()-20);
+		shieldSprite.setY(this.getY()-20);
 	}
 }

@@ -150,12 +150,14 @@ public class MapScreen implements Screen {
 	}
 
 	private void drawObjects(float delta) {
-		for(int i=0; i<map.getPath().getPositions().size()-1; i++){//As of now renders the path somewhat, should probably not be an sprite. If possible use another more suitable class.  
+		for(int i=0; i <map.getPath().getPositions().size()-1; i++){	// TODO As of now renders the path somewhat, should probably not be an sprite. If possible use another more suitable class.  
 			tiledPath[i].draw(hud.getSpriteBatch());
 		}
 
 		for(int i = 0; i < enemyList.size(); i++) {
-			enemyList.get(i).draw(hud.getSpriteBatch());
+			if(!(enemyList.get(i).getPositionX() < -40)) {
+				enemyList.get(i).draw(hud.getSpriteBatch());
+			}
 			if(!enemyList.get(i).isAlive() || enemyList.get(i).reachedEnd()){
 				enemyList.get(i).setAlpha(0);
 				if(!enemyList.get(i).isAlive() && !enemyList.get(i).reachedEnd()) {
