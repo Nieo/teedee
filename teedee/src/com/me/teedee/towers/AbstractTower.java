@@ -81,6 +81,10 @@ public abstract class AbstractTower {
 		return position;
 	}
 
+	public String getName() {
+		return name;
+	}
+
 	public boolean hasTarget() {
 		return !target.isEmpty();
 	}

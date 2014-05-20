@@ -36,6 +36,7 @@ public class BloodDragonTower extends AbstractTower{
 		this.enemies = enemies;
 		range = 200;
 		id = 6;
+		name = "Blood Dragon";
 	}
 
 	@Override

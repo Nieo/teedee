@@ -43,7 +43,6 @@ public class SplashScreen implements Screen {
 			game.setScreen(new MainMenuScreen());
 		}
 
-		//TODO debug, REMOVE BEFORE SUBMIT!
 		if(Gdx.input.justTouched()) {
 			game.setScreen(new MainMenuScreen());
 		}
@@ -51,7 +50,7 @@ public class SplashScreen implements Screen {
 
 	private void fadeAnimation() {
 		if(fadeIn ) {
-			alpha += 0.01;
+			alpha += 0.001;
 			if(alpha > 1) {
 				alpha = 1;
 				fadeIn = false;

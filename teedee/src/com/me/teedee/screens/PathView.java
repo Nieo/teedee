@@ -12,14 +12,14 @@ public class PathView {
 
 	public PathView(List<Position> list){
 		this.pos = list;
-		tiledPath = new Sprite[list.size()];
+		tiledPath = new Sprite[list.size()-1];
 
 		for(int i=0; i<this.pos.size()-1; i++){
-			float x1,x2,y1,y2,dx,dy;//TODO Leaves a square to be rendered
+			float x1,x2,y1,y2,dx,dy;
 			x1 = this.pos.get(i).getX();
 			x2 = this.pos.get(i+1).getX();
 			y1 = this.pos.get(i).getY();
-			y2=this.pos.get(i+1).getY();
+			y2 = this.pos.get(i+1).getY();
 
 			tiledPath[i]=new Sprite(new Texture("img/pathTile.png"));
 			dx = x2-x1;

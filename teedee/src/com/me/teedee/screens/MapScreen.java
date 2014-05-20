@@ -67,7 +67,7 @@ public class MapScreen implements Screen {
 	private Image chosedTowerImage;
 	private TowerView chosedTower;
 
-	private int towerIndex = 0;		// TODO change this shit, maybe not, i dont know
+	private int towerIndex = 0;	
 	private int waveIndex = 0;
 	private List<Bullet> bulletList = new ArrayList<Bullet>();
 	private List<TowerView> towerList = new ArrayList<TowerView>();
@@ -75,14 +75,12 @@ public class MapScreen implements Screen {
 	private List<Notification> notificationList = new ArrayList<Notification>();
 
 	private Sprite[] tiledPath;
-	
-	private float gameSpeed = 1f;
-	
-	private Image tmp;						// TODO tmp varaible, should probably create new class to handle this
+
+	private Image selectedImage;
 
 	private float ratio = 1;
-	private int buildIndex = 0;		//	^this
-	FPSLogger fps = new FPSLogger();		// TODO debug
+	private int buildIndex = 0;
+	FPSLogger fps = new FPSLogger();		// TODO debug FPSLogger
 	private boolean soundIsOn = true;
 
 	private List<Sound> dyingSoundList = new ArrayList<Sound>();
@@ -95,9 +93,6 @@ public class MapScreen implements Screen {
 	
 	private String mapPath;
 
-	int k = 0; 		// logic for radius color changer
-	int l = 0;		
-
 	public MapScreen(int difficulty, int pathChoice, String mapPath) {
 		this.mapPath = mapPath;
 		this.difficulty = difficulty;
@@ -109,9 +104,8 @@ public class MapScreen implements Screen {
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot2.wav")));
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot3.wav")));
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot4.wav")));
-		//FIXME
-		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot0.wav")));
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot5.wav")));
+		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot6.wav")));
 		// Adding sounds for dying
 		dyingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/WilhelmScream_64kb.mp3")));
 
@@ -135,7 +129,7 @@ public class MapScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		//fps.log();		// TODO debug
+		fps.log();		// TODO debug FPSLogger
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
@@ -150,7 +144,7 @@ public class MapScreen implements Screen {
 		
 		hud.act(delta);
 		hud.draw();
-		Table.drawDebug(hud);		//TODO debug
+		
 
 		if(map.isRunning()){
 			hud.getSpriteBatch().begin();
@@ -160,7 +154,8 @@ public class MapScreen implements Screen {
 	}
 
 	private void drawObjects(float delta) {
-		for(int i=0; i <map.getPath().getPositions().size()-1; i++){	// TODO As of now renders the path somewhat, should probably not be an sprite. If possible use another more suitable class.  
+
+		for(int i=0; i <map.getPath().getPositions().size()-1; i++){	  
 			tiledPath[i].draw(hud.getSpriteBatch());
 		}
 
@@ -175,8 +170,7 @@ public class MapScreen implements Screen {
 					if(soundIsOn)
 						playDyingSound(0);
 				} else {
-					//TODO wrong location
-					notificationList.add(new Notification("-1", hpLabel.getX(), hpLabel.getY()));
+					notificationList.add(new Notification("-1", Gdx.graphics.getWidth()*0.8f/2, Gdx.graphics.getHeight()*0.9f));
 				}
 				enemyList.remove(i);
 			}
@@ -197,14 +191,14 @@ public class MapScreen implements Screen {
 
 		radius.draw(hud.getSpriteBatch());
 
-		if(tmp != null) {
-			tmp.draw(hud.getSpriteBatch(), 1);
+		if(selectedImage != null) {
+			selectedImage.draw(hud.getSpriteBatch(), 1);
 		}
 
 		for(int i = 0; i< towerList.size(); i++) {
 			towerList.get(i).draw(hud.getSpriteBatch());
 		}
-		//TODO row is too long
+	
 		info.setPosition(guiTable.getX()-info.getWidth()*1.1f, (Gdx.graphics.getHeight()-Gdx.input.getY()-info.getHeight()/2/ratio)*ratio);
 		info.draw(hud.getSpriteBatch());
 	}
@@ -223,7 +217,7 @@ public class MapScreen implements Screen {
 		}
 
 		for (AbstractTower tower : map.getTowers()){
-			if(tower.isShooting()){			 //TODO Fix line under this, could be shorter
+			if(tower.isShooting()){
 				for(Position p: tower.getTargetPosition()){
 					bulletList.add(new Bullet(p , 1000f, tower));
 				}
@@ -263,53 +257,40 @@ public class MapScreen implements Screen {
 			chosedTowerImage.setDrawable(new SpriteDrawable(new Sprite(new Texture("img/unknown.png"))));
 		}
 
-		//TODO Fix the color changer and maybe move this
-		if(tmp != null) {
-			//TODO maybe change this row
-			tmp.setPosition((Gdx.input.getX()-tmp.getWidth()/2/ratio)*ratio, (Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2/ratio)*ratio);
+		if(selectedImage!= null) {
+			
+			selectedImage.setPosition((Gdx.input.getX()-selectedImage.getWidth()/2/ratio)*ratio, (Gdx.graphics.getHeight()-Gdx.input.getY()-selectedImage.getHeight()/2/ratio)*ratio);
 			radius.showRadius();
-			radius.setPosition(tmp.getX(), tmp.getY());
+			radius.setPosition(selectedImage.getX(), selectedImage.getY());
 
-			//FIXME Change width and height to correct numbers
-			//TODO maybe change this to a for loop instead and see if performance still is good
 			Rectangle tmpRect = new Rectangle(0, 0, 40, 40);
 			tmpRect.setCenter(Gdx.input.getX()*ratio, Gdx.graphics.getHeight()-Gdx.input.getY()*ratio);
-			if(tiledPath[l].getBoundingRectangle().overlaps(tmpRect)) {
-				radius.setColorRed();
-			} else {
-				radius.setColorDefault();
-			}
-
-			if(!radius.isRed()) {
-				l++;
-				if(l >= tiledPath.length -1) {
-					l = 0;
-				}
-			}
-
-			//TODO this needs optimizing or done in another way
-			if(k >= towerList.size()) {
-				k = 0;
-			}
-			//TODO maybe change this to a for loop instead and see if performance still is good
-			if(!towerList.isEmpty() && !radius.isRed()) {
-				float dx = tmp.getX() - towerList.get(k).getX();
-				float dy = tmp.getY() - towerList.get(k).getY();
-				double d =  Math.sqrt(dx*dx+dy*dy);
-				if(d < 40) {
+			for(Sprite tp: tiledPath){
+				if(tp.getBoundingRectangle().overlaps(tmpRect)) {
 					radius.setColorRed();
+					break;
 				} else {
 					radius.setColorDefault();
 				}
-
-				if(!radius.isRed()) {
-					k++;
-					if(k >= towerList.size()) {
-						k = 0;
-					}
-				}
 			}
-		} else if(tmp == null && chosedTower == null) {
+
+
+
+			if(!towerList.isEmpty() && !radius.isRed()) {
+				for(TowerView tv: towerList){
+					float dx = selectedImage.getX() - tv.getX();
+					float dy = selectedImage.getY() - tv.getY();
+					double d = Math.sqrt(dx*dx+dy*dy);
+					if(d < 40){
+						radius.setColorRed();
+					}else{
+						radius.setColorDefault();
+					}
+
+				}
+
+			}
+		} else if(selectedImage == null && chosedTower == null) {
 			radius.hideRadius();
 		}
 	}
@@ -364,7 +345,7 @@ public class MapScreen implements Screen {
 		Table towerButtons = new Table();
 
 		hud = new Stage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-		hud.setViewport(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));	//TODO maybe remove
+
 		Gdx.input.setInputProcessor(hud);
 
 		final Window pauseWindow = new Window("", uiSkin);
@@ -379,9 +360,9 @@ public class MapScreen implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				if(MapScreen.this.map.isRunning()){
 					if(event.getListenerActor() instanceof Image && event.getListenerActor() != mapImg) {
-						if(tmp != null) {
-							tmp.setVisible(false);
-							tmp = null;				//TODO i dont think this is needed
+						if(selectedImage != null) {
+							selectedImage.setVisible(false);
+							selectedImage = null;
 						}
 						String path = "";
 						int rad = 0;
@@ -411,20 +392,21 @@ public class MapScreen implements Screen {
 							rad = 200;
 						}
 
-						tmp = new Image(new Texture(path));
-						tmp.setPosition(Gdx.input.getX()-tmp.getWidth()/2, Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2);
-						tmp.setTouchable(null);
+						selectedImage = new Image(new Texture(path));
+						selectedImage.setPosition(Gdx.input.getX()-selectedImage.getWidth()/2, Gdx.graphics.getHeight()-Gdx.input.getY()-selectedImage.getHeight()/2);
+						selectedImage.setTouchable(null);
 						radius.setRadius(rad);
 					} else if(event.getListenerActor() == mapImg) {
-						if(tmp != null) {
-							tmp.setVisible(false);		// TODO the image still exists under the tower, or does it?
+						if(selectedImage != null) {
+							selectedImage.setVisible(false);		
+							
 
-							//TODO maybe change these two rows under
-							int tmpX = (int) ((Gdx.input.getX()-tmp.getWidth()/2/ratio)*ratio);
-							int tmpY = (int) ((Gdx.graphics.getHeight()-Gdx.input.getY()-tmp.getHeight()/2/ratio)*ratio);
-							tmp = null;
+							int tmpX = (int) ((Gdx.input.getX()-selectedImage.getWidth()/2/ratio)*ratio);
+							int tmpY = (int) ((Gdx.graphics.getHeight()-Gdx.input.getY()-selectedImage.getHeight()/2/ratio)*ratio);
+							selectedImage = null;
+							
 							boolean towerBuilt = false;
-							switch(buildIndex) {		//TODO probably should do something else than this
+							switch(buildIndex) {		
 							case 1:
 								if(towerBuilt = map.buildTower(new BasicTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) map.getEnemies()), new Position(tmpX, tmpY))) {
 									towerList.add(new TowerView(new Sprite(new Texture("img/firstDragon.png")), map.getTowers().get(towerIndex), towerIndex));
@@ -454,9 +436,6 @@ public class MapScreen implements Screen {
 								if(towerBuilt = map.buildTower(new BloodDragonTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) map.getEnemies()), new Position(tmpX, tmpY))) {
 									towerList.add(new TowerView(new Sprite(new Texture("img/bloodDragon.png")), map.getTowers().get(towerIndex), towerIndex));
 								}
-								break;
-							default:
-								System.out.println("No such tower exists"); 	//TODO debug
 								break;
 							}
 							if(towerBuilt) {
@@ -509,9 +488,9 @@ public class MapScreen implements Screen {
 						} else if(event.getListenerActor() == nextWaveBtn) {
 							map.nextWave();
 						} else if(event.getListenerActor() == cancelBuyBtn) {
-							if(tmp != null) {
-								tmp.setVisible(false);
-								tmp = null;
+							if(selectedImage != null) {
+								selectedImage.setVisible(false);
+								selectedImage = null;
 								radius.hideRadius();
 							}
 						}
@@ -626,7 +605,7 @@ public class MapScreen implements Screen {
 		towerInfoTable.add(towerName = new Label("Tower Name", uiSkin)).left().row();
 		towerInfoTable.add(towerKills = new Label("Tower Name", uiSkin)).left().row();
 		towerInfoTable.add(towerButtons);
-		//towerInfoTable.debug();		// TODO debug
+	
 
 		buildTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTable.png"))));
 		buildTable.add(hpLabel = new Label("HP: " + map.getPlayer().getLives().getCurrentLives(), uiSkin)).padTop(10).left().padLeft(40).row();
@@ -639,7 +618,7 @@ public class MapScreen implements Screen {
 		buildTable.add(rng);
 		buildTable.add(bdt).padRight(20);
 		buildTable.top();
-		//buildTable.debug();		//TODO debug
+		
 
 		buttonTable.add(nextWaveBtn).width(200).height(60).padTop(5);
 		buttonTable.add(pauseBtn).width(60).height(60).padTop(5).row();
@@ -650,14 +629,14 @@ public class MapScreen implements Screen {
 		guiTable.add(buildTable).row();
 		guiTable.add(towerInfoTable).width(315).row();
 		guiTable.add(buttonTable);
-		//guiTable.debug();		//TODO debug;
+		
 
 		table = new Table();
 		table.add(mapImg);
 		table.add(guiTable);
 		table.setFillParent(true);
 		table.bottom().left();
-		//table.debug();			//TODO debug
+		
 
 		hud.addActor(table);
 		hud.addActor(pauseWindow);

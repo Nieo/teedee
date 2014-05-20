@@ -16,7 +16,7 @@ public class IceTower extends AbstractTower {
 		statusLevels.add(new Status(0.35f,100,2.5f));
 
 		price[0] = new Price(400);
-		for(int i = 1; i < 5; i++)
+		for(int i = 1; i < 3; i++)
 			price[i] = new Price(100*i);
 
 		sellValue = price[0].getPrice();
@@ -34,6 +34,7 @@ public class IceTower extends AbstractTower {
 		this.enemies = enemies;
 		range = 150;
 		id = 2;
+		name = "Ice Dragon";
 	}
 
 	@Override

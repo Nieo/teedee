@@ -30,6 +30,7 @@ public class RNGTower extends AbstractTower {
 		this.enemies = enemies;
 		range = 280;
 		id = 5;
+		name = "Lucky Dragon";
 	}
 
 	@Override
