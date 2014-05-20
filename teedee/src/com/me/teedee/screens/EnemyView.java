@@ -30,15 +30,19 @@ public class EnemyView extends Sprite {
 			path = "img/slowEnemy.png";
 			break;
 		case 4:
-			path = "img/hydra3.png";
+			path = "img/firstEnemy.png";
 			break;
 		default:
 			path = "img/firstEnemy.png";
 			break;
 		}
 		this.set(new Sprite(new Texture(path)));
-
+		
 		this.enemy = abstractEnemy;
+		
+		this.setX(enemy.getPosition().getX());
+		this.setY(enemy.getPosition().getY());
+		
 		green = new Sprite(new Texture("img/green.png"));
 		red = new Sprite(new Texture("img/red.png"));
 	}

@@ -68,4 +68,12 @@ public class ShieldEnemy extends AbstractEnemy {
 	public int getId(){
 		return id;
 	}
+	
+	public float getShieldMax() {
+		return shieldLimit;
+	}
+	
+	public float getShield() {
+		return shield;
+	}
 }
