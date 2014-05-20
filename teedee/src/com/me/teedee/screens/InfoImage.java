@@ -62,27 +62,27 @@ public class InfoImage {
 		table.setHeight(200);
 		switch(index) {
 		case 1:
-			setText("Basic Tower",400);
+			setText("Yellow Dragon",400);
 			setDescription(1);
 			break;
 		case 2:
-			setText("Ice Tower", 400);
+			setText("Ice Dragon", 400);
 			setDescription(2);
 			break;
 		case 3:
-			setText("Multi Tower", 700);
+			setText("Hydra", 700);
 			setDescription(3);
 			break;
 		case 4:
-			setText("Shock Wave Tower", 450);
+			setText("Communist Dragon", 450);
 			setDescription(4);
 			break;
 		case 5:
-			setText("RNG Tower", 1000);
+			setText("Lucky Dragon", 1000);
 			setDescription(5);
 			break;
 		case 6:
-			setText("Blood Dragon Tower", 300);
+			setText("Blood Dragon", 300);
 			setDescription(6);
 			break;
 		}

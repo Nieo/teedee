@@ -250,7 +250,7 @@ public class MapScreen implements Screen {
 		waveLabel.setText("Wave: " + map.getWaveIndex());
 
 		if(chosedTower != null) {
-			towerName.setText(chosedTower.getName() + " Lv." + chosedTower.getCurrentLevel());
+			towerName.setText(chosedTower.getName() + " Lv." + (chosedTower.getCurrentLevel()+1));
 			towerKills.setText("Enemies killed: " + chosedTower.getKills());
 			chosedTowerImage.setDrawable(new SpriteDrawable(new Sprite(chosedTower.getTexture())));
 		} else {
