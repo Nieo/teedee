@@ -62,21 +62,13 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 	 */
 	private float distanceTraveled = 0f;
 
-	/**
-	 * Constructs a new enemy unit. 
-	 * @param p The path the enemy unit will go. Is needed.
-	 */	
-	public AbstractEnemy(Path p) {
-		this(p,120f, new Lives(),new Reward(100));
-	}
 
 	/**
 	 * Constructs a new enemy unit
-	 * @param t The path the enemy unit will go. Is needed.
-	 * @param sp The speed of the enemy unit.
-	 * @param l The health of the enemy unit.
-	 * @param r The reward of the enemy unit.
-	 * @param s The status effect of the enemy unit.
+	 * @param p The path the enemy will travel across the map.
+	 * @param sp The speed of the enemy.
+	 * @param l The health of the enemy.
+	 * @param r The reward of the enemy.
 	 */
 	public AbstractEnemy(Path p, float sp, Lives l, Reward r) {
 		this.path = p;
@@ -94,7 +86,6 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 	}
 
 	public boolean takeDamage(int damage) {
-		// TODO Add even more logic!
 		isAlive = this.lives.lowerLives(damage);
 		return isAlive;
 	}
@@ -105,7 +96,17 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 		else
 			statusMap.get(tower).resetTime();
 	}
-
+	public void updateStatuses(float delta){
+		Iterator<Status> statusMapIterator = this.getStatusMap().values().iterator();
+		while(statusMapIterator.hasNext()){
+			Status tempStatus = statusMapIterator.next();
+			tempStatus.reduceTimeLeft(delta); 
+			
+			if(tempStatus.getTimeLeft() <= 0){
+				statusMapIterator.remove();
+			}
+		}
+	}
 	public Status getOverallStatus(){
 		float overallSpeedRatio = 1;
 		float overallDamagePerSecond = 0;
@@ -121,9 +122,8 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 
 	public void move(float delta) {
 
-		//reachedEnd = false;
 		boolean checkpointFound = false;
-		//xSpeed = 1;	//TODO debug
+	
 		if(reachedCheckpoint(nextCheckPoint, delta)) {
 			setPosition(new Position(nextCheckPoint));
 			checkpointFound = true;
@@ -228,10 +228,6 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 		}else{
 			return 1;
 		}
-	}
-
-	public void levelUp(){
-		lives = new Lives(lives.getMaxLives()*1.1f);
 	}
 
 	public int getId() {

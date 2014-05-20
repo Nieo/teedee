@@ -19,7 +19,7 @@ public class IceTower extends AbstractTower {
 		for(int i = 1; i < 5; i++)
 			price[i] = new Price(100*i);
 
-		value = price[0].getPrice();
+		sellValue = price[0].getPrice();
 		currentLevel = 0;
 		maxLevel = 3;
 		for(int i = 0; i < maxLevel; i++)

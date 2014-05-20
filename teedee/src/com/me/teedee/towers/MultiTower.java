@@ -8,6 +8,10 @@ import com.me.teedee.Price;
 import com.me.teedee.Status;
 import com.me.teedee.enemies.AbstractEnemy;
 
+/**
+ * A tower that can shoot at multiple enemies simultaneously
+ */
+
 public class MultiTower extends AbstractTower {
 	private float cooldown;
 
@@ -16,7 +20,7 @@ public class MultiTower extends AbstractTower {
 		for(int i = 1; i < 5; i++)
 			price[i] = new Price(i * 100);
 
-		value = price[0].getPrice();
+		sellValue = price[0].getPrice();
 		currentLevel = 0;
 		maxLevel = 5;
 		for(int i = 0; i < 5; i++)

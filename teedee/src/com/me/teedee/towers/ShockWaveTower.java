@@ -21,7 +21,7 @@ public class ShockWaveTower extends AbstractTower {
 		for(int i = 1; i < 5; i++){
 			price[i] = new Price(200*i);
 		}
-		value = price[0].getPrice();
+		sellValue = price[0].getPrice();
 		currentLevel = 0;
 		maxLevel = 5;
 		for(int i = 0; i < 5; i++)

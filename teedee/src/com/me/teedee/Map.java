@@ -21,7 +21,7 @@ public class Map {
 	private ArrayList<AbstractEnemy> currentEnemies = new ArrayList<AbstractEnemy>();
 	private TiledMap tiledMap;
 
-	//TODO temporary, this can probably be done in a different way
+
 	private int waveIndex = 0;
 	private boolean playerIsAlive;
 	private boolean isRunning = true;
@@ -40,16 +40,11 @@ public class Map {
 	}
 
 	/**
-	 * Constructs a map containing the given waves, a given TiledMap and player
-	 * @param waves a list containing wave objects which are going to be used during the game
-	 * @param mapPath the system path to the tmx map
-	 * @param player the object representing the player of the game
+	 * Returns a list of towers that are currently on the map
+	 * @return a list of towers that are currently on the map
 	 */
-	public Map(ArrayList<Wave> waves, String mapPath,Player player) {
-		this.waves = waves;
-		this.tiledMap = new TmxMapLoader().load(mapPath);
-		this.player = player;
-		playerIsAlive = true;
+	public List<AbstractTower> getTowers() {
+		return towers;
 	}
 
 	/**
@@ -60,16 +55,64 @@ public class Map {
 		return currentEnemies;
 	}
 
-	/**
-	 * Returns a list of towers that are currently on the map
-	 * @return a list of towers that are currently on the map
-	 */
-	public List<AbstractTower> getTowers() {
-		return towers;
-	}
-
 	public int getWaveIndex() {
 		return waveIndex;
+	}
+
+	/**
+	 * Returns the map's path
+	 * @return Path
+	 */
+	public Path getPath() {
+		return path;
+	}
+
+	public TiledMap getTiledMap() {
+		return this.tiledMap;
+	}
+
+	/**
+	 * Returns the game's player
+	 * @return Player
+	 */
+	public Player getPlayer() {
+		return player;
+	}
+
+	public boolean isPlayerAlive() {
+		return playerIsAlive;
+	}
+
+	public boolean isRunning() {
+		return isRunning;
+	}
+
+	/**
+	 * Replaces the game's player
+	 * @param player the player who will be playing the game
+	 */
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
+	public void setRunning(boolean isRunning) {
+		this.isRunning = isRunning;
+	}
+
+	/**
+	 * Setting the current enemies to the next wave's enemies
+	 */
+	public void nextWave() {
+		if(currentEnemies.isEmpty()) {
+			currentEnemies = waves.get(waveIndex).getEnemies();
+			for(int i = 0; i < currentEnemies.size(); i++) {
+				currentEnemies.get(i).setPosition(new Position(currentEnemies.get(i).getPosition().getX()-100*i,currentEnemies.get(i).getPosition().getY()));
+			}
+			for(int i = 0; i < towers.size(); i++) {
+				towers.get(i).setEnemies(currentEnemies);
+			}
+			waveIndex++;
+		}
 	}
 
 	/**
@@ -82,7 +125,7 @@ public class Map {
 			tower.setPosition(position);
 			this.towers.add(tower);
 			player.removeMoney(tower.getBuildPrice().getPrice());
-
+	
 			return true;
 		}
 		return false;
@@ -93,7 +136,7 @@ public class Map {
 			if(AbstractTower.distance(p, t.getPosition()) < 40 )
 				return false;
 		}
-
+	
 		List<Position> positions = path.getPositions();
 		for(int i = 0; i < positions.size() - 1; i++){
 			float x1 = positions.get(i).getX();
@@ -122,39 +165,6 @@ public class Map {
 		return true;
 	}
 
-	public void sellTower(int index) {
-		player.addMoney((int) (towers.get(index).getValue()*0.8));
-		towers.remove(index);
-	}
-
-	/**
-	 * Returns the map's path
-	 * @return Path
-	 */
-	public Path getPath() {
-		return path;
-	}
-
-	public TiledMap getTiledMap() {
-		return this.tiledMap;
-	}
-
-	/**
-	 * Returns the game's player
-	 * @return Player
-	 */
-	public Player getPlayer() {
-		return player;
-	}
-
-	/**
-	 * Replaces the game's player
-	 * @param player the player who will be playing the game
-	 */
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
-
 	public boolean upgradeTower(AbstractTower t){
 		if(t.getUpgradePrice().getPrice() <= player.getMoneyInt()){
 			if(t.upgrade()){
@@ -165,38 +175,33 @@ public class Map {
 		return false;
 	}
 
-	/**
-	 * Setting the current enemies to the next wave's enemies
-	 */
-	public void nextWave() {
-		if(currentEnemies.isEmpty()) {
-			currentEnemies = waves.get(waveIndex).getEnemies();
-			for(int i = 0; i < currentEnemies.size(); i++) {
-				currentEnemies.get(i).setPosition(new Position(currentEnemies.get(i).getPosition().getX()-100*i,currentEnemies.get(i).getPosition().getY()));
-				if(waveIndex%3==0){
-					currentEnemies.get(i).levelUp();
-				}
-			}
-			for(int i = 0; i < towers.size(); i++) {
-				towers.get(i).setEnemies(currentEnemies);
-			}
-			waveIndex++;
+	public void sellTower(int index) {
+		player.addMoney((int) (towers.get(index).getSellValue()*0.8));
+		towers.remove(index);
+	}
+
+	public void update(float delta) {
+		if(!isRunning){
+			return;
+		}
+	
+		this.removeEnemies(); //Must be done first, since the EnemyViews must have a reference to the enemy for deletion
+		this.updateEnemiesPositions(delta);
+		this.towersShoot(delta);
+		this.updateEnemiesStatuses(delta);
+	
+		if(player.getLives().getCurrentLives()<=0){
+			playerIsAlive = false;
 		}
 	}
 
-	public void updateEnemiesPositions(float delta) {
-		for(int i = 0; i < currentEnemies.size(); i++) {
-			currentEnemies.get(i).move(delta);
-		}
-	}
-
-	public void towersShoot(float delta) {
+	private void towersShoot(float delta) {
 		for(AbstractTower tower : towers) {
 			tower.shoot(delta);
 		}
 	}
 
-	public void removeEnemies() {
+	private void removeEnemies() {
 		if(!currentEnemies.isEmpty()) {
 			for(int i = 0; i < currentEnemies.size(); i++) {
 				if(!currentEnemies.get(i).isAlive() || currentEnemies.get(i).reachedEnd()) {
@@ -211,44 +216,15 @@ public class Map {
 		}
 	}
 
-	public void update(float delta) {
-		if(!isRunning){
-			return;
+	private void updateEnemiesPositions(float delta) {
+		for(int i = 0; i < currentEnemies.size(); i++) {
+			currentEnemies.get(i).move(delta);
 		}
-
-		this.removeEnemies(); //Must be done first, since the EnemyViews must have a reference to the enemy for deletion
-		this.updateEnemiesPositions(delta);
-		this.towersShoot(delta);
-		this.updateEnemiesStatuses(delta);
-
-		if(player.getLives().getCurrentLives()<=0){
-			playerIsAlive = false;
-		}
-	}
-
-	public boolean isPlayerAlive() {
-		return playerIsAlive;
-	}
-
-	public boolean isRunning() {
-		return isRunning;
-	}
-
-	public void setRunning(boolean isRunning) {
-		this.isRunning = isRunning;
 	}
 
 	public void updateEnemiesStatuses(float delta){
-		for(int i = 0; i < currentEnemies.size();i++){
-			Iterator<Status> statusMapIterator = currentEnemies.get(i).getStatusMap().values().iterator();
-			while(statusMapIterator.hasNext()){
-				Status tempStatus = statusMapIterator.next();
-				tempStatus.reduceTimeLeft(delta); //TODO UPDATE_SPEED should not lie here, so how to solve?
-				//Remove the status if it has influenced the enemy enough time
-				if(tempStatus.getTimeLeft() <= 0){
-					statusMapIterator.remove();
-				}
-			}
+		for(AbstractEnemy ae: currentEnemies){
+			ae.updateStatuses(delta);
 		}
 	}
 }

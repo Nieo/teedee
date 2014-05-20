@@ -54,16 +54,6 @@ public class MapTest {
 		System.out.println("Test torn down");
 	}
 
-	//	@Test
-	//	public void testMapArrayListOfWavePathPlayer() {
-	//		assertTrue(false);
-	//	}
-	//
-	//	@Test
-	//	public void testMapArrayListOfWaveStringPlayer() {
-	//		assertTrue(false);
-	//	}
-
 	@Test
 	public void testBuildTower() {
 		float posX = 350;
@@ -95,17 +85,19 @@ public class MapTest {
 
 	@Test
 	public void testSellTower() {
-		double moneyFromBeginning = player.getMoneyInt();
+		int moneyFromBeginning = player.getMoneyInt();
 		AbstractTower tower = new BasicTower(new Position(200,200),currentEnemies);
+		int buildPrice = tower.getBuildPrice().getPrice();
+		
 		map.buildTower(tower,new Position(200,200));
-
+		
 		//Assert that the buildTower method actually reduces the amount of money the player has
-		assertTrue(player.getMoneyInt() == 1000-tower.getValue());
+		assertTrue(player.getMoneyInt() == moneyFromBeginning-buildPrice);
 
 		map.sellTower(0);
 
 		//Assert that the sellTower method actually increases the amount of money the player has
-		assertEquals(moneyFromBeginning - (int)(tower.getValue()*0.2),player.getMoneyInt(),1);
+		assertEquals(moneyFromBeginning - (int)(tower.getSellValue()*0.2),player.getMoneyInt(),1);
 
 		assertTrue(towers.isEmpty());
 	}
@@ -131,65 +123,17 @@ public class MapTest {
 	}
 
 	@Test
-	//******TODO***** This test is not working, the implementation is not finished
 	public void testNextWave() {
-		List<AbstractEnemy> wave1 = map.getEnemies();
-
 		//Assert that there are no enemies from the beginning
-		assertTrue(wave1.isEmpty());
-
+		assertTrue(map.getEnemies().isEmpty());
 		map.nextWave();
-
-		//Assert that no wave is created when nextWave() is called and there are no current enemies
-		assertFalse(false);
+		//Check if there are enemies after nextWave is called
+		assertFalse(map.getEnemies().isEmpty());
 
 	}
 
-	@Test
-	public void testUpdateEnemiesPositions() {
-		AbstractEnemy enemy = currentEnemies.get(0);
-		Position pos1 = new Position(enemy.getPosition());
 
-		//The newly instantiated position, pos1, should be equal to the one that the tower has
-		assertTrue(enemy.getPosition().equals(pos1));
-		map.updateEnemiesPositions(1.0f/60.0f);
 
-		//pos1 should now be unequal to the tower's position, since the tower has been moved 
-		assertFalse(enemy.getPosition().equals(pos1));
-	}
-	//
-	//	@Test
-	//	public void testTowersShoot() {
-	//		assertTrue(false);
-	//	}
-	//
-	@Test
-	public void testRemoveEnemies() {
-		int numberOfEnemiesStart = currentEnemies.size();
-		//No enemies should've been removed
-		assertTrue(numberOfEnemiesStart == currentEnemies.size());
-		//TODO Remove status parameter
-		currentEnemies.get(0).takeDamage(101);
-		map.removeEnemies();
-		//One enemy should've been removed
-		System.out.println(numberOfEnemiesStart);
-		System.out.println(currentEnemies.size());
-		assertTrue(numberOfEnemiesStart - currentEnemies.size() == 1);
-	}
-
-	//
-	//	@Test
-	//	public void testUpdate() {
-	//		assertTrue(false);
-	//	}
-	//
-
-	//TODO FINISH HIM!
-	@Test
-	public void testUpdateEnemiesStatuses() {
-		//AbstractTower tower = new BasicTower(new Position(200,200), currentEnemies);
-
-		assertTrue(false);
-	}
+	
 
 }

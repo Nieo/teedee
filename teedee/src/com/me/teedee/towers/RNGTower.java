@@ -13,7 +13,7 @@ public class RNGTower extends AbstractTower {
 		price[0] = new Price(1000);
 		for(int i = 1; i < 5; i++)
 			price[i] = new Price(300 + i * 100);
-		value = price[0].getPrice();
+		sellValue = price[0].getPrice();
 
 		currentLevel = 0;
 		maxLevel = 5;

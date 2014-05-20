@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class WaveFactory {
 
 	/**
-	 * TODO
+	 * TODO Balancing
 	 * We should fix the enemies array to add all different kind of enemies
 	 * when we have created these.
 	 * 

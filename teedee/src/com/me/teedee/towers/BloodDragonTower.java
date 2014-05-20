@@ -21,7 +21,7 @@ public class BloodDragonTower extends AbstractTower{
 		for(int i = 1; i < 5; i++){
 			price[i] = new Price(200*i + price[0].getPrice());
 		}
-		value = price[0].getPrice();
+		sellValue = price[0].getPrice();
 		currentLevel = 0;
 		maxLevel = 5;
 		for(int i = 0; i < 5; i++)
@@ -56,7 +56,7 @@ public class BloodDragonTower extends AbstractTower{
 	public Boolean upgrade() {
 		if(currentLevel < maxLevel - 1) {
 			currentLevel++;
-			value += price[currentLevel].getPrice();
+			sellValue += price[currentLevel].getPrice();
 			//Adding the previous attack damage and the amount of attack damage for an upgrade (50)
 			attackDamage[currentLevel] = attackDamage[currentLevel -1] + 50;
 			return true;

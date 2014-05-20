@@ -15,7 +15,7 @@ public class BasicTower extends AbstractTower {
 		price[2] = new Price(200);
 		price[3] = new Price(300);
 		price[4] = new Price(300);
-		value = price[0].getPrice();
+		sellValue = price[0].getPrice();
 		currentLevel = 0;
 		maxLevel = 5;
 		for(int i = 0; i < 5; i++)

@@ -12,7 +12,7 @@ import com.me.teedee.enemies.AbstractEnemy;
  */
 public abstract class AbstractTower {
 	protected Price[] price = new Price[5];
-	protected int value;
+	protected int sellValue;
 	protected int currentLevel;
 	protected int maxLevel;
 	protected float[] attackSpeed = new float[5]; 
@@ -88,7 +88,7 @@ public abstract class AbstractTower {
 	public Boolean upgrade() {
 		if(currentLevel < maxLevel - 1) {
 			currentLevel++;
-			value += price[currentLevel].getPrice();
+			sellValue += price[currentLevel].getPrice();
 			return true;
 		}
 		return false;
@@ -98,14 +98,12 @@ public abstract class AbstractTower {
 		return isShooting;
 	}
 
-	//TODO Should probably be named startShooting instead, since it's something that 
-	//SHOULD be going on for a period of time,
 	public void shoot(float delta) {
 		cooldown = cooldown - delta;
 		if(cooldown <= 0) {
 			cooldown = attackSpeed[currentLevel] + cooldown;
 			target.clear();
-			//isShooting = true;
+
 			for(int i = 0; i < enemies.size(); i++) {
 				if(distance(position, enemies.get(i).getPosition()) < range && enemies.get(i).isAlive()) {
 					if(target.isEmpty()) {
@@ -122,7 +120,6 @@ public abstract class AbstractTower {
 				isShooting = true;
 				target.get(0).addTowerStatus(this, new Status(status));
 
-				//TODO maybe do this in another way
 				if(!target.get(0).takeDamage(attackDamage[currentLevel])) {
 					kills++;
 				}
@@ -138,8 +135,8 @@ public abstract class AbstractTower {
 		return Math.sqrt((double)dx*dx+dy*dy);
 	}
 
-	public double getValue() {
-		return value;
+	public double getSellValue() {
+		return sellValue;
 	}
 
 	public int getIndex() {
