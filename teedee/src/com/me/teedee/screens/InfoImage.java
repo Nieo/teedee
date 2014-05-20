@@ -49,8 +49,9 @@ public class InfoImage {
 	}
 
 	public void setUpgradeCost(int cost) {
+		String s =(cost < Integer.MAX_VALUE ? "$"+cost : "Max level");
 		towerName.setText("Upgrade price");
-		towerPrice.setText("$" + cost);
+		towerPrice.setText(s);
 		description.setText("");
 		table.setWidth(130);
 		table.setHeight(70);
