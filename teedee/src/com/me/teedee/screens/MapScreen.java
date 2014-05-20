@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -74,7 +75,9 @@ public class MapScreen implements Screen {
 	private List<Notification> notificationList = new ArrayList<Notification>();
 
 	private Sprite[] tiledPath;
-
+	
+	private float gameSpeed = 1f;
+	
 	private Image tmp;						// TODO tmp varaible, should probably create new class to handle this
 
 	private float ratio = 1;
@@ -86,7 +89,10 @@ public class MapScreen implements Screen {
 	private List<Sound> shootingSoundList = new ArrayList<Sound>();
 	private Texture soundOnTexture = new Texture("data/speaker_louder_32.png");
 	private Texture soundOffTexture = new Texture("data/speaker_off_32.png");
-
+	
+	private Texture normalForwardTexture = new Texture("data/Play.png");
+	private Texture fastForwardTexture = new Texture("data/FastForward.png");
+	
 	private String mapPath;
 
 	int k = 0; 		// logic for radius color changer
@@ -132,12 +138,16 @@ public class MapScreen implements Screen {
 		//fps.log();		// TODO debug
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+		
+		delta*=gameSpeed;
+		
 		if(map.isRunning()){
 			map.update(delta);
 			updateObjects();
 		}
-
+		
+		
+		
 		hud.act(delta);
 		hud.draw();
 		Table.drawDebug(hud);		//TODO debug
@@ -339,9 +349,11 @@ public class MapScreen implements Screen {
 		final TextButton cancelBuyBtn = new TextButton("Cancel Buy", uiSkin);
 		final TextButton pauseBtn = new TextButton("Pause", uiSkin);
 		final TextButton resumeButton =  new TextButton("Resume Game", uiSkin);
-		final TextButton quitButton = new TextButton("Quit Game", uiSkin);
-		final TextButton resetButton = new TextButton("Reset Game", uiSkin);
-
+		final TextButton quitBtn = new TextButton("Quit Game", uiSkin);
+		final TextButton resetBtn = new TextButton("Reset Game", uiSkin);
+		
+		final Button ffBtn = new Button(uiSkin);
+		ffBtn.add(new Image(fastForwardTexture));
 
 		final Button soundButton = new Button(uiSkin);
 		soundButton.add(new Image(soundOnTexture));
@@ -505,6 +517,14 @@ public class MapScreen implements Screen {
 						}
 					}
 				} 
+				if(event.getListenerActor().equals(ffBtn)){
+				ffBtn.clearChildren();
+				if (MapScreen.this.forwardGame()){
+					ffBtn.add(new Image(normalForwardTexture));
+				}else{
+					ffBtn.add(new Image(fastForwardTexture));
+				}
+				}
 				if(event.getListenerActor() == soundButton){
 					if(soundIsOn){
 						soundIsOn = false;
@@ -529,9 +549,9 @@ public class MapScreen implements Screen {
 				if(event.getListenerActor().equals(resumeButton)){
 					MapScreen.this.resume();
 					pauseWindow.setVisible(false);
-				}else if(event.getListenerActor().equals(quitButton)){
+				}else if(event.getListenerActor().equals(quitBtn)){
 					((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
-				}else if(event.getListenerActor().equals(resetButton)){
+				}else if(event.getListenerActor().equals(resetBtn)){
 					((Game) Gdx.app.getApplicationListener()).setScreen(new MapScreen(MapScreen.this.difficulty,MapScreen.this.pathChoice,MapScreen.this.mapPath));
 				}
 			}
@@ -589,13 +609,14 @@ public class MapScreen implements Screen {
 		cancelBuyBtn.addListener(clickListener);
 		pauseBtn.addListener(clickListener);
 		soundButton.addListener(clickListener);
+		ffBtn.addListener(clickListener);
 		resumeButton.addListener(clickListener);
-		quitButton.addListener(clickListener);
-		resetButton.addListener(clickListener);
-
+		quitBtn.addListener(clickListener);
+		resetBtn.addListener(clickListener);
+		
 		pauseWindow.add(resumeButton).width(200).height(50).spaceBottom(30f).center().row();
-		pauseWindow.add(resetButton).width(200).height(50).spaceBottom(30f).row();
-		pauseWindow.add(quitButton).width(200).height(50);
+		pauseWindow.add(resetBtn).width(200).height(50).spaceBottom(30f).row();
+		pauseWindow.add(quitBtn).width(200).height(50);
 
 		towerButtons.add(upgradeBtn).width(100).height(70).padBottom(20).padTop(20).padRight(20);
 		towerButtons.add(sellBtn).width(100).height(70).left();
@@ -624,6 +645,7 @@ public class MapScreen implements Screen {
 		buttonTable.add(pauseBtn).width(60).height(60).padTop(5).row();
 		buttonTable.add(cancelBuyBtn).width(200).height(60).padTop(0);
 		buttonTable.add(soundButton).width(60).height(60).padTop(0).row();
+		buttonTable.add(ffBtn).fill();
 
 		guiTable.add(buildTable).row();
 		guiTable.add(towerInfoTable).width(315).row();
@@ -662,5 +684,15 @@ public class MapScreen implements Screen {
 			sound.dispose();
 		}
 	}
-
+	
+	private boolean forwardGame(){
+		if(gameSpeed ==1f){
+			gameSpeed = 3f;
+			return true;
+		}else{
+			gameSpeed = 1f;
+			return false;
+		}
+	}
+	
 }
