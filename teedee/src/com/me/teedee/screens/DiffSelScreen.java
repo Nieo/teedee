@@ -45,7 +45,7 @@ public class DiffSelScreen implements Screen {
 
 	private Image spaceMap;
 	private Image explosionMap;
-	private Image militaryMap;
+	private Image nebulaMap;
 	private Image parkMap;
 
 	private int pathLimit = 2;
@@ -99,9 +99,9 @@ public class DiffSelScreen implements Screen {
 		explosionMap.setName("Explosion");
 		explosionMap.addListener(dl);
 
-		militaryMap = new Image(new Texture("map/miliTmp.png"));
-		militaryMap.setName("Mili");
-		militaryMap.addListener(dl);
+		nebulaMap = new Image(new Texture("map/nebulaMapSmall.png"));
+		nebulaMap.setName("Nebula");
+		nebulaMap.addListener(dl);
 
 		parkMap = new Image(new Texture("map/park.png"));
 		parkMap.setName("Park");
@@ -140,7 +140,7 @@ public class DiffSelScreen implements Screen {
 
 		mapTable.add(spaceMap).padRight(20).padTop(40);
 		mapTable.add(explosionMap).padTop(40).row();
-		mapTable.add(militaryMap).padTop(20).padRight(20).padBottom(20);
+		mapTable.add(nebulaMap).padTop(20).padRight(20).padBottom(20);
 		mapTable.add(parkMap).padTop(20).padBottom(20);
 
 		spaceMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/mapThumbnailS.png"))));
@@ -206,9 +206,9 @@ public class DiffSelScreen implements Screen {
 				} else if(s.equals("Explosion")) {
 					mapPath = "map/explosionMap.png";
 					explosionMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/explosionMapSmallS.png"))));
-				} else if(s.equals("Mili")) {
-					mapPath = "map/map.png";
-					militaryMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/miliTmpS.png"))));
+				} else if(s.equals("Nebula")) {
+					mapPath = "map/nebulaMap.png";
+					nebulaMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/nebulaMapSmallS.png"))));
 				} else if(s.equals("Park")) {
 					mapPath = "map/map.png";
 					parkMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/parkS.png"))));
@@ -234,7 +234,7 @@ public class DiffSelScreen implements Screen {
 	private void resetImages() {
 		spaceMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/spaceMapThumbnail.png"))));
 		explosionMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/explosionMapSmall.png"))));
-		militaryMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/miliTmp.png"))));
+		nebulaMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/nebulaMapSmall.png"))));
 		parkMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/park.png"))));
 	}
 
