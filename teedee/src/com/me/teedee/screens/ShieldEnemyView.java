@@ -16,6 +16,8 @@ public class ShieldEnemyView extends EnemyView {
 		this.se = se;
 		shieldSprite = new Sprite(new Texture("img/unknown.png"));
 		origAlpha = shieldSprite.getColor().a;
+		shieldSprite.setX(this.getX());
+		shieldSprite.setY(this.getY());
 	}
 
 	@Override

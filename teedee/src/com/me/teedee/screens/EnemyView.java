@@ -5,8 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.me.teedee.enemies.AbstractEnemy;
 
-//import com.me.teedee.BasicEnemy;
-
 /**
  * A view that represents a enemy on the screen.
  * @author Daniel
@@ -15,31 +13,30 @@ import com.me.teedee.enemies.AbstractEnemy;
 public class EnemyView extends Sprite {
 
 	private AbstractEnemy enemy;
-	private Sprite sprite;
 	private Sprite green;
 	private Sprite red;
-	private Texture t = new Texture("img/firstEnemy.png");
 
 	public EnemyView(AbstractEnemy abstractEnemy) {
 		int swID = abstractEnemy.getId();
+		String path = "img/firstEnemy.png";
 		switch(swID){
 		case 1: 
-			t = new Texture("img/firstEnemy.png");
+			path = "img/firstEnemy.png";
 			break;
 		case 2:
-			t = new Texture("img/fastEnemy.png");
+			path = "img/fastEnemy.png";
 			break;
 		case 3:
-			t = new Texture("img/slowEnemy.png");
+			path = "img/slowEnemy.png";
 			break;
 		case 4:
-			t = new Texture("img/hydra3.png");
+			path = "img/hydra3.png";
 			break;
 		default:
+			path = "img/firstEnemy.png";
 			break;
 		}
-		sprite=new Sprite(t); 
-		this.set(sprite);
+		this.set(new Sprite(new Texture(path)));
 
 		this.enemy = abstractEnemy;
 		green = new Sprite(new Texture("img/green.png"));
@@ -81,5 +78,13 @@ public class EnemyView extends Sprite {
 
 	public int getReward() {
 		return enemy.getEnemyReward().getReward();
+	}
+	
+	public float getPositionX() {
+		return enemy.getPosition().getX();
+	}
+	
+	public float getPositionY() {
+		return enemy.getPosition().getY();
 	}
 }
