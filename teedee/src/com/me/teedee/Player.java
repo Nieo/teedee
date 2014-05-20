@@ -12,7 +12,7 @@ public class Player {
 
 	public Player() {
 		name = "Player";
-		money = new Money(800);
+		money = new Money(80000);
 		life = new Lives(100);
 	}
 

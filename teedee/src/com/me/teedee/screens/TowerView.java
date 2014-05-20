@@ -140,16 +140,16 @@ public class TowerView extends Sprite {
 		String picPath = "";
 		switch(tower.getCurrentLevel()) {
 		case 1:
-			picPath = "img/bloodDragon.png";
+			picPath = "img/bloodDragon1.png";
 			break;
 		case 2:
-			picPath = "img/bloodDragon.png";
+			picPath = "img/bloodDragon1.png";
 			break;
 		case 3:
-			picPath = "img/bloodDragon.png";
+			picPath = "img/bloodDragon2.png";
 			break;
 		case 4:
-			picPath = "img/bloodDragon.png";
+			picPath = "img/bloodDragon2.png";
 			break;
 		default:
 			picPath = "img/bloodDragon.png";
