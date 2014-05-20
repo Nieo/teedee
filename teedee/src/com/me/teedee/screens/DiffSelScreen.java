@@ -44,7 +44,7 @@ public class DiffSelScreen implements Screen {
 	private ButtonGroup bg;
 
 	private Image spaceMap;
-	private Image jungleMap;
+	private Image explosionMap;
 	private Image militaryMap;
 	private Image parkMap;
 
@@ -95,9 +95,9 @@ public class DiffSelScreen implements Screen {
 		spaceMap.setName("SpaceMap");
 		spaceMap.addListener(dl);
 
-		jungleMap = new Image(new Texture("map/jungleTmp.png"));
-		jungleMap.setName("Jungle");
-		jungleMap.addListener(dl);
+		explosionMap = new Image(new Texture("map/explosionMapSmall.png"));
+		explosionMap.setName("Explosion");
+		explosionMap.addListener(dl);
 
 		militaryMap = new Image(new Texture("map/miliTmp.png"));
 		militaryMap.setName("Mili");
@@ -139,7 +139,7 @@ public class DiffSelScreen implements Screen {
 		bg.setUncheckLast(true);
 
 		mapTable.add(spaceMap).padRight(20).padTop(40);
-		mapTable.add(jungleMap).padTop(40).row();
+		mapTable.add(explosionMap).padTop(40).row();
 		mapTable.add(militaryMap).padTop(20).padRight(20).padBottom(20);
 		mapTable.add(parkMap).padTop(20).padBottom(20);
 
@@ -183,7 +183,6 @@ public class DiffSelScreen implements Screen {
 
 		@Override
 		public void clicked(InputEvent event, float x, float y) {
-			System.out.println(event.getListenerActor().getName());
 			String s = event.getListenerActor().getName();
 
 			if(s.equals("Easy")){
@@ -204,9 +203,9 @@ public class DiffSelScreen implements Screen {
 				if(s.equals("SpaceMap")) {
 					mapPath = "map/map.png";
 					spaceMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/mapThumbnailS.png"))));
-				} else if(s.equals("Jungle")) {
-					mapPath = "map/map.png";
-					jungleMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/jungleTmpS.png"))));
+				} else if(s.equals("Explosion")) {
+					mapPath = "map/explosionMap.png";
+					explosionMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/explosionMapSmallS.png"))));
 				} else if(s.equals("Mili")) {
 					mapPath = "map/map.png";
 					militaryMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/miliTmpS.png"))));
@@ -227,7 +226,6 @@ public class DiffSelScreen implements Screen {
 			}
 
 			if(event.getListenerActor().getName().equals("Start")){
-				System.out.println("Difficulty is "+diff);
 				((Game) Gdx.app.getApplicationListener()).setScreen(new MapScreen(diff,currentPathChoice, mapPath));
 			}
 		}
@@ -235,7 +233,7 @@ public class DiffSelScreen implements Screen {
 
 	private void resetImages() {
 		spaceMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/spaceMapThumbnail.png"))));
-		jungleMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/jungleTmp.png"))));
+		explosionMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/explosionMapSmall.png"))));
 		militaryMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/miliTmp.png"))));
 		parkMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/park.png"))));
 	}
