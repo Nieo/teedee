@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.me.teedee.Position;
 import com.me.teedee.towers.AbstractTower;
-
+/**
+ * The bullet class is a graphical representation of the shots or bullets the towers fire
+ */
 public class Bullet extends Sprite{
 	private Position targetPosition;
 	private Position startPosition;
@@ -78,10 +80,12 @@ public class Bullet extends Sprite{
 
 	public void update(float delta){
 		startPosition = new Position(this.getX(),this.getY());
-		direction = getDirection(startPosition, targetPosition);
+		Position targetImageCenter = new Position(targetPosition.getX() + 30,
+													targetPosition.getY() + 30);
+		direction = getDirection(startPosition, targetImageCenter);
 		this.setPosition(getX() + speed*direction.x*delta, getY() + speed*direction.y*delta);
 		setRotation(direction.angle() + 90);
-		if(getDistance(startPosition,targetPosition) <= speed*delta ){
+		if(getDistance(startPosition, targetImageCenter) <= speed*delta ){
 			this.setAlpha(0);
 			hasHitTarget = true;
 		}

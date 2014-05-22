@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.me.teedee.towers.AbstractTower;
-
+/**
+ * A class that graphically represent a tower unit.
+ */
 public class TowerView extends Sprite {
 	private AbstractTower tower;
 	private String name;
@@ -162,6 +164,8 @@ public class TowerView extends Sprite {
 			picPath = "img/iceDragon1.png";
 			break;
 		case 2:
+		case 3:
+		case 4:
 			picPath = "img/iceDragon2.png";
 			break;
 		default:

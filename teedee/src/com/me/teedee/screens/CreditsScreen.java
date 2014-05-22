@@ -14,7 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-
+/**
+ *A Screen class which shows  a credit screen with the names od the creators of this game  
+ */
 public class CreditsScreen implements Screen {
 
 	private Stage stage;

@@ -4,7 +4,9 @@ import com.me.teedee.Lives;
 import com.me.teedee.Path;
 import com.me.teedee.Reward;
 
-// 50% faster than a regular enemy
+/**
+ *  An enemy type which is faster than the basic enemy unit
+ */
 public class FastEnemy extends AbstractEnemy {
 
 	private final int id = 2;

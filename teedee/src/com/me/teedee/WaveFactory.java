@@ -9,14 +9,6 @@ import java.util.ArrayList;
  */
 public class WaveFactory {
 
-	/**
-	 * TODO Balancing
-	 * We should fix the enemies array to add all different kind of enemies
-	 * when we have created these.
-	 * 
-	 * Also we probably should come up with a method to properly generate
-	 * the wave and not just add more enemies of the same kind in a pattern.
-	 */
 	public static ArrayList<Wave> createWave(int d, Path p){
 		switch(d) {
 		case 1:

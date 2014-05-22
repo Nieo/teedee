@@ -1,7 +1,9 @@
 package com.me.teedee.screens;
 
 import com.badlogic.gdx.Game;
-
+/**
+ * The class which is responsible for switching between screens. 
+ */
 public class TeeDeeGame extends Game {
 
 	@Override

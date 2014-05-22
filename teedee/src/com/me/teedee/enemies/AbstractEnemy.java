@@ -13,7 +13,7 @@ import com.me.teedee.towers.AbstractTower;
 
 
 /**
- * A most simple enemy unit which implement the interface IEnenmy. Is abstract.
+ * An abstract enemy unit. All other enemy types should extend this class
  * @author Fridgeridge
  *
  */

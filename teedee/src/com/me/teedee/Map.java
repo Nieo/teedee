@@ -1,15 +1,14 @@
 package com.me.teedee;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.me.teedee.enemies.AbstractEnemy;
 import com.me.teedee.towers.AbstractTower;
 
 /**
+ * Map handles the running Tower defense game
  *@author Jacob Genander
  */
 public class Map {
@@ -184,7 +183,7 @@ public class Map {
 		if(!isRunning){
 			return;
 		}
-	
+		
 		this.removeEnemies(); //Must be done first, since the EnemyViews must have a reference to the enemy for deletion
 		this.updateEnemiesPositions(delta);
 		this.towersShoot(delta);

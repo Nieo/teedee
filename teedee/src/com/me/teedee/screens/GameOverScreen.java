@@ -13,7 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-
+/**
+ * A Screen class that shows up when player has lost all their lives. Prompts the user to start a new game or to exit the game.
+ */
 public class GameOverScreen implements Screen{
 	private Stage stage;
 	private SpriteBatch batch;
@@ -56,7 +58,7 @@ public class GameOverScreen implements Screen{
 		newGameButton.addListener(new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y){
-				((Game) Gdx.app.getApplicationListener()).setScreen(new DiffSelScreen());
+				((Game) Gdx.app.getApplicationListener()).setScreen(new DifficultySelectScreen());
 			}
 		});
 

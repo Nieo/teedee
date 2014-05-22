@@ -1,7 +1,7 @@
 package com.me.teedee;
 
 /**
- * Money class
+ * Money class which describes the current wealth of the player
  * @author Daniel
  */
 public class Money {

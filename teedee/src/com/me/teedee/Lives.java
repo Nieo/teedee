@@ -1,6 +1,7 @@
 package com.me.teedee;
 
 /**
+ * Lives is a class which represent the health of enemies
  * @Author Nieo
  */
 public class Lives {

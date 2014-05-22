@@ -1,5 +1,9 @@
 package com.me.teedee;
-
+/**
+ * 
+ * A class that represent the cartesian coordinates of objects in the game world
+ *
+ */
 public class Position {
 
 	private float xCoordinate;

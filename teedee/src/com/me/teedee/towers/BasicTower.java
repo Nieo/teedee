@@ -6,7 +6,9 @@ import com.me.teedee.Position;
 import com.me.teedee.Price;
 import com.me.teedee.Status;
 import com.me.teedee.enemies.AbstractEnemy;
-
+/**
+ *A basic tower with no special traits. 
+ */
 public class BasicTower extends AbstractTower {
 
 	public BasicTower(Position pos, ArrayList<AbstractEnemy> enemies) {

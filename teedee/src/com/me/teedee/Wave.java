@@ -11,6 +11,7 @@ import com.me.teedee.enemies.ShieldEnemy;
 import com.me.teedee.enemies.SlowEnemy;
 
 /**
+ * A class that represent the incoming amount of enemies
  * @Author Nieo
  */
 public class Wave {

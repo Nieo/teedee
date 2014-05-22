@@ -6,7 +6,9 @@ import com.me.teedee.Position;
 import com.me.teedee.Price;
 import com.me.teedee.Status;
 import com.me.teedee.enemies.AbstractEnemy;
-
+/**
+ *A tower class which deals damage randomly. 
+ */
 public class RNGTower extends AbstractTower {
 
 	public RNGTower(Position pos, ArrayList<AbstractEnemy> enemies) {
