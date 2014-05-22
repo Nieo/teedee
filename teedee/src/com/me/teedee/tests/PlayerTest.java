@@ -1,8 +1,10 @@
-package com.me.teedee;
+package com.me.teedee.tests;
 
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+
+import com.me.teedee.Player;
 
 public class PlayerTest {
 

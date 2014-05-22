@@ -1,4 +1,4 @@
-package com.me.teedee;
+package com.me.teedee.tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -11,6 +11,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.me.teedee.Map;
+import com.me.teedee.Path;
+import com.me.teedee.Player;
+import com.me.teedee.Position;
+import com.me.teedee.Wave;
+import com.me.teedee.WaveFactory;
 import com.me.teedee.enemies.AbstractEnemy;
 import com.me.teedee.towers.AbstractTower;
 import com.me.teedee.towers.BasicTower;

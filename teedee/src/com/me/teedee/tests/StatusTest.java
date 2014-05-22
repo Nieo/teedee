@@ -1,8 +1,10 @@
-package com.me.teedee;
+package com.me.teedee.tests;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
+import com.me.teedee.Status;
 
 public class StatusTest {	
 	@Test
