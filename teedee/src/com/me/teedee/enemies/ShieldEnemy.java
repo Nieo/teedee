@@ -4,7 +4,9 @@ import com.me.teedee.Lives;
 import com.me.teedee.Path;
 import com.me.teedee.Reward;
 
-//An enemy with a damage-absorbing shield 
+/**
+ * An enemy with a damage-absorbing shield. The shield regenrates over time. 
+ */
 public class ShieldEnemy extends AbstractEnemy {
 
 	private final int id = 4;

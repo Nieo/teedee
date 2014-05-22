@@ -5,7 +5,7 @@ import com.me.teedee.Path;
 import com.me.teedee.Reward;
 
 /**
- * A most basic enemy, extends abstract enemy
+ * A most basic enemy, extends AbstractEnemy
  * @author Fridgeridge
  *
  */

@@ -1,7 +1,7 @@
 package com.me.teedee;
 
 /**
- * Reward class
+ * A class that represents the amount of money the enemies drop on kill
  * @author Daniel
  */
 public class Reward {

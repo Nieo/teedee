@@ -5,7 +5,9 @@ import java.util.List;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.me.teedee.Position;
-
+/**
+ *A class that hold graphical information about the path which the enemies travels on.
+ */
 public class PathView {
 	private List<Position> pos;
 	private Sprite[] tiledPath;

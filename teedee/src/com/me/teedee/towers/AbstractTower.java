@@ -8,6 +8,7 @@ import com.me.teedee.Status;
 import com.me.teedee.enemies.AbstractEnemy;
 
 /**
+ * An abstract representation of a tower. All other Tower types should extend this class.
  * @author Nieo
  */
 public abstract class AbstractTower {

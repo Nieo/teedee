@@ -24,7 +24,7 @@ import com.me.teedee.PathFactory;
  * @author Fridgeridge
  *
  */
-public class DiffSelScreen implements Screen {
+public class DifficultySelectScreen implements Screen {
 
 	private Stage stage;
 	private SpriteBatch batch;
@@ -186,18 +186,18 @@ public class DiffSelScreen implements Screen {
 			String s = event.getListenerActor().getName();
 
 			if(s.equals("Easy")){
-				DiffSelScreen.this.diff=1;	
+				DifficultySelectScreen.this.diff=1;	
 			}else if(s.equals("Normal")){
-				DiffSelScreen.this.diff=2;
+				DifficultySelectScreen.this.diff=2;
 			}else if(s.equals("Hard")){
-				DiffSelScreen.this.diff=3;
+				DifficultySelectScreen.this.diff=3;
 			}else if(s.equals("Path")){
 				if(currentPathChoice<pathLimit){
 					currentPathChoice += 1;
 				}else{
 					currentPathChoice = 1;
 				}
-				DiffSelScreen.this.pathButton.getLabel().setText("Path "+currentPathChoice);
+				DifficultySelectScreen.this.pathButton.getLabel().setText("Path "+currentPathChoice);
 			} else if(event.getListenerActor() instanceof Image) { 
 				resetImages();
 				if(s.equals("SpaceMap")) {

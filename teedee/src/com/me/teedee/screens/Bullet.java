@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.me.teedee.Position;
 import com.me.teedee.towers.AbstractTower;
-
+/**
+ * The bullet class is a graphical representation of the shots or bullets the towers fire
+ */
 public class Bullet extends Sprite{
 	private Position targetPosition;
 	private Position startPosition;

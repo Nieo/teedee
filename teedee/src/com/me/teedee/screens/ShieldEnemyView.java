@@ -4,7 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.me.teedee.enemies.ShieldEnemy;
-
+/**
+ *A special graphical class for the ShieldEnemy. Adds a bubble sprite for displaying the shield the ShieldEnemy has.
+ */
 public class ShieldEnemyView extends EnemyView {
 
 	private ShieldEnemy se;

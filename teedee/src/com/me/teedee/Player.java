@@ -1,7 +1,7 @@
 package com.me.teedee;
 
 /**
- * Player class
+ * A class that represents the player of the Tower Defense game
  * @author Daniel
  */
 public class Player {

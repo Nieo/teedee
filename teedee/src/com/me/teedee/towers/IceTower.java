@@ -6,7 +6,9 @@ import com.me.teedee.Position;
 import com.me.teedee.Price;
 import com.me.teedee.Status;
 import com.me.teedee.enemies.AbstractEnemy;
-
+/**
+ *A tower class that applies a slow effect to the enemy hit by its shot.
+ */
 public class IceTower extends AbstractTower {
 	ArrayList<Status> statusLevels = new ArrayList<Status>();
 
