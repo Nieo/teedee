@@ -53,7 +53,7 @@ public class WaveFactory {
 		enemies[0] = 0;
 		enemies[1] = 4;
 		waveList.add(new Wave(path, enemies, 2));
-		enemies[3] = 5;
+		enemies[3] = 2;
 
 		for(int i = 3; i < 30; i++) {
 			if(i%10 == 0){
