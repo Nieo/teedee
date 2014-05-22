@@ -1,4 +1,4 @@
-package com.me.teedee.towers;
+package com.me.teedee.tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.me.teedee.Position;
+import com.me.teedee.towers.AbstractTower;
+import com.me.teedee.towers.BasicTower;
 
 public class BasicTowerTest {
 	AbstractTower t;

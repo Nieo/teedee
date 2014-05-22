@@ -1,4 +1,4 @@
-package com.me.teedee.enemies;
+package com.me.teedee.tests;
 
 import static org.junit.Assert.assertEquals;
 
@@ -10,6 +10,8 @@ import org.junit.Test;
 import com.me.teedee.Path;
 import com.me.teedee.Position;
 import com.me.teedee.Status;
+import com.me.teedee.enemies.AbstractEnemy;
+import com.me.teedee.enemies.BasicEnemy;
 import com.me.teedee.towers.AbstractTower;
 import com.me.teedee.towers.BasicTower;
 
