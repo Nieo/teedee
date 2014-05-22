@@ -5,7 +5,7 @@ import java.util.List;
 
 public class PathFactory {
 
-	public static final int nbrOfPaths = 2;
+	public static final int nbrOfPaths = 3;
 
 	public static Path createPath(int i){
 		switch(i){
@@ -13,6 +13,8 @@ public class PathFactory {
 			return createPathOne();
 		case 2:
 			return createPathTwo();
+		case 3: 
+			return createPathThree();
 		default:
 			return createPathOne();
 		}
@@ -41,6 +43,20 @@ public class PathFactory {
 		pathPositions.add(new Position(750,350));
 		pathPositions.add(new Position(750,00));
 
+		return new Path(pathPositions);
+	}
+	
+	private static Path createPathThree(){
+		List<Position> pathPositions = new ArrayList<Position>();
+		pathPositions.add(new Position(0,550));
+		pathPositions.add(new Position(300,550));
+		pathPositions.add(new Position(300,50));
+		pathPositions.add(new Position(50,50));
+		pathPositions.add(new Position(50,250));
+		pathPositions.add(new Position(700,250));
+		pathPositions.add(new Position(700,550));
+		pathPositions.add(new Position(800,550));
+		pathPositions.add(new Position(800,750));
 		return new Path(pathPositions);
 	}
 }
