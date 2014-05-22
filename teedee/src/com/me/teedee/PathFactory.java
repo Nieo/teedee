@@ -2,7 +2,11 @@ package com.me.teedee;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * A factory class which creates different paths based on the choice of an integer
+ * @author Fridgeridge
+ *
+ */
 public class PathFactory {
 
 	public static final int nbrOfPaths = 3;

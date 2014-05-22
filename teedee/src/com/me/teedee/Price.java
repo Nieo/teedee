@@ -1,7 +1,7 @@
 package com.me.teedee;
 
 /**
- * Price class
+ * Class that represent the cost of towers
  * @author Daniel
  */
 public class Price {
