@@ -50,7 +50,7 @@ public class SplashScreen implements Screen {
 
 	private void fadeAnimation() {
 		if(fadeIn ) {
-			alpha += 0.001;
+			alpha += 0.01;
 			if(alpha > 1) {
 				alpha = 1;
 				fadeIn = false;
