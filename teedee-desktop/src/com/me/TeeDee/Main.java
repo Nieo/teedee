@@ -7,7 +7,7 @@ import com.me.teedee.TeeDeeGame;
 public class Main {
 	public static void main(String[] args) {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-		cfg.title = "teedee";
+		cfg.title = "TeeDee";
 		//cfg.useGL20 = false;
 		cfg.width = 1280;
 		cfg.height = 720;
