@@ -2,10 +2,8 @@ package com.me.teedee.screens;
 
 import java.util.List;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.google.web.bindery.requestfactory.shared.ExtraTypes;
 import com.me.teedee.Position;
 
 public class PathView {
@@ -44,7 +42,3 @@ public class PathView {
 	}
 
 }
-
-
-
-

@@ -162,7 +162,7 @@ public class TowerView extends Sprite {
 			picPath = "img/iceDragon1.png";
 			break;
 		case 2:
-			picPath = "img/iceDragon1.png";
+			picPath = "img/iceDragon2.png";
 			break;
 		case 3:
 			picPath = "img/iceDragon2.png";

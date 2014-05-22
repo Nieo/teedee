@@ -1,11 +1,9 @@
 package com.me.teedee;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.me.teedee.enemies.AbstractEnemy;
 import com.me.teedee.towers.AbstractTower;
 
