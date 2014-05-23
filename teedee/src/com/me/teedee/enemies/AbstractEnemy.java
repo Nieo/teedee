@@ -85,6 +85,71 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 		this.nextCheckPoint = path.getPositions().get(0);
 	}
 
+	public boolean reachedEnd() {
+		return reachedEnd;
+	}
+
+	public boolean isAlive() {
+		return this.isAlive;
+	}
+
+	public Status getOverallStatus(){
+		float overallSpeedRatio = 1;
+		float overallDamagePerSecond = 0;
+	
+		Iterator<Status> statusMapIterator = statusMap.values().iterator();
+		while(statusMapIterator.hasNext()){
+			Status tempStatus = statusMapIterator.next();
+			overallSpeedRatio = overallSpeedRatio*tempStatus.getSpeedRatio();
+			overallDamagePerSecond += tempStatus.getDamagePerSecond();
+		}
+		return new Status(overallSpeedRatio,overallDamagePerSecond,10f);
+	}
+
+	public Reward getEnemyReward() {
+		return reward;
+	}
+
+	public HashMap<AbstractTower,Status> getStatusMap() {
+		return this.statusMap;
+	}
+
+	public Position getPosition() {
+		return this.position;
+	}
+
+	public float getDistanceTraveled() {
+		return this.distanceTraveled;
+	}
+
+	public Lives getLives() {
+		return lives;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public float getSpeed() {
+		return speed;
+	}
+
+	public void setLives(Lives lives) {
+		this.lives = lives;
+	}
+
+	public void setReward(Reward reward) {
+		this.reward = reward;
+	}
+
+	public void setPosition(Position p) {
+		this.position=p;
+	}
+
+	public void setSpeed(float speed) {
+		this.speed = speed;
+	}
+
 	public boolean takeDamage(int damage) {
 		isAlive = this.lives.lowerLives(damage);
 		return isAlive;
@@ -96,6 +161,7 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 		else
 			statusMap.get(tower).resetTime();
 	}
+
 	public void updateStatuses(float delta){
 		Iterator<Status> statusMapIterator = this.getStatusMap().values().iterator();
 		while(statusMapIterator.hasNext()){
@@ -107,21 +173,9 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 			}
 		}
 	}
-	public Status getOverallStatus(){
-		float overallSpeedRatio = 1;
-		float overallDamagePerSecond = 0;
-
-		Iterator<Status> statusMapIterator = statusMap.values().iterator();
-		while(statusMapIterator.hasNext()){
-			Status tempStatus = statusMapIterator.next();
-			overallSpeedRatio = overallSpeedRatio*tempStatus.getSpeedRatio();
-			overallDamagePerSecond += tempStatus.getDamagePerSecond();
-		}
-		return new Status(overallSpeedRatio,overallDamagePerSecond,10f);
-	}
 
 	public void move(float delta) {
-
+	
 		boolean checkpointFound = false;
 	
 		if(reachedCheckpoint(nextCheckPoint, delta)) {
@@ -132,10 +186,10 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 				nextCheckPoint = path.getPositions().get(i);
 				xSpeed = 0;
 				ySpeed = 0;
-
+	
 				float dx = position.getX()-nextCheckPoint.getX();
 				float dy = position.getY()-nextCheckPoint.getY();
-
+	
 				if(Math.abs(dx) > Math.abs(dy)) {
 					if(dx > 0) {
 						xSpeed = -speed;
@@ -154,7 +208,7 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 				//return reachedEnd;
 			}
 		}
-
+	
 		if(!reachedEnd && !checkpointFound) {
 			position.setxCoordinate(position.getX()+xSpeed*getOverallStatus().getSpeedRatio()*delta);
 			position.setyCoordinate(position.getY()+ySpeed*getOverallStatus().getSpeedRatio()*delta);
@@ -179,46 +233,6 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 		return false;
 	}
 
-	public Reward getEnemyReward() {
-		return reward;
-	}
-
-	public void setReward(Reward reward) {
-		this.reward = reward;
-	}
-
-	public HashMap<AbstractTower,Status> getStatusMap() {
-		return this.statusMap;
-	}
-
-	public void setPosition(Position p) {
-		this.position=p;
-	}
-
-	public Position getPosition() {
-		return this.position;
-	}
-
-	public boolean isAlive() {
-		return this.isAlive;
-	}
-
-	public float getStepsTraveled() {
-		return this.distanceTraveled;
-	}
-
-	public boolean reachedEnd() {
-		return reachedEnd;
-	}
-
-	public void setLives(Lives lives) {
-		this.lives = lives;
-	}
-
-	public Lives getLives() {
-		return lives;
-	}
-
 	@Override
 	public int compareTo(AbstractEnemy ae){
 		if(this.distanceTraveled < ae.distanceTraveled){
@@ -228,17 +242,5 @@ public abstract class AbstractEnemy implements Comparable<AbstractEnemy>{
 		}else{
 			return 1;
 		}
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public float getSpeed() {
-		return speed;
-	}
-
-	public void setSpeed(float speed) {
-		this.speed = speed;
 	}
 }

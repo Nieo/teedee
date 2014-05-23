@@ -46,7 +46,7 @@ public class RNGTower extends AbstractTower {
 					if(target.isEmpty()) {
 						target.add(enemies.get(i));  
 					} else {
-						if(enemies.get(i).getStepsTraveled() > target.get(0).getStepsTraveled()){
+						if(enemies.get(i).getDistanceTraveled() > target.get(0).getDistanceTraveled()){
 							target.clear();
 							target.add(enemies.get(i));
 						}

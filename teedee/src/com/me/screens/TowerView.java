@@ -1,4 +1,4 @@
-package com.me.teedee.screens;
+package com.me.screens;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -114,7 +114,7 @@ public class TowerView extends Sprite {
 		super.setTexture(new Texture(picPath));		
 	}
 
-	//TODO Change images
+
 	private void upgradeBloodDragon() {
 		String picPath = "";
 		switch(tower.getCurrentLevel()) {
@@ -194,7 +194,7 @@ public class TowerView extends Sprite {
 		}
 		super.setTexture(new Texture(picPath));
 	}
-
+	//TODO change images 2,4 and 6 heads 
 	private void upgradeMultiTower() {
 		String picPath = "";
 		switch(tower.getCurrentLevel()) {

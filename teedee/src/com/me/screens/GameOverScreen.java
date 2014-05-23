@@ -1,4 +1,4 @@
-package com.me.teedee.screens;
+package com.me.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -9,28 +9,24 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 /**
- *A Screen class which shows  a credit screen with the names od the creators of this game  
+ * A Screen class that shows up when player has lost all their lives. Prompts the user to start a new game or to exit the game.
  */
-public class CreditsScreen implements Screen {
-
+public class GameOverScreen implements Screen{
 	private Stage stage;
 	private SpriteBatch batch;
 	private Table table;
 
 	private Skin skin;
 	private Texture background;
-	private Sprite bSprite;
+	private Sprite backgroundSprite;
 
-	private Label header;
-	private Label body;
-
-	private TextButton backButton;
+	private TextButton newGameButton;
+	private TextButton exitButton;
 
 	@Override
 	public void render(float delta) {
@@ -38,7 +34,7 @@ public class CreditsScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		batch.begin();
-		bSprite.draw(batch);
+		backgroundSprite.draw(batch);
 		batch.end();
 
 		stage.act(delta);
@@ -57,37 +53,42 @@ public class CreditsScreen implements Screen {
 
 		Gdx.input.setInputProcessor(stage);
 
-		header = new Label("Creators of teedee", skin);
-		body = new Label("Nieo, FridgeRidge,Dannemannet,Jacob \n"
-				+ "Magni memor Ludovico XII", skin);
-
-		backButton = new TextButton("Back", skin);
-		backButton.pad(20);
-		backButton.addListener(new ClickListener(){
+		newGameButton = new TextButton("New Game", skin);
+		newGameButton.pad(20);
+		newGameButton.addListener(new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y){
-				((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
+				((Game) Gdx.app.getApplicationListener()).setScreen(new DifficultySelectScreen());
+			}
+		});
+
+		exitButton = new TextButton("Quit", skin);
+		exitButton.pad(20);
+		exitButton.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y){
+				Gdx.app.exit();
 			}
 		});
 
 		table = new Table(skin);
 		table.setFillParent(true);
 
-		table.add(header).spaceBottom(20).row();
-		table.add(body).spaceBottom(20).row();
-		table.add(backButton).row();
+		table.add(newGameButton).width(200).spaceBottom(20).row();
+		table.add(exitButton).width(200).row();
 
 		stage.addActor(table);
 
 		batch = new SpriteBatch();	
-
-		background = new Texture("data/MainMenu.png");
-		bSprite = new Sprite(background);
-		bSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		background = new Texture("data/GAME_OVER_Screen.png");
+		backgroundSprite = new Sprite(background);
+		backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
 	@Override
-	public void hide() { dispose();	}
+	public void hide() {
+		dispose();
+	}
 
 	@Override
 	public void pause() { }

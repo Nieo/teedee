@@ -12,7 +12,7 @@ public class FastEnemy extends AbstractEnemy {
 	private final int id = 2;
 
 	public FastEnemy(Path p, int level){
-		super(p, 180f, new Lives(700*(1+0.1f*level)), new Reward(65));
+		super(p, 180f, new Lives(Math.round(700*(Math.pow(1.1, level)))), new Reward(65));
 	}
 
 	@Override

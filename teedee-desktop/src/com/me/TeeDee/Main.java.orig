@@ -2,7 +2,11 @@ package com.me.TeeDee;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.me.screens.TeeDeeGame;
+<<<<<<< HEAD
+import com.me.teedee.TeeDeeGame;
+=======
+import com.me.teedee.screens.TeeDeeGame;
+>>>>>>> 8860bb4b497fd873ac90310876d3dd6fa40028c1
 
 public class Main {
 	public static void main(String[] args) {

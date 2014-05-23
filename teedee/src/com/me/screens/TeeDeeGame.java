@@ -1,4 +1,4 @@
-package com.me.teedee.screens;
+package com.me.screens;
 
 import com.badlogic.gdx.Game;
 /**

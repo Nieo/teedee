@@ -1,4 +1,4 @@
-package com.me.teedee.screens;
+package com.me.screens;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +81,7 @@ public class MapScreen implements Screen {
 
 	private float ratio = 1;
 	private int buildIndex = 0;
-	FPSLogger fps = new FPSLogger();		// TODO debug FPSLogger
+	
 	private boolean soundIsOn = true;
 
 	private List<Sound> dyingSoundList = new ArrayList<Sound>();
@@ -130,7 +130,6 @@ public class MapScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		fps.log();		// TODO debug FPSLogger
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
