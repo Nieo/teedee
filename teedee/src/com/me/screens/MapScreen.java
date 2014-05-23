@@ -300,7 +300,6 @@ public class MapScreen implements Screen {
 		hud.getViewport().update(width, height, true);
 		table.invalidateHierarchy();
 		ratio = hud.getHeight()/Gdx.graphics.getHeight();
-		System.out.println("gui" + guiTable.getWidth() + " " + guiTable.getHeight());
 	}
 
 	public TowerView clickedOnTower(float x, float y) {

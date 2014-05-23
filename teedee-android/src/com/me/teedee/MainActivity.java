@@ -1,4 +1,4 @@
-package com.me.TeeDee;
+package com.me.teedee;
 
 import android.os.Bundle;
 
