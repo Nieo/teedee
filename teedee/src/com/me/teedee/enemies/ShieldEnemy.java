@@ -18,9 +18,9 @@ public class ShieldEnemy extends AbstractEnemy {
 	private boolean shieldDown = false;
 
 	public ShieldEnemy(Path p, int level){
-		super(p, 120f, new Lives(500*(1+0.1f*level)),new Reward(65));
-		shield = 1000f*(1+0.1f*level);
-		shieldLimit = 1000f*(1+0.1f*level);
+		super(p, 120f, new Lives(Math.round(500*(Math.pow(1.1, level)))),new Reward(65));
+		shield = Math.round(1000*(Math.pow(1.1, level)));
+		shieldLimit = Math.round(1000*(Math.pow(1.1, level)));
 
 		regen = 100f;
 	}

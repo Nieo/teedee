@@ -12,8 +12,8 @@ public class Player {
 
 	public Player() {
 		name = "Player";
-		money = new Money(80000);
-		life = new Lives(100);
+		money = new Money(900);
+		life = new Lives(20);
 	}
 
 	public Player(String name) {

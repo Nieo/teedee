@@ -14,7 +14,8 @@ public class BasicEnemy extends AbstractEnemy {
 	private final int id = 1;
 
 	public BasicEnemy(Path p, int level) {
-		super(p, 120f, new Lives(700*(1+0.1f*level)), new Reward(50));
+		super(p, 120f, new Lives(Math.round(700*(Math.pow(1.1, level)))), new Reward(50));
+
 	}
 
 	@Override

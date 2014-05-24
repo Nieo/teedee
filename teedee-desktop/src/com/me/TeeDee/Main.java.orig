@@ -1,0 +1,21 @@
+package com.me.TeeDee;
+
+import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+<<<<<<< HEAD
+import com.me.teedee.TeeDeeGame;
+=======
+import com.me.teedee.screens.TeeDeeGame;
+>>>>>>> 8860bb4b497fd873ac90310876d3dd6fa40028c1
+
+public class Main {
+	public static void main(String[] args) {
+		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
+		cfg.title = "TeeDee";
+		//cfg.useGL20 = false;
+		cfg.width = 1280;
+		cfg.height = 720;
+		
+		new LwjglApplication(new TeeDeeGame(), cfg);
+	}
+}

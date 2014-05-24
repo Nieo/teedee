@@ -46,17 +46,22 @@ public class WaveFactory {
 		enemies[1] = 4;
 		waveList.add(new Wave(path, enemies, 2));
 		enemies[3] = 2;
-
-		for(int i = 3; i < 30; i++) {
+		waveList.add(new Wave(path, enemies, 3));
+		enemies[3] = 0;
+		for(int i = 4; i < 15; i++) {
 			if(i%10 == 0){
 				int[] a = {0,0,0,0,i/10};
 				waveList.add(new Wave(path,a, i));
-			} else {	
+			}if(i < 6){
+				enemies[0] += i;
+				enemies[1] += i;
 				waveList.add(new Wave(path,enemies,i));
+			}	else {	
 				enemies[0] += i;
 				enemies[1] += i;
 				enemies[2] += i;
-				enemies[3] += i;
+				enemies[3] += i*2;
+				waveList.add(new Wave(path,enemies,i));
 			}
 		}
 		return waveList;

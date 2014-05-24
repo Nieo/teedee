@@ -18,9 +18,6 @@ public class Map {
 	private Path path; 
 	private Player player;
 	private ArrayList<AbstractEnemy> currentEnemies = new ArrayList<AbstractEnemy>();
-	private TiledMap tiledMap;
-
-
 	private int waveIndex = 0;
 	private boolean playerIsAlive;
 	private boolean isRunning = true;
@@ -64,10 +61,6 @@ public class Map {
 	 */
 	public Path getPath() {
 		return path;
-	}
-
-	public TiledMap getTiledMap() {
-		return this.tiledMap;
 	}
 
 	/**
