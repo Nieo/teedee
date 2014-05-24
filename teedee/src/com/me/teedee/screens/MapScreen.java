@@ -100,7 +100,6 @@ public class MapScreen implements Screen {
 		this.pathChoice = pathChoice;
 
 		//Adding sounds for shooting
-		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot0.wav")));
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot1.wav")));
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot2.wav")));
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot3.wav")));
@@ -108,7 +107,7 @@ public class MapScreen implements Screen {
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot5.wav")));
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot6.wav")));
 		// Adding sounds for dying
-		dyingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/WilhelmScream_64kb.mp3")));
+		dyingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/dying1.wav")));
 
 		//Creating the path
 		Path path = PathFactory.createPath(pathChoice);

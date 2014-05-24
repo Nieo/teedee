@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="12.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>870</x>
+      <y>170</y>
+      <w>174</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;instanceOf&gt;&gt;</panel_attributes>
+    <additional_attributes>90;30;90;80</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>40</x>
+      <y>120</y>
+      <w>150</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>_MultiTower_
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>300</x>
+      <y>120</y>
+      <w>150</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>_BasicTower_
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>160</x>
+      <y>150</y>
+      <w>160</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;extends&gt;&gt;</panel_attributes>
+    <additional_attributes>140;80;30;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>40</x>
+      <y>300</y>
+      <w>150</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>_IceTower_
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>160</x>
+      <y>260</y>
+      <w>160</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;extends&gt;&gt;</panel_attributes>
+    <additional_attributes>140;30;30;70</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>290</x>
+      <y>150</y>
+      <w>154</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;extends&gt;&gt;</panel_attributes>
+    <additional_attributes>80;80;80;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>300</x>
+      <y>230</y>
+      <w>150</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>_/AbstractTower/_
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>420</x>
+      <y>150</y>
+      <w>170</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;extends&gt;&gt;</panel_attributes>
+    <additional_attributes>30;80;150;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>570</x>
+      <y>120</y>
+      <w>150</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>_RNGTower_
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>570</x>
+      <y>300</y>
+      <w>150</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>_BloodDragonTower_
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>420</x>
+      <y>260</y>
+      <w>170</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;extends&gt;&gt;</panel_attributes>
+    <additional_attributes>30;30;150;70</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>300</x>
+      <y>340</y>
+      <w>150</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>_ShockWaveTower_
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Package</type>
+    <coordinates>
+      <x>30</x>
+      <y>70</y>
+      <w>700</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>enemies</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>290</x>
+      <y>260</y>
+      <w>154</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;extends&gt;&gt;</panel_attributes>
+    <additional_attributes>80;30;80;80</additional_attributes>
+  </element>
+</diagram>
