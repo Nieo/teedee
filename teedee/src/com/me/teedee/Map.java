@@ -95,7 +95,7 @@ public class Map {
 	 * Setting the current enemies to the next wave's enemies
 	 */
 	public void nextWave() {
-		if(currentEnemies.isEmpty()) {
+		if(this.waveEnded()) {
 			currentEnemies = waves.get(waveIndex).getEnemies();
 			for(int i = 0; i < currentEnemies.size(); i++) {
 				currentEnemies.get(i).setPosition(new Position(currentEnemies.get(i).getPosition().getX()-100*i,currentEnemies.get(i).getPosition().getY()));
@@ -186,6 +186,10 @@ public class Map {
 			playerIsAlive = false;
 		}
 	}
+	
+	public boolean waveEnded(){
+		return currentEnemies.isEmpty();
+	}
 
 	private void towersShoot(float delta) {
 		for(AbstractTower tower : towers) {
@@ -194,7 +198,7 @@ public class Map {
 	}
 
 	private void removeEnemies() {
-		if(!currentEnemies.isEmpty()) {
+		if(!waveEnded()) {
 			for(int i = 0; i < currentEnemies.size(); i++) {
 				if(!currentEnemies.get(i).isAlive() || currentEnemies.get(i).reachedEnd()) {
 					if(!currentEnemies.get(i).reachedEnd()) {

@@ -7,7 +7,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -51,7 +50,7 @@ public class MapScreen implements Screen {
 	private Stage hud;
 	private Table table;
 	private Table guiTable;
-
+	
 	private int difficulty;
 	private int pathChoice;
 
@@ -76,6 +75,7 @@ public class MapScreen implements Screen {
 	private Sprite[] tiledPath;
 	
 	private float gameSpeed = 1f;
+	private boolean isFastForward = false;
 	
 	private Image selectedImage;
 
@@ -83,16 +83,18 @@ public class MapScreen implements Screen {
 	private int buildIndex = 0;
 	
 	private boolean soundIsOn = true;
-
 	private List<Sound> dyingSoundList = new ArrayList<Sound>();
 	private List<Sound> shootingSoundList = new ArrayList<Sound>();
 	private Texture soundOnTexture = new Texture("data/speaker_louder_32.png");
 	private Texture soundOffTexture = new Texture("data/speaker_off_32.png");
 	
-	private Texture normalForwardTexture = new Texture("data/Play.png");
-	private Texture fastForwardTexture = new Texture("data/FastForward.png");
+	private TextButton nextWaveBtn;
+	private Image normalForwardImage = new Image(new Texture("data/Play.png"));
+	private Image fastForwardImage = new Image(new Texture("data/FastForward.png"));
+	private boolean nextWaveBtnState = true;
 	
 	private String mapPath;
+	
 
 	public MapScreen(int difficulty, int pathChoice, String mapPath) {
 		this.mapPath = mapPath;
@@ -140,16 +142,14 @@ public class MapScreen implements Screen {
 			updateObjects();
 		}
 		
-		
-		
 		hud.act(delta);
 		hud.draw();
-		
 
 		if(map.isRunning()){
 			hud.getSpriteBatch().begin();
 			drawObjects(delta);
 			hud.getSpriteBatch().end();
+			updateNextWaveBtn();
 		}
 	}
 
@@ -325,15 +325,12 @@ public class MapScreen implements Screen {
 
 		final TextButton upgradeBtn = new TextButton("Upgrade", uiSkin);
 		final TextButton sellBtn = new TextButton("Sell", uiSkin);
-		final TextButton nextWaveBtn = new TextButton("Next Wave", uiSkin);
 		final TextButton cancelBuyBtn = new TextButton("Cancel Buy", uiSkin);
 		final TextButton pauseBtn = new TextButton("Pause", uiSkin);
 		final TextButton resumeButton =  new TextButton("Resume Game", uiSkin);
 		final TextButton quitBtn = new TextButton("Quit Game", uiSkin);
 		final TextButton resetBtn = new TextButton("Reset Game", uiSkin);
-		
-		final Button ffBtn = new Button(uiSkin);
-		ffBtn.add(new Image(fastForwardTexture));
+		nextWaveBtn = new TextButton("Next Wave", uiSkin);
 
 		final Button soundButton = new Button(uiSkin);
 		soundButton.add(new Image(soundOnTexture));
@@ -485,7 +482,23 @@ public class MapScreen implements Screen {
 								}
 							}
 						} else if(event.getListenerActor() == nextWaveBtn) {
+							if(map.waveEnded()){
 							map.nextWave();
+							nextWaveBtn.clearChildren();
+							if(isFastForward){
+								nextWaveBtn.add(normalForwardImage);
+							}else{
+								nextWaveBtn.add(fastForwardImage);
+							}
+							}else{
+								nextWaveBtnState = false;
+								nextWaveBtn.clearChildren();
+								if (MapScreen.this.forwardGame()){
+									nextWaveBtn.add(normalForwardImage);
+								}else{
+									nextWaveBtn.add(fastForwardImage);
+								}	
+							}
 						} else if(event.getListenerActor() == cancelBuyBtn) {
 							if(selectedImage != null) {
 								selectedImage.setVisible(false);
@@ -495,14 +508,6 @@ public class MapScreen implements Screen {
 						}
 					}
 				} 
-				if(event.getListenerActor().equals(ffBtn)){
-				ffBtn.clearChildren();
-				if (MapScreen.this.forwardGame()){
-					ffBtn.add(new Image(normalForwardTexture));
-				}else{
-					ffBtn.add(new Image(fastForwardTexture));
-				}
-				}
 				if(event.getListenerActor() == soundButton){
 					if(soundIsOn){
 						soundIsOn = false;
@@ -587,11 +592,9 @@ public class MapScreen implements Screen {
 		cancelBuyBtn.addListener(clickListener);
 		pauseBtn.addListener(clickListener);
 		soundButton.addListener(clickListener);
-		ffBtn.addListener(clickListener);
 		resumeButton.addListener(clickListener);
 		quitBtn.addListener(clickListener);
 		resetBtn.addListener(clickListener);
-		
 		pauseWindow.add(resumeButton).width(200).height(50).spaceBottom(30f).center().row();
 		pauseWindow.add(resetBtn).width(200).height(50).spaceBottom(30f).row();
 		pauseWindow.add(quitBtn).width(200).height(50);
@@ -604,8 +607,7 @@ public class MapScreen implements Screen {
 		towerInfoTable.add(towerName = new Label("Tower Name", uiSkin)).left().row();
 		towerInfoTable.add(towerKills = new Label("Tower Name", uiSkin)).left().row();
 		towerInfoTable.add(towerButtons);
-	
-
+		
 		buildTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTable.png"))));
 		buildTable.add(hpLabel = new Label("HP: " + map.getPlayer().getLives().getCurrentLives(), uiSkin)).padTop(10).left().padLeft(40).row();
 		buildTable.add(moneyLabel = new Label("$ " + map.getPlayer().getMoneyInt(), uiSkin)).padLeft(40).left().row();
@@ -618,12 +620,10 @@ public class MapScreen implements Screen {
 		buildTable.add(bdt).padRight(20);
 		buildTable.top();
 		
-
 		buttonTable.add(nextWaveBtn).width(200).height(60).padTop(5);
 		buttonTable.add(pauseBtn).width(60).height(60).padTop(5).row();
 		buttonTable.add(cancelBuyBtn).width(200).height(60).padTop(0);
 		buttonTable.add(soundButton).width(60).height(60).padTop(0).row();
-		buttonTable.add(ffBtn).fill();
 
 		guiTable.add(buildTable).row();
 		guiTable.add(towerInfoTable).width(315).row();
@@ -635,7 +635,6 @@ public class MapScreen implements Screen {
 		table.add(guiTable);
 		table.setFillParent(true);
 		table.bottom().left();
-		
 
 		hud.addActor(table);
 		hud.addActor(pauseWindow);
@@ -663,11 +662,21 @@ public class MapScreen implements Screen {
 		}
 	}
 	
+	private void updateNextWaveBtn(){
+		if(map.waveEnded() && !nextWaveBtnState){
+			nextWaveBtn.clearChildren();
+			nextWaveBtn.add("Next Wave");
+			nextWaveBtnState = true;
+		}
+	}
+	
 	private boolean forwardGame(){
-		if(gameSpeed ==1f){
+		if(!isFastForward){
+			isFastForward = true;
 			gameSpeed = 3f;
 			return true;
 		}else{
+			isFastForward = false;
 			gameSpeed = 1f;
 			return false;
 		}
