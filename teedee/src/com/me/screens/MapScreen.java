@@ -50,7 +50,7 @@ public class MapScreen implements Screen {
 	private Stage hud;
 	private Table table;
 	private Table guiTable;
-	
+
 	private int difficulty;
 	private int pathChoice;
 
@@ -73,28 +73,28 @@ public class MapScreen implements Screen {
 	private List<Notification> notificationList = new ArrayList<Notification>();
 
 	private Sprite[] tiledPath;
-	
+
 	private float gameSpeed = 1f;
 	private boolean isFastForward = false;
-	
+
 	private Image selectedImage;
 
 	private float ratio = 1;
 	private int buildIndex = 0;
-	
+
 	private boolean soundIsOn = true;
 	private List<Sound> dyingSoundList = new ArrayList<Sound>();
 	private List<Sound> shootingSoundList = new ArrayList<Sound>();
 	private Texture soundOnTexture = new Texture("data/speaker_louder_32.png");
 	private Texture soundOffTexture = new Texture("data/speaker_off_32.png");
-	
+
 	private TextButton nextWaveBtn;
 	private Image normalForwardImage = new Image(new Texture("data/Play.png"));
 	private Image fastForwardImage = new Image(new Texture("data/FastForward.png"));
 	private boolean nextWaveBtnState = true;
-	
+
 	private String mapPath;
-	
+
 
 	public MapScreen(int difficulty, int pathChoice, String mapPath) {
 		this.mapPath = mapPath;
@@ -108,7 +108,7 @@ public class MapScreen implements Screen {
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot_shock_wave.wav")));
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot_RNG.wav")));
 		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot_blood_dragon.wav")));
-		
+
 		// Adding sounds for dying
 		dyingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/dying1.wav")));
 
@@ -134,14 +134,14 @@ public class MapScreen implements Screen {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+
 		delta*=gameSpeed;
-		
+
 		if(map.isRunning()){
 			map.update(delta);
 			updateObjects();
 		}
-		
+
 		hud.act(delta);
 		hud.draw();
 
@@ -198,7 +198,7 @@ public class MapScreen implements Screen {
 		for(int i = 0; i< towerList.size(); i++) {
 			towerList.get(i).draw(hud.getSpriteBatch());
 		}
-	
+
 		info.setPosition(guiTable.getX()-info.getWidth()*1.1f, (Gdx.graphics.getHeight()-Gdx.input.getY()-info.getHeight()/2/ratio)*ratio);
 		info.draw(hud.getSpriteBatch());
 	}
@@ -258,7 +258,7 @@ public class MapScreen implements Screen {
 		}
 
 		if(selectedImage!= null) {
-			
+
 			selectedImage.setPosition((Gdx.input.getX()-selectedImage.getWidth()/2/ratio)*ratio, (Gdx.graphics.getHeight()-Gdx.input.getY()-selectedImage.getHeight()/2/ratio)*ratio);
 			radius.showRadius();
 			radius.setPosition(selectedImage.getX(), selectedImage.getY());
@@ -395,12 +395,12 @@ public class MapScreen implements Screen {
 					} else if(event.getListenerActor() == mapImg) {
 						if(selectedImage != null) {
 							selectedImage.setVisible(false);		
-							
+
 
 							int tmpX = (int) ((Gdx.input.getX()-selectedImage.getWidth()/2/ratio)*ratio);
 							int tmpY = (int) ((Gdx.graphics.getHeight()-Gdx.input.getY()-selectedImage.getHeight()/2/ratio)*ratio);
 							selectedImage = null;
-							
+
 							boolean towerBuilt = false;
 							switch(buildIndex) {		
 							case 1:
@@ -483,15 +483,15 @@ public class MapScreen implements Screen {
 							}
 						} else if(event.getListenerActor() == nextWaveBtn) {
 							if(map.waveEnded()){
-							map.nextWave();
-							nextWaveBtn.clearChildren();
-							if(isFastForward){
-								nextWaveBtn.add(normalForwardImage);
-							}else{
-								nextWaveBtn.add(fastForwardImage);
-							}
-							}else{
+								map.nextWave();
 								nextWaveBtnState = false;
+								nextWaveBtn.clearChildren();
+								if(isFastForward){
+									nextWaveBtn.add(normalForwardImage);
+								}else{
+									nextWaveBtn.add(fastForwardImage);
+								}
+							}else{
 								nextWaveBtn.clearChildren();
 								if (MapScreen.this.forwardGame()){
 									nextWaveBtn.add(normalForwardImage);
@@ -607,7 +607,7 @@ public class MapScreen implements Screen {
 		towerInfoTable.add(towerName = new Label("Tower Name", uiSkin)).left().row();
 		towerInfoTable.add(towerKills = new Label("Tower Name", uiSkin)).left().row();
 		towerInfoTable.add(towerButtons);
-		
+
 		buildTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTable.png"))));
 		buildTable.add(hpLabel = new Label("HP: " + map.getPlayer().getLives().getCurrentLives(), uiSkin)).padTop(10).left().padLeft(40).row();
 		buildTable.add(moneyLabel = new Label("$ " + map.getPlayer().getMoneyInt(), uiSkin)).padLeft(40).left().row();
@@ -619,7 +619,7 @@ public class MapScreen implements Screen {
 		buildTable.add(rng);
 		buildTable.add(bdt).padRight(20);
 		buildTable.top();
-		
+
 		buttonTable.add(nextWaveBtn).width(200).height(60).padTop(5);
 		buttonTable.add(pauseBtn).width(60).height(60).padTop(5).row();
 		buttonTable.add(cancelBuyBtn).width(200).height(60).padTop(0);
@@ -628,7 +628,7 @@ public class MapScreen implements Screen {
 		guiTable.add(buildTable).row();
 		guiTable.add(towerInfoTable).width(315).row();
 		guiTable.add(buttonTable);
-		
+
 
 		table = new Table();
 		table.add(mapImg);
@@ -661,7 +661,7 @@ public class MapScreen implements Screen {
 			sound.dispose();
 		}
 	}
-	
+
 	private void updateNextWaveBtn(){
 		if(map.waveEnded() && !nextWaveBtnState){
 			nextWaveBtn.clearChildren();
@@ -669,7 +669,7 @@ public class MapScreen implements Screen {
 			nextWaveBtnState = true;
 		}
 	}
-	
+
 	private boolean forwardGame(){
 		if(!isFastForward){
 			isFastForward = true;
@@ -681,5 +681,5 @@ public class MapScreen implements Screen {
 			return false;
 		}
 	}
-	
+
 }
