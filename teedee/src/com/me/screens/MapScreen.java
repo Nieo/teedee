@@ -277,14 +277,14 @@ public class MapScreen implements Screen {
 
 
 			if(!towerList.isEmpty() && !radius.isRed()) {
+				System.out.println(towerList.size());
 				for(TowerView tv: towerList){
 					float dx = selectedImage.getX() - tv.getX();
 					float dy = selectedImage.getY() - tv.getY();
 					double d = Math.sqrt(dx*dx+dy*dy);
 					if(d < 40){
 						radius.setColorRed();
-					}else{
-						radius.setColorDefault();
+						break;
 					}
 
 				}

@@ -13,13 +13,13 @@ public class Player {
 	public Player() {
 		name = "Player";
 		money = new Money(900);
-		life = new Lives(20);
+		life = new Lives(10);
 	}
 
 	public Player(String name) {
 		this.name = name;
-		money = new Money(1000);
-		life = new Lives(100);
+		money = new Money(900);
+		life = new Lives(10);
 	}
 
 	public void addMoney(int gainedMoney) {
