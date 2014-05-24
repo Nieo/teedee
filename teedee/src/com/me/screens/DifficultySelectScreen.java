@@ -143,7 +143,7 @@ public class DifficultySelectScreen implements Screen {
 		mapTable.add(nebulaMap).padTop(20).padRight(20).padBottom(20);
 		mapTable.add(galaxyMap).padTop(20).padBottom(20);
 
-		spaceMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/mapThumbnailS.png"))));
+		spaceMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/spaceMapSmallS.png"))));
 
 		table.add(mapTable).padBottom(20).padTop(20).row();
 		table.add(easyButton).width(200).spaceBottom(20).row();
@@ -202,7 +202,7 @@ public class DifficultySelectScreen implements Screen {
 				resetImages();
 				if(s.equals("SpaceMap")) {
 					mapPath = "map/map.png";
-					spaceMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/mapThumbnailS.png"))));
+					spaceMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/spaceMapSmallS.png"))));
 				} else if(s.equals("Explosion")) {
 					mapPath = "map/explosionMap.png";
 					explosionMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/explosionMapSmallS.png"))));
