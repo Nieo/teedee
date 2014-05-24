@@ -102,15 +102,15 @@ public class MapScreen implements Screen {
 		this.pathChoice = pathChoice;
 
 		//Adding sounds for shooting
-		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot0.wav")));
-		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot1.wav")));
-		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot2.wav")));
-		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot3.wav")));
-		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot4.wav")));
-		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot5.wav")));
-		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot6.wav")));
+		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot_basic.wav")));
+		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot_ice.wav")));
+		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot_multi.wav")));
+		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot_shock_wave.wav")));
+		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot_RNG.wav")));
+		shootingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/shot_blood_dragon.wav")));
+		
 		// Adding sounds for dying
-		dyingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/WilhelmScream_64kb.mp3")));
+		dyingSoundList.add(Gdx.audio.newSound(Gdx.files.internal("data/dying1.wav")));
 
 		//Creating the path
 		Path path = PathFactory.createPath(pathChoice);
@@ -222,7 +222,7 @@ public class MapScreen implements Screen {
 					bulletList.add(new Bullet(p , 1000f, tower));
 				}
 				if(soundIsOn)
-					playShootingSound(tower.getId());
+					playShootingSound(tower.getId()-1);
 			}
 		}
 
