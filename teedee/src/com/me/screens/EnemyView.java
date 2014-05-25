@@ -91,10 +91,4 @@ public class EnemyView extends Sprite {
 	public float getPositionY() {
 		return enemy.getPosition().getY();
 	}
-	
-	public void dispose(){
-		this.getTexture().dispose();
-		red.getTexture().dispose();
-		green.getTexture().dispose();
-	}
 }

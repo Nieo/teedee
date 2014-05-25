@@ -36,9 +36,4 @@ public class ShieldEnemyView extends EnemyView {
 		shieldSprite.setX(this.getX()-20);
 		shieldSprite.setY(this.getY()-20);
 	}
-	
-	public void dispose(){
-		super.dispose();
-		shieldSprite.getTexture().dispose();
-	}
 }
