@@ -415,7 +415,7 @@ public class MapScreen implements Screen {
 								break;
 							case 3:
 								if(towerBuilt = map.buildTower(new MultiTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) map.getEnemies()), new Position(tmpX, tmpY))) {
-									towerList.add(new TowerView(new Sprite(new Texture("img/hydra.png")), map.getTowers().get(towerIndex), towerIndex));
+									towerList.add(new TowerView(new Sprite(new Texture("img/hydra2.png")), map.getTowers().get(towerIndex), towerIndex));
 								}
 								break;
 							case 4:
