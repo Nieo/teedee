@@ -151,6 +151,10 @@ public class MapScreen implements Screen {
 			hud.getSpriteBatch().end();
 			updateNextWaveBtn();
 		}
+		
+		if(!map.isPlayerAlive()){
+			((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen());
+		}
 	}
 
 	private void drawObjects(float delta) {
@@ -212,10 +216,7 @@ public class MapScreen implements Screen {
 	}
 
 	private void updateObjects() {
-		if(!map.isPlayerAlive()){
-			((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen());
-		}
-
+		
 		for (AbstractTower tower : map.getTowers()){
 			if(tower.isShooting()){
 				for(Position p: tower.getTargetPosition()){
