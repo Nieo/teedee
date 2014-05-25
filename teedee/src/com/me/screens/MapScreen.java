@@ -277,7 +277,7 @@ public class MapScreen implements Screen {
 
 
 			if(!towerList.isEmpty() && !radius.isRed()) {
-				System.out.println(towerList.size());
+	
 				for(TowerView tv: towerList){
 					float dx = selectedImage.getX() - tv.getX();
 					float dy = selectedImage.getY() - tv.getY();
@@ -318,7 +318,7 @@ public class MapScreen implements Screen {
 		final Image mapImg = new Image(new Texture(mapPath));
 		final Image bt = new Image(new Texture("img/firstDragon.png"));
 		final Image it = new Image(new Texture("img/iceDragon.png"));
-		final Image mt = new Image(new Texture("img/hydra.png"));
+		final Image mt = new Image(new Texture("img/hydra2.png"));
 		final Image swt = new Image(new Texture("img/shockwave.png"));
 		final Image rng = new Image(new Texture("img/RNGTower.png"));
 		final Image bdt = new Image(new Texture("img/bloodDragon.png"));
@@ -371,7 +371,7 @@ public class MapScreen implements Screen {
 							buildIndex = 2;
 							rad = 150;
 						} else if(event.getListenerActor() == mt) {
-							path = "img/hydra.png";
+							path = "img/hydra2.png";
 							buildIndex = 3;
 							rad = 300;
 						} else if(event.getListenerActor() == swt) {
@@ -461,7 +461,7 @@ public class MapScreen implements Screen {
 								int tmpIndex = chosedTower.getIndex();
 								map.sellTower(tmpIndex);
 								chosedTower.setAlpha(0);
-								notificationList.add(new Notification("$" + chosedTower.getValue(), chosedTower.getX(), chosedTower.getY()));
+								notificationList.add(new Notification("$" + chosedTower.getSellValue(), chosedTower.getX(), chosedTower.getY()));
 								towerList.remove(tmpIndex);
 								for(int i = 0; i < map.getTowers().size(); i++) {
 									map.getTowers().get(i).setIndex(i);

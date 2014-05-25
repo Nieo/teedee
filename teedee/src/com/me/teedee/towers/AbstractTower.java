@@ -92,8 +92,8 @@ public abstract class AbstractTower {
 
 	public Boolean upgrade() {
 		if(currentLevel < maxLevel - 1) {
+			sellValue += Math.round(0.8*price[currentLevel].getPrice());
 			currentLevel++;
-			sellValue += price[currentLevel].getPrice();
 			return true;
 		}
 		return false;
@@ -140,7 +140,8 @@ public abstract class AbstractTower {
 		return Math.sqrt((double)dx*dx+dy*dy);
 	}
 
-	public double getSellValue() {
+	public int getSellValue() {
+		System.out.println(sellValue);
 		return sellValue;
 	}
 

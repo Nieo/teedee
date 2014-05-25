@@ -202,16 +202,16 @@ public class TowerView extends Sprite {
 			picPath = "img/hydra3.png";
 			break;
 		case 2:
-			picPath = "img/hydra3.png";
+			picPath = "img/hydra4.png";
 			break;
 		case 3:
 			picPath = "img/hydra5.png";
 			break;
 		case 4:
-			picPath = "img/hydra5.png";
+			picPath = "img/hydra6.png";
 			break;
 		default:
-			picPath = "img/hydra.png";
+			picPath = "img/hydra2.png";
 		}
 		super.setTexture(new Texture(picPath));
 	}
@@ -238,5 +238,10 @@ public class TowerView extends Sprite {
 
 	public int getValue() {
 		return (int) tower.getSellValue();
+	}
+
+	public int getSellValue() {
+		
+		return tower.getSellValue();
 	}
 }
