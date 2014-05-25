@@ -100,4 +100,8 @@ public class Bullet extends Sprite{
 		update(delta);
 		super.draw(batch);
 	}
+	
+	public void dispose(){
+		this.getTexture().dispose();
+	}
 }

@@ -172,6 +172,7 @@ public class MapScreen implements Screen {
 				} else {
 					notificationList.add(new Notification("-1", Gdx.graphics.getWidth()*0.8f/2, Gdx.graphics.getHeight()*0.9f));
 				}
+				enemyList.get(i).dispose();
 				enemyList.remove(i);
 			}
 		}
@@ -185,6 +186,7 @@ public class MapScreen implements Screen {
 			bulletList.get(i).draw(hud.getSpriteBatch(), delta);
 			if(bulletList.get(i).hasHitTarget()){
 				bulletList.get(i).setAlpha(0);
+				bulletList.get(i).dispose();
 				bulletList.remove(i);
 			}
 		}
@@ -657,9 +659,11 @@ public class MapScreen implements Screen {
 	public void dispose() {	
 		hud.dispose();
 		info.dispose();
-		for(Sound sound : shootingSoundList){
+		for(Sound sound : shootingSoundList)
 			sound.dispose();
-		}
+		
+		for(Sound sound : dyingSoundList)
+			sound.dispose();
 	}
 
 	private void updateNextWaveBtn(){
