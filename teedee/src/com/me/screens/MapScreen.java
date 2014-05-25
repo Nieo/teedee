@@ -151,6 +151,10 @@ public class MapScreen implements Screen {
 			hud.getSpriteBatch().end();
 			updateNextWaveBtn();
 		}
+		
+		if(!map.isPlayerAlive()){
+			((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen());
+		}
 	}
 
 	private void drawObjects(float delta) {
@@ -172,7 +176,6 @@ public class MapScreen implements Screen {
 				} else {
 					notificationList.add(new Notification("-1", Gdx.graphics.getWidth()*0.8f/2, Gdx.graphics.getHeight()*0.9f));
 				}
-				enemyList.get(i).dispose();
 				enemyList.remove(i);
 			}
 		}
@@ -186,7 +189,6 @@ public class MapScreen implements Screen {
 			bulletList.get(i).draw(hud.getSpriteBatch(), delta);
 			if(bulletList.get(i).hasHitTarget()){
 				bulletList.get(i).setAlpha(0);
-				bulletList.get(i).dispose();
 				bulletList.remove(i);
 			}
 		}
@@ -214,10 +216,7 @@ public class MapScreen implements Screen {
 	}
 
 	private void updateObjects() {
-		if(!map.isPlayerAlive()){
-			((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen());
-		}
-
+		
 		for (AbstractTower tower : map.getTowers()){
 			if(tower.isShooting()){
 				for(Position p: tower.getTargetPosition()){
