@@ -62,7 +62,7 @@ public class InfoImage {
 		table.setHeight(200);
 		switch(index) {
 		case 1:
-			setText("Yellow Dragon",400);
+			setText("Amber Dragon",400);
 			setDescription(1);
 			break;
 		case 2:
@@ -74,7 +74,7 @@ public class InfoImage {
 			setDescription(3);
 			break;
 		case 4:
-			setText("Communist Dragon", 450);
+			setText("Carmine Dragon", 450);
 			setDescription(4);
 			break;
 		case 5:

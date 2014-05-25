@@ -141,7 +141,6 @@ public abstract class AbstractTower {
 	}
 
 	public int getSellValue() {
-		System.out.println(sellValue);
 		return sellValue;
 	}
 

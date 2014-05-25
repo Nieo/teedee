@@ -36,7 +36,7 @@ public class ShockWaveTower extends AbstractTower {
 		this.enemies = enemies;
 		range = 300;
 		id = 4;
-		name = "Comunist Dragon";
+		name = "Carmine Dragon";
 	}
 
 	@Override
