@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.me.teedee.screens.TeeDeeGame;
+import com.me.screens.TeeDeeGame;
 
 public class MainActivity extends AndroidApplication {
     @Override
