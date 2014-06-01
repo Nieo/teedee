@@ -32,7 +32,6 @@ public class DifficultySelectScreen implements Screen {
 	private Table mapTable;
 
 	private Skin skin;
-	private Texture background;
 	private Sprite bSprite;
 
 	private TextButton easyButton;
@@ -91,19 +90,19 @@ public class DifficultySelectScreen implements Screen {
 
 		DiffListener dl = new DiffListener();
 
-		spaceMap = new Image(new Texture("map/spaceMapThumbnail.png"));
+		spaceMap = new Image(Assets.manager.get("map/spaceMapThumbnail.png", Texture.class));
 		spaceMap.setName("SpaceMap");
 		spaceMap.addListener(dl);
 
-		explosionMap = new Image(new Texture("map/explosionMapSmall.png"));
+		explosionMap = new Image(Assets.manager.get("map/explosionMapSmall.png", Texture.class));
 		explosionMap.setName("Explosion");
 		explosionMap.addListener(dl);
 
-		nebulaMap = new Image(new Texture("map/nebulaMapSmall.png"));
+		nebulaMap = new Image(Assets.manager.get("map/nebulaMapSmall.png", Texture.class));
 		nebulaMap.setName("Nebula");
 		nebulaMap.addListener(dl);
 
-		galaxyMap = new Image(new Texture("map/galaxySmall.png"));
+		galaxyMap = new Image(Assets.manager.get("map/galaxySmall.png", Texture.class));
 		galaxyMap.setName("Galaxy");
 		galaxyMap.addListener(dl);
 
@@ -143,7 +142,7 @@ public class DifficultySelectScreen implements Screen {
 		mapTable.add(nebulaMap).padTop(20).padRight(20).padBottom(20);
 		mapTable.add(galaxyMap).padTop(20).padBottom(20);
 
-		spaceMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/spaceMapSmallS.png"))));
+		spaceMap.setDrawable(new SpriteDrawable(new Sprite(Assets.manager.get("map/spaceMapSmallS.png", Texture.class))));
 
 		table.add(mapTable).padBottom(20).padTop(20).row();
 		table.add(easyButton).width(200).spaceBottom(20).row();
@@ -156,8 +155,7 @@ public class DifficultySelectScreen implements Screen {
 
 		batch = new SpriteBatch();	
 
-		background = new Texture("data/MainMenu.png");
-		bSprite = new Sprite(background);
+		bSprite = new Sprite(Assets.manager.get("data/MainMenu.png", Texture.class));
 		bSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
@@ -176,7 +174,6 @@ public class DifficultySelectScreen implements Screen {
 	public void dispose() {
 		stage.dispose();
 		batch.dispose();
-		background.dispose();
 	}
 
 	private class DiffListener extends ClickListener {
@@ -202,16 +199,16 @@ public class DifficultySelectScreen implements Screen {
 				resetImages();
 				if(s.equals("SpaceMap")) {
 					mapPath = "map/map.png";
-					spaceMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/spaceMapSmallS.png"))));
+					spaceMap.setDrawable(new SpriteDrawable(new Sprite(Assets.manager.get("map/spaceMapSmallS.png", Texture.class))));
 				} else if(s.equals("Explosion")) {
 					mapPath = "map/explosionMap.png";
-					explosionMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/explosionMapSmallS.png"))));
+					explosionMap.setDrawable(new SpriteDrawable(new Sprite(Assets.manager.get("map/explosionMapSmallS.png", Texture.class))));
 				} else if(s.equals("Nebula")) {
 					mapPath = "map/nebulaMap.png";
-					nebulaMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/nebulaMapSmallS.png"))));
+					nebulaMap.setDrawable(new SpriteDrawable(new Sprite(Assets.manager.get("map/nebulaMapSmallS.png", Texture.class))));
 				} else if(s.equals("Galaxy")) {
 					mapPath = "map/galaxyMap.png";
-					galaxyMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/galaxySmallS.png"))));
+					galaxyMap.setDrawable(new SpriteDrawable(new Sprite(Assets.manager.get("map/galaxySmallS.png", Texture.class))));
 				}
 			}
 
@@ -232,10 +229,10 @@ public class DifficultySelectScreen implements Screen {
 	}
 
 	private void resetImages() {
-		spaceMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/spaceMapThumbnail.png"))));
-		explosionMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/explosionMapSmall.png"))));
-		nebulaMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/nebulaMapSmall.png"))));
-		galaxyMap.setDrawable(new SpriteDrawable(new Sprite(new Texture("map/galaxySmall.png"))));
+		spaceMap.setDrawable(new SpriteDrawable(new Sprite(Assets.manager.get("map/spaceMapThumbnail.png", Texture.class))));
+		explosionMap.setDrawable(new SpriteDrawable(new Sprite(Assets.manager.get("map/explosionMapSmall.png", Texture.class))));
+		nebulaMap.setDrawable(new SpriteDrawable(new Sprite(Assets.manager.get("map/nebulaMapSmall.png", Texture.class))));
+		galaxyMap.setDrawable(new SpriteDrawable(new Sprite(Assets.manager.get("map/galaxySmall.png", Texture.class))));
 	}
 
 	public int getDifficulty(){

@@ -36,15 +36,15 @@ public class EnemyView extends Sprite {
 			path = "img/firstEnemy.png";
 			break;
 		}
-		this.set(new Sprite(new Texture(path)));
-		
+		this.set(new Sprite(Assets.manager.get(path, Texture.class)));
+
 		this.enemy = abstractEnemy;
-		
+
 		this.setX(enemy.getPosition().getX());
 		this.setY(enemy.getPosition().getY());
-		
-		green = new Sprite(new Texture("img/green.png"));
-		red = new Sprite(new Texture("img/red.png"));
+
+		green = new Sprite(Assets.manager.get("img/green.png", Texture.class));
+		red = new Sprite(Assets.manager.get("img/red.png", Texture.class));
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class EnemyView extends Sprite {
 		return enemy.isAlive();
 	}
 
-	
+
 	private void update() {
 		setX(enemy.getPosition().getX());
 		setY(enemy.getPosition().getY());
@@ -83,11 +83,11 @@ public class EnemyView extends Sprite {
 	public int getReward() {
 		return enemy.getEnemyReward().getReward();
 	}
-	
+
 	public float getPositionX() {
 		return enemy.getPosition().getX();
 	}
-	
+
 	public float getPositionY() {
 		return enemy.getPosition().getY();
 	}

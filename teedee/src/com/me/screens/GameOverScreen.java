@@ -22,7 +22,6 @@ public class GameOverScreen implements Screen{
 	private Table table;
 
 	private Skin skin;
-	private Texture background;
 	private Sprite backgroundSprite;
 
 	private TextButton newGameButton;
@@ -67,7 +66,7 @@ public class GameOverScreen implements Screen{
 		exitButton.addListener(new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y){
-				
+
 				Gdx.app.exit();
 			}
 		});
@@ -81,8 +80,7 @@ public class GameOverScreen implements Screen{
 		stage.addActor(table);
 
 		batch = new SpriteBatch();	
-		background = new Texture("data/GAME_OVER_Screen.png");
-		backgroundSprite = new Sprite(background);
+		backgroundSprite = new Sprite(Assets.manager.get("data/GAME_OVER_Screen.png", Texture.class));
 		backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
@@ -101,6 +99,5 @@ public class GameOverScreen implements Screen{
 	public void dispose() {
 		stage.dispose();
 		batch.dispose();
-		background.dispose();
 	}
 }

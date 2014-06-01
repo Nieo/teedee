@@ -15,7 +15,7 @@ public class ShieldEnemyView extends EnemyView {
 	public ShieldEnemyView(ShieldEnemy se) {
 		super(se);
 		this.se = se;
-		shieldSprite = new Sprite(new Texture("img/shield.png"));
+		shieldSprite = new Sprite(Assets.manager.get("img/shield.png", Texture.class));
 		shieldSprite.setX(this.getPositionX()-20);
 		shieldSprite.setY(this.getPositionY()-20);
 	}

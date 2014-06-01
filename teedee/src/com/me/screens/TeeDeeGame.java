@@ -8,12 +8,11 @@ public class TeeDeeGame extends Game {
 
 	@Override
 	public void create() {
+		Assets.load();
+		while(!Assets.manager.update()) {	//TODO debug
+			System.out.println(Assets.manager.getProgress()*100 + "%");
+		}
 		setScreen(new SplashScreen(this));
-	}
-
-	@Override
-	public void dispose() {
-		super.dispose();
 	}
 
 	@Override
@@ -28,13 +27,19 @@ public class TeeDeeGame extends Game {
 	}
 
 	@Override
+	public void resume() {
+		super.resume();
+	}
+
+	@Override
 	public void pause() {
 		super.pause();
 
 	}
 
 	@Override
-	public void resume() {
-		super.resume();
+	public void dispose() {
+		super.dispose();
+		Assets.dispose();
 	}
 }

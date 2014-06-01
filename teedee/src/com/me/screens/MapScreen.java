@@ -85,12 +85,12 @@ public class MapScreen implements Screen {
 	private boolean soundIsOn = true;
 	private List<Sound> dyingSoundList = new ArrayList<Sound>();
 	private List<Sound> shootingSoundList = new ArrayList<Sound>();
-	private Texture soundOnTexture = new Texture("data/speaker_louder_32.png");
-	private Texture soundOffTexture = new Texture("data/speaker_off_32.png");
+	private Texture soundOnTexture = Assets.manager.get("data/speaker_louder_32.png", Texture.class);
+	private Texture soundOffTexture = Assets.manager.get("data/speaker_off_32.png", Texture.class);
 
 	private TextButton nextWaveBtn;
-	private Image normalForwardImage = new Image(new Texture("data/Play.png"));
-	private Image fastForwardImage = new Image(new Texture("data/FastForward.png"));
+	private Image normalForwardImage = new Image(Assets.manager.get("data/Play.png", Texture.class));
+	private Image fastForwardImage = new Image(Assets.manager.get("data/FastForward.png", Texture.class));
 	private boolean nextWaveBtnState = true;
 
 	private String mapPath;
@@ -124,8 +124,8 @@ public class MapScreen implements Screen {
 		PathView pv = new PathView(map.getPath().getPositions());
 
 		tiledPath = pv.getSprites();
-		chosedTowerImage = new Image(new Texture("img/unknown.png"));
-		radius = new RadiusImage(new Texture("img/radius200.png"));
+		chosedTowerImage = new Image(Assets.manager.get("img/unknown.png", Texture.class));
+		radius = new RadiusImage(Assets.manager.get("img/radius200.png", Texture.class));
 		info = new InfoImage();
 		guiTable = new Table();
 	}
@@ -151,7 +151,7 @@ public class MapScreen implements Screen {
 			hud.getSpriteBatch().end();
 			updateNextWaveBtn();
 		}
-		
+
 		if(!map.isPlayerAlive()){
 			((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen());
 		}
@@ -216,7 +216,7 @@ public class MapScreen implements Screen {
 	}
 
 	private void updateObjects() {
-		
+
 		for (AbstractTower tower : map.getTowers()){
 			if(tower.isShooting()){
 				for(Position p: tower.getTargetPosition()){
@@ -255,7 +255,7 @@ public class MapScreen implements Screen {
 		} else {
 			towerName.setText("Tower Name");
 			towerKills.setText("Enemies killed");
-			chosedTowerImage.setDrawable(new SpriteDrawable(new Sprite(new Texture("img/unknown.png"))));
+			chosedTowerImage.setDrawable(new SpriteDrawable(new Sprite(Assets.manager.get("img/unknown.png", Texture.class))));
 		}
 
 		if(selectedImage!= null) {
@@ -278,7 +278,7 @@ public class MapScreen implements Screen {
 
 
 			if(!towerList.isEmpty() && !radius.isRed()) {
-	
+
 				for(TowerView tv: towerList){
 					float dx = selectedImage.getX() - tv.getX();
 					float dy = selectedImage.getY() - tv.getY();
@@ -316,13 +316,13 @@ public class MapScreen implements Screen {
 	public void show() {
 		Skin uiSkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
-		final Image mapImg = new Image(new Texture(mapPath));
-		final Image bt = new Image(new Texture("img/firstDragon.png"));
-		final Image it = new Image(new Texture("img/iceDragon.png"));
-		final Image mt = new Image(new Texture("img/hydra2.png"));
-		final Image swt = new Image(new Texture("img/shockwave.png"));
-		final Image rng = new Image(new Texture("img/RNGTower.png"));
-		final Image bdt = new Image(new Texture("img/bloodDragon.png"));
+		final Image mapImg = new Image(Assets.manager.get(mapPath, Texture.class));
+		final Image bt = new Image(Assets.manager.get("img/firstDragon.png", Texture.class));
+		final Image it = new Image(Assets.manager.get("img/iceDragon.png", Texture.class));
+		final Image mt = new Image(Assets.manager.get("img/hydra2.png", Texture.class));
+		final Image swt = new Image(Assets.manager.get("img/shockwave.png", Texture.class));
+		final Image rng = new Image(Assets.manager.get("img/RNGTower.png", Texture.class));
+		final Image bdt = new Image(Assets.manager.get("img/bloodDragon.png", Texture.class));
 
 		final TextButton upgradeBtn = new TextButton("Upgrade", uiSkin);
 		final TextButton sellBtn = new TextButton("Sell", uiSkin);
@@ -389,7 +389,7 @@ public class MapScreen implements Screen {
 							rad = 200;
 						}
 
-						selectedImage = new Image(new Texture(path));
+						selectedImage = new Image(Assets.manager.get(path, Texture.class));
 						selectedImage.setPosition(Gdx.input.getX()-selectedImage.getWidth()/2, Gdx.graphics.getHeight()-Gdx.input.getY()-selectedImage.getHeight()/2);
 						selectedImage.setTouchable(null);
 						radius.setRadius(rad);
@@ -406,32 +406,32 @@ public class MapScreen implements Screen {
 							switch(buildIndex) {		
 							case 1:
 								if(towerBuilt = map.buildTower(new BasicTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) map.getEnemies()), new Position(tmpX, tmpY))) {
-									towerList.add(new TowerView(new Sprite(new Texture("img/firstDragon.png")), map.getTowers().get(towerIndex), towerIndex));
+									towerList.add(new TowerView(new Sprite(Assets.manager.get("img/firstDragon.png", Texture.class)), map.getTowers().get(towerIndex), towerIndex));
 								}
 								break;
 							case 2:
 								if(towerBuilt = map.buildTower(new IceTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) map.getEnemies()), new Position(tmpX, tmpY))) {
-									towerList.add(new TowerView(new Sprite(new Texture("img/iceDragon.png")), map.getTowers().get(towerIndex), towerIndex));
+									towerList.add(new TowerView(new Sprite(Assets.manager.get("img/iceDragon.png", Texture.class)), map.getTowers().get(towerIndex), towerIndex));
 								}
 								break;
 							case 3:
 								if(towerBuilt = map.buildTower(new MultiTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) map.getEnemies()), new Position(tmpX, tmpY))) {
-									towerList.add(new TowerView(new Sprite(new Texture("img/hydra2.png")), map.getTowers().get(towerIndex), towerIndex));
+									towerList.add(new TowerView(new Sprite(Assets.manager.get("img/hydra2.png", Texture.class)), map.getTowers().get(towerIndex), towerIndex));
 								}
 								break;
 							case 4:
 								if(towerBuilt = map.buildTower(new ShockWaveTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) map.getEnemies()), new Position(tmpX, tmpY))) {
-									towerList.add(new TowerView(new Sprite(new Texture("img/shockwave.png")), map.getTowers().get(towerIndex), towerIndex));
+									towerList.add(new TowerView(new Sprite(Assets.manager.get("img/shockwave.png", Texture.class)), map.getTowers().get(towerIndex), towerIndex));
 								}
 								break;
 							case 5:
 								if(towerBuilt = map.buildTower(new RNGTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) map.getEnemies()), new Position(tmpX, tmpY))) {
-									towerList.add(new TowerView(new Sprite(new Texture("img/RNGTower.png")), map.getTowers().get(towerIndex), towerIndex));
+									towerList.add(new TowerView(new Sprite(Assets.manager.get("img/RNGTower.png", Texture.class)), map.getTowers().get(towerIndex), towerIndex));
 								}
 								break; 
 							case 6:
 								if(towerBuilt = map.buildTower(new BloodDragonTower(new Position(tmpX, tmpY), (ArrayList<AbstractEnemy>) map.getEnemies()), new Position(tmpX, tmpY))) {
-									towerList.add(new TowerView(new Sprite(new Texture("img/bloodDragon.png")), map.getTowers().get(towerIndex), towerIndex));
+									towerList.add(new TowerView(new Sprite(Assets.manager.get("img/bloodDragon.png", Texture.class)), map.getTowers().get(towerIndex), towerIndex));
 								}
 								break;
 							}
@@ -603,13 +603,13 @@ public class MapScreen implements Screen {
 		towerButtons.add(upgradeBtn).width(100).height(70).padBottom(20).padTop(20).padRight(20);
 		towerButtons.add(sellBtn).width(100).height(70).left();
 
-		towerInfoTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTable.png"))));
+		towerInfoTable.setBackground(new SpriteDrawable(new Sprite(Assets.manager.get("img/buildTable.png", Texture.class))));
 		towerInfoTable.add(chosedTowerImage).left().row();
 		towerInfoTable.add(towerName = new Label("Tower Name", uiSkin)).left().row();
 		towerInfoTable.add(towerKills = new Label("Tower Name", uiSkin)).left().row();
 		towerInfoTable.add(towerButtons);
 
-		buildTable.setBackground(new SpriteDrawable(new Sprite(new Texture("img/buildTable.png"))));
+		buildTable.setBackground(new SpriteDrawable(new Sprite(Assets.manager.get("img/buildTable.png", Texture.class))));
 		buildTable.add(hpLabel = new Label("HP: " + map.getPlayer().getLives().getCurrentLives(), uiSkin)).padTop(10).left().padLeft(40).row();
 		buildTable.add(moneyLabel = new Label("$ " + map.getPlayer().getMoneyInt(), uiSkin)).padLeft(40).left().row();
 		buildTable.add(waveLabel = new Label("Wave: " + map.getWaveIndex(), uiSkin)).padBottom(30).padLeft(40).left().row();
@@ -660,7 +660,7 @@ public class MapScreen implements Screen {
 		info.dispose();
 		for(Sound sound : shootingSoundList)
 			sound.dispose();
-		
+
 		for(Sound sound : dyingSoundList)
 			sound.dispose();
 	}

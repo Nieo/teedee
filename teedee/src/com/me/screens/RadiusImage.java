@@ -19,7 +19,7 @@ public class RadiusImage extends Actor {
 
 	public RadiusImage(Sprite sprite) {
 		this.black = sprite;
-		this.red = new Sprite(new Texture("img/radius200_red.png"));
+		this.red = new Sprite(Assets.manager.get("img/radius200_red.png", Texture.class));
 		red.setAlpha(0);
 		this.radius = 100;
 	}

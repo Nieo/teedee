@@ -18,36 +18,35 @@ public class Bullet extends Sprite{
 
 	public Bullet(float startX, float startY, float targetX, float targetY, float speed, Texture texture){
 		this(new Position(startX,startY),new Position (targetX,targetY), speed, texture);
-
 	}
 
 	public Bullet(Position targetPosition, float speed, AbstractTower t){
-		super(new Texture("img/IceBullet.png"));
+		super(Assets.manager.get("img/IceBullet.png", Texture.class));
 		switch(t.getId()) {
 		case 1:
-			setRegion(new Texture("img/fireBullet.png"));
+			setRegion(Assets.manager.get("img/fireBullet.png", Texture.class));
 			break;
 		case 2:
-			setTexture(new Texture("img/IceBullet.png"));
+			setTexture(Assets.manager.get("img/IceBullet.png", Texture.class));
 			break;
 		case 3:
-			setTexture(new Texture("img/greenBullet.png"));
+			setTexture(Assets.manager.get("img/greenBullet.png", Texture.class));
 			break;
 		case 4:
-			setTexture(new Texture("img/shockwaveBullet.png"));
+			setTexture(Assets.manager.get("img/shockwaveBullet.png", Texture.class));
 			setSize(40, 40);
 			break;
 		case 5:
-			setTexture(new Texture("img/blackHoleBIG.png"));
+			setTexture(Assets.manager.get("img/blackHoleBIG.png", Texture.class));
 			setSize(40, 40);
 			break;
 		case 6:
-			//TODO Laserbeams looks awful
-			setTexture(new Texture("img/laserBeam.png"));
+			//TODO Laser beams looks awful
+			setTexture(Assets.manager.get("img/laserBeam.png", Texture.class));
 			setSize(34, 60);
 			break;
 		default:
-			setTexture(new Texture("img/RedBullet.png"));
+			setTexture(Assets.manager.get("img/RedBullet.png", Texture.class));
 		}
 		this.startPosition = new Position(t.getPosition().getX() + 45 - getWidth()/2, t.getPosition().getY() + 40 - getHeight()/2);
 		this.targetPosition = targetPosition;
@@ -81,7 +80,7 @@ public class Bullet extends Sprite{
 	public void update(float delta){
 		startPosition = new Position(this.getX(),this.getY());
 		Position targetImageCenter = new Position(targetPosition.getX() + 30,
-													targetPosition.getY() + 30);
+				targetPosition.getY() + 30);
 		direction = getDirection(startPosition, targetImageCenter);
 		this.setPosition(getX() + speed*direction.x*delta, getY() + speed*direction.y*delta);
 		setRotation(direction.angle() + 90);

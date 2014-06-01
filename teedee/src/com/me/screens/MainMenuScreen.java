@@ -31,7 +31,6 @@ public class MainMenuScreen implements Screen {
 	private TextButton exitButton;
 	private Sprite mainSprite;
 	private SpriteBatch batch;
-	private Texture mainTexture;
 
 	@Override
 	public void render(float delta) {
@@ -97,8 +96,7 @@ public class MainMenuScreen implements Screen {
 		stage.addActor(table);
 
 		batch = new SpriteBatch();
-		mainTexture = new Texture("data/MainMenu.png");
-		mainSprite = new Sprite(mainTexture);
+		mainSprite = new Sprite(Assets.manager.get("data/MainMenu.png", Texture.class));
 		mainSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
@@ -117,6 +115,5 @@ public class MainMenuScreen implements Screen {
 	public void dispose() {
 		stage.dispose();
 		batch.dispose();
-		mainTexture.dispose();
 	}
 }

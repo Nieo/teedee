@@ -24,7 +24,6 @@ public class CreditsScreen implements Screen {
 	private Table table;
 
 	private Skin skin;
-	private Texture background;
 	private Sprite bSprite;
 
 	private Label header;
@@ -81,8 +80,7 @@ public class CreditsScreen implements Screen {
 
 		batch = new SpriteBatch();	
 
-		background = new Texture("data/MainMenu.png");
-		bSprite = new Sprite(background);
+		bSprite = new Sprite(Assets.manager.get("data/MainMenu.png", Texture.class));
 		bSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
@@ -99,6 +97,5 @@ public class CreditsScreen implements Screen {
 	public void dispose() {
 		stage.dispose();
 		batch.dispose();
-		background.dispose();
 	}
 }

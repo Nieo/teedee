@@ -24,8 +24,8 @@ public class PathView {
 			x2 = this.pos.get(i+1).getX();
 			y1 = this.pos.get(i).getY();
 			y2 = this.pos.get(i+1).getY();
-			
-			tiledPath[i]=new Sprite(new Texture("img/pathTile1.png"));
+
+			tiledPath[i]=new Sprite(Assets.manager.get("img/pathTile1.png", Texture.class));
 			dx = x2-x1;
 			dy = y2-y1;
 			if(dx > 0)

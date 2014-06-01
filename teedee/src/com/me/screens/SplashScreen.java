@@ -16,7 +16,6 @@ public class SplashScreen implements Screen {
 
 	private Sprite splashSprite;
 	private SpriteBatch batch;
-	private Texture splashTexture;
 	private TeeDeeGame game;
 	private float alpha = 0;
 	private int counter = 0;
@@ -74,8 +73,7 @@ public class SplashScreen implements Screen {
 	@Override
 	public void show() {
 		batch = new SpriteBatch();
-		splashTexture = new Texture("data/TeeDee.png");
-		splashSprite = new Sprite(splashTexture);
+		splashSprite = new Sprite(Assets.manager.get("data/TeeDee.png", Texture.class));
 		splashSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
@@ -93,6 +91,5 @@ public class SplashScreen implements Screen {
 	@Override
 	public void dispose() {
 		batch.dispose();
-		splashTexture.dispose();
 	}
 }

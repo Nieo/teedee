@@ -38,7 +38,7 @@ public class InfoImage {
 		table.setWidth(150);
 		table.setHeight(200);
 		table.left().top();
-		table.setBackground(new SpriteDrawable(new Sprite(new Texture("img/infoTable.png"))));
+		table.setBackground(new SpriteDrawable(new Sprite(Assets.manager.get("img/infoTable.png", Texture.class))));
 		table.add(towerName).left().top().padTop(10).padLeft(10).row();
 		table.add(towerPrice).left().padLeft(10).row();
 		table.add(description).left().padTop(10).padLeft(10).width(130);
@@ -135,7 +135,7 @@ public class InfoImage {
 	public float getWidth() {
 		return table.getWidth();
 	}
-	
+
 	public void dispose() {
 		skin.dispose();
 	}

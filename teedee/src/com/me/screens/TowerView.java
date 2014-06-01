@@ -30,7 +30,7 @@ public class TowerView extends Sprite {
 		setX(posX);
 		setY(posY);
 		rect = new Rectangle(getX(), getY(), getWidth(), getHeight());
-		
+
 		this.name = tower.getName();
 
 	}
@@ -41,7 +41,7 @@ public class TowerView extends Sprite {
 
 	@Override
 	public void draw(Batch batch) {
-		
+
 		vector.set(posX, posY);
 
 		if(!tower.getTargetPosition().isEmpty() && 
@@ -63,7 +63,7 @@ public class TowerView extends Sprite {
 	public String getName() {
 		return name;
 	}
-	
+
 	public AbstractTower getTower(){
 		return tower;
 	}
@@ -111,7 +111,7 @@ public class TowerView extends Sprite {
 		default:
 			picPath = "img/RNGTower.png";
 		}
-		super.setTexture(new Texture(picPath));		
+		super.setTexture(Assets.manager.get(picPath, Texture.class));		
 	}
 
 
@@ -133,7 +133,7 @@ public class TowerView extends Sprite {
 		default:
 			picPath = "img/bloodDragon.png";
 		}
-		super.setTexture(new Texture(picPath));		
+		super.setTexture(Assets.manager.get(picPath, Texture.class));		
 	}
 
 	private void upgradeShockWaveTower() {
@@ -154,7 +154,7 @@ public class TowerView extends Sprite {
 		default:
 			picPath = "img/shockwave.png";
 		}
-		super.setTexture(new Texture(picPath));
+		super.setTexture(Assets.manager.get(picPath, Texture.class));
 	}
 
 	private void upgradeIceTower() {
@@ -171,7 +171,7 @@ public class TowerView extends Sprite {
 		default:
 			picPath = "img/iceDragon.png";
 		}
-		super.setTexture(new Texture(picPath));		
+		super.setTexture(Assets.manager.get(picPath, Texture.class));		
 	}
 
 	private void upgradeBasicTower() {
@@ -192,7 +192,7 @@ public class TowerView extends Sprite {
 		default:
 			picPath = "img/firstDragon.png";
 		}
-		super.setTexture(new Texture(picPath));
+		super.setTexture(Assets.manager.get(picPath, Texture.class));
 	}
 	//TODO change images 2,4 and 6 heads 
 	private void upgradeMultiTower() {
@@ -213,7 +213,7 @@ public class TowerView extends Sprite {
 		default:
 			picPath = "img/hydra2.png";
 		}
-		super.setTexture(new Texture(picPath));
+		super.setTexture(Assets.manager.get(picPath, Texture.class));
 	}
 
 	public int getCurrentLevel() {
@@ -241,7 +241,7 @@ public class TowerView extends Sprite {
 	}
 
 	public int getSellValue() {
-		
+
 		return tower.getSellValue();
 	}
 }
